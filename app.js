@@ -47,7 +47,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js', {s
 
 async function loadStocks() {
  try {
-  const response = await fetch('./stocks.json', {cache:'no-store'});
+  const response = await fetch('./stocks.json?v=20261009', {cache:'no-store'});
   if (!response.ok) throw new Error('Prices unavailable');
   const data = await response.json();
   const colors = ['#65e1bc','#83b4ff'];
