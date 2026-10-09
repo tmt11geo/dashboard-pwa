@@ -44,3 +44,31 @@ document.querySelectorAll('.range').forEach(button => button.addEventListener('c
 document.querySelector('#refresh').addEventListener('click', () => { snapshot++; render(); });
 render();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(() => { installStatus.textContent = 'Offline notice unavailable. You can still open the dashboard online; try reloading after signing in.'; });
+
+async function loadStocks() {
+ try {
+  const response = await fetch('./stocks.json', {cache:'no-store'});
+  if (!response.ok) throw new Error('Prices unavailable');
+  const data = await response.json();
+  const colors = ['#65e1bc','#83b4ff'];
+  const percent = s => s.points.map(p => (p.close/s.points[0].close-1)*100);
+  const signed = n => (n>=0?'+':'')+n.toFixed(2)+'%';
+  function chart(lines, unit, title) {
+   const vals=lines.flatMap(l=>l.values), lo=Math.min(...vals), hi=Math.max(...vals), pad=Math.max((hi-lo)*.15,unit==='$'?.1:1);
+   const min=lo-pad,max=hi+pad;
+   const x=i=>54+i/(data.series[0].points.length-1)*552;
+   const y=v=>180-(v-min)/(max-min)*150;
+   let svg='<svg viewBox="0 0 640 220" role="img" aria-label="'+title+'"><title>'+title+'</title>';
+   for(let i=0;i<4;i++){const v=min+(max-min)*i/3;svg+='<line x1="54" x2="606" y1="'+y(v)+'" y2="'+y(v)+'" stroke="#2a384c"/><text x="3" y="'+(y(v)+4)+'" fill="#a3b3c9" font-size="12">'+(unit==='$'?'$':'')+v.toFixed(1)+(unit==='%'?'%':'')+'</text>';}
+   if(unit==='%'&&min<0&&max>0)svg+='<line x1="54" x2="606" y1="'+y(0)+'" y2="'+y(0)+'" stroke="#a3b3c9" stroke-dasharray="4 4"/>';
+   for(const l of lines)svg+='<path d="'+l.values.map((v,i)=>(i?'L':'M')+x(i).toFixed(2)+','+y(v).toFixed(2)).join(' ')+'" fill="none" stroke="'+l.color+'" stroke-width="3" stroke-linejoin="round"/>';
+   return svg+'<text x="54" y="210" fill="#a3b3c9" font-size="12">9 Sep</text><text x="560" y="210" fill="#a3b3c9" font-size="12">8 Oct</text></svg>';
+  }
+  document.querySelector('#stock-cards').innerHTML=data.series.map((s,i)=>'<article><h3 style="color:'+colors[i]+'">'+s.name+' · '+s.ticker+'</h3><p class="help">'+s.exchange+' · USD</p><p class="metric">$'+s.points.at(-1).close.toFixed(2)+'</p><p class="help">'+signed(percent(s).at(-1))+' over shown period</p>'+chart([{values:s.points.map(p=>p.close),color:colors[i]}],'$',s.name+' daily closing prices in US dollars')+'</article>').join('');
+  document.querySelector('#stock-comparison').innerHTML=chart(data.series.map((s,i)=>({values:percent(s),color:colors[i]})),'%', 'Nokia in mint and Intel in blue: percentage change since 9 September 2026');
+  const slider=document.querySelector('#stock-day'); slider.max=data.series[0].points.length-1;slider.value=slider.max;
+  const readout=()=>{const i=Number(slider.value);document.querySelector('#stock-readout').textContent=data.series[0].points[i].date+' · '+data.series.map(s=>s.name+': $'+s.points[i].close.toFixed(2)+' ('+signed(percent(s)[i])+')').join(' · ');};slider.addEventListener('input',readout);readout();
+  document.querySelector('#stock-table').innerHTML='<caption>Daily closing prices (USD)</caption><thead><tr><th>Date</th><th>Nokia</th><th>Intel</th></tr></thead><tbody>'+data.series[0].points.map((p,i)=>'<tr><td>'+p.date+'</td>'+data.series.map(s=>'<td>$'+s.points[i].close.toFixed(2)+'</td>').join('')+'</tr>').join('')+'</tbody>';
+ } catch { document.querySelector('#stock-error').textContent='Could not load the stock snapshot. Check your connection and reopen the app.'; }
+}
+loadStocks();

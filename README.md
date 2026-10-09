@@ -21,3 +21,6 @@ Switch between seven and thirty days. Refresh demo changes simulated progress an
 ## Develop
 
 Serve this folder using any static HTTP server on localhost. Production needs HTTPS. There is no build step. Use a new offline cache version when changing the offline notice. Modify sample data in app.js to connect a future data source; do not put secrets in static files.
+
+## Market snapshot (v1.1)
+Real daily closes for NOK (US ADR) and INTC, USD, 2026-09-09 through 2026-10-08. Retrieved 2026-10-09 from Stock Analysis history pages (S&P Global Market Intelligence). stocks.json is a dated snapshot, not an automatic feed. Engineering demo refresh does not change prices. Charts compare price return, excluding dividends.
