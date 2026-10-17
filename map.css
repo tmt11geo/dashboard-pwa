@@ -52,7 +52,7 @@ body[data-theme="red"] #map .location-dot{fill:#fff2dc;fill-opacity:1;stroke:#ff
 body[data-theme="red"] #map{background:#120909;border-color:#49302a}
 body[data-theme="red"] #map .leaflet-tile-pane{filter:url(#tactical-red-map) brightness(var(--map-brightness,1)) url(#red-scheme)}
 body[data-theme="red"] #map .leaflet-control,body[data-theme="red"] #map .leaflet-marker-pane,body[data-theme="red"] #map .leaflet-popup-pane{filter:url(#red-scheme)}
-body[data-theme="red"] #map .leaflet-overlay-pane path:not(.user-pin):not(.location-dot):not(.distance-ants):not(.distance-leader){filter:url(#red-scheme)}
+body[data-theme="red"] #map .leaflet-overlay-pane path:not(.user-pin):not(.location-dot):not(.distance-ants):not(.distance-leader):not(.location-pulse):not(.location-boundary){filter:url(#red-scheme)}
 body[data-theme="red"] #map .user-pin{fill:#b48b46;fill-opacity:.85;stroke:#c9a362;stroke-opacity:.9;opacity:.9;filter:none}
 body[data-theme="red"] #map .user-pin.selected-pin{fill:#d0a65d;fill-opacity:1;stroke:#dfbc7d;stroke-opacity:1;opacity:1;filter:none}
 body[data-theme="red"] #map .location-dot{fill:#d0a65d;stroke:#dfbc7d;fill-opacity:1;opacity:1;filter:none}
@@ -65,3 +65,5 @@ body[data-theme="red"] #map .distance-label,body[data-theme="red"] #map .distanc
 body[data-theme="red"] #map .distance-label.active{color:#dfbc7d;border-color:#dfbc7d}
 body[data-theme="red"] #map .distance-label.inactive{color:#b48b46;border-color:#8a6b3b;background:rgba(22,15,7,.35)}
 body[data-theme="red"] #map .distance-label.pinned{box-shadow:none}
+
+body[data-theme="red"] #map .leaflet-overlay-pane path.distance-ants{stroke-width:3.5px}body[data-theme="red"] #map .leaflet-overlay-pane path.location-pulse{filter:none;stroke:#c9a362;stroke-width:2.5px}body[data-theme="red"] #map .leaflet-overlay-pane path.location-boundary{filter:none;stroke:#a9874e;fill:#b48b46}

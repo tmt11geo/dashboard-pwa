@@ -115,8 +115,8 @@
   if(marker){
    marker.setLatLng(point);circle.setLatLng(point);pulseLayers.forEach(ring=>ring.setLatLng(point));
   }else{
-   circle=L.circleMarker(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
-   pulseLayers=[0,1].map(()=>L.circleMarker(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
+   circle=L.circleMarker(point,{className:'location-boundary',radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
+   pulseLayers=[0,1].map(()=>L.circleMarker(point,{className:'location-pulse',radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
    marker=L.circleMarker(point,{className:'location-dot',radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map);
    restartPulse();
   }
