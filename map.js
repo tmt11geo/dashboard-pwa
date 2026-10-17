@@ -93,27 +93,41 @@
  const pins=new Set();
  let selected=null,nextId=1,holdTimer=null,origin=null,suppressClickUntil=0;
 
- let distanceLine=null,distanceLabel=null;
- function clearDistance(){
-  if(distanceLine)map.removeLayer(distanceLine);
-  if(distanceLabel)map.removeLayer(distanceLabel);
-  distanceLine=null;distanceLabel=null;
+ const pinnedLines=new Set();
+ let distanceLayers=[];
+ function clearDistance(){distanceLayers.forEach(layer=>map.removeLayer(layer));distanceLayers=[];}
+ function bearing(from,to){
+  const rad=Math.PI/180,a=from.lat*rad,b=to.lat*rad,d=(to.lng-from.lng)*rad;
+  const y=Math.sin(d)*Math.cos(b),x=Math.cos(a)*Math.sin(b)-Math.sin(a)*Math.cos(b)*Math.cos(d);
+  return (Math.atan2(y,x)/rad+360)%360;
  }
+ const formatBearing=value=>String(Math.round(value)%360).padStart(3,'0')+'°';
  function updateDistance(){
   clearDistance();
-  if(!selected)return;
-  if(!marker){status.textContent='Tap the crosshair to measure from your location to marker '+selected.pinId+'.';return;}
-  const from=marker.getLatLng(),to=selected.getLatLng(),metres=map.distance(from,to);
-  const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
-  distanceLine=L.polyline([from,to],{color:'#a4e8b6',weight:2,opacity:.8,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
-  const a=map.project(from),b=map.project(to),mid=map.unproject(L.point((a.x+b.x)/2,(a.y+b.y)/2));
-  distanceLabel=L.marker(mid,{interactive:false,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:'<span class="distance-label">'+text+'<small>straight line</small></span>',iconSize:[110,44],iconAnchor:[55,22]})}).addTo(map);
+  if(!marker){if(selected)status.textContent='Tap the crosshair to measure from your location to marker '+selected.pinId+'.';return;}
+  const targets=new Set(pinnedLines);if(selected)targets.add(selected);
+  for(const pin of targets){
+   const from=marker.getLatLng(),to=pin.getLatLng(),metres=map.distance(from,to),pinned=pinnedLines.has(pin);
+   const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
+   const bearings=metres<.1?'Bearing undefined (same position)':'You → M'+pin.pinId+' '+formatBearing(bearing(from,to))+' · M'+pin.pinId+' → You '+formatBearing(bearing(to,from));
+   const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:.8,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
+   const a=map.project(from),b=map.project(to),mid=map.unproject(L.point((a.x+b.x)/2,(a.y+b.y)/2));
+   const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'');box.setAttribute('aria-pressed',String(pinned));
+   box.title='Tap to '+(pinned?'unpin':'pin')+' this distance line';
+   box.textContent='M'+pin.pinId+' · '+text;
+   const detail=document.createElement('small');detail.textContent=bearings;box.appendChild(detail);
+   const hint=document.createElement('small');hint.textContent=(pinned?'Pinned · tap to unpin':'Tap to pin')+' · straight line / true north';box.appendChild(hint);
+   L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
+   box.addEventListener('click',event=>{event.stopPropagation();if(pinnedLines.has(pin))pinnedLines.delete(pin);else pinnedLines.add(pin);updateDistance();});
+   const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[220,68],iconAnchor:[110,34]})}).addTo(map);
+   distanceLayers.push(line,label);
+  }
  }
  map.on('movestart zoomstart',()=>map.getContainer().classList.add('map-in-motion'));
  map.on('moveend zoomend',()=>{if(!mapMoving&&!mapZooming)map.getContainer().classList.remove('map-in-motion');});
 
  const normalStyle={radius:10,color:"#c3ffd0",weight:2,fillColor:"#91e8a7",fillOpacity:.95};
- function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();clearDistance();}
+ function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();updateDistance();}
  function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent="Marker "+pin.pinId+" selected. Long press elsewhere to move it; × removes it. Tap empty map to deselect and add more.";updateDistance();}
  function label(pin){const p=pin.getLatLng();pin.bindPopup("Marker "+pin.pinId+"<br>"+p.lat.toFixed(5)+"°, "+p.lng.toFixed(5)+"°");}
  const activePointers=new Set();
@@ -126,7 +140,7 @@
   removeButton.title='Remove selected marker';removeButton.setAttribute('aria-label','Remove selected marker');removeButton.disabled=true;
   L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
   removeButton.addEventListener('click',()=>{
-   if(selected){const pin=selected;deselect();map.removeLayer(pin);pins.delete(pin);}
+   if(selected){const pin=selected;pinnedLines.delete(pin);deselect();map.removeLayer(pin);pins.delete(pin);}
    status.textContent='Marker removed. Long press to add another, or tap an existing marker to select it.';
   });
   return box;
@@ -136,7 +150,7 @@
  const container=map.getContainer();
  container.addEventListener('pointerdown',event=>{
   activePointers.add(event.pointerId);cancelHold();
-  if(activePointers.size!==1||event.button!==0||event.target.closest('.leaflet-control,.leaflet-marker-icon,.leaflet-popup,.leaflet-interactive'))return;
+  if(activePointers.size!==1||event.button!==0||event.target.closest('.leaflet-control,.leaflet-marker-icon,.leaflet-popup,.leaflet-interactive,.distance-label-host'))return;
   origin={x:event.clientX,y:event.clientY,id:event.pointerId};
   const point=map.mouseEventToLatLng(event);
   holdTimer=setTimeout(()=>{
@@ -152,7 +166,7 @@
     pin.on('add',()=>{});
     const element=pin.getElement();
     if(element){element.setAttribute('tabindex','0');element.setAttribute('role','button');element.setAttribute('aria-label','Select marker '+pin.pinId);element.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(pin);}});}
-    status.textContent='Marker '+pin.pinId+' added. Long press to add more. Tap a marker to select, move or remove it.';
+    select(pin);
    }
   },650);
  });
