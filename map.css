@@ -56,3 +56,12 @@ body[data-theme="red"] #map .leaflet-overlay-pane path:not(.user-pin):not(.locat
 body[data-theme="red"] #map .user-pin{fill:#b48b46;fill-opacity:.85;stroke:#c9a362;stroke-opacity:.9;opacity:.9;filter:none}
 body[data-theme="red"] #map .user-pin.selected-pin{fill:#d0a65d;fill-opacity:1;stroke:#dfbc7d;stroke-opacity:1;opacity:1;filter:none}
 body[data-theme="red"] #map .location-dot{fill:#d0a65d;stroke:#dfbc7d;fill-opacity:1;opacity:1;filter:none}
+
+/* Share the marker's amber palette across its measurement and callout. */
+body[data-theme="red"] #map .leaflet-marker-pane{filter:none}
+body[data-theme="red"] #map .leaflet-overlay-pane path.distance-ants{filter:none;stroke:#c9a362}
+body[data-theme="red"] #map .leaflet-overlay-pane path.distance-leader{filter:none;stroke:#c9a362;fill:#c9a362}
+body[data-theme="red"] #map .distance-label,body[data-theme="red"] #map .distance-label.compact{color:#c9a362;border-color:#a9874e;background:rgba(22,15,7,.5);text-shadow:0 1px 2px #000}
+body[data-theme="red"] #map .distance-label.active{color:#dfbc7d;border-color:#dfbc7d}
+body[data-theme="red"] #map .distance-label.inactive{color:#b48b46;border-color:#8a6b3b;background:rgba(22,15,7,.35)}
+body[data-theme="red"] #map .distance-label.pinned{box-shadow:none}
