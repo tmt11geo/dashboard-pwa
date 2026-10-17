@@ -21,7 +21,7 @@ test('exit edge gates early search; later search permits panning across the view
  assert.equal(sameReacquisition(returning,otherSide),false);
 });
 test('appearance matching compares the actual retained image template',async()=>{
- const {VisualTracker}=await import('../camera-tracker.js?v=2');
+ const {VisualTracker}=await import('../camera-tracker.js?v=3');
  const width=160,height=100,data=new Uint8Array(width*height);
  for(let y=0;y<height;y++)for(let x=0;x<width;x++)data[y*width+x]=120+45*Math.sin(x*.3)+40*Math.cos(y*.5);
  const box={x1:.3,y1:.2,x2:.65,y2:.7},frame={data,width,height};
@@ -40,7 +40,7 @@ test('likely exit restarts YOLO, two confirmations relock and stop YOLO; timeout
  globalThis.setTimeout=(fn,delay=0)=>{const id=++nextId;timers.set(id,{fn,at:clock+delay});return id;};globalThis.clearTimeout=id=>timers.delete(id);
  Object.defineProperty(globalThis,'performance',{value:{now:()=>clock},configurable:true});
  const tick=ms=>{const until=clock+ms;for(;;){const due=[...timers].filter(([,t])=>t.at<=until).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;clock=due[1].at;timers.delete(due[0]);due[1].fn();}clock=until;};
- const els=Object.fromEntries('video overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ').map(id=>[id,new Element()]));
+ const els=Object.fromEntries('video camera-image zoom-in zoom-out zoom-reset zoom-value objects-title overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ').map(id=>[id,new Element()]));
  els.confidence.value='45';els['camera-facing'].value='environment';
  const context=new Proxy({measureText:t=>({width:t.length*7}),getImageData:(x,y,w,h)=>({data:Uint8ClampedArray.from({length:w*h*4},(_,i)=>i%4===3?255:(Math.floor(i/4)*13)%251)})},{get:(o,k)=>o[k]||(()=>{})});
  els.overlay.getContext=()=>context;els.viewfinder.clientWidth=400;els.viewfinder.clientHeight=600;
@@ -50,7 +50,7 @@ test('likely exit restarts YOLO, two confirmations relock and stop YOLO; timeout
  const track={stop:()=>{},addEventListener:()=>{}};Object.defineProperty(globalThis,'navigator',{value:{mediaDevices:{getUserMedia:async()=>({getTracks:()=>[track],getVideoTracks:()=>[track]})}},configurable:true});
  let worker;const workers=[];globalThis.Worker=class{constructor(){worker=this;workers.push(this);this.messages=[];}postMessage(m){this.messages.push(m);}terminate(){this.terminated=true;}};
  // Isolate the app state machine from tracker geometry, covered in its own tests.
- const {VisualTracker}=await import('../camera-tracker.js?v=2');const update=VisualTracker.prototype.update,similarity=VisualTracker.prototype.similarity;
+ const {VisualTracker}=await import('../camera-tracker.js?v=3');const update=VisualTracker.prototype.update,similarity=VisualTracker.prototype.similarity;
  VisualTracker.prototype.update=()=>null;VisualTracker.prototype.similarity=()=>.95;
  try{
   await import('../camera.js');await els.start.fire('click');worker.onmessage({data:{type:'ready'}});tick(100);

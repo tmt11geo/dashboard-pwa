@@ -1,8 +1,8 @@
 // Small grayscale template tracker. No neural inference or external dependencies.
 import {clamp} from './camera-core.js?v=1';
 const GRID=16,COUNT=GRID*GRID;
-export function grayFrame(rgba,width,height){
- const ratio=Math.min(1,320/Math.max(width,height)),w=Math.round(width*ratio),h=Math.round(height*ratio);
+export function grayFrame(rgba,width,height,maxEdge=320){
+ const ratio=Math.min(1,maxEdge/Math.max(width,height)),w=Math.round(width*ratio),h=Math.round(height*ratio);
  const data=new Uint8Array(w*h);
  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
   const j=(Math.min(height-1,Math.floor(y/ratio))*width+Math.min(width-1,Math.floor(x/ratio)))*4;
@@ -33,6 +33,12 @@ export class VisualTracker {
   this.anchor=patch(frame,this.x,this.y,this.bw,this.bh);
   this.template=this.anchor;this.vx=0;this.vy=0;this.first=true;
   this.valid=Boolean(this.anchor);
+ }
+ reframe(from,to){
+  const oldW=from.x2-from.x1,oldH=from.y2-from.y1,newW=to.x2-to.x1,newH=to.y2-to.y1;
+  this.x=((from.x1+this.x/this.width*oldW)-to.x1)/newW*this.width;
+  this.y=((from.y1+this.y/this.height*oldH)-to.y1)/newH*this.height;
+  this.bw*=oldW/newW;this.bh*=oldH/newH;this.vx*=oldW/newW;this.vy*=oldH/newH;
  }
  similarity(frame,box){
   if(!this.valid)return -1;
