@@ -10,7 +10,7 @@ class Element {
  getBoundingClientRect(){return {left:0,top:0,width:400,height:600};}
 }
 test('camera start, detection, lock, hidden-page cleanup, and cancelled permission request',async()=>{
- const ids='video camera-image zoom-in zoom-out zoom-reset zoom-value objects-title overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ');
+ const ids='video camera-image select-area zoom-in zoom-out zoom-reset zoom-value objects-title overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ');
  const elements=Object.fromEntries(ids.map(id=>[id,new Element()]));
  elements.confidence.value='45';elements['camera-facing'].value='environment';
  const context=new Proxy({measureText:t=>({width:t.length*7}),getImageData:(x,y,w,h)=>({data:Uint8ClampedArray.from({length:w*h*4},(_,i)=>i%4===3?255:((Math.floor(i/4)*13)%251))})},{get:(o,k)=>o[k]||(()=>{})});

@@ -1,4 +1,4 @@
-import {fullView,zoomRegion,zoomAt,panView,imagePoint,imageBox,viewBox,followRegion,cropGray} from './camera-zoom.js?v=1';
+import {fullView,zoomRegion,zoomAt,panView,imagePoint,imageBox,viewBox,followRegion,cropGray,selectionBox} from './camera-zoom.js?v=2';
 import {VisualTracker,grayFrame} from './camera-tracker.js?v=3';
 import {clamp,centre,guidance,makeLock,exitSide,reacquireCandidate,sameReacquisition,contentRect,decode} from './camera-core.js?v=3';
 const $=id=>document.getElementById(id);
@@ -12,6 +12,7 @@ let tracker=null,trackTimer=null,inferenceFrame=null,detectionFrame=null,lastTra
 let reacquiring=null,reacquireTimer=null;
 let view=fullView(),viewRevision=0,inferenceRevision=0,inferenceRegion=zoomRegion(view),trackerRegion=zoomRegion(view),trackingScale=1;
 let suppressTapUntil=0;const pointers=new Map();let gesture=null,gestureMoved=false;
+let manualSelecting=false,manualDraft=null;
 let ink='#a5edb4',amber='#dfbc7d';
 function theme(){
  try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}
@@ -28,6 +29,8 @@ function layoutImage(){
 }
 function syncZoomControls(){
  const enabled=running&&!lock;
+ $('select-area').disabled=!running;$('select-area').textContent=manualSelecting?'Cancel selection':'Select area';$('select-area').setAttribute('aria-pressed',String(manualSelecting));
+ viewport.dataset.selecting=String(manualSelecting);
  $('zoom-in').disabled=!enabled||view.scale>=8;$('zoom-out').disabled=!enabled||view.scale<=1;$('zoom-reset').disabled=!enabled||view.scale===1;
  $('zoom-value').textContent=view.scale.toFixed(1).replace('.0','')+'× · '+(view.scale>1?'Selection area':'Full view');
  $('objects-title').textContent=view.scale>1?'Objects in zoomed area':'Objects in view';
@@ -35,8 +38,8 @@ function syncZoomControls(){
 function setView(next,invalidate=true){
  view=next;layoutImage();syncZoomControls();
  if(!invalidate)return;
- viewRevision++;detections=[];detectionFrame=null;lastVideoTime=-1;listSignature='';listObjects();
- $('status').textContent=view.scale>1?'Scanning only the zoomed area. Tap a labelled object to follow it in the full image.':'Scanning the full view. Pinch to zoom or tap an object.';
+ manualDraft=null;viewRevision++;detections=[];detectionFrame=null;lastVideoTime=-1;listSignature='';listObjects();
+ $('status').textContent=manualSelecting?'Drag a box around the object. Pinch to zoom first if needed.':view.scale>1?'Scanning only the zoomed area. Tap a labelled object to follow it in the full image.':'Scanning the full view. Pinch to zoom or tap an object.';
  schedule();
 }
 function localPoint(event){
@@ -54,12 +57,14 @@ canvas.addEventListener('pointerdown',event=>{
  const p=localPoint(event);if(p.x<0||p.x>1||p.y<0||p.y>1)return;
  if(!pointers.size)gestureMoved=false;
  pointers.set(event.pointerId,p);canvas.setPointerCapture?.(event.pointerId);
+ if(manualSelecting){manualDraft=pointers.size===1?{id:event.pointerId,start:p,end:p}:null;}
  if(pointers.size>1)gestureMoved=true;startGesture();
 });
 canvas.addEventListener('pointermove',event=>{
  if(!pointers.has(event.pointerId)||!gesture||lock)return;
  pointers.set(event.pointerId,localPoint(event));
  const points=[...pointers.values()],a=points[0],b=points[1];
+ if(manualSelecting&&manualDraft&&!b){event.preventDefault();manualDraft.end={x:clamp(a.x),y:clamp(a.y)};gestureMoved=true;return;}
  if(b&&gesture.distance){
   event.preventDefault();gestureMoved=true;
   const middle={x:(a.x+b.x)/2,y:(a.y+b.y)/2},distance=Math.hypot((b.x-a.x)*rect().w,(b.y-a.y)*rect().h);
@@ -71,6 +76,12 @@ canvas.addEventListener('pointermove',event=>{
 });
 function endGesture(event){
  if(!pointers.has(event.pointerId))return;
+ const draft=manualSelecting&&manualDraft?.id===event.pointerId?manualDraft:null;
+ if(draft){manualDraft=null;suppressTapUntil=performance.now()+400;
+  pointers.delete(event.pointerId);canvas.releasePointerCapture?.(event.pointerId);startGesture();
+  if(event.type!=='pointercancel')completeManualSelection(draft.start,localPoint(event));
+  return;
+ }
  if(gestureMoved||event.type==='pointercancel')suppressTapUntil=performance.now()+400;
  pointers.delete(event.pointerId);canvas.releasePointerCapture?.(event.pointerId);startGesture();
 }
@@ -78,6 +89,7 @@ canvas.addEventListener('pointerup',endGesture);canvas.addEventListener('pointer
 $('zoom-in').addEventListener('click',()=>{if(running&&!lock)setView(zoomAt(view,view.scale*1.5));});
 $('zoom-out').addEventListener('click',()=>{if(running&&!lock)setView(zoomAt(view,view.scale/1.5));});
 $('zoom-reset').addEventListener('click',()=>{if(running&&!lock)setView(fullView());});
+$('select-area').addEventListener('click',toggleManualSelection);
 function pathArrow(x,y,direction,color){
  const angles={right:0,down:Math.PI/2,left:Math.PI,up:-Math.PI/2};
  ctx.save();ctx.translate(x,y);ctx.rotate(angles[direction]);ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=3;
@@ -106,7 +118,13 @@ function draw(){
  }
  ctx.save();ctx.beginPath();ctx.rect(r.x,r.y,r.w,r.h);ctx.clip();
  for(const d of detections)box(d,false);
- if(lock&&!lock.lost)box(lock,true);ctx.restore();
+ if(lock&&!lock.lost)box(lock,true);
+ if(manualDraft){
+  const a=manualDraft.start,b=manualDraft.end,left=r.x+Math.min(a.x,b.x)*r.w,top=r.y+Math.min(a.y,b.y)*r.h;
+  ctx.strokeStyle=amber;ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.fillStyle='#dfbc7d18';
+  ctx.fillRect(left,top,Math.abs(b.x-a.x)*r.w,Math.abs(b.y-a.y)*r.h);ctx.strokeRect(left,top,Math.abs(b.x-a.x)*r.w,Math.abs(b.y-a.y)*r.h);ctx.setLineDash([]);
+ }
+ ctx.restore();
  const marker=$('exit-marker');marker.hidden=!lock?.exit;
  if(lock?.exit){
   const side=lock.exit,xx=side.includes('left')?.12:side.includes('right')?.88:.5,yy=side.includes('top')?.09:side.includes('bottom')?.85:.5;
@@ -120,7 +138,7 @@ function draw(){
 }
 function lockText(){
  syncZoomControls();$('unlock').disabled=!lock;
- if(!lock){$('lock-readout').textContent='NO LOCK · TAP AN OBJECT';return;}
+ if(!lock){$('lock-readout').textContent=manualSelecting?'DRAW A BOX · PINCH TO ZOOM':'NO LOCK · TAP AN OBJECT';return;}
  let state;
  if(reacquiring)state='REACQUIRING · '+(lock.exit||'').replace('-',' ').toUpperCase();
  else if(lock.exit)state='LIKELY EXIT: '+lock.exit.replace('-', ' ').toUpperCase();
@@ -132,6 +150,33 @@ function lockText(){
 function pauseDetector(){
  clearTimeout(watchdog);clearTimeout(timer);worker?.terminate();worker=null;ready=false;busy=false;
 }
+function snapshotFrame(){
+ const scale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight)),w=Math.max(1,Math.round(video.videoWidth*scale)),h=Math.max(1,Math.round(video.videoHeight*scale));
+ capture.width=w;capture.height=h;pixels.drawImage(video,0,0,w,h);
+ return grayFrame(pixels.getImageData(0,0,w,h).data,w,h,1280);
+}
+function toggleManualSelection(){
+ if(!running)return;
+ if(manualSelecting){
+  manualSelecting=false;manualDraft=null;pointers.clear();gesture=null;lockText();listSignature='';listObjects();
+  $('status').textContent='Scanning for objects. Tap a label, or Select area to draw a box.';startDetector();return;
+ }
+ pauseDetector();clearTimeout(trackTimer);clearTimeout(reacquireTimer);reacquiring=null;tracker=null;lock=null;detections=[];detectionFrame=null;
+ manualSelecting=true;manualDraft=null;pointers.clear();gesture=null;viewRevision++;lastVideoTime=-1;
+ $('exit-marker').hidden=true;$('model-status').textContent='Manual selection · YOLO stopped';$('rate').textContent='Draw an image patch';
+ $('status').textContent='Drag a box around the object. Pinch to zoom first if needed. Include visible detail; avoid excess background.';
+ lockText();listSignature='';listObjects();
+}
+function completeManualSelection(start,end){
+ if(!running||!manualSelecting)return;
+ const box=selectionBox(start,end,zoomRegion(view),rect());
+ if(!box){$('status').textContent='Draw a larger box (at least 12 pixels in each direction).';return;}
+ if(video.readyState<2){$('status').textContent='Waiting for a camera frame. Try drawing the box again.';return;}
+ try{
+  detectionFrame=snapshotFrame();
+  if(!choose({kind:'manual',label:'Manual target',score:1,box}))$('status').textContent='This area has too little visual detail. Draw a larger box around a textured part, or zoom in first.';
+ }catch{$('status').textContent='Could not capture the selected area. Draw the box again.';}
+}
 function trackingFrame(region){
  const sw=video.videoWidth*(region.x2-region.x1),sh=video.videoHeight*(region.y2-region.y1);
  const scale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight),320/Math.max(sw,sh));
@@ -141,17 +186,19 @@ function trackingFrame(region){
 }
 function choose(d,automatic=false){
  if(!running||(lock&&!reacquiring))return false;
- const selectionRegion=zoomRegion(view);
+ const selectedScale=d.kind==='manual'?clamp(Math.max(view.scale,.12/Math.min(d.box.x2-d.box.x1,d.box.y2-d.box.y1)),1,8):view.scale;
+ const selectionRegion=d.kind==='manual'?followRegion(d.box,selectedScale):zoomRegion(view);
  const nextTracker=detectionFrame?new VisualTracker(cropGray(detectionFrame,selectionRegion),viewBox(d.box,selectionRegion)):null;
- if(automatic&&!nextTracker?.valid)return false;
+ if((automatic||d.kind==='manual')&&!nextTracker?.valid)return false;
+ manualSelecting=false;manualDraft=null;
  clearTimeout(reacquireTimer);reacquiring=null;
  pauseDetector();
  lock=makeLock(d,performance.now());
- tracker=nextTracker;trackerRegion=selectionRegion;trackingScale=view.scale;
+ tracker=nextTracker;trackerRegion=selectionRegion;trackingScale=selectedScale;
  setView(fullView(),false);
  detections=[];listSignature='';listObjects();
  $('model-status').textContent='Visual tracker · YOLO stopped';
- $('status').textContent='Following only the locked object. Release / scan to find objects again.';
+ $('status').textContent=d.kind==='manual'?'Following your selected image patch. Select area to draw a new target, or Release / scan for YOLO.':'Following only the locked object. Release / scan to find objects again.';
  lastTrackTime=-1;
  if(!tracker?.valid){
   lock.lost=true;lock.missing=true;
@@ -199,7 +246,10 @@ function track(){
     const elapsed=now-lock.seen;
     lock={...lock,missing:true,lost:elapsed>900,exit:elapsed>250?exitSide(lock.box):null};
    }
-   if(lock.exit){beginReacquire();return;}
+   if(lock.exit){
+    if(lock.kind==='manual'){lock={...lock,lost:true};lockText();$('status').textContent='Manual target likely left the view. Select area to draw it again; YOLO has no label for this target.';$('rate').textContent='Manual lock lost · YOLO stopped';return;}
+    beginReacquire();return;
+   }
    lockText();
    const elapsed=now-(lastFrameAt||now-66);lastFrameAt=now;
    $('rate').textContent=(1000/Math.max(1,elapsed)).toFixed(1)+' tracking updates/s';
@@ -215,6 +265,7 @@ function track(){
  }
 }
 function releaseLock(){
+ manualSelecting=false;manualDraft=null;
  clearTimeout(reacquireTimer);reacquiring=null;pauseDetector();
  setView(fullView(),false);
  clearTimeout(trackTimer);tracker=null;lock=null;detections=[];detectionFrame=null;lastVideoTime=-1;lastFrameAt=0;
@@ -227,7 +278,7 @@ function listObjects(){
  const signature=detections.map(d=>d.label).join('|')+';'+(lock?.label||'')+';'+Boolean(lock?.lost);
  if(signature===listSignature)return;listSignature=signature;
  const host=$('objects');host.replaceChildren();
- if(!detections.length){const p=document.createElement('p');p.textContent=reacquiring?'YOLO is searching for the locked object. Release / scan cancels this search.':lock?'YOLO stopped while locked. Use Release / scan to find objects.':running?'No objects detected. Try better lighting or a lower confidence.':'No detections yet.';host.append(p);return;}
+ if(!detections.length){const p=document.createElement('p');p.textContent=manualSelecting?'Draw a box directly in the camera view. No YOLO label is required.':reacquiring?'YOLO is searching for the locked object. Release / scan cancels this search.':lock?'YOLO stopped while locked. Use Release / scan to find objects.':running?'No objects detected. Try better lighting or a lower confidence.':'No detections yet.';host.append(p);return;}
  detections.forEach((d,i)=>{
   const button=document.createElement('button');button.type='button';button.textContent=d.label+' #'+(i+1);
   button.setAttribute('aria-label','Lock '+d.label+', object '+(i+1));
@@ -236,7 +287,7 @@ function listObjects(){
  });
 }
 canvas.addEventListener('click',event=>{
- if(!running||performance.now()<suppressTapUntil)return;
+ if(!running||manualSelecting||performance.now()<suppressTapUntil)return;
  const local=localPoint(event);if(local.x<0||local.x>1||local.y<0||local.y>1)return;
  const {x,y}=imagePoint(local,zoomRegion(view));
  const matches=detections.filter(d=>x>=d.box.x1&&x<=d.box.x2&&y>=d.box.y1&&y<=d.box.y2).sort((a,b)=>(a.box.x2-a.box.x1)*(a.box.y2-a.box.y1)-(b.box.x2-b.box.x1)*(b.box.y2-b.box.y1));
@@ -249,15 +300,15 @@ function haltDetector(message){
  detections=[];lock=null;lockText();listSignature='';listObjects();$('model-status').textContent=message;$('rate').textContent='— detections/s';
 }
 function stopCamera(message='Camera stopped. Tap Open camera to resume.'){
- generation++;running=false;opening=false;pointers.clear();gesture=null;setView(fullView(),false);
+ generation++;running=false;opening=false;manualSelecting=false;manualDraft=null;pointers.clear();gesture=null;setView(fullView(),false);
  stream?.getTracks().forEach(track=>track.stop());stream=null;video.srcObject=null;
  haltDetector('Detector idle');cancelAnimationFrame(drawHandle);drawHandle=0;ctx.clearRect(0,0,canvas.width,canvas.height);
  $('exit-marker').hidden=true;$('placeholder').hidden=false;$('stop').disabled=true;$('start').disabled=false;$('camera-facing').disabled=false;
  $('status').textContent=message;
 }
-function schedule(){clearTimeout(timer);if(running&&ready&&(!lock||reacquiring))timer=setTimeout(detect,100);}
+function schedule(){clearTimeout(timer);if(running&&ready&&!manualSelecting&&(!lock||reacquiring))timer=setTimeout(detect,100);}
 function detect(){
- if(!running||!ready||busy||!worker||(lock&&!reacquiring))return;
+ if(!running||manualSelecting||!ready||busy||!worker||(lock&&!reacquiring))return;
  if(video.readyState<2||video.currentTime===lastVideoTime){schedule();return;}
  lastVideoTime=video.currentTime;
  // Freeze one full frame for both cropped inference and the eventual tracker handoff.

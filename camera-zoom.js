@@ -29,3 +29,10 @@ export function cropGray(frame,region,maxEdge=320){
  }
  return {data,width,height};
 }
+
+// Convert a drag in the displayed (possibly zoomed) image to a full-image box.
+export function selectionBox(start,end,region,size,minPixels=12){
+ const box={x1:clamp(Math.min(start.x,end.x)),y1:clamp(Math.min(start.y,end.y)),x2:clamp(Math.max(start.x,end.x)),y2:clamp(Math.max(start.y,end.y))};
+ if((box.x2-box.x1)*size.w<minPixels||(box.y2-box.y1)*size.h<minPixels)return null;
+ return imageBox(box,region);
+}

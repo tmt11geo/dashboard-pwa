@@ -40,7 +40,7 @@ test('likely exit restarts YOLO, two confirmations relock and stop YOLO; timeout
  globalThis.setTimeout=(fn,delay=0)=>{const id=++nextId;timers.set(id,{fn,at:clock+delay});return id;};globalThis.clearTimeout=id=>timers.delete(id);
  Object.defineProperty(globalThis,'performance',{value:{now:()=>clock},configurable:true});
  const tick=ms=>{const until=clock+ms;for(;;){const due=[...timers].filter(([,t])=>t.at<=until).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;clock=due[1].at;timers.delete(due[0]);due[1].fn();}clock=until;};
- const els=Object.fromEntries('video camera-image zoom-in zoom-out zoom-reset zoom-value objects-title overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ').map(id=>[id,new Element()]));
+ const els=Object.fromEntries('video camera-image select-area zoom-in zoom-out zoom-reset zoom-value objects-title overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ').map(id=>[id,new Element()]));
  els.confidence.value='45';els['camera-facing'].value='environment';
  const context=new Proxy({measureText:t=>({width:t.length*7}),getImageData:(x,y,w,h)=>({data:Uint8ClampedArray.from({length:w*h*4},(_,i)=>i%4===3?255:(Math.floor(i/4)*13)%251)})},{get:(o,k)=>o[k]||(()=>{})});
  els.overlay.getContext=()=>context;els.viewfinder.clientWidth=400;els.viewfinder.clientHeight=600;
