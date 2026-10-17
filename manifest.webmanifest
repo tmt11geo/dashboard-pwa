@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Tero's Dashboard",
-  "short_name": "Dashboard",
+  "name": "Tactical",
+  "short_name": "Tactical",
   "description": "Tactical map with a stock and engineering dashboard.",
   "start_url": "./",
   "scope": "./",
@@ -11,22 +11,16 @@
   "lang": "en",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "./tactical-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./icon-512.png",
+      "src": "./tactical-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }
