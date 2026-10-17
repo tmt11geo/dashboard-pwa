@@ -222,6 +222,7 @@
  }
 
  function updateDistance(){
+  updateCompass();
   clearDistance();
   for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1,dashArray:moveArmed?'3 3':null}:{...normalStyle,opacity:.45,fillOpacity:.4,dashArray:null});
   if(!marker){if(selected)status.textContent='';return;}
@@ -348,6 +349,87 @@
  container.addEventListener('contextmenu',event=>{if(!event.target.closest('.leaflet-control'))event.preventDefault();});
  map.on('zoomstart',cancelHold);
  map.on('click',()=>{if(Date.now()<suppressClickUntil)return;deselect();status.textContent='';});
+
+
+ // Optional phone compass. Never use relative-only alpha as a north heading.
+ let compassEnabled=false,compassHeading=null,lastHeadingAt=0,compassTimer=null,compassReference='';
+ const compassControl=L.control({position:'topleft'});
+ let compassButton;
+ compassControl.onAdd=()=>{
+  const box=L.DomUtil.create('div','leaflet-bar marker-control');
+  compassButton=L.DomUtil.create('button','map-toggle compass-toggle',box);
+  compassButton.type='button';compassButton.title='Compass';compassButton.setAttribute('aria-label','Enable phone compass');compassButton.setAttribute('aria-pressed','false');
+  compassButton.innerHTML='<svg viewBox="0 0 32 32" width="25" height="25" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m21 9-3 10-7 4 3-10Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>';
+  L.DomEvent.disableClickPropagation(box);return box;
+ };
+ compassControl.addTo(map);
+ const dialControl=L.control({position:'topright'});
+ let compassPanel,northNeedle,targetNeedle,headingText,compassNote;
+ dialControl.onAdd=()=>{
+  compassPanel=L.DomUtil.create('div','compass-panel');
+  compassPanel.hidden=true;
+  compassPanel.innerHTML='<svg viewBox="0 0 120 120" width="112" height="112" aria-label="Phone compass"><circle cx="60" cy="60" r="48" fill="none" stroke="#4e7459"/><path d="M60 5v9m55 46h-9M60 115v-9M5 60h9" stroke="#a1c9ac"/><path d="m55 5 5-5 5 5" fill="none" stroke="#daffe4"/><g class="north-needle"><path d="M60 23 54 42h12Z" fill="#b8f2c5"/><text x="60" y="20" text-anchor="middle" fill="#d5ffe0" font-size="12">N</text></g><g class="target-needle"><path d="m60 29-5 13h10Z" fill="#e6cc86"/><path d="M60 43v12" stroke="#e6cc86" stroke-width="2"/></g><circle cx="60" cy="60" r="3" fill="#c3ffd0"/></svg><strong class="compass-heading">—</strong><span class="compass-note">Waiting for heading</span>';
+  northNeedle=compassPanel.querySelector('.north-needle');targetNeedle=compassPanel.querySelector('.target-needle');headingText=compassPanel.querySelector('.compass-heading');compassNote=compassPanel.querySelector('.compass-note');
+  targetNeedle.style.display='none';L.DomEvent.disableClickPropagation(compassPanel);L.DomEvent.disableScrollPropagation(compassPanel);return compassPanel;
+ };
+ dialControl.addTo(map);
+ function updateCompass(){
+  if(!compassEnabled)return;
+  if(compassHeading===null||Date.now()-lastHeadingAt>5000){
+   headingText.textContent='—';northNeedle.style.display='none';targetNeedle.style.display='none';
+   compassNote.textContent='No heading · hold phone flat';return;
+  }
+  northNeedle.style.display='';northNeedle.setAttribute('transform','rotate('+(-compassHeading)+' 60 60)');
+  headingText.textContent=formatBearing(compassHeading);
+  let note=compassReference+' · hold flat';
+  if(selected&&marker&&map.distance(marker.getLatLng(),selected.getLatLng())>.1){
+   const direction=bearing(marker.getLatLng(),selected.getLatLng());
+   targetNeedle.style.display='';targetNeedle.setAttribute('transform','rotate('+((direction-compassHeading+360)%360)+' 60 60)');
+   note='M'+selected.pinId+' · '+compassReference;
+  }else targetNeedle.style.display='none';
+  compassNote.textContent=note;
+ }
+ function onOrientation(event){
+  if(!compassEnabled||document.hidden)return;
+  let heading,reference;
+  if(Number.isFinite(event.webkitCompassHeading)){
+   if(Number.isFinite(event.webkitCompassAccuracy)&&(event.webkitCompassAccuracy<0||event.webkitCompassAccuracy>30)){compassHeading=null;updateCompass();compassNote.textContent='Compass unreliable · move away from metal';return;}
+   heading=event.webkitCompassHeading;reference='Sensor north*';
+  }else if((event.absolute===true||event.type==='deviceorientationabsolute')&&Number.isFinite(event.alpha)){heading=360-event.alpha;reference='Sensor north*';}
+  else return;
+  const angle=window.screen?.orientation?.angle??window.orientation??0;
+  heading=((heading+Number(angle))%360+360)%360;
+  compassHeading=heading;lastHeadingAt=Date.now();compassReference=reference;updateCompass();
+ }
+ function stopCompassSensors(){
+  window.removeEventListener('deviceorientation',onOrientation);window.removeEventListener('deviceorientationabsolute',onOrientation);
+  if(compassTimer!==null)clearInterval(compassTimer);compassTimer=null;compassHeading=null;
+ }
+ function startCompassSensors(){
+  stopCompassSensors();if(!compassEnabled||document.hidden)return;
+  window.addEventListener('deviceorientation',onOrientation);window.addEventListener('deviceorientationabsolute',onOrientation);
+  compassTimer=setInterval(updateCompass,1000);updateCompass();
+ }
+ compassButton.addEventListener('click',async()=>{
+  if(compassEnabled){compassEnabled=false;stopCompassSensors();compassPanel.hidden=true;}
+  else{
+   if(!window.DeviceOrientationEvent){status.textContent='Phone compass is unavailable in this browser.';return;}
+   compassButton.disabled=true;
+   try{
+    if(typeof window.DeviceOrientationEvent.requestPermission==='function'){
+     const result=await window.DeviceOrientationEvent.requestPermission(true);
+     if(result!=='granted'){status.textContent='Compass permission denied.';return;}
+    }
+    compassEnabled=true;compassPanel.hidden=false;startCompassSensors();
+   }catch{status.textContent='Could not enable compass. Check motion/orientation permissions.';}
+   finally{compassButton.disabled=false;}
+  }
+  compassButton.classList.toggle('is-active',compassEnabled);compassButton.setAttribute('aria-pressed',String(compassEnabled));
+  updateDistance();
+ });
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stopCompassSensors();else startCompassSensors();});
+ window.addEventListener('pagehide',stopCompassSensors);
+ window.addEventListener('pageshow',()=>{if(compassEnabled)startCompassSensors();});
 
  locateUser();
 })();
