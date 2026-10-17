@@ -153,17 +153,21 @@
    const active=pin===selected;
    const zoom=map.getZoom(),compact=zoom<=12;
    const fontSize=zoom<=8?7:zoom<=10?8:compact?9:12;
-   const boxWidth=compact?132:200,boxHeight=compact?22:34;
+   const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'')+(active?' active':' inactive');box.setAttribute('aria-pressed',String(pinned));
+   box.title='Tap to '+(pinned?'unpin':'pin')+' this distance line';
+   box.textContent=(compact?'':'M'+pin.pinId+' · ')+(compact?(metres/1000).toFixed(1)+' km':text)+' · '+bearings;
+   box.classList.toggle('compact',compact);box.style.fontSize=fontSize+'px';
+   box.setAttribute('aria-label','Marker '+pin.pinId+', '+text+', bearings '+bearings);
+   // Measure the actual rendered label so collision and edge placement match its content.
+   box.style.position='absolute';box.style.visibility='hidden';
+   map.getContainer().appendChild(box);
+   const bounds=box.getBoundingClientRect(),boxWidth=Math.ceil(bounds.width),boxHeight=Math.ceil(bounds.height);
+   box.remove();box.style.removeProperty('position');box.style.removeProperty('visibility');
    const a=map.latLngToContainerPoint(from),b=map.latLngToContainerPoint(to);
    const placement=labelPosition(a,b,map.getSize(),boxWidth,boxHeight,occupied);
    if(!placement)continue;
    const mid=map.containerPointToLatLng(L.point(placement.x,placement.y));
    const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
-   const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'')+(active?' active':' inactive');box.setAttribute('aria-pressed',String(pinned));
-   box.title='Tap to '+(pinned?'unpin':'pin')+' this distance line';
-   box.textContent=(compact?'':'M'+pin.pinId+' · ')+(compact?(metres/1000).toFixed(1)+' km':text)+' · '+bearings;
-   box.classList.toggle('compact',compact);box.style.fontSize=fontSize+'px';
-   box.style.width=boxWidth+'px';box.setAttribute('aria-label','Marker '+pin.pinId+', '+text+', bearings '+bearings);
    L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
    box.addEventListener('click',event=>{event.stopPropagation();if(pinnedLines.has(pin))pinnedLines.delete(pin);else pinnedLines.add(pin);updateDistance();});
    const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[boxWidth,boxHeight],iconAnchor:[boxWidth/2,boxHeight/2]})}).addTo(map);
