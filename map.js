@@ -85,7 +85,7 @@
    pulseLayers=[0,1].map(()=>L.circleMarker(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
    marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location · 30 px display radius (not GPS accuracy)');
    restartPulse();
-   map.setView(point,16);
+   map.setView(point,map.getZoom());
    status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 30 pixels at every zoom. Tap the crosshair to update.';
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  });
