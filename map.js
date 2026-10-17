@@ -112,16 +112,21 @@
    const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
    const bearings=metres<.1?'—/—':formatBearing(bearing(from,to))+'/'+formatBearing(bearing(to,from));
    const active=pin===selected;
+   const zoom=map.getZoom(),compact=zoom<=12;
+   const fontSize=zoom<=8?7:zoom<=10?8:compact?9:12;
+   const boxWidth=compact?132:200,boxHeight=compact?22:34;
    const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
    const a=map.project(from),b=map.project(to),dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy);
-   const nx=length?-dy/length:0,ny=length?dx/length:-1,offset=Math.abs(nx)*100+Math.abs(ny)*17+14;
+   const nx=length?-dy/length:0,ny=length?dx/length:-1,offset=Math.abs(nx)*(boxWidth/2)+Math.abs(ny)*(boxHeight/2)+10;
    const mid=map.unproject(L.point((a.x+b.x)/2+nx*offset,(a.y+b.y)/2+ny*offset));
    const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'')+(active?' active':' inactive');box.setAttribute('aria-pressed',String(pinned));
    box.title='Tap to '+(pinned?'unpin':'pin')+' this distance line';
-   box.textContent='M'+pin.pinId+' - '+text+' - '+bearings;
+   box.textContent=(compact?'':'M'+pin.pinId+' · ')+(compact?(metres/1000).toFixed(1)+' km':text)+' · '+bearings;
+   box.classList.toggle('compact',compact);box.style.fontSize=fontSize+'px';
+   box.style.width=boxWidth+'px';box.setAttribute('aria-label','Marker '+pin.pinId+', '+text+', bearings '+bearings);
    L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
    box.addEventListener('click',event=>{event.stopPropagation();if(pinnedLines.has(pin))pinnedLines.delete(pin);else pinnedLines.add(pin);updateDistance();});
-   const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[200,34],iconAnchor:[100,17]})}).addTo(map);
+   const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[boxWidth,boxHeight],iconAnchor:[boxWidth/2,boxHeight/2]})}).addTo(map);
    distanceLayers.push(line,label);
   }
  }
