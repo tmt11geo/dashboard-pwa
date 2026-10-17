@@ -5,26 +5,26 @@
 
  const shade=document.querySelector('#map-shade'),shadeValue=document.querySelector('#shade-value');
  function applyShade(value){
-  const n=Math.min(105,Math.max(45,Number(value)||72));
+  const n=Math.min(105,Math.max(45,Number(value)||60));
   shade.value=String(n);shadeValue.value=n+'%';shadeValue.textContent=n+'%';
   document.querySelector('#map').style.setProperty('--map-brightness',String(n/100));
  }
- try {const saved=localStorage.getItem('tmt11-map-brightness-green-v2');applyShade(saved===null?72:saved);} catch {applyShade(72);}
+ try {const saved=localStorage.getItem('tmt11-map-brightness-green-v2');applyShade(saved===null?60:saved);} catch {applyShade(60);}
  shade.addEventListener('input',()=>{applyShade(shade.value);try{localStorage.setItem('tmt11-map-brightness-green-v2',shade.value);}catch{}});
 
  const contrast=document.querySelector('#map-contrast'),contrastValue=document.querySelector('#contrast-value');
  function applyContrast(value){
-  const parsed=Number(value),n=Number.isFinite(parsed)?Math.min(300,Math.max(100,parsed)):135;
+  const parsed=Number(value),n=Number.isFinite(parsed)?Math.min(300,Math.max(100,parsed)):150;
   contrast.value=String(n);contrastValue.value=n+'%';contrastValue.textContent=n+'%';
   const gain=n/100,offset=-.25*(gain-1);
   ['contrast-red','contrast-green','contrast-blue'].forEach(id=>{
    const channel=document.getElementById(id);channel.setAttribute('slope',String(gain));channel.setAttribute('intercept',String(offset));
   });
  }
- try{const saved=localStorage.getItem('tmt11-map-contrast-green-v2');applyContrast(saved===null?135:saved);}catch{applyContrast(135);}
+ try{const saved=localStorage.getItem('tmt11-map-contrast-green-v2');applyContrast(saved===null?150:saved);}catch{applyContrast(150);}
  contrast.addEventListener('input',()=>{applyContrast(contrast.value);try{localStorage.setItem('tmt11-map-contrast-green-v2',contrast.value);}catch{}});
 
- document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(72);applyContrast(135);try{localStorage.removeItem('tmt11-map-brightness-green-v2');localStorage.removeItem('tmt11-map-contrast-green-v2');}catch{}});
+ document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(60);applyContrast(150);try{localStorage.removeItem('tmt11-map-brightness-green-v2');localStorage.removeItem('tmt11-map-contrast-green-v2');}catch{}});
 
  const map=L.map('map',{zoomControl:false,tapHold:false}).setView([61.48,23.63],11);
  let locate;
