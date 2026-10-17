@@ -2,6 +2,17 @@
 (() => {
  const status=document.querySelector('#status'), locate=document.querySelector('#locate'),home=document.querySelector('#home');
  if(!window.L){status.textContent='Map library could not load. Check your internet connection and reload.';return;}
+
+ const shade=document.querySelector('#map-shade'),shadeValue=document.querySelector('#shade-value');
+ function applyShade(value){
+  const n=Math.min(105,Math.max(45,Number(value)||79));
+  shade.value=String(n);shadeValue.value=n+'%';shadeValue.textContent=n+'%';
+  document.querySelector('#map').style.setProperty('--map-brightness',String(n/100));
+ }
+ try {const saved=localStorage.getItem('tmt11-map-brightness');applyShade(saved===null?79:saved);} catch {applyShade(79);}
+ shade.addEventListener('input',()=>{applyShade(shade.value);try{localStorage.setItem('tmt11-map-brightness',shade.value);}catch{}});
+ document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(79);try{localStorage.removeItem('tmt11-map-brightness');}catch{}});
+
  const map=L.map('map',{zoomControl:true,tapHold:false}).setView([61.48,23.63],11);
  const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',updateWhenIdle:true,keepBuffer:1}).addTo(map);
  L.control.scale({imperial:false}).addTo(map);
