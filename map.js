@@ -41,7 +41,7 @@
  const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',updateWhenIdle:true,keepBuffer:1}).addTo(map);
  L.control.scale({imperial:false}).addTo(map);
  let tileError=false,marker,circle;
- const pulseRadius=25;
+ const pulseRadius=30; // Screen pixels, independent of map zoom.
  let pulseLayers=[],pulseFrame=null,pulseOrigin=0;
  let mapMoving=false,mapZooming=false;
  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -81,12 +81,12 @@
    locate.disabled=false;const {latitude,longitude,accuracy}=position.coords,point=[latitude,longitude];
    stopPulse();pulseLayers.forEach(ring=>map.removeLayer(ring));pulseLayers=[];
    if(marker)map.removeLayer(marker);if(circle)map.removeLayer(circle);
-   circle=L.circle(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
-   pulseLayers=[0,1].map(()=>L.circle(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
-   marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location · 25 m display radius (not GPS accuracy)');
+   circle=L.circleMarker(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
+   pulseLayers=[0,1].map(()=>L.circleMarker(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
+   marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location · 30 px display radius (not GPS accuracy)');
    restartPulse();
-   map.fitBounds(circle.getBounds(),{maxZoom:16,padding:[30,30]});
-   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 25 m (display only). Tap the crosshair to update.';
+   map.setView(point,16);
+   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 30 pixels at every zoom. Tap the crosshair to update.';
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  });
  // User markers are separate from the GPS position.
