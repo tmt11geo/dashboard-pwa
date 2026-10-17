@@ -18,3 +18,8 @@
 .distance-label{width:200px;min-height:34px;padding:6px;font:600 12px/20px system-ui;white-space:nowrap}.distance-label.inactive{opacity:.45;border-color:#517d5d;box-shadow:none}.distance-label.active{opacity:1;border-color:#c4f5b5}.map-in-motion .distance-label-host{visibility:hidden}
 
 .distance-label{background:rgba(7,20,12,.5);box-shadow:none}.distance-label.compact{min-height:22px;height:22px;padding:2px 4px;line-height:16px;border-radius:5px;font-weight:500;border-color:#517d5d99}.distance-label.compact::before{content:"";position:absolute;inset:-11px 0;background:transparent}.distance-label.inactive{opacity:.4}
+
+/* Keep text legible independently of the translucent background. */
+.distance-label,.distance-label.compact{color:#d5ffe0;background:rgba(7,20,12,.5);border:1px solid #91c79f;font-weight:600;text-shadow:0 1px 2px #000,0 0 3px #000}
+.distance-label.active{color:#e5ffeb;border-color:#c4f5b5}
+.distance-label.inactive{opacity:1;color:#a6c6ae;border-color:#597d64;background:rgba(7,20,12,.35)}
