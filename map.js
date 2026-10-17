@@ -373,19 +373,45 @@
   targetNeedle.style.display='none';L.DomEvent.disableClickPropagation(compassPanel);L.DomEvent.disableScrollPropagation(compassPanel);return compassPanel;
  };
  dialControl.addTo(map);
+
+ let declinationCache=null;
+ function localDeclination(){
+  if(!marker||!window.TacticalMagnetic)return null;
+  const p=marker.getLatLng(),date=new Date(),year=date.getUTCFullYear();
+  if(year<2025||year>=2030)return null;
+  const key=p.lat.toFixed(2)+','+p.lng.toFixed(2)+','+date.toISOString().slice(0,10);
+  if(declinationCache?.key===key)return declinationCache.value;
+  try{const field=window.TacticalMagnetic.magneticField(p.lat,p.lng,0,date);
+   const value=field.h>=2000&&Number.isFinite(field.declination)?field.declination:null;
+   declinationCache={key,value};return value;
+  }catch{return null;}
+ }
+
  function updateCompass(){
   if(!compassEnabled)return;
   if(compassHeading===null||Date.now()-lastHeadingAt>5000){
    headingText.textContent='—';northNeedle.style.display='none';targetNeedle.style.display='none';
    compassNote.textContent='No heading · hold phone flat';return;
   }
-  northNeedle.style.display='';northNeedle.setAttribute('transform','rotate('+(-compassHeading)+' 60 60)');
-  headingText.textContent=formatBearing(compassHeading);
-  let note=compassReference+' · hold flat';
+  const correction=localDeclination();
+  const inputTrue=document.querySelector('#compass-reference').value==='true';
+  const useTrue=document.querySelector('#true-north').checked;
+  let heading=compassHeading;
+  if(useTrue&&!inputTrue&&correction===null){
+   headingText.textContent='—';northNeedle.style.display='none';targetNeedle.style.display='none';
+   compassNote.textContent='True north needs a valid location / WMM2025 model';return;
+  }
+  if(useTrue&&!inputTrue)heading=(heading+correction+360)%360;
+  if(!useTrue&&inputTrue&&correction!==null)heading=(heading-correction+360)%360;
+  const isTrue=useTrue||inputTrue&&correction===null;
+  northNeedle.style.display='';northNeedle.setAttribute('transform','rotate('+(-heading)+' 60 60)');
+  headingText.textContent=formatBearing(heading)+(isTrue?' T':' M');
+  let note=(correction===null?'Declination unavailable':'Declination '+Math.abs(correction).toFixed(1)+'° '+(correction>=0?'E':'W'))+' · '+(inputTrue?'input true':'input magnetic*');
   if(selected&&marker&&map.distance(marker.getLatLng(),selected.getLatLng())>.1){
-   const direction=bearing(marker.getLatLng(),selected.getLatLng());
-   targetNeedle.style.display='';targetNeedle.setAttribute('transform','rotate('+((direction-compassHeading+360)%360)+' 60 60)');
-   note='M'+selected.pinId+' · '+compassReference;
+   let direction=bearing(marker.getLatLng(),selected.getLatLng());
+   if(!isTrue){if(correction===null){targetNeedle.style.display='none';compassNote.textContent=note;return;}direction=(direction-correction+360)%360;}
+   targetNeedle.style.display='';targetNeedle.setAttribute('transform','rotate('+((direction-heading+360)%360)+' 60 60)');
+   note='M'+selected.pinId+' · '+note;
   }else targetNeedle.style.display='none';
   compassNote.textContent=note;
  }
@@ -431,5 +457,7 @@
  window.addEventListener('pagehide',stopCompassSensors);
  window.addEventListener('pageshow',()=>{if(compassEnabled)startCompassSensors();});
 
+ document.querySelector('#true-north').addEventListener('change',updateCompass);
+ document.querySelector('#compass-reference').addEventListener('change',updateCompass);
  locateUser();
 })();
