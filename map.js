@@ -113,7 +113,7 @@
   }
   return {a:{x:a.x+lo*dx,y:a.y+lo*dy},b:{x:a.x+hi*dx,y:a.y+hi*dy},lo,hi};
  }
- function labelPosition(a,b,size,width,height,occupied){
+ function labelPosition(a,b,size,width,height,occupied,controls=[]){
   const seg=visibleSegment(a,b,size.x,size.y);if(!seg)return null;
   const outside=p=>p.x<0||p.y<0||p.x>size.x||p.y>size.y;
   const offA=outside(a),offB=outside(b),edge=offA||offB;
@@ -121,22 +121,32 @@
   const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy),nx=len?-dy/len:0,ny=len?dx/len:-1;
   const clearance=Math.abs(nx)*width/2+Math.abs(ny)*height/2+10;
   const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
-  const candidates=[];
+  const candidates=[],positions=[];
   for(const side of [1,-1])for(const step of [0,1,-1,2,-2,3,-3]){
    const shift=step*(height+12);
    let x=anchor.x+nx*clearance*side+(len?dx/len*shift:shift);
    let y=anchor.y+ny*clearance*side+(len?dy/len*shift:0);
    x=clamp(x,width/2+8,size.x-width/2-8);y=clamp(y,height/2+8,size.y-height/2-8);
+   positions.push({x,y});
+  }
+  // Fallback positions allow labels to move away from crowded control corners.
+  for(let y=height/2+8;y<=size.y-height/2-8;y+=Math.max(height+12,24)){
+   for(let x=width/2+8;x<=size.x-width/2-8;x+=Math.max(width/2,40))positions.push({x,y});
+   positions.push({x:size.x-width/2-8,y});
+  }
+  for(const {x,y} of positions){
    const rect={left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
    const overlap=r=>Math.max(0,Math.min(rect.right,r.right)-Math.max(rect.left,r.left))*Math.max(0,Math.min(rect.bottom,r.bottom)-Math.max(rect.top,r.top));
+   if(controls.some(r=>overlap(r)>0))continue;
    let score=Math.hypot(x-anchor.x,y-anchor.y);
    for(const r of occupied)score+=overlap(r)*20;
-   score+=overlap({left:0,right:72,top:0,bottom:260})*40;
+
    const lineDistance=len?Math.abs((x-a.x)*dy-(y-a.y)*dx)/len:Math.hypot(x-a.x,y-a.y);
    score+=Math.max(0,clearance-lineDistance)*15;
    if(edge)score+=Math.min(x-width/2,size.x-x-width/2,y-height/2,size.y-y-height/2)*4;
    candidates.push({x,y,rect,score});
   }
+  if(!candidates.length)return null;
   candidates.sort((a,b)=>a.score-b.score);occupied.push(candidates[0].rect);return candidates[0];
  }
 
@@ -157,6 +167,12 @@
   if(!marker){if(selected)status.textContent='';return;}
   const targets=new Set();if(selected)targets.add(selected);for(const pin of pinnedLines)targets.add(pin);
   const occupied=[];
+  const container=map.getContainer(),bounds=container.getBoundingClientRect(),size=map.getSize();
+  const sx=size.x/bounds.width,sy=size.y/bounds.height;
+  const controls=Array.from(container.querySelectorAll('.leaflet-control')).map(control=>{
+   const r=control.getBoundingClientRect();
+   return {left:(r.left-bounds.left)*sx-8,right:(r.right-bounds.left)*sx+8,top:(r.top-bounds.top)*sy-8,bottom:(r.bottom-bounds.top)*sy+8};
+  });
   for(const pin of targets){
    const from=marker.getLatLng(),to=pin.getLatLng(),metres=map.distance(from,to),pinned=pinnedLines.has(pin);
    const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
@@ -175,7 +191,7 @@
    const bounds=box.getBoundingClientRect(),boxWidth=Math.ceil(bounds.width),boxHeight=Math.ceil(bounds.height);
    box.remove();box.style.removeProperty('position');box.style.removeProperty('visibility');
    const a=map.latLngToContainerPoint(from),b=map.latLngToContainerPoint(to);
-   const placement=labelPosition(a,b,map.getSize(),boxWidth,boxHeight,occupied);
+   const placement=labelPosition(a,b,map.getSize(),boxWidth,boxHeight,occupied,controls);
    if(!placement)continue;
    const mid=map.containerPointToLatLng(L.point(placement.x,placement.y));
    const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
