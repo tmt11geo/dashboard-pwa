@@ -1,5 +1,5 @@
 import {VisualTracker,grayFrame} from './camera-tracker.js?v=1';
-import {clamp,centre,guidance,makeLock,exitSide,contentRect,decode} from './camera-core.js?v=1';
+import {clamp,centre,guidance,makeLock,exitSide,contentRect,decode} from './camera-core.js?v=2';
 const $=id=>document.getElementById(id);
 const video=$('video'),canvas=$('overlay'),ctx=canvas.getContext('2d'),viewport=$('viewfinder');
 const capture=document.createElement('canvas'),pixels=capture.getContext('2d',{willReadFrequently:true});
@@ -62,7 +62,7 @@ function lockText(){
  if(lock.exit)state='LIKELY EXIT: '+lock.exit.replace('-', ' ').toUpperCase();
  else if(lock.lost)state='LOST · RELEASE / SCAN TO REACQUIRE';
  else if(lock.missing)state='SEARCHING';
- else{const g=guidance(lock.box);state=g.centred?'CENTRED':[g.vertical,g.horizontal].filter(Boolean).join(' + ').toUpperCase();}
+ else{const g=guidance(lock.box);state=g.centred?'CENTRED':'MOVE DEVICE '+[g.vertical,g.horizontal].filter(Boolean).join(' + ').toUpperCase();}
  $('lock-readout').textContent=lock.label.toUpperCase()+' · '+state;
 }
 function pauseDetector(){
@@ -194,7 +194,7 @@ async function openCamera(){
   stream=media;video.srcObject=media;await video.play();
   if(attempt!==generation)return;
   running=true;opening=false;lastVideoTime=-1;lastFrameAt=0;
-  $('placeholder').hidden=true;$('status').textContent='Tap a detected box or an object button to lock. Arrows show how to move the box to centre.';
+  $('placeholder').hidden=true;$('status').textContent='Tap a detected box or an object button to lock. Arrows show which direction to move the device to centre the object.';
   media.getVideoTracks()[0].addEventListener('ended',()=>{if(running)stopCamera('Camera disconnected. Tap Open camera to retry.');});
   lockText();listSignature='';listObjects();draw();startDetector();
  }catch(error){

@@ -7,7 +7,8 @@ export function iou(a,b) {
  return intersection/(area(a)+area(b)-intersection||1);
 }
 export function guidance(box, tolerance=.045) {
- const c=centre(box),dx=.5-c.x,dy=.5-c.y;
+ // Device guidance is the opposite of moving the box within the image.
+ const c=centre(box),dx=c.x-.5,dy=c.y-.5;
  const horizontal=Math.abs(dx)>tolerance?(dx>0?'right':'left'):null;
  const vertical=Math.abs(dy)>tolerance?(dy>0?'down':'up'):null;
  return {horizontal,vertical,centred:!horizontal&&!vertical};

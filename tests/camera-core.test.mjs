@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {guidance,exitSide,makeLock,updateLock,contentRect,decode} from '../camera-core.js';
 const detection=(x,y,label='cup')=>({label,score:.9,box:{x1:x-.05,y1:y-.05,x2:x+.05,y2:y+.05}});
-test('arrows point toward centre with a dead zone',()=>{
- assert.deepEqual(guidance(detection(.2,.8).box),{horizontal:'right',vertical:'up',centred:false});
+test('arrows guide device movement toward the object with a centre dead zone',()=>{
+ assert.deepEqual(guidance(detection(.2,.8).box),{horizontal:'left',vertical:'down',centred:false});
  assert.equal(guidance(detection(.5,.5).box).centred,true);
- assert.deepEqual(guidance(detection(.8,.2).box),{horizontal:'left',vertical:'down',centred:false});
+ assert.deepEqual(guidance(detection(.8,.2).box),{horizontal:'right',vertical:'up',centred:false});
 });
 test('all exit sides/corners are identified; interior disappearance stays unknown',()=>{
  for(const [x,y,name] of [[.04,.5,'left'],[.96,.5,'right'],[.5,.04,'top'],[.5,.96,'bottom'],[.04,.04,'top-left'],[.96,.04,'top-right'],[.04,.96,'bottom-left'],[.96,.96,'bottom-right']])assert.equal(exitSide(detection(x,y).box),name);
