@@ -70,7 +70,7 @@
  reducedMotion.addEventListener('change',restartPulse);
  tiles.on('tileerror',()=>{tileError=true;status.textContent='Some map tiles could not load. Check your connection or move the map to retry.';});
  tiles.on('loading',()=>{tileError=false;});
- tiles.on('load',()=>{if(!tileError)status.textContent='Ready to explore. Location stays off until requested.';});
+ tiles.on('load',()=>{if(!tileError)status.textContent='';});
  const coordinates=()=>{const c=map.getCenter();document.querySelector('#coordinates').textContent=c.lat.toFixed(5)+'°, '+c.lng.toFixed(5)+'° · Zoom '+map.getZoom();};
  map.on('moveend zoomend',coordinates);coordinates();
  locate.disabled=false;
@@ -104,31 +104,33 @@
  const formatBearing=value=>String(Math.round(value)%360).padStart(3,'0')+'°';
  function updateDistance(){
   clearDistance();
-  if(!marker){if(selected)status.textContent='Tap the crosshair to measure from your location to marker '+selected.pinId+'.';return;}
+  for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1}:{...normalStyle,opacity:.45,fillOpacity:.4});
+  if(!marker){if(selected)status.textContent='';return;}
   const targets=new Set(pinnedLines);if(selected)targets.add(selected);
   for(const pin of targets){
    const from=marker.getLatLng(),to=pin.getLatLng(),metres=map.distance(from,to),pinned=pinnedLines.has(pin);
    const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
-   const bearings=metres<.1?'Bearing undefined (same position)':'You → M'+pin.pinId+' '+formatBearing(bearing(from,to))+' · M'+pin.pinId+' → You '+formatBearing(bearing(to,from));
-   const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:.8,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
-   const a=map.project(from),b=map.project(to),mid=map.unproject(L.point((a.x+b.x)/2,(a.y+b.y)/2));
-   const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'');box.setAttribute('aria-pressed',String(pinned));
+   const bearings=metres<.1?'—/—':formatBearing(bearing(from,to))+'/'+formatBearing(bearing(to,from));
+   const active=pin===selected;
+   const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
+   const a=map.project(from),b=map.project(to),dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy);
+   const nx=length?-dy/length:0,ny=length?dx/length:-1,offset=Math.abs(nx)*100+Math.abs(ny)*17+14;
+   const mid=map.unproject(L.point((a.x+b.x)/2+nx*offset,(a.y+b.y)/2+ny*offset));
+   const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'')+(active?' active':' inactive');box.setAttribute('aria-pressed',String(pinned));
    box.title='Tap to '+(pinned?'unpin':'pin')+' this distance line';
-   box.textContent='M'+pin.pinId+' · '+text;
-   const detail=document.createElement('small');detail.textContent=bearings;box.appendChild(detail);
-   const hint=document.createElement('small');hint.textContent=(pinned?'Pinned · tap to unpin':'Tap to pin')+' · straight line / true north';box.appendChild(hint);
+   box.textContent='M'+pin.pinId+' - '+text+' - '+bearings;
    L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
    box.addEventListener('click',event=>{event.stopPropagation();if(pinnedLines.has(pin))pinnedLines.delete(pin);else pinnedLines.add(pin);updateDistance();});
-   const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[220,68],iconAnchor:[110,34]})}).addTo(map);
+   const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[200,34],iconAnchor:[100,17]})}).addTo(map);
    distanceLayers.push(line,label);
   }
  }
  map.on('movestart zoomstart',()=>map.getContainer().classList.add('map-in-motion'));
- map.on('moveend zoomend',()=>{if(!mapMoving&&!mapZooming)map.getContainer().classList.remove('map-in-motion');});
+ map.on('moveend zoomend',()=>{if(!mapMoving&&!mapZooming){map.getContainer().classList.remove('map-in-motion');updateDistance();}});
 
  const normalStyle={radius:10,color:"#c3ffd0",weight:2,fillColor:"#91e8a7",fillOpacity:.95};
  function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();updateDistance();}
- function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent="Marker "+pin.pinId+" selected. Long press elsewhere to move it; × removes it. Tap empty map to deselect and add more.";updateDistance();}
+ function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent='';updateDistance();}
  function label(pin){const p=pin.getLatLng();pin.bindPopup("Marker "+pin.pinId+"<br>"+p.lat.toFixed(5)+"°, "+p.lng.toFixed(5)+"°");}
  const activePointers=new Set();
  const removeControl=L.control({position:'topleft'});
@@ -141,7 +143,7 @@
   L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
   removeButton.addEventListener('click',()=>{
    if(selected){const pin=selected;pinnedLines.delete(pin);deselect();map.removeLayer(pin);pins.delete(pin);}
-   status.textContent='Marker removed. Long press to add another, or tap an existing marker to select it.';
+   status.textContent='';
   });
   return box;
  };
@@ -158,7 +160,7 @@
    suppressClickUntil=Date.now()+1000;
    if(selected){
     selected.setLatLng(point);label(selected);selected.openPopup();
-    status.textContent='Marker '+selected.pinId+' moved. Tap empty map to deselect, or × to remove it.';updateDistance();
+    status.textContent='';updateDistance();
    } else {
     const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false}).addTo(map);
     pin.pinId=nextId++;pins.add(pin);label(pin);
@@ -178,6 +180,6 @@
  window.addEventListener('blur',()=>{activePointers.clear();cancelHold();});
  container.addEventListener('contextmenu',event=>{if(!event.target.closest('.leaflet-control'))event.preventDefault();});
  map.on('zoomstart',cancelHold);
- map.on('click',()=>{if(Date.now()<suppressClickUntil)return;deselect();status.textContent='Long press to add a marker. Tap an existing marker to move or remove it.';});
+ map.on('click',()=>{if(Date.now()<suppressClickUntil)return;deselect();status.textContent='';});
 
 })();
