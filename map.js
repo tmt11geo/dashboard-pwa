@@ -27,23 +27,24 @@
   const parsed=Number(value),n=Number.isFinite(parsed)?Math.min(300,Math.max(100,parsed)):150;
   contrast.value=String(n);contrastValue.value=n+'%';contrastValue.textContent=n+'%';
   const gain=n/100,offset=-.25*(gain-1);
-  ['contrast-red','contrast-green','contrast-blue'].forEach(id=>{
+  ['contrast-red','contrast-green','contrast-blue','red-map-contrast-r','red-map-contrast-g','red-map-contrast-b'].forEach(id=>{
    const channel=document.getElementById(id);channel.setAttribute('slope',String(gain));channel.setAttribute('intercept',String(offset));
   });
  }
 
  contrast.addEventListener('input',()=>{applyContrast(contrast.value);try{localStorage.setItem(shadingKey('contrast'),contrast.value);}catch{}});
 
- function shadingKey(kind){return 'tmt11-map-'+kind+'-'+(themeSelect.value==='red'?'red-v1':'green-v2');}
- function defaultContrast(){return themeSelect.value==='red'?190:150;}
+ function shadingKey(kind){return 'tmt11-map-'+kind+'-'+(themeSelect.value==='red'?'red-v2':'green-v2');}
+ function defaultBrightness(){return themeSelect.value==='red'?85:60;}
+ function defaultContrast(){return themeSelect.value==='red'?120:150;}
  function loadThemeShading(){
-  let brightness=60,detail=defaultContrast();
+  let brightness=defaultBrightness(),detail=defaultContrast();
   try{const b=localStorage.getItem(shadingKey('brightness')),c=localStorage.getItem(shadingKey('contrast'));if(b!==null)brightness=b;if(c!==null)detail=c;}catch{}
   applyShade(brightness);applyContrast(detail);
  }
  loadThemeShading();
  document.querySelector('#shade-reset').addEventListener('click',()=>{
-  applyShade(60);applyContrast(defaultContrast());
+  applyShade(defaultBrightness());applyContrast(defaultContrast());
   try{localStorage.removeItem(shadingKey('brightness'));localStorage.removeItem(shadingKey('contrast'));}catch{}
  });
 

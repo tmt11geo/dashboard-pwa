@@ -40,3 +40,5 @@
 
 /* A final luminance-to-red pass recolours all map overlays and UI consistently. */
 body[data-theme="red"]{background:#100707}body[data-theme="red"]>header,body[data-theme="red"]>main{filter:url(#red-scheme)}
+
+body[data-theme="red"] #map .leaflet-tile-pane{filter:url(#tactical-red-map) brightness(var(--map-brightness,.85))}
