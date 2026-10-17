@@ -28,6 +28,27 @@
  const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',updateWhenIdle:true,keepBuffer:1}).addTo(map);
  L.control.scale({imperial:false}).addTo(map);
  let tileError=false,marker,circle;
+ const pulseRadius=25;
+ let pulseLayers=[],pulseFrame=null,pulseOrigin=0;
+ const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ function stopPulse(){if(pulseFrame!==null)cancelAnimationFrame(pulseFrame);pulseFrame=null;}
+ function animatePulse(time){
+  if(document.hidden||reducedMotion.matches){stopPulse();return;}
+  if(!pulseOrigin)pulseOrigin=time;
+  pulseLayers.forEach((ring,i)=>{
+   const phase=((time-pulseOrigin)/2600+i*.5)%1;
+   ring.setRadius(Math.max(.1,pulseRadius*phase));
+   ring.setStyle({opacity:.45*(1-phase)});
+  });
+  pulseFrame=requestAnimationFrame(animatePulse);
+ }
+ function restartPulse(){
+  stopPulse();pulseOrigin=0;
+  pulseLayers.forEach(ring=>ring.setStyle({opacity:0}));
+  if(pulseLayers.length&&!document.hidden&&!reducedMotion.matches)pulseFrame=requestAnimationFrame(animatePulse);
+ }
+ document.addEventListener('visibilitychange',restartPulse);
+ reducedMotion.addEventListener('change',restartPulse);
  tiles.on('tileerror',()=>{tileError=true;status.textContent='Some map tiles could not load. Check your connection or move the map to retry.';});
  tiles.on('loading',()=>{tileError=false;});
  tiles.on('load',()=>{if(!tileError)status.textContent='Ready to explore. Location stays off until requested.';});
@@ -39,11 +60,14 @@
   locate.disabled=true;status.textContent='Finding your location…';
   navigator.geolocation.getCurrentPosition(position=>{
    locate.disabled=false;const {latitude,longitude,accuracy}=position.coords,point=[latitude,longitude];
+   stopPulse();pulseLayers.forEach(ring=>map.removeLayer(ring));pulseLayers=[];
    if(marker)map.removeLayer(marker);if(circle)map.removeLayer(circle);
-   marker=L.circleMarker(point,{radius:8,color:'#ffffff',weight:2,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location');
-   circle=L.circle(point,{radius:accuracy,color:'#85efaa',weight:1,fillOpacity:.08}).addTo(map);
+   circle=L.circle(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
+   pulseLayers=[0,1].map(()=>L.circle(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
+   marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location · 25 m display radius (not GPS accuracy)');
+   restartPulse();
    map.fitBounds(circle.getBounds(),{maxZoom:16,padding:[30,30]});
-   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m. Tap 🎯 to update.';
+   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 25 m (display only). Tap the crosshair to update.';
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  });
  // User markers are separate from the GPS position.
