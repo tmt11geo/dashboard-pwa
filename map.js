@@ -11,7 +11,20 @@
  }
  try {const saved=localStorage.getItem('tmt11-map-brightness');applyShade(saved===null?79:saved);} catch {applyShade(79);}
  shade.addEventListener('input',()=>{applyShade(shade.value);try{localStorage.setItem('tmt11-map-brightness',shade.value);}catch{}});
- document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(79);try{localStorage.removeItem('tmt11-map-brightness');}catch{}});
+
+ const contrast=document.querySelector('#map-contrast'),contrastValue=document.querySelector('#contrast-value');
+ function applyContrast(value){
+  const parsed=Number(value),n=Number.isFinite(parsed)?Math.min(300,Math.max(100,parsed)):135;
+  contrast.value=String(n);contrastValue.value=n+'%';contrastValue.textContent=n+'%';
+  const gain=n/100,offset=-.035*(gain-1);
+  ['contrast-red','contrast-green','contrast-blue'].forEach(id=>{
+   const channel=document.getElementById(id);channel.setAttribute('slope',String(gain));channel.setAttribute('intercept',String(offset));
+  });
+ }
+ try{const saved=localStorage.getItem('tmt11-map-contrast');applyContrast(saved===null?135:saved);}catch{applyContrast(135);}
+ contrast.addEventListener('input',()=>{applyContrast(contrast.value);try{localStorage.setItem('tmt11-map-contrast',contrast.value);}catch{}});
+
+ document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(79);applyContrast(135);try{localStorage.removeItem('tmt11-map-brightness');localStorage.removeItem('tmt11-map-contrast');}catch{}});
 
  const map=L.map('map',{zoomControl:false,tapHold:false}).setView([61.48,23.63],11);
  let locate;
