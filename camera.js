@@ -10,6 +10,7 @@ let stream=null,worker=null,ready=false,busy=false,running=false,generation=0,op
 let detections=[],lock=null,timer=null,watchdog=null,lastVideoTime=-1,lastFrameAt=0,drawHandle=0;
 let tracker=null,trackTimer=null,inferenceFrame=null,detectionFrame=null,lastTrackTime=-1;
 let reacquiring=null,reacquireTimer=null;
+let bitmapWorker=null,bitmapTimer=null,bitmapWatchdog=null,bitmapBusy=false,bitmapFrame=null,lastBitmapTime=-1;
 let view=fullView(),viewRevision=0,inferenceRevision=0,inferenceRegion=zoomRegion(view),trackerRegion=zoomRegion(view),trackingScale=1;
 let suppressTapUntil=0;const pointers=new Map();let gesture=null,gestureMoved=false;
 let manualSelecting=false,manualDraft=null;
@@ -140,7 +141,7 @@ function lockText(){
  syncZoomControls();$('unlock').disabled=!lock;
  if(!lock){$('lock-readout').textContent=manualSelecting?'DRAW A BOX · PINCH TO ZOOM':'NO LOCK · TAP AN OBJECT';return;}
  let state;
- if(reacquiring)state='REACQUIRING · '+(lock.exit||'').replace('-',' ').toUpperCase();
+ if(reacquiring)state=(reacquiring.kind==='bitmap'?'REACQUIRING BITMAP · ':'REACQUIRING · ')+(lock.exit||'').replace('-',' ').toUpperCase();
  else if(lock.exit)state='LIKELY EXIT: '+lock.exit.replace('-', ' ').toUpperCase();
  else if(lock.lost)state='LOST · RELEASE / SCAN TO REACQUIRE';
  else if(lock.missing)state='SEARCHING';
@@ -148,6 +149,7 @@ function lockText(){
  $('lock-readout').textContent=lock.label.toUpperCase()+' · '+state;
 }
 function pauseDetector(){
+ stopBitmapSearch();
  clearTimeout(watchdog);clearTimeout(timer);worker?.terminate();worker=null;ready=false;busy=false;
 }
 function snapshotFrame(){
@@ -210,13 +212,13 @@ function choose(d,automatic=false){
 function beginReacquire(){
  if(!running||!lock?.exit||reacquiring||!tracker)return;
  clearTimeout(trackTimer);
- reacquiring={reference:tracker,started:performance.now(),candidate:null,hits:0};
+ reacquiring={kind:lock.kind==='manual'?'bitmap':'yolo',reference:tracker,started:performance.now(),candidate:null,hits:0};
  tracker=null;lock={...lock,lost:true,missing:true};detections=[];lastVideoTime=-1;lastFrameAt=0;
- $('status').textContent='Likely exit. Searching up to 30 seconds for the same '+lock.label+'; matching appearance before relocking.';
- $('model-status').textContent='Restarting YOLO · reacquiring '+lock.label;
+ $('status').textContent=reacquiring.kind==='bitmap'?'Likely exit. Searching up to 30 seconds for your saved image patch; confirming before relocking.':'Likely exit. Searching up to 30 seconds for the same '+lock.label+'; matching appearance before relocking.';
+ $('model-status').textContent=reacquiring.kind==='bitmap'?'Bitmap search · YOLO stopped':'Restarting YOLO · reacquiring '+lock.label;
  lockText();listSignature='';listObjects();
  reacquireTimer=setTimeout(()=>finishReacquire('Automatic search ended without a reliable match. Release / scan to try again.'),30000);
- startDetector();
+ if(reacquiring.kind==='bitmap')startBitmapSearch();else startDetector();
 }
 function finishReacquire(message){
  pauseDetector();clearTimeout(reacquireTimer);reacquiring=null;tracker=null;detections=[];
@@ -225,13 +227,57 @@ function finishReacquire(message){
  lockText();listSignature='';listObjects();
 }
 function tryReacquire(){
- if(!reacquiring||!detectionFrame)return false;
+ if(!reacquiring||reacquiring.kind==='bitmap'||!detectionFrame)return false;
  const candidate=reacquireCandidate(lock,detections,d=>reacquiring.reference.similarity(detectionFrame,d.box),(performance.now()-reacquiring.started)/1000);
  if(!candidate){reacquiring.candidate=null;reacquiring.hits=0;return false;}
  reacquiring.hits=sameReacquisition(reacquiring.candidate,candidate)?reacquiring.hits+1:1;reacquiring.candidate=candidate;
  if(reacquiring.hits<2)return false;
  if(choose(candidate,true)){$('status').textContent='Object reacquired. Visual tracking resumed; YOLO stopped.';return true;}
  return false;
+}
+function stopBitmapSearch(){
+ clearTimeout(bitmapTimer);clearTimeout(bitmapWatchdog);bitmapWorker?.terminate();bitmapWorker=null;bitmapBusy=false;bitmapFrame=null;
+}
+function scheduleBitmap(delay=250){
+ clearTimeout(bitmapTimer);if(running&&reacquiring?.kind==='bitmap'&&bitmapWorker)bitmapTimer=setTimeout(scanBitmap,delay);
+}
+function scanBitmap(){
+ if(!running||reacquiring?.kind!=='bitmap'||!bitmapWorker||bitmapBusy)return;
+ if(video.readyState<2||video.currentTime===lastBitmapTime){scheduleBitmap();return;}
+ try{
+  lastBitmapTime=video.currentTime;bitmapFrame=snapshotFrame();bitmapBusy=true;
+  bitmapWatchdog=setTimeout(()=>finishReacquire('Bitmap search stalled. Select area to draw a new target.'),10000);
+  const copy=bitmapFrame.data.slice();
+  bitmapWorker.postMessage({type:'frame',width:bitmapFrame.width,height:bitmapFrame.height,pixels:copy.buffer,seconds:(performance.now()-reacquiring.started)/1000},[copy.buffer]);
+ }catch{finishReacquire('Could not capture an image for bitmap search. Select area to try again.');}
+}
+function startBitmapSearch(){
+ lastBitmapTime=-1;bitmapBusy=false;
+ try{
+  const searcher=new Worker(new URL('./camera-bitmap-worker.js?v=1',import.meta.url),{type:'module'});bitmapWorker=searcher;
+  const active=()=>running&&bitmapWorker===searcher&&reacquiring?.kind==='bitmap';
+  bitmapWatchdog=setTimeout(()=>finishReacquire('Bitmap search could not start. Select area to try again.'),15000);
+  searcher.onerror=()=>{if(active())finishReacquire('Bitmap search unavailable. Select area to try again.');};
+  searcher.onmessage=({data})=>{
+   if(!active())return;
+   clearTimeout(bitmapWatchdog);
+   if(data.type==='ready'){scheduleBitmap(0);return;}
+   if(data.type==='error'){finishReacquire('Bitmap search failed. Select area to try again.');return;}
+   if(data.type!=='match')return;
+   bitmapBusy=false;const candidate=data.match;
+   if(candidate){
+    reacquiring.hits=sameReacquisition(reacquiring.candidate,candidate)?reacquiring.hits+1:1;reacquiring.candidate=candidate;
+    if(reacquiring.hits>=3){
+     detectionFrame=bitmapFrame;
+     if(choose(candidate,true)){$('status').textContent='Bitmap target reacquired. Visual tracking resumed; search and YOLO stopped.';return;}
+    }
+   }else{reacquiring.hits=0;reacquiring.candidate=null;}
+   $('rate').textContent='Bitmap search · '+(candidate?'confirming '+reacquiring.hits+'/3':'waiting for a reliable match');
+   scheduleBitmap(Math.max(0,250-data.ms));
+  };
+  const ref=reacquiring.reference;
+  searcher.postMessage({type:'init',reference:{anchor:ref.anchor,recent:ref.template,box:lock.box,side:lock.exit}});
+ }catch{finishReacquire('Bitmap search unavailable. Select area to draw a new target.');}
 }
 function track(){
  if(!running||!lock||lock.lost||!tracker)return;
@@ -247,7 +293,6 @@ function track(){
     lock={...lock,missing:true,lost:elapsed>900,exit:elapsed>250?exitSide(lock.box):null};
    }
    if(lock.exit){
-    if(lock.kind==='manual'){lock={...lock,lost:true};lockText();$('status').textContent='Manual target likely left the view. Select area to draw it again; YOLO has no label for this target.';$('rate').textContent='Manual lock lost · YOLO stopped';return;}
     beginReacquire();return;
    }
    lockText();
@@ -278,7 +323,7 @@ function listObjects(){
  const signature=detections.map(d=>d.label).join('|')+';'+(lock?.label||'')+';'+Boolean(lock?.lost);
  if(signature===listSignature)return;listSignature=signature;
  const host=$('objects');host.replaceChildren();
- if(!detections.length){const p=document.createElement('p');p.textContent=manualSelecting?'Draw a box directly in the camera view. No YOLO label is required.':reacquiring?'YOLO is searching for the locked object. Release / scan cancels this search.':lock?'YOLO stopped while locked. Use Release / scan to find objects.':running?'No objects detected. Try better lighting or a lower confidence.':'No detections yet.';host.append(p);return;}
+ if(!detections.length){const p=document.createElement('p');p.textContent=manualSelecting?'Draw a box directly in the camera view. No YOLO label is required.':reacquiring?(reacquiring.kind==='bitmap'?'Searching for your saved image patch. Select area to replace it, or Release / scan for YOLO.':'YOLO is searching for the locked object. Release / scan cancels this search.'):lock?'YOLO stopped while locked. Use Release / scan to find objects.':running?'No objects detected. Try better lighting or a lower confidence.':'No detections yet.';host.append(p);return;}
  detections.forEach((d,i)=>{
   const button=document.createElement('button');button.type='button';button.textContent=d.label+' #'+(i+1);
   button.setAttribute('aria-label','Lock '+d.label+', object '+(i+1));
