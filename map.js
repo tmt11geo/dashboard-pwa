@@ -43,10 +43,11 @@
  let tileError=false,marker,circle;
  const pulseRadius=25;
  let pulseLayers=[],pulseFrame=null,pulseOrigin=0;
+ let mapMoving=false,mapZooming=false;
  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
  function stopPulse(){if(pulseFrame!==null)cancelAnimationFrame(pulseFrame);pulseFrame=null;}
  function animatePulse(time){
-  if(document.hidden||reducedMotion.matches){stopPulse();return;}
+  if(document.hidden||reducedMotion.matches||mapMoving||mapZooming){pausePulse();return;}
   if(!pulseOrigin)pulseOrigin=time;
   pulseLayers.forEach((ring,i)=>{
    const phase=((time-pulseOrigin)/2600+i*.5)%1;
@@ -58,8 +59,13 @@
  function restartPulse(){
   stopPulse();pulseOrigin=0;
   pulseLayers.forEach(ring=>ring.setStyle({opacity:0}));
-  if(pulseLayers.length&&!document.hidden&&!reducedMotion.matches)pulseFrame=requestAnimationFrame(animatePulse);
+  if(pulseLayers.length&&!document.hidden&&!reducedMotion.matches&&!mapMoving&&!mapZooming)pulseFrame=requestAnimationFrame(animatePulse);
  }
+ function pausePulse(){stopPulse();pulseLayers.forEach(ring=>ring.setStyle({opacity:0}));}
+ map.on('movestart',()=>{mapMoving=true;pausePulse();});
+ map.on('zoomstart',()=>{mapZooming=true;pausePulse();});
+ map.on('moveend',()=>{mapMoving=false;restartPulse();});
+ map.on('zoomend',()=>{mapZooming=false;restartPulse();});
  document.addEventListener('visibilitychange',restartPulse);
  reducedMotion.addEventListener('change',restartPulse);
  tiles.on('tileerror',()=>{tileError=true;status.textContent='Some map tiles could not load. Check your connection or move the map to retry.';});
