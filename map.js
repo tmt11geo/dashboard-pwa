@@ -3,6 +3,16 @@
  const status=document.querySelector('#status');
  if(!window.L){status.textContent='Map library could not load. Check your internet connection and reload.';return;}
 
+
+ const themeSelect=document.querySelector('#map-theme');
+ function applyTheme(theme){
+  const value=theme==='red'?'red':'green';
+  document.body.dataset.theme=value;themeSelect.value=value;
+  document.querySelector('meta[name="theme-color"]').setAttribute('content',value==='red'?'#100707':'#07100b');
+ }
+ try{applyTheme(localStorage.getItem('tactical-theme'));}catch{applyTheme('green');}
+ themeSelect.addEventListener('change',()=>{applyTheme(themeSelect.value);try{localStorage.setItem('tactical-theme',themeSelect.value);}catch{}});
+
  const shade=document.querySelector('#map-shade'),shadeValue=document.querySelector('#shade-value');
  function applyShade(value){
   const n=Math.min(105,Math.max(45,Number(value)||60));
