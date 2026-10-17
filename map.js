@@ -91,6 +91,7 @@
  });
  // User markers are separate from the GPS position.
  const pins=new Set();
+ let moveArmed=false;
  let selected=null,nextId=1,holdTimer=null,origin=null,suppressClickUntil=0;
 
  const pinnedLines=new Set();
@@ -163,7 +164,7 @@
 
  function updateDistance(){
   clearDistance();
-  for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1}:{...normalStyle,opacity:.45,fillOpacity:.4});
+  for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1,dashArray:moveArmed?'3 3':null}:{...normalStyle,opacity:.45,fillOpacity:.4,dashArray:null});
   if(!marker){if(selected)status.textContent='';return;}
   const targets=new Set();if(selected)targets.add(selected);for(const pin of pinnedLines)targets.add(pin);
   const occupied=[];
@@ -224,8 +225,8 @@
  map.on('moveend zoomend resize',()=>{if(!mapMoving&&!mapZooming){map.getContainer().classList.remove('map-in-motion');updateDistance();}});
 
  const normalStyle={radius:10,color:"#c3ffd0",weight:2,fillColor:"#91e8a7",fillOpacity:.95};
- function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();updateDistance();}
- function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent='';updateDistance();}
+ function deselect(){moveArmed=false;if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();updateDistance();}
+ function select(pin){moveArmed=false;if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent='';updateDistance();}
  function label(pin){const p=pin.getLatLng();pin.bindPopup("Marker "+pin.pinId+"<br>"+p.lat.toFixed(5)+"°, "+p.lng.toFixed(5)+"°");}
  const activePointers=new Set();
  const removeControl=L.control({position:'topleft'});
@@ -247,19 +248,31 @@
  const container=map.getContainer();
  container.addEventListener('pointerdown',event=>{
   activePointers.add(event.pointerId);cancelHold();
-  if(activePointers.size!==1||event.button!==0||event.target.closest('.leaflet-control,.leaflet-marker-icon,.leaflet-popup,.leaflet-interactive,.distance-label-host'))return;
+  if(activePointers.size!==1||event.button!==0)return;
+  const heldPin=Array.from(pins).find(pin=>{const el=pin.getElement();return el&&(el===event.target||el.contains(event.target));});
+  if(heldPin){
+   origin={x:event.clientX,y:event.clientY,id:event.pointerId};
+   holdTimer=setTimeout(()=>{
+    holdTimer=null;origin=null;suppressClickUntil=Date.now()+1000;
+    select(heldPin);moveArmed=true;updateDistance();
+    status.textContent='Marker '+heldPin.pinId+' unlocked. Long press its new position.';
+   },650);
+   return;
+  }
+  if(event.target.closest('.leaflet-control,.leaflet-marker-icon,.leaflet-popup,.leaflet-interactive,.distance-label-host'))return;
   origin={x:event.clientX,y:event.clientY,id:event.pointerId};
   const point=map.mouseEventToLatLng(event);
   holdTimer=setTimeout(()=>{
    holdTimer=null;origin=null;
    suppressClickUntil=Date.now()+1000;
-   if(selected){
+   if(selected&&moveArmed){
+    moveArmed=false;
     selected.setLatLng(point);label(selected);selected.openPopup();
     status.textContent='';updateDistance();
    } else {
     const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false}).addTo(map);
     pin.pinId=nextId++;pins.add(pin);pinnedLines.add(pin);label(pin);
-    pin.on('click',()=>select(pin));
+    pin.on('click',()=>{if(Date.now()<suppressClickUntil)return;select(pin);});
     pin.on('add',()=>{});
     const element=pin.getElement();
     if(element){element.setAttribute('tabindex','0');element.setAttribute('role','button');element.setAttribute('aria-label','Select marker '+pin.pinId);element.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(pin);}});}
