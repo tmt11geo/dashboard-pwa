@@ -74,7 +74,7 @@
  const coordinates=()=>{const c=map.getCenter();document.querySelector('#coordinates').textContent=c.lat.toFixed(5)+'°, '+c.lng.toFixed(5)+'° · Zoom '+map.getZoom();};
  map.on('moveend zoomend',coordinates);coordinates();
  locate.disabled=false;
- locate.addEventListener('click',()=>{
+ function locateUser(){
   if(!navigator.geolocation){status.textContent='Location is unavailable in this browser.';return;}
   locate.disabled=true;status.textContent='Finding your location…';
   navigator.geolocation.getCurrentPosition(position=>{
@@ -88,7 +88,8 @@
    map.setView(point,map.getZoom());
    status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 30 pixels at every zoom. Tap the crosshair to update.';updateDistance();
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
- });
+ }
+ locate.addEventListener('click',locateUser);
  // User markers are separate from the GPS position.
  const pins=new Set();
  let moveArmed=false;
@@ -297,4 +298,5 @@
  map.on('zoomstart',cancelHold);
  map.on('click',()=>{if(Date.now()<suppressClickUntil)return;deselect();status.textContent='';});
 
+ locateUser();
 })();
