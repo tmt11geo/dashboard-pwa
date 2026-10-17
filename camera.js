@@ -1,10 +1,12 @@
-import {clamp,centre,guidance,makeLock,updateLock,contentRect,decode} from './camera-core.js?v=1';
+import {VisualTracker,grayFrame} from './camera-tracker.js?v=1';
+import {clamp,centre,guidance,makeLock,exitSide,contentRect,decode} from './camera-core.js?v=1';
 const $=id=>document.getElementById(id);
 const video=$('video'),canvas=$('overlay'),ctx=canvas.getContext('2d'),viewport=$('viewfinder');
 const capture=document.createElement('canvas'),pixels=capture.getContext('2d',{willReadFrequently:true});
 const labels='person,bicycle,car,motorcycle,airplane,bus,train,truck,boat,traffic light,fire hydrant,stop sign,parking meter,bench,bird,cat,dog,horse,sheep,cow,elephant,bear,zebra,giraffe,backpack,umbrella,handbag,tie,suitcase,frisbee,skis,snowboard,sports ball,kite,baseball bat,baseball glove,skateboard,surfboard,tennis racket,bottle,wine glass,cup,fork,knife,spoon,bowl,banana,apple,sandwich,orange,broccoli,carrot,hot dog,pizza,donut,cake,chair,couch,potted plant,bed,dining table,toilet,tv,laptop,mouse,remote,keyboard,cell phone,microwave,oven,toaster,sink,refrigerator,book,clock,vase,scissors,teddy bear,hair drier,toothbrush'.split(',');
 let stream=null,worker=null,ready=false,busy=false,running=false,generation=0,opening=false;
 let detections=[],lock=null,timer=null,watchdog=null,lastVideoTime=-1,lastFrameAt=0,drawHandle=0;
+let tracker=null,trackTimer=null,inferenceFrame=null,detectionFrame=null,lastTrackTime=-1;
 let ink='#a5edb4',amber='#dfbc7d';
 function theme(){
  try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}
@@ -31,7 +33,7 @@ function draw(){
  function box(d,selected){
   const b=d.box,left=r.x+b.x1*r.w,top=r.y+b.y1*r.h,bw=(b.x2-b.x1)*r.w,bh=(b.y2-b.y1)*r.h;
   ctx.strokeStyle=selected?amber:ink;ctx.lineWidth=selected?3:1.5;ctx.setLineDash(selected&&lock.missing?[6,5]:[]);ctx.strokeRect(left,top,bw,bh);ctx.setLineDash([]);
-  const text=(selected?'LOCK · ':'')+d.label+' '+Math.round(d.score*100)+'%';ctx.font='600 13px system-ui';
+  const text=(selected?'LOCK · ':'')+d.label+(selected?' · TRACKING':' '+Math.round(d.score*100)+'%');ctx.font='600 13px system-ui';
   const tw=ctx.measureText(text).width+12,tx=clamp(left,r.x,Math.max(r.x,r.x+r.w-tw)),ty=clamp(top-24,r.y,r.y+r.h-24);
   ctx.fillStyle='#000d';ctx.fillRect(tx,ty,tw,23);ctx.fillStyle=selected?amber:ink;ctx.fillText(text,tx+6,ty+16);
   if(selected&&!lock.missing){
@@ -58,19 +60,74 @@ function lockText(){
  if(!lock){$('lock-readout').textContent='NO LOCK · TAP AN OBJECT';return;}
  let state;
  if(lock.exit)state='LIKELY EXIT: '+lock.exit.replace('-', ' ').toUpperCase();
- else if(lock.lost)state='LOST · TAP TO REACQUIRE';
+ else if(lock.lost)state='LOST · RELEASE / SCAN TO REACQUIRE';
  else if(lock.missing)state='SEARCHING';
  else{const g=guidance(lock.box);state=g.centred?'CENTRED':[g.vertical,g.horizontal].filter(Boolean).join(' + ').toUpperCase();}
  $('lock-readout').textContent=lock.label.toUpperCase()+' · '+state;
 }
-function choose(d){lock=makeLock(d,performance.now());lockText();listSignature='';listObjects();}
+function pauseDetector(){
+ clearTimeout(watchdog);clearTimeout(timer);worker?.terminate();worker=null;ready=false;busy=false;
+}
+function trackingFrame(){
+ const scale=Math.min(1,320/Math.max(video.videoWidth,video.videoHeight));
+ const w=Math.max(1,Math.round(video.videoWidth*scale)),h=Math.max(1,Math.round(video.videoHeight*scale));
+ capture.width=w;capture.height=h;pixels.drawImage(video,0,0,w,h);
+ return grayFrame(pixels.getImageData(0,0,w,h).data,w,h);
+}
+function choose(d){
+ if(!running||lock)return;
+ pauseDetector();
+ lock=makeLock(d,performance.now());
+ tracker=detectionFrame?new VisualTracker(detectionFrame,d.box):null;
+ detections=[];listSignature='';listObjects();
+ $('model-status').textContent='Visual tracker · YOLO stopped';
+ $('status').textContent='Following only the locked object. Release / scan to find objects again.';
+ lastTrackTime=-1;
+ if(!tracker?.valid){
+  lock.lost=true;lock.missing=true;
+  $('status').textContent='Not enough visual detail to track this area. Release / scan and choose a textured object.';
+  $('rate').textContent='Tracking unavailable';
+ }else trackTimer=setTimeout(track,0);
+ lockText();
+}
+function track(){
+ if(!running||!lock||lock.lost||!tracker)return;
+ const started=performance.now();
+ try{
+  if(video.readyState>=2&&video.currentTime!==lastTrackTime){
+   lastTrackTime=video.currentTime;
+   const result=tracker.update(trackingFrame()),now=performance.now();
+   if(result){lock={...lock,box:result.box,seen:now,missing:false,exit:null};}
+   else{
+    const elapsed=now-lock.seen;
+    lock={...lock,missing:true,lost:elapsed>900,exit:elapsed>250?exitSide(lock.box):null};
+   }
+   lockText();
+   const elapsed=now-(lastFrameAt||now-66);lastFrameAt=now;
+   $('rate').textContent=(1000/Math.max(1,elapsed)).toFixed(1)+' tracking updates/s';
+   if(lock.lost){
+    $('status').textContent='Visual lock lost. Release / scan to find and select an object again.';
+    $('rate').textContent='Tracking lost · YOLO stopped';return;
+   }
+  }
+  trackTimer=setTimeout(track,Math.max(0,66-(performance.now()-started)));
+ }catch{
+  lock={...lock,lost:true,missing:true};lockText();
+  $('status').textContent='Tracker unavailable. Release / scan to retry.';
+ }
+}
+function releaseLock(){
+ clearTimeout(trackTimer);tracker=null;lock=null;detections=[];detectionFrame=null;lastVideoTime=-1;lastFrameAt=0;
+ $('exit-marker').hidden=true;lockText();listSignature='';listObjects();
+ if(running){$('status').textContent='Scanning for objects. Tap a box to lock and stop YOLO.';startDetector();}
+}
 let listSignature='';
 function listObjects(){
  // Keep buttons stable between frames so keyboard/touch activation isn't interrupted.
  const signature=detections.map(d=>d.label).join('|')+';'+(lock?.label||'')+';'+Boolean(lock?.lost);
  if(signature===listSignature)return;listSignature=signature;
  const host=$('objects');host.replaceChildren();
- if(!detections.length){const p=document.createElement('p');p.textContent=running?'No objects detected. Try better lighting or a lower confidence.':'No detections yet.';host.append(p);return;}
+ if(!detections.length){const p=document.createElement('p');p.textContent=lock?'YOLO stopped while locked. Use Release / scan to find objects.':running?'No objects detected. Try better lighting or a lower confidence.':'No detections yet.';host.append(p);return;}
  detections.forEach((d,i)=>{
   const button=document.createElement('button');button.type='button';button.textContent=d.label+' #'+(i+1);
   button.setAttribute('aria-label','Lock '+d.label+', object '+(i+1));
@@ -85,7 +142,7 @@ canvas.addEventListener('click',event=>{
  if(matches[0])choose(matches[0]);
 });
 function haltDetector(message){
- clearTimeout(watchdog);clearTimeout(timer);worker?.terminate();worker=null;ready=false;busy=false;
+ pauseDetector();clearTimeout(trackTimer);tracker=null;inferenceFrame=null;detectionFrame=null;
  detections=[];lock=null;lockText();listSignature='';listObjects();$('model-status').textContent=message;$('rate').textContent='— detections/s';
 }
 function stopCamera(message='Camera stopped. Tap Open camera to resume.'){
@@ -95,31 +152,32 @@ function stopCamera(message='Camera stopped. Tap Open camera to resume.'){
  $('exit-marker').hidden=true;$('placeholder').hidden=false;$('stop').disabled=true;$('start').disabled=false;$('camera-facing').disabled=false;
  $('status').textContent=message;
 }
-function schedule(){clearTimeout(timer);if(running&&ready)timer=setTimeout(detect,100);}
+function schedule(){clearTimeout(timer);if(running&&ready&&!lock)timer=setTimeout(detect,100);}
 function detect(){
- if(!running||!ready||busy||!worker)return;
+ if(!running||!ready||busy||!worker||lock)return;
  if(video.readyState<2||video.currentTime===lastVideoTime){schedule();return;}
  lastVideoTime=video.currentTime;
  const scale=640/Math.max(video.videoWidth,video.videoHeight),w=Math.max(1,Math.round(video.videoWidth*scale)),h=Math.max(1,Math.round(video.videoHeight*scale));
  capture.width=w;capture.height=h;pixels.drawImage(video,0,0,w,h);
- const frame=pixels.getImageData(0,0,w,h);busy=true;
+ const frame=pixels.getImageData(0,0,w,h);inferenceFrame=grayFrame(frame.data,w,h);busy=true;
  watchdog=setTimeout(()=>{haltDetector('Detection timed out. Stop and reopen the camera to retry.');},45000);
  worker.postMessage({type:'frame',generation,width:w,height:h,pixels:frame.data.buffer},[frame.data.buffer]);
 }
 function startDetector(){
  worker=new Worker(new URL('./camera-worker.js?v=1',import.meta.url));
+ const detector=worker;
  watchdog=setTimeout(()=>haltDetector('Model loading timed out. Check your connection, then stop and reopen to retry.'),180000);
- worker.onerror=()=>haltDetector('Detector could not start. Check network access to jsDelivr / Hugging Face, then reopen.');
+ worker.onerror=()=>{if(worker===detector&&!lock)haltDetector('Detector could not start. Check network access to jsDelivr / Hugging Face, then reopen.');};
  worker.onmessage=({data})=>{
-  if(!running)return;
+  if(!running||worker!==detector||lock)return;
   if(data.type==='progress')$('model-status').textContent=data.message;
   if(data.type==='ready'){clearTimeout(watchdog);ready=true;$('model-status').textContent='YOLOv10n · on-device';schedule();}
   if(data.type==='error'){haltDetector('Detection unavailable: '+data.message+'. Stop and reopen to retry.');}
   if(data.type==='detections'){
    clearTimeout(watchdog);busy=false;if(data.generation!==generation)return;
-   const now=performance.now();
+   const now=performance.now();detectionFrame=inferenceFrame;
    detections=decode(new Float32Array(data.output),data.width,data.height,Number($('confidence').value)/100).map(d=>({...d,label:labels[d.classId]||'object'}));
-   lock=updateLock(lock,detections,now);lockText();listObjects();
+   lockText();listObjects();
    $('rate').textContent=(1000/(now-(lastFrameAt||now-data.ms))).toFixed(1)+' detections/s';lastFrameAt=now;schedule();
   }
  };
@@ -146,7 +204,7 @@ async function openCamera(){
  }
 }
 $('start').addEventListener('click',openCamera);$('stop').addEventListener('click',()=>stopCamera());
-$('unlock').addEventListener('click',()=>{lock=null;$('exit-marker').hidden=true;lockText();listSignature='';listObjects();});
+$('unlock').addEventListener('click',releaseLock);
 $('confidence').addEventListener('input',()=>{$('confidence-value').value=$('confidence').value+'%';});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&(running||opening))stopCamera('Camera paused while the page was hidden. Tap Open camera to resume.');});
 window.addEventListener('pagehide',()=>stopCamera());

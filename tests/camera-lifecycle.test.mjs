@@ -13,7 +13,7 @@ test('camera start, detection, lock, hidden-page cleanup, and cancelled permissi
  const ids='video overlay viewfinder start stop camera-facing unlock status model-status confidence confidence-value placeholder lock-readout exit-marker rate objects'.split(' ');
  const elements=Object.fromEntries(ids.map(id=>[id,new Element()]));
  elements.confidence.value='45';elements['camera-facing'].value='environment';
- const context=new Proxy({measureText:t=>({width:t.length*7}),getImageData:()=>({data:new Uint8ClampedArray(640*360*4)})},{get:(o,k)=>o[k]||(()=>{})});
+ const context=new Proxy({measureText:t=>({width:t.length*7}),getImageData:(x,y,w,h)=>({data:Uint8ClampedArray.from({length:w*h*4},(_,i)=>i%4===3?255:((Math.floor(i/4)*13)%251))})},{get:(o,k)=>o[k]||(()=>{})});
  elements.overlay.getContext=()=>context;
  elements.viewfinder.clientWidth=400;elements.viewfinder.clientHeight=600;
  elements.video.videoWidth=1280;elements.video.videoHeight=720;elements.video.readyState=2;elements.video.currentTime=1;elements.video.play=async()=>{};
@@ -30,10 +30,19 @@ test('camera start, detection, lock, hidden-page cleanup, and cancelled permissi
  await import('../camera.js');
  await elements.start.fire('click');assert.equal(elements.placeholder.hidden,true);assert.equal(worker.messages[0].type,'init');
  worker.onmessage({data:{type:'ready'}});
+ await new Promise(resolve=>setTimeout(resolve,120));
+ assert.equal(worker.messages.filter(m=>m.type==='frame').length,1);
  // Deliver one inference result without relying on real hardware or network.
  worker.onmessage({data:{type:'detections',generation:1,width:640,height:360,ms:100,output:new Float32Array([200,100,400,240,.9,41]).buffer}});
  assert.equal(elements.objects.children.length,1);
  await elements.objects.children[0].fire('click');assert.match(elements['lock-readout'].textContent,/CUP/);assert.equal(elements.unlock.disabled,false);
+ const paused=worker;assert.equal(paused.terminated,true);
+ await new Promise(resolve=>setTimeout(resolve,120));
+ assert.equal(paused.messages.filter(m=>m.type==='frame').length,1,'no YOLO frames during lock');
+ paused.onmessage({data:{type:'error',message:'late result'}});
+ assert.match(elements['lock-readout'].textContent,/CUP/,'late detector events ignored');
+ await elements.unlock.fire('click');
+ assert.notEqual(worker,paused);assert.equal(worker.messages[0].type,'init','release restarts detection');
  doc.hidden=true;await doc.fire('visibilitychange');assert.equal(stopped,1);assert.equal(worker.terminated,true);assert.equal(elements.video.srcObject,null);assert.equal(elements.start.disabled,false);
  // Stop while the permission dialog is pending: the late stream must also close.
  doc.hidden=false;let resolvePermission;navigator.mediaDevices.getUserMedia=()=>new Promise(resolve=>{resolvePermission=resolve;});
