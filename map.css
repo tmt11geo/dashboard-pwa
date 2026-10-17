@@ -23,3 +23,5 @@
 .distance-label,.distance-label.compact{color:#d5ffe0;background:rgba(7,20,12,.5);border:1px solid #91c79f;font-weight:600;text-shadow:0 1px 2px #000,0 0 3px #000}
 .distance-label.active{color:#e5ffeb;border-color:#c4f5b5}
 .distance-label.inactive{opacity:1;color:#a6c6ae;border-color:#597d64;background:rgba(7,20,12,.35)}
+
+.distance-label,.distance-label.compact{border-style:dashed}.distance-label.pinned{border-style:solid}

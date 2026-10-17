@@ -102,11 +102,50 @@
   return (Math.atan2(y,x)/rad+360)%360;
  }
  const formatBearing=value=>String(Math.round(value)%360).padStart(3,'0')+'°';
+
+ // Clip a screen-space line to the map viewport.
+ function visibleSegment(a,b,width,height){
+  const dx=b.x-a.x,dy=b.y-a.y;let lo=0,hi=1;
+  for(const [p,q] of [[-dx,a.x],[dx,width-a.x],[-dy,a.y],[dy,height-a.y]]){
+   if(p===0){if(q<0)return null;continue;}
+   const t=q/p;if(p<0)lo=Math.max(lo,t);else hi=Math.min(hi,t);
+   if(lo>hi)return null;
+  }
+  return {a:{x:a.x+lo*dx,y:a.y+lo*dy},b:{x:a.x+hi*dx,y:a.y+hi*dy},lo,hi};
+ }
+ function labelPosition(a,b,size,width,height,occupied){
+  const seg=visibleSegment(a,b,size.x,size.y);if(!seg)return null;
+  const outside=p=>p.x<0||p.y<0||p.x>size.x||p.y>size.y;
+  const offA=outside(a),offB=outside(b),edge=offA||offB;
+  const anchor=offB?seg.b:offA?seg.a:{x:(seg.a.x+seg.b.x)/2,y:(seg.a.y+seg.b.y)/2};
+  const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy),nx=len?-dy/len:0,ny=len?dx/len:-1;
+  const clearance=Math.abs(nx)*width/2+Math.abs(ny)*height/2+10;
+  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+  const candidates=[];
+  for(const side of [1,-1])for(const step of [0,1,-1,2,-2,3,-3]){
+   const shift=step*(height+12);
+   let x=anchor.x+nx*clearance*side+(len?dx/len*shift:shift);
+   let y=anchor.y+ny*clearance*side+(len?dy/len*shift:0);
+   x=clamp(x,width/2+8,size.x-width/2-8);y=clamp(y,height/2+8,size.y-height/2-8);
+   const rect={left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
+   const overlap=r=>Math.max(0,Math.min(rect.right,r.right)-Math.max(rect.left,r.left))*Math.max(0,Math.min(rect.bottom,r.bottom)-Math.max(rect.top,r.top));
+   let score=Math.hypot(x-anchor.x,y-anchor.y);
+   for(const r of occupied)score+=overlap(r)*20;
+   score+=overlap({left:0,right:72,top:0,bottom:260})*40;
+   const lineDistance=len?Math.abs((x-a.x)*dy-(y-a.y)*dx)/len:Math.hypot(x-a.x,y-a.y);
+   score+=Math.max(0,clearance-lineDistance)*15;
+   if(edge)score+=Math.min(x-width/2,size.x-x-width/2,y-height/2,size.y-y-height/2)*4;
+   candidates.push({x,y,rect,score});
+  }
+  candidates.sort((a,b)=>a.score-b.score);occupied.push(candidates[0].rect);return candidates[0];
+ }
+
  function updateDistance(){
   clearDistance();
   for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1}:{...normalStyle,opacity:.45,fillOpacity:.4});
   if(!marker){if(selected)status.textContent='';return;}
-  const targets=new Set(pinnedLines);if(selected)targets.add(selected);
+  const targets=new Set();if(selected)targets.add(selected);for(const pin of pinnedLines)targets.add(pin);
+  const occupied=[];
   for(const pin of targets){
    const from=marker.getLatLng(),to=pin.getLatLng(),metres=map.distance(from,to),pinned=pinnedLines.has(pin);
    const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
@@ -115,10 +154,11 @@
    const zoom=map.getZoom(),compact=zoom<=12;
    const fontSize=zoom<=8?7:zoom<=10?8:compact?9:12;
    const boxWidth=compact?132:200,boxHeight=compact?22:34;
+   const a=map.latLngToContainerPoint(from),b=map.latLngToContainerPoint(to);
+   const placement=labelPosition(a,b,map.getSize(),boxWidth,boxHeight,occupied);
+   if(!placement)continue;
+   const mid=map.containerPointToLatLng(L.point(placement.x,placement.y));
    const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
-   const a=map.project(from),b=map.project(to),dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy);
-   const nx=length?-dy/length:0,ny=length?dx/length:-1,offset=Math.abs(nx)*(boxWidth/2)+Math.abs(ny)*(boxHeight/2)+10;
-   const mid=map.unproject(L.point((a.x+b.x)/2+nx*offset,(a.y+b.y)/2+ny*offset));
    const box=document.createElement('button');box.type='button';box.className='distance-label'+(pinned?' pinned':'')+(active?' active':' inactive');box.setAttribute('aria-pressed',String(pinned));
    box.title='Tap to '+(pinned?'unpin':'pin')+' this distance line';
    box.textContent=(compact?'':'M'+pin.pinId+' · ')+(compact?(metres/1000).toFixed(1)+' km':text)+' · '+bearings;
@@ -131,7 +171,7 @@
   }
  }
  map.on('movestart zoomstart',()=>map.getContainer().classList.add('map-in-motion'));
- map.on('moveend zoomend',()=>{if(!mapMoving&&!mapZooming){map.getContainer().classList.remove('map-in-motion');updateDistance();}});
+ map.on('moveend zoomend resize',()=>{if(!mapMoving&&!mapZooming){map.getContainer().classList.remove('map-in-motion');updateDistance();}});
 
  const normalStyle={radius:10,color:"#c3ffd0",weight:2,fillColor:"#91e8a7",fillOpacity:.95};
  function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();updateDistance();}
