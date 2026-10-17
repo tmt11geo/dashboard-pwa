@@ -140,7 +140,14 @@
    const overlap=r=>Math.max(0,Math.min(rect.right,r.right)-Math.max(rect.left,r.left))*Math.max(0,Math.min(rect.bottom,r.bottom)-Math.max(rect.top,r.top));
    if(controls.some(r=>overlap(r)>0))continue;
    let score=Math.hypot(x-anchor.x,y-anchor.y);
-   for(const r of occupied)score+=overlap(r)*20;
+   for(const r of occupied){
+    score+=overlap(r)*100;
+    // Repel nearby boxes even when their rectangles do not overlap.
+    const gapX=Math.max(0,r.left-rect.right,rect.left-r.right);
+    const gapY=Math.max(0,r.top-rect.bottom,rect.top-r.bottom);
+    const gap=Math.hypot(gapX,gapY);
+    score+=Math.pow(Math.max(0,52-gap),2)*.35;
+   }
 
    const lineDistance=len?Math.abs((x-a.x)*dy-(y-a.y)*dx)/len:Math.hypot(x-a.x,y-a.y);
    score+=Math.max(0,clearance-lineDistance)*15;
