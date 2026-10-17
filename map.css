@@ -33,3 +33,5 @@
 .install-panel{margin:24px 0 8px;padding-top:16px;border-top:1px solid #2a4934}.install-buttons{display:flex;gap:10px;flex-wrap:wrap}.install-buttons button{flex:1;min-width:180px}.install-panel .note:empty{display:none}
 
 .tracking-options{display:flex;gap:24px;flex-wrap:wrap;margin:16px 0;color:#b9dec3}.tracking-options label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}.tracking-options input{width:20px;height:20px;accent-color:#91e8a7}
+
+.location-control .map-toggle{display:flex;align-items:center;justify-content:center;color:#a5edb4;font-size:16px;border-top:1px solid #34513c;border-radius:0}.location-control .map-toggle:last-child{border-radius:0 0 3px 3px}.location-control .map-toggle.is-active{background:#345c40;color:#e2ffea;box-shadow:inset 3px 0 #a5edb4}.location-control .locate-target{border-radius:3px 3px 0 0}

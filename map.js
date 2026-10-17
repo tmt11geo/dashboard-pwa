@@ -27,13 +27,23 @@
  document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(60);applyContrast(150);try{localStorage.removeItem('tmt11-map-brightness-green-v2');localStorage.removeItem('tmt11-map-contrast-green-v2');}catch{}});
 
  const map=L.map('map',{zoomControl:false,tapHold:false}).setView([61.48,23.63],11);
- let locate;
+ let locate,tracking,follow;
  const locationControl=L.control({position:'topleft'});
  locationControl.onAdd=()=>{
   const box=L.DomUtil.create('div','leaflet-bar marker-control location-control');
   locate=L.DomUtil.create('button','locate-target',box);
   locate.type='button';locate.innerHTML="<svg viewBox=\"0 0 32 32\" width=\"28\" height=\"28\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"16\" cy=\"16\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M16 2v8m0 12v8M2 16h8m12 0h8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"16\" cy=\"16\" r=\"3\" fill=\"currentColor\"/></svg>";locate.title='Locate me';locate.setAttribute('aria-label','Locate me');
   L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
+  function toggleButton(name,icon){
+   const button=L.DomUtil.create('button','map-toggle',box);
+   button.type='button';button.innerHTML=icon;
+   Object.defineProperty(button,'checked',{get(){return button.getAttribute('aria-pressed')==='true';},set(value){button.setAttribute('aria-pressed',String(Boolean(value)));button.classList.toggle('is-active',Boolean(value));button.title=name+': '+(value?'on':'off');button.setAttribute('aria-label',name);}});
+   button.checked=false;
+   button.addEventListener('click',()=>{button.checked=!button.checked;button.dispatchEvent(new Event('change'));});
+   return button;
+  }
+  tracking=toggleButton('Tracking',"<svg viewBox=\"0 0 32 32\" width=\"25\" height=\"25\" aria-hidden=\"true\"><circle cx=\"16\" cy=\"16\" r=\"3\" fill=\"currentColor\"/><circle cx=\"16\" cy=\"16\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M6 6a14 14 0 0 0 0 20M26 6a14 14 0 0 1 0 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>");
+  follow=toggleButton('Follow me',"<svg viewBox=\"0 0 32 32\" width=\"25\" height=\"25\" aria-hidden=\"true\"><path d=\"M16 5 25 26 16 21 7 26Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/><path d=\"M3 13V6h7m19 7V6h-7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg>");
   return box;
  };
  locationControl.addTo(map);
@@ -75,7 +85,7 @@
  map.on('moveend zoomend',coordinates);coordinates();
  locate.disabled=false;
 
- const tracking=document.querySelector('#tracking'),follow=document.querySelector('#follow-me');
+
  let watchId=null,lastTrackDraw=0,pendingPosition=null,trackTimer=null;
  function showPosition(position,recenter){
   const {latitude,longitude,accuracy}=position.coords,point=[latitude,longitude];
