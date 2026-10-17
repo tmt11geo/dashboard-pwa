@@ -67,3 +67,5 @@ body[data-theme="red"] #map .distance-label.inactive{color:#b48b46;border-color:
 body[data-theme="red"] #map .distance-label.pinned{box-shadow:none}
 
 body[data-theme="red"] #map .leaflet-overlay-pane path.distance-ants{stroke-width:3.5px}body[data-theme="red"] #map .leaflet-overlay-pane path.location-pulse{filter:none;stroke:#c9a362;stroke-width:2.5px}body[data-theme="red"] #map .leaflet-overlay-pane path.location-boundary{filter:none;stroke:#a9874e;fill:#b48b46}
+
+body[data-theme="red"] #map .distance-ants.inactive-measurement{stroke-opacity:.65}body[data-theme="red"] #map .distance-ants.active-measurement{stroke-opacity:1}

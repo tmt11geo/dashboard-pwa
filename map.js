@@ -289,7 +289,7 @@
    const placement=labelPosition(a,b,map.getSize(),boxWidth,boxHeight,occupied,controls);
    if(!placement)continue;
    const mid=map.containerPointToLatLng(L.point(placement.x,placement.y));
-   const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
+   const line=L.polyline([from,to],{color:pinned?'#c4f5b5':'#a4e8b6',weight:2,opacity:active?.9:.3,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'+(active?' active-measurement':' inactive-measurement')}).addTo(map);
    L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
    box.addEventListener('click',event=>{event.stopPropagation();if(pinnedLines.has(pin))pinnedLines.delete(pin);else pinnedLines.add(pin);updateDistance();});
    const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[boxWidth,boxHeight],iconAnchor:[boxWidth/2,boxHeight/2]})}).addTo(map);
