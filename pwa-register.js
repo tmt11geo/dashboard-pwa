@@ -5,9 +5,14 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js',{sc
  const android=document.querySelector('#install-android'),iphone=document.querySelector('#install-iphone'),help=document.querySelector('#install-help');
  if(!android||!iphone||!help)return;
  const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
- const showInstalled=()=>{if(standalone()){help.textContent='Tactical is running as an installed app.';return true;}return false;};
+ const panel=android.closest('.install-panel');
+ const syncInstallVisibility=()=>{if(panel)panel.hidden=standalone();};
+ const showInstalled=()=>{syncInstallVisibility();return standalone();};
+ const displayMode=window.matchMedia('(display-mode: standalone)');
+ displayMode.addEventListener('change',syncInstallVisibility);
+ window.addEventListener('pageshow',syncInstallVisibility);
  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();pendingInstall=event;});
- window.addEventListener('appinstalled',()=>{pendingInstall=null;help.textContent='Tactical installed. Open it from your home screen or app drawer.';});
+ window.addEventListener('appinstalled',()=>{pendingInstall=null;syncInstallVisibility();help.textContent='Tactical installed. Open it from your home screen or app drawer.';});
  android.addEventListener('click',async()=>{
   if(showInstalled())return;
   if(!pendingInstall){help.textContent='Open Tactical in Chrome on Android. Tap ⋮ → Add to Home screen → Install. If you see Open in app, Tactical is already installed.';return;}
