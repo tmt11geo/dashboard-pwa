@@ -15,7 +15,7 @@
 
  const shade=document.querySelector('#map-shade'),shadeValue=document.querySelector('#shade-value');
  function applyShade(value){
-  const n=Math.min(105,Math.max(45,Number(value)||60));
+  const n=Math.min(themeSelect.value==='red'?155:105,Math.max(45,Number(value)||60));
   shade.value=String(n);shadeValue.value=n+'%';shadeValue.textContent=n+'%';
   document.querySelector('#map').style.setProperty('--map-brightness',String(n/100));
  }
@@ -35,9 +35,10 @@
  contrast.addEventListener('input',()=>{applyContrast(contrast.value);try{localStorage.setItem(shadingKey('contrast'),contrast.value);}catch{}});
 
  function shadingKey(kind){return 'tmt11-map-'+kind+'-'+(themeSelect.value==='red'?'red-v2':'green-v2');}
- function defaultBrightness(){return themeSelect.value==='red'?85:60;}
+ function defaultBrightness(){return themeSelect.value==='red'?100:60;}
  function defaultContrast(){return themeSelect.value==='red'?120:150;}
  function loadThemeShading(){
+  shade.max=themeSelect.value==='red'?'155':'105';
   let brightness=defaultBrightness(),detail=defaultContrast();
   try{const b=localStorage.getItem(shadingKey('brightness')),c=localStorage.getItem(shadingKey('contrast'));if(b!==null)brightness=b;if(c!==null)detail=c;}catch{}
   applyShade(brightness);applyContrast(detail);
