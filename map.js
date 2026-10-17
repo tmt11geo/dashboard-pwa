@@ -117,7 +117,7 @@
   }else{
    circle=L.circleMarker(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
    pulseLayers=[0,1].map(()=>L.circleMarker(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
-   marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map);
+   marker=L.circleMarker(point,{className:'location-dot',radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map);
    restartPulse();
   }
   marker.bindPopup('Your location · accuracy about '+Math.round(accuracy)+' m');
@@ -248,6 +248,7 @@
   updateCompass();
   clearDistance();
   for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1,dashArray:moveArmed?'3 3':null}:{...normalStyle,opacity:.45,fillOpacity:.4,dashArray:null});
+  for(const pin of pins)pin.getElement()?.classList.toggle('selected-pin',pin===selected);
   if(!marker){if(selected)status.textContent='';return;}
   const targets=new Set();if(selected)targets.add(selected);for(const pin of pinnedLines)targets.add(pin);
   const occupied=[];
@@ -353,7 +354,7 @@
     selected.setLatLng(point);label(selected);selected.openPopup();
     status.textContent='';updateDistance();
    } else {
-    const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false}).addTo(map);
+    const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false,className:'user-pin'}).addTo(map);
     pin.pinId=nextId++;pins.add(pin);pinnedLines.add(pin);label(pin);
     pin.on('click',()=>{if(Date.now()<suppressClickUntil)return;select(pin);});
     pin.on('add',()=>{});

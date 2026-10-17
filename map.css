@@ -42,3 +42,8 @@
 body[data-theme="red"]{background:#100707}body[data-theme="red"]>header,body[data-theme="red"]>main{filter:url(#red-scheme)}
 
 body[data-theme="red"] #map .leaflet-tile-pane{filter:url(#tactical-red-map) brightness(var(--map-brightness,.85))}
+
+/* Bright source tones survive the final red palette conversion. */
+body[data-theme="red"] #map .user-pin{fill:#ffe0d0;fill-opacity:.88;stroke:#fff4e9;stroke-opacity:.9;stroke-width:2.5;opacity:.85;filter:drop-shadow(0 0 2px #ffb8a0)}
+body[data-theme="red"] #map .user-pin.selected-pin{fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3.5;opacity:1}
+body[data-theme="red"] #map .location-dot{fill:#fff2dc;fill-opacity:1;stroke:#ffffff;stroke-width:2.5;opacity:1;filter:drop-shadow(0 0 3px #ffd0b0)}
