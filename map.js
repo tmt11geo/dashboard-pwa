@@ -86,15 +86,35 @@
    marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location · 30 px display radius (not GPS accuracy)');
    restartPulse();
    map.setView(point,map.getZoom());
-   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 30 pixels at every zoom. Tap the crosshair to update.';
+   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 30 pixels at every zoom. Tap the crosshair to update.';updateDistance();
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  });
  // User markers are separate from the GPS position.
  const pins=new Set();
  let selected=null,nextId=1,holdTimer=null,origin=null,suppressClickUntil=0;
+
+ let distanceLine=null,distanceLabel=null;
+ function clearDistance(){
+  if(distanceLine)map.removeLayer(distanceLine);
+  if(distanceLabel)map.removeLayer(distanceLabel);
+  distanceLine=null;distanceLabel=null;
+ }
+ function updateDistance(){
+  clearDistance();
+  if(!selected)return;
+  if(!marker){status.textContent='Tap the crosshair to measure from your location to marker '+selected.pinId+'.';return;}
+  const from=marker.getLatLng(),to=selected.getLatLng(),metres=map.distance(from,to);
+  const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
+  distanceLine=L.polyline([from,to],{color:'#a4e8b6',weight:2,opacity:.8,dashArray:'4 8',lineCap:'round',interactive:false,className:'distance-ants'}).addTo(map);
+  const a=map.project(from),b=map.project(to),mid=map.unproject(L.point((a.x+b.x)/2,(a.y+b.y)/2));
+  distanceLabel=L.marker(mid,{interactive:false,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:'<span class="distance-label">'+text+'<small>straight line</small></span>',iconSize:[110,44],iconAnchor:[55,22]})}).addTo(map);
+ }
+ map.on('movestart zoomstart',()=>map.getContainer().classList.add('map-in-motion'));
+ map.on('moveend zoomend',()=>{if(!mapMoving&&!mapZooming)map.getContainer().classList.remove('map-in-motion');});
+
  const normalStyle={radius:10,color:"#c3ffd0",weight:2,fillColor:"#91e8a7",fillOpacity:.95};
- function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();}
- function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent="Marker "+pin.pinId+" selected. Long press elsewhere to move it; × removes it. Tap empty map to deselect and add more.";}
+ function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();clearDistance();}
+ function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent="Marker "+pin.pinId+" selected. Long press elsewhere to move it; × removes it. Tap empty map to deselect and add more.";updateDistance();}
  function label(pin){const p=pin.getLatLng();pin.bindPopup("Marker "+pin.pinId+"<br>"+p.lat.toFixed(5)+"°, "+p.lng.toFixed(5)+"°");}
  const activePointers=new Set();
  const removeControl=L.control({position:'topleft'});
@@ -124,7 +144,7 @@
    suppressClickUntil=Date.now()+1000;
    if(selected){
     selected.setLatLng(point);label(selected);selected.openPopup();
-    status.textContent='Marker '+selected.pinId+' moved. Tap empty map to deselect, or × to remove it.';
+    status.textContent='Marker '+selected.pinId+' moved. Tap empty map to deselect, or × to remove it.';updateDistance();
    } else {
     const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false}).addTo(map);
     pin.pinId=nextId++;pins.add(pin);label(pin);

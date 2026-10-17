@@ -10,3 +10,5 @@
 .shader-panel{margin-top:16px}.location-control .locate-target{font-size:23px;color:#b5f8c6}
 
 .location-control .locate-target{display:flex!important;align-items:center;justify-content:center;color:#a5edb4}.locate-target svg{display:block}
+
+.distance-ants{animation:distance-march 1.8s linear infinite}@keyframes distance-march{to{stroke-dashoffset:-24}}.map-in-motion .distance-ants{animation-play-state:paused}.distance-label-host{background:none;border:0;pointer-events:none}.distance-label{display:block;text-align:center;border:1px solid #517d5d;border-radius:8px;background:rgba(7,20,12,.92);color:#c3f5ce;padding:5px 8px;font:600 14px/1.2 system-ui;white-space:nowrap;box-shadow:0 2px 8px #0008}.distance-label small{display:block;font-size:10px;font-weight:400;color:#9cbea5;margin-top:2px}@media(prefers-reduced-motion:reduce){.distance-ants{animation:none}}
