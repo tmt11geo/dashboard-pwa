@@ -39,7 +39,7 @@
 .compass-toggle{display:flex!important;align-items:center;justify-content:center;color:#a5edb4}.compass-toggle.is-active{background:#345c40;color:#e2ffea;box-shadow:inset 3px 0 #a5edb4}.compass-panel{width:124px;padding:6px;background:rgba(7,20,12,.82);border:1px solid #50745a;border-radius:12px;text-align:center;color:#c3ffd0}.compass-panel[hidden]{display:none}.compass-panel svg{display:block;margin:auto}.compass-heading{display:block;font-size:19px;margin-top:-48px;position:relative;pointer-events:none}.compass-note{display:block;font-size:10px;line-height:1.3;margin-top:28px;color:#9dc4a8}.north-needle,.target-needle{transform-origin:0 0;transform-box:view-box}
 
 /* A final luminance-to-red pass recolours all map overlays and UI consistently. */
-body[data-theme="red"]{background:#100707}body[data-theme="red"]>header,body[data-theme="red"]>main{filter:url(#red-scheme)}
+body[data-theme="red"]{background:#100707}body[data-theme="red"]>header,body[data-theme="red"]>main>:not(#map){filter:url(#red-scheme)}
 
 body[data-theme="red"] #map .leaflet-tile-pane{filter:url(#tactical-red-map) brightness(var(--map-brightness,.85))}
 
@@ -47,3 +47,12 @@ body[data-theme="red"] #map .leaflet-tile-pane{filter:url(#tactical-red-map) bri
 body[data-theme="red"] #map .user-pin{fill:#ffe0d0;fill-opacity:.88;stroke:#fff4e9;stroke-opacity:.9;stroke-width:2.5;opacity:.85;filter:drop-shadow(0 0 2px #ffb8a0)}
 body[data-theme="red"] #map .user-pin.selected-pin{fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:3.5;opacity:1}
 body[data-theme="red"] #map .location-dot{fill:#fff2dc;fill-opacity:1;stroke:#ffffff;stroke-width:2.5;opacity:1;filter:drop-shadow(0 0 3px #ffd0b0)}
+
+/* Apply red to map components separately so dots can keep an amber accent. */
+body[data-theme="red"] #map{background:#120909;border-color:#49302a}
+body[data-theme="red"] #map .leaflet-tile-pane{filter:url(#tactical-red-map) brightness(var(--map-brightness,1)) url(#red-scheme)}
+body[data-theme="red"] #map .leaflet-control,body[data-theme="red"] #map .leaflet-marker-pane,body[data-theme="red"] #map .leaflet-popup-pane{filter:url(#red-scheme)}
+body[data-theme="red"] #map .leaflet-overlay-pane path:not(.user-pin):not(.location-dot){filter:url(#red-scheme)}
+body[data-theme="red"] #map .user-pin{fill:#b48b46;fill-opacity:.85;stroke:#c9a362;stroke-opacity:.9;opacity:.9;filter:none}
+body[data-theme="red"] #map .user-pin.selected-pin{fill:#d0a65d;fill-opacity:1;stroke:#dfbc7d;stroke-opacity:1;opacity:1;filter:none}
+body[data-theme="red"] #map .location-dot{fill:#d0a65d;stroke:#dfbc7d;fill-opacity:1;opacity:1;filter:none}
