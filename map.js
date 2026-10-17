@@ -140,6 +140,17 @@
   candidates.sort((a,b)=>a.score-b.score);occupied.push(candidates[0].rect);return candidates[0];
  }
 
+
+ function leaderEndpoints(center,a,b,width,height){
+  const dx=b.x-a.x,dy=b.y-a.y,length2=dx*dx+dy*dy;
+  const t=length2?Math.max(0,Math.min(1,((center.x-a.x)*dx+(center.y-a.y)*dy)/length2)):0;
+  const junction={x:a.x+t*dx,y:a.y+t*dy};
+  const vx=junction.x-center.x,vy=junction.y-center.y;
+  if(Math.abs(vx)<=width/2&&Math.abs(vy)<=height/2)return null;
+  const factor=Math.min(vx?width/2/Math.abs(vx):Infinity,vy?height/2/Math.abs(vy):Infinity);
+  return {edge:{x:center.x+vx*factor,y:center.y+vy*factor},junction};
+ }
+
  function updateDistance(){
   clearDistance();
   for(const pin of pins)pin.setStyle(pin===selected?{radius:12,color:'#e0ffe7',weight:3,opacity:1,fillColor:'#adffc1',fillOpacity:1}:{...normalStyle,opacity:.45,fillOpacity:.4});
@@ -171,6 +182,15 @@
    L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
    box.addEventListener('click',event=>{event.stopPropagation();if(pinnedLines.has(pin))pinnedLines.delete(pin);else pinnedLines.add(pin);updateDistance();});
    const label=L.marker(mid,{interactive:true,keyboard:false,icon:L.divIcon({className:'distance-label-host',html:box,iconSize:[boxWidth,boxHeight],iconAnchor:[boxWidth/2,boxHeight/2]})}).addTo(map);
+   const segment=visibleSegment(a,b,map.getSize().x,map.getSize().y);
+   const leader=segment&&leaderEndpoints(placement,segment.a,segment.b,boxWidth,boxHeight);
+   if(leader){
+    const edge=map.containerPointToLatLng(L.point(leader.edge.x,leader.edge.y));
+    const junction=map.containerPointToLatLng(L.point(leader.junction.x,leader.junction.y));
+    const connector=L.polyline([edge,junction],{color:'#b5e9be',weight:1,opacity:active?.8:.3,interactive:false,className:'distance-leader'}).addTo(map);
+    const dot=L.circleMarker(junction,{radius:2.5,color:'#b5e9be',weight:0,fillColor:'#b5e9be',fillOpacity:active?.9:.35,interactive:false,className:'distance-leader'}).addTo(map);
+    distanceLayers.push(connector,dot);
+   }
    distanceLayers.push(line,label);
   }
  }
