@@ -25,8 +25,13 @@
    status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m. Tap Locate me to update.';
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  });
- // One user pin, separate from the GPS position.
- let pin=null,holdTimer=null,origin=null;
+ // User markers are separate from the GPS position.
+ const pins=new Set();
+ let selected=null,nextId=1,holdTimer=null,origin=null,suppressClickUntil=0;
+ const normalStyle={radius:10,color:"#c3ffd0",weight:2,fillColor:"#91e8a7",fillOpacity:.95};
+ function deselect(){if(selected)selected.setStyle(normalStyle);selected=null;removeButton.disabled=true;map.closePopup();}
+ function select(pin){if(selected)selected.setStyle(normalStyle);selected=pin;pin.setStyle({radius:13,color:"#ffffff",weight:4,fillColor:"#adffc1",fillOpacity:1});removeButton.disabled=false;pin.openPopup();status.textContent="Marker "+pin.pinId+" selected. Long press elsewhere to move it; × removes it. Tap empty map to deselect and add more.";}
+ function label(pin){const p=pin.getLatLng();pin.bindPopup("Marker "+pin.pinId+"<br>"+p.lat.toFixed(5)+"°, "+p.lng.toFixed(5)+"°");}
  const activePointers=new Set();
  const removeControl=L.control({position:'topleft'});
  let removeButton;
@@ -34,11 +39,11 @@
   const box=L.DomUtil.create('div','leaflet-bar marker-control');
   removeButton=L.DomUtil.create('button','remove-marker',box);
   removeButton.type='button';removeButton.textContent='×';
-  removeButton.title='Remove marker';removeButton.setAttribute('aria-label','Remove placed marker');removeButton.disabled=true;
+  removeButton.title='Remove selected marker';removeButton.setAttribute('aria-label','Remove selected marker');removeButton.disabled=true;
   L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
   removeButton.addEventListener('click',()=>{
-   if(pin){map.removeLayer(pin);pin=null;}
-   removeButton.disabled=true;status.textContent='Marker removed. Long press the map to place another.';
+   if(selected){const pin=selected;deselect();map.removeLayer(pin);pins.delete(pin);}
+   status.textContent='Marker removed. Long press to add another, or tap an existing marker to select it.';
   });
   return box;
  };
@@ -47,15 +52,24 @@
  const container=map.getContainer();
  container.addEventListener('pointerdown',event=>{
   activePointers.add(event.pointerId);cancelHold();
-  if(activePointers.size!==1||event.button!==0||event.target.closest('.leaflet-control,.leaflet-marker-icon,.leaflet-popup'))return;
+  if(activePointers.size!==1||event.button!==0||event.target.closest('.leaflet-control,.leaflet-marker-icon,.leaflet-popup,.leaflet-interactive'))return;
   origin={x:event.clientX,y:event.clientY,id:event.pointerId};
   const point=map.mouseEventToLatLng(event);
   holdTimer=setTimeout(()=>{
    holdTimer=null;origin=null;
-   if(pin)map.removeLayer(pin);
-   pin=L.circleMarker(point,{radius:10,color:'#ffe4aa',weight:3,fillColor:'#edb75f',fillOpacity:1}).addTo(map);
-   pin.bindPopup('Placed marker<br>'+point.lat.toFixed(5)+'°, '+point.lng.toFixed(5)+'°').openPopup();
-   removeButton.disabled=false;status.textContent='Marker placed. Long press elsewhere to move it, or use × below the zoom buttons to remove it.';
+   suppressClickUntil=Date.now()+1000;
+   if(selected){
+    selected.setLatLng(point);label(selected);selected.openPopup();
+    status.textContent='Marker '+selected.pinId+' moved. Tap empty map to deselect, or × to remove it.';
+   } else {
+    const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false}).addTo(map);
+    pin.pinId=nextId++;pins.add(pin);label(pin);
+    pin.on('click',()=>select(pin));
+    pin.on('add',()=>{});
+    const element=pin.getElement();
+    if(element){element.setAttribute('tabindex','0');element.setAttribute('role','button');element.setAttribute('aria-label','Select marker '+pin.pinId);element.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(pin);}});}
+    status.textContent='Marker '+pin.pinId+' added. Long press to add more. Tap a marker to select, move or remove it.';
+   }
   },650);
  });
  container.addEventListener('pointermove',event=>{
@@ -66,5 +80,6 @@
  window.addEventListener('blur',()=>{activePointers.clear();cancelHold();});
  container.addEventListener('contextmenu',event=>{if(!event.target.closest('.leaflet-control'))event.preventDefault();});
  map.on('zoomstart',cancelHold);
+ map.on('click',()=>{if(Date.now()<suppressClickUntil)return;deselect();status.textContent='Long press to add a marker. Tap an existing marker to move or remove it.';});
 
 })();
