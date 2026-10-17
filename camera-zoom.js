@@ -24,7 +24,7 @@ export function cropGray(frame,region,maxEdge=320){
  const sw=frame.width*(region.x2-region.x1),sh=frame.height*(region.y2-region.y1),scale=Math.min(1,maxEdge/Math.max(sw,sh));
  const width=Math.max(1,Math.round(sw*scale)),height=Math.max(1,Math.round(sh*scale)),data=new Uint8Array(width*height);
  for(let y=0;y<height;y++)for(let x=0;x<width;x++){
-  const sx=clamp(Math.floor(region.x1*frame.width+x/scale),0,frame.width-1),sy=clamp(Math.floor(region.y1*frame.height+y/scale),0,frame.height-1);
+  const sx=clamp(Math.floor(region.x1*frame.width+(x+.5)*sw/width),0,frame.width-1),sy=clamp(Math.floor(region.y1*frame.height+(y+.5)*sh/height),0,frame.height-1);
   data[y*width+x]=frame.data[sy*frame.width+sx];
  }
  return {data,width,height};

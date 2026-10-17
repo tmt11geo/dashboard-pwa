@@ -24,7 +24,7 @@ test('unlabelled manual selection works after zoom; small/blank/cancelled boxes 
  const doc=new Element();Object.assign(doc,{hidden:false,body:new Element(),getElementById:id=>els[id],querySelector:()=>new Element(),createElement:tag=>tag==='canvas'?{getContext:()=>ctx}:new Element()});globalThis.document=doc;globalThis.window=new Element();globalThis.localStorage={getItem:()=>null};globalThis.getComputedStyle=()=>({getPropertyValue:()=> '#dfbc7d'});globalThis.devicePixelRatio=1;globalThis.requestAnimationFrame=()=>1;globalThis.cancelAnimationFrame=()=>{};
  const track={stop:()=>{},addEventListener:()=>{}};Object.defineProperty(globalThis,'navigator',{value:{mediaDevices:{getUserMedia:async()=>({getTracks:()=>[track],getVideoTracks:()=>[track]})}},configurable:true});
  const workers=[];globalThis.Worker=class{constructor(url,options){this.url=String(url);this.options=options;workers.push(this);this.messages=[];}postMessage(m){this.messages.push(m);}terminate(){this.terminated=true;}};
- const {VisualTracker}=await import('../camera-tracker.js?v=3');const update=VisualTracker.prototype.update;VisualTracker.prototype.update=()=>null;
+ const {VisualTracker}=await import('../camera-tracker.js?v=4');const update=VisualTracker.prototype.update;VisualTracker.prototype.update=()=>null;
  const pointer=(x,y,id=1)=>({pointerId:id,clientX:x,clientY:y,button:0,preventDefault:()=>{}});
  const drag=async(x1,y1,x2,y2,ending='pointerup')=>{await els.overlay.fire('pointerdown',pointer(x1,y1));await els.overlay.fire('pointermove',pointer(x2,y2));await els.overlay.fire(ending,pointer(x2,y2));};
  try{
@@ -39,7 +39,7 @@ test('unlabelled manual selection works after zoom; small/blank/cancelled boxes 
   await els['zoom-reset'].fire('click');await els['zoom-in'].fire('click');
   await drag(280,250,380,330);assert.equal(els['zoom-value'].textContent,'1× · Full view');assert.match(els['lock-readout'].textContent,/MANUAL TARGET · MOVE DEVICE RIGHT/);assert.equal(els['select-area'].attributes['aria-pressed'],'false');assert.equal(workers.length,1,'manual lock never creates an inference worker');
   // Replace that lock with a manual target near the full-image right edge.
-  await els['select-area'].fire('click');await drag(280,250,395,330);tick(400);
+  await els['select-area'].fire('click');await drag(280,250,395,330);tick(900);
   assert.match(els['lock-readout'].textContent,/REACQUIRING BITMAP · RIGHT/);assert.equal(workers.length,2,'manual exit starts a bitmap worker');
   const search=workers[1];assert.match(search.url,/camera-bitmap-worker/);assert.equal(search.options.type,'module');
   assert.equal(search.messages[0].reference.anchor.length,256);
@@ -54,9 +54,9 @@ test('unlabelled manual selection works after zoom; small/blank/cancelled boxes 
   confirm();assert.equal(search.terminated,true,'third confirmation restores lock and stops search');assert.match(els.status.textContent,/Bitmap target reacquired/);
   search.onmessage({data:{type:'error'}});assert.match(els.status.textContent,/Bitmap target reacquired/,'stale worker results ignored');
   // Another exit can start another bitmap search; replacement must cancel it.
-  tick(400);assert.equal(workers.length,3);const stalledSearch=workers[2];
+  tick(900);assert.equal(workers.length,3);const stalledSearch=workers[2];
   stalledSearch.onmessage({data:{type:'ready'}});tick(0);tick(10001);assert.equal(stalledSearch.terminated,true,'stalled search is terminated');assert.match(els.status.textContent,/stalled/);
-  await els['select-area'].fire('click');await drag(280,250,395,330);tick(400);const cancelledSearch=workers[3];
+  await els['select-area'].fire('click');await drag(280,250,395,330);tick(900);const cancelledSearch=workers[3];
   await els['select-area'].fire('click');await els['select-area'].fire('click');assert.equal(cancelledSearch.terminated,true,'replacement cancels active bitmap search');assert.equal(workers.length,5,'cancel returns to ordinary YOLO scanning');assert.equal(els['select-area'].attributes['aria-pressed'],'false');
   doc.hidden=true;await doc.fire('visibilitychange');assert.equal(workers[4].terminated,true);assert.equal(timers.size,0);
  }finally{VisualTracker.prototype.update=update;globalThis.setTimeout=oldSet;globalThis.clearTimeout=oldClear;Object.defineProperty(globalThis,'performance',{value:oldPerformance,configurable:true});}

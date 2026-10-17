@@ -1,4 +1,5 @@
-// Small grayscale template tracker. No neural inference or external dependencies.
+// Feature-based pyramidal optical flow with template recovery. No neural inference.
+import {FeatureFlow} from './camera-flow.js?v=1';
 import {clamp} from './camera-core.js?v=1';
 const GRID=16,COUNT=GRID*GRID;
 export function grayFrame(rgba,width,height,maxEdge=320){
@@ -31,10 +32,11 @@ export class VisualTracker {
   this.x=(box.x1+box.x2)/2*frame.width;this.y=(box.y1+box.y2)/2*frame.height;
   this.bw=(box.x2-box.x1)*frame.width;this.bh=(box.y2-box.y1)*frame.height;
   this.anchor=patch(frame,this.x,this.y,this.bw,this.bh);
-  this.template=this.anchor;this.vx=0;this.vy=0;this.first=true;
-  this.valid=Boolean(this.anchor);
+  this.template=this.anchor;this.recent=this.anchor;this.vx=0;this.vy=0;this.first=true;
+  this.valid=Boolean(this.anchor);this.misses=0;this.flow=new FeatureFlow(frame,{x1:this.x-this.bw/2,y1:this.y-this.bh/2,x2:this.x+this.bw/2,y2:this.y+this.bh/2});
  }
  reframe(from,to){
+  this.flow.reframe(from,to);
   const oldW=from.x2-from.x1,oldH=from.y2-from.y1,newW=to.x2-to.x1,newH=to.y2-to.y1;
   this.x=((from.x1+this.x/this.width*oldW)-to.x1)/newW*this.width;
   this.y=((from.y1+this.y/this.height*oldH)-to.y1)/newH*this.height;
@@ -47,7 +49,19 @@ export class VisualTracker {
  }
  update(frame){
   if(!this.valid||frame.width!==this.width||frame.height!==this.height)return null;
-  const radius=this.first?Math.round(Math.max(frame.width,frame.height)*.22):14;
+  const motion=this.flow.update(frame);
+  if(motion){
+   this.vx=motion.x-this.x;this.vy=motion.y-this.y;this.x=motion.x;this.y=motion.y;this.bw=motion.bw;this.bh=motion.bh;this.first=false;this.misses=0;
+   const current=patch(frame,this.x,this.y,this.bw,this.bh);
+   if(current&&motion.quality>.7){
+    this.recent=current;
+    const mixed=new Float32Array(COUNT);let norm=0;
+    for(let i=0;i<COUNT;i++){mixed[i]=this.template[i]*.85+current[i]*.15;norm+=mixed[i]*mixed[i];}
+    norm=Math.sqrt(norm/COUNT);for(let i=0;i<COUNT;i++)mixed[i]/=norm;this.template=mixed;
+   }
+   return {quality:motion.quality,mode:'flow',features:motion.features,box:{x1:clamp((this.x-this.bw/2)/frame.width),y1:clamp((this.y-this.bh/2)/frame.height),x2:clamp((this.x+this.bw/2)/frame.width),y2:clamp((this.y+this.bh/2)/frame.height)}};
+  }
+  const radius=this.first?Math.round(Math.max(frame.width,frame.height)*.22):Math.min(64,40+this.misses*8);
   const step=this.first?5:3,px=this.x+this.vx,py=this.y+this.vy;
   let best=null;
   const evaluate=(x,y,scale)=>{
@@ -59,18 +73,19 @@ export class VisualTracker {
    const score=quality-(scale===1?0:.004)-Math.hypot(x-px,y-py)*.00015;
    if(!best||score>best.score)best={x,y,scale,quality,original,score,candidate};
   };
-  for(const scale of [.96,1,1.04])for(let dy=-radius;dy<=radius;dy+=step)for(let dx=-radius;dx<=radius;dx+=step)evaluate(px+dx,py+dy,scale);
-  if(!best)return null;
+  for(const scale of [.8,.9,1,1.1,1.25])for(let dy=-radius;dy<=radius;dy+=step)for(let dx=-radius;dx<=radius;dx+=step)evaluate(px+dx,py+dy,scale);
+  if(!best){this.misses++;return null;}
   const coarse=best;
   for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++)evaluate(coarse.x+dx,coarse.y+dy,coarse.scale);
-  if(best.quality<.66)return null;
+  if(best.quality<.66){this.misses++;return null;}
   this.vx=clamp((best.x-this.x)*.7+this.vx*.3,-12,12);this.vy=clamp((best.y-this.y)*.7+this.vy*.3,-12,12);
-  this.x=best.x;this.y=best.y;this.bw*=best.scale;this.bh*=best.scale;this.first=false;
+  this.x=best.x;this.y=best.y;this.bw*=best.scale;this.bh*=best.scale;this.first=false;this.misses=0;this.recent=best.candidate;
+  this.flow.reset(frame,{x1:this.x-this.bw/2,y1:this.y-this.bh/2,x2:this.x+this.bw/2,y2:this.y+this.bh/2});
   if(best.quality>.85&&best.original>.65){
    const mixed=new Float32Array(COUNT);let norm=0;
    for(let i=0;i<COUNT;i++){mixed[i]=this.template[i]*.96+best.candidate[i]*.04;norm+=mixed[i]*mixed[i];}
    norm=Math.sqrt(norm/COUNT);for(let i=0;i<COUNT;i++)mixed[i]/=norm;this.template=mixed;
   }
-  return {quality:best.quality,box:{x1:clamp((this.x-this.bw/2)/frame.width),y1:clamp((this.y-this.bh/2)/frame.height),x2:clamp((this.x+this.bw/2)/frame.width),y2:clamp((this.y+this.bh/2)/frame.height)}};
+  return {quality:best.quality,mode:'template',features:this.flow.points.length,box:{x1:clamp((this.x-this.bw/2)/frame.width),y1:clamp((this.y-this.bh/2)/frame.height),x2:clamp((this.x+this.bw/2)/frame.width),y2:clamp((this.y+this.bh/2)/frame.height)}};
  }
 }

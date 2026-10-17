@@ -31,8 +31,8 @@ export class BitmapMatcher {
   }
   const std=Math.sqrt(Math.max(0,squared/n-(sum/n)**2));if(std<7)return null;
   const original=a/(n*std),recent=b/(n*std);
-  if(original<(fine?.55:.35))return null;
-  return original*.65+recent*.35;
+  if(Math.max(original,recent)<(fine?.7:.35))return null;
+  return Math.max(original,recent)*.9+Math.max(0,Math.min(original,recent))*.1;
  }
  search(input,seconds=0){
   const frame=scaledFrame(input,this.box),W=frame.width,H=frame.height,bw=(this.box.x2-this.box.x1)*W,bh=(this.box.y2-this.box.y1)*H;

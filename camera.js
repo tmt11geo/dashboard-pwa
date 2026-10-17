@@ -1,6 +1,7 @@
-import {fullView,zoomRegion,zoomAt,panView,imagePoint,imageBox,viewBox,followRegion,cropGray,selectionBox} from './camera-zoom.js?v=2';
-import {VisualTracker,grayFrame} from './camera-tracker.js?v=3';
-import {clamp,centre,guidance,makeLock,exitSide,reacquireCandidate,sameReacquisition,contentRect,decode} from './camera-core.js?v=3';
+import {trackingMiss} from './camera-loss.js?v=1';
+import {fullView,zoomRegion,zoomAt,panView,imagePoint,imageBox,viewBox,followRegion,cropGray,selectionBox} from './camera-zoom.js?v=3';
+import {VisualTracker,grayFrame} from './camera-tracker.js?v=4';
+import {clamp,centre,guidance,makeLock,reacquireCandidate,sameReacquisition,contentRect,decode} from './camera-core.js?v=3';
 const $=id=>document.getElementById(id);
 const video=$('video'),canvas=$('overlay'),ctx=canvas.getContext('2d'),viewport=$('viewfinder');
 const capture=document.createElement('canvas'),pixels=capture.getContext('2d',{willReadFrequently:true});
@@ -154,7 +155,7 @@ function pauseDetector(){
 }
 function snapshotFrame(){
  const scale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight)),w=Math.max(1,Math.round(video.videoWidth*scale)),h=Math.max(1,Math.round(video.videoHeight*scale));
- capture.width=w;capture.height=h;pixels.drawImage(video,0,0,w,h);
+ capture.width=w;capture.height=h;pixels.imageSmoothingEnabled=false;pixels.drawImage(video,0,0,w,h);
  return grayFrame(pixels.getImageData(0,0,w,h).data,w,h,1280);
 }
 function toggleManualSelection(){
@@ -180,10 +181,16 @@ function completeManualSelection(start,end){
  }catch{$('status').textContent='Could not capture the selected area. Draw the box again.';}
 }
 function trackingFrame(region){
- const sw=video.videoWidth*(region.x2-region.x1),sh=video.videoHeight*(region.y2-region.y1);
- const scale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight),320/Math.max(sw,sh));
+ // Match the saved snapshot's two-step, pixel-centred sampling without reading
+ // the full-resolution RGBA image back to JavaScript on every tracking update.
+ const cap=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight));
+ const fullW=Math.max(1,Math.round(video.videoWidth*cap)),fullH=Math.max(1,Math.round(video.videoHeight*cap));
+ inferenceCapture.width=fullW;inferenceCapture.height=fullH;inferencePixels.imageSmoothingEnabled=false;
+ inferencePixels.drawImage(video,0,0,fullW,fullH);
+ const sw=fullW*(region.x2-region.x1),sh=fullH*(region.y2-region.y1),scale=Math.min(1,320/Math.max(sw,sh));
  const w=Math.max(1,Math.round(sw*scale)),h=Math.max(1,Math.round(sh*scale));
- capture.width=w;capture.height=h;pixels.drawImage(video,region.x1*video.videoWidth,region.y1*video.videoHeight,sw,sh,0,0,w,h);
+ capture.width=w;capture.height=h;pixels.imageSmoothingEnabled=false;
+ pixels.drawImage(inferenceCapture,region.x1*fullW,region.y1*fullH,sw,sh,0,0,w,h);
  return grayFrame(pixels.getImageData(0,0,w,h).data,w,h);
 }
 function choose(d,automatic=false){
@@ -254,7 +261,7 @@ function scanBitmap(){
 function startBitmapSearch(){
  lastBitmapTime=-1;bitmapBusy=false;
  try{
-  const searcher=new Worker(new URL('./camera-bitmap-worker.js?v=1',import.meta.url),{type:'module'});bitmapWorker=searcher;
+  const searcher=new Worker(new URL('./camera-bitmap-worker.js?v=2',import.meta.url),{type:'module'});bitmapWorker=searcher;
   const active=()=>running&&bitmapWorker===searcher&&reacquiring?.kind==='bitmap';
   bitmapWatchdog=setTimeout(()=>finishReacquire('Bitmap search could not start. Select area to try again.'),15000);
   searcher.onerror=()=>{if(active())finishReacquire('Bitmap search unavailable. Select area to try again.');};
@@ -276,7 +283,7 @@ function startBitmapSearch(){
    scheduleBitmap(Math.max(0,250-data.ms));
   };
   const ref=reacquiring.reference;
-  searcher.postMessage({type:'init',reference:{anchor:ref.anchor,recent:ref.template,box:lock.box,side:lock.exit}});
+  searcher.postMessage({type:'init',reference:{anchor:ref.anchor,recent:ref.recent||ref.template,box:lock.box,side:lock.exit}});
  }catch{finishReacquire('Bitmap search unavailable. Select area to draw a new target.');}
 }
 function track(){
@@ -287,10 +294,9 @@ function track(){
    lastTrackTime=video.currentTime;
    const region=followRegion(lock.box,trackingScale);tracker.reframe(trackerRegion,region);trackerRegion=region;
    const result=tracker.update(trackingFrame(region)),now=performance.now();
-   if(result){lock={...lock,box:imageBox(result.box,region),seen:now,missing:false,exit:null};}
+   if(result){lock={...lock,box:imageBox(result.box,region),seen:now,missedFrames:0,missing:false,exit:null};}
    else{
-    const elapsed=now-lock.seen;
-    lock={...lock,missing:true,lost:elapsed>900,exit:elapsed>250?exitSide(lock.box):null};
+    lock=trackingMiss(lock,now);
    }
    if(lock.exit){
     beginReacquire();return;
@@ -359,7 +365,7 @@ function detect(){
  // Freeze one full frame for both cropped inference and the eventual tracker handoff.
  const snapshotScale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight));
  const fullW=Math.max(1,Math.round(video.videoWidth*snapshotScale)),fullH=Math.max(1,Math.round(video.videoHeight*snapshotScale));
- capture.width=fullW;capture.height=fullH;pixels.drawImage(video,0,0,fullW,fullH);
+ capture.width=fullW;capture.height=fullH;pixels.imageSmoothingEnabled=false;pixels.drawImage(video,0,0,fullW,fullH);
  inferenceFrame=grayFrame(pixels.getImageData(0,0,fullW,fullH).data,fullW,fullH,1280);
  inferenceRegion=zoomRegion(view);inferenceRevision=viewRevision;
  const sw=fullW*(inferenceRegion.x2-inferenceRegion.x1),sh=fullH*(inferenceRegion.y2-inferenceRegion.y1),scale=640/Math.max(sw,sh);

@@ -21,7 +21,7 @@ test('exit edge gates early search; later search permits panning across the view
  assert.equal(sameReacquisition(returning,otherSide),false);
 });
 test('appearance matching compares the actual retained image template',async()=>{
- const {VisualTracker}=await import('../camera-tracker.js?v=3');
+ const {VisualTracker}=await import('../camera-tracker.js?v=4');
  const width=160,height=100,data=new Uint8Array(width*height);
  for(let y=0;y<height;y++)for(let x=0;x<width;x++)data[y*width+x]=120+45*Math.sin(x*.3)+40*Math.cos(y*.5);
  const box={x1:.3,y1:.2,x2:.65,y2:.7},frame={data,width,height};
@@ -50,19 +50,19 @@ test('likely exit restarts YOLO, two confirmations relock and stop YOLO; timeout
  const track={stop:()=>{},addEventListener:()=>{}};Object.defineProperty(globalThis,'navigator',{value:{mediaDevices:{getUserMedia:async()=>({getTracks:()=>[track],getVideoTracks:()=>[track]})}},configurable:true});
  let worker;const workers=[];globalThis.Worker=class{constructor(){worker=this;workers.push(this);this.messages=[];}postMessage(m){this.messages.push(m);}terminate(){this.terminated=true;}};
  // Isolate the app state machine from tracker geometry, covered in its own tests.
- const {VisualTracker}=await import('../camera-tracker.js?v=3');const update=VisualTracker.prototype.update,similarity=VisualTracker.prototype.similarity;
+ const {VisualTracker}=await import('../camera-tracker.js?v=4');const update=VisualTracker.prototype.update,similarity=VisualTracker.prototype.similarity;
  VisualTracker.prototype.update=()=>null;VisualTracker.prototype.similarity=()=>.95;
  try{
   await import('../camera.js');await els.start.fire('click');worker.onmessage({data:{type:'ready'}});tick(100);
   const deliver=()=>worker.onmessage({data:{type:'detections',generation:1,width:640,height:360,ms:100,output:new Float32Array([560,100,639,200,.9,41]).buffer}});
   deliver();await els.objects.children[0].fire('click');assert.equal(worker.terminated,true);
-  tick(400);assert.equal(workers.length,2,'exit automatically creates YOLO worker');assert.match(els['lock-readout'].textContent,/REACQUIRING/);
+  tick(900);assert.equal(workers.length,2,'exit automatically creates YOLO worker');assert.match(els['lock-readout'].textContent,/REACQUIRING/);
   const searching=worker;searching.onmessage({data:{type:'ready'}});tick(100);deliver();assert.notEqual(searching.terminated,true,'one match is insufficient');
   tick(100);deliver();assert.equal(searching.terminated,true,'confirmed match stops YOLO');assert.match(els.status.textContent,/reacquired/);assert.equal(els['model-status'].textContent,'Visual tracker · YOLO stopped');
-  tick(400);assert.equal(workers.length,3,'a later exit can start a new search');const timeoutWorker=worker;
+  tick(900);assert.equal(workers.length,3,'a later exit can start a new search');const timeoutWorker=worker;
   tick(30001);assert.equal(timeoutWorker.terminated,true);assert.match(els.status.textContent,/without a reliable match/);assert.match(els['lock-readout'].textContent,/LIKELY EXIT/);
   await els.unlock.fire('click');assert.equal(workers.length,4,'manual scan remains available');
-  worker.onmessage({data:{type:'ready'}});tick(100);deliver();await els.objects.children[0].fire('click');tick(400);
+  worker.onmessage({data:{type:'ready'}});tick(100);deliver();await els.objects.children[0].fire('click');tick(900);
   assert.equal(workers.length,5,'automatic search restarts after a new manual selection');
   doc.hidden=true;await doc.fire('visibilitychange');assert.equal(worker.terminated,true);assert.equal(timers.size,0,'hiding cancels all search and detector timers');
  }finally{

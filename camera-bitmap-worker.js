@@ -1,4 +1,4 @@
-import {BitmapMatcher} from './camera-bitmap.js?v=1';
+import {BitmapMatcher} from './camera-bitmap.js?v=2';
 let matcher=null;
 self.onmessage=({data})=>{
  try{
