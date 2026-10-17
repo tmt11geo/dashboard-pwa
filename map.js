@@ -168,7 +168,7 @@
     status.textContent='';updateDistance();
    } else {
     const pin=L.circleMarker(point,{...normalStyle,bubblingMouseEvents:false}).addTo(map);
-    pin.pinId=nextId++;pins.add(pin);label(pin);
+    pin.pinId=nextId++;pins.add(pin);pinnedLines.add(pin);label(pin);
     pin.on('click',()=>select(pin));
     pin.on('add',()=>{});
     const element=pin.getElement();
