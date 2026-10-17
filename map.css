@@ -59,7 +59,7 @@ body[data-theme="red"] #map .location-dot{fill:#d0a65d;stroke:#dfbc7d;fill-opaci
 
 /* Share the marker's amber palette across its measurement and callout. */
 body[data-theme="red"] #map .leaflet-marker-pane{filter:none}
-body[data-theme="red"] #map .leaflet-overlay-pane path.distance-ants{filter:none;stroke:#c9a362}
+body[data-theme="red"] #map .leaflet-overlay-pane path.distance-ants{filter:none;stroke:#d0a65d}
 body[data-theme="red"] #map .leaflet-overlay-pane path.distance-leader{filter:none;stroke:#c9a362;fill:#c9a362}
 body[data-theme="red"] #map .distance-label,body[data-theme="red"] #map .distance-label.compact{color:#c9a362;border-color:#a9874e;background:rgba(22,15,7,.5);text-shadow:0 1px 2px #000}
 body[data-theme="red"] #map .distance-label.active{color:#dfbc7d;border-color:#dfbc7d}
@@ -68,4 +68,4 @@ body[data-theme="red"] #map .distance-label.pinned{box-shadow:none}
 
 body[data-theme="red"] #map .leaflet-overlay-pane path.distance-ants{stroke-width:3.5px}body[data-theme="red"] #map .leaflet-overlay-pane path.location-pulse{filter:none;stroke:#c9a362;stroke-width:2.5px}body[data-theme="red"] #map .leaflet-overlay-pane path.location-boundary{filter:none;stroke:#a9874e;fill:#b48b46}
 
-body[data-theme="red"] #map .distance-ants.inactive-measurement{stroke-opacity:.65}body[data-theme="red"] #map .distance-ants.active-measurement{stroke-opacity:1}
+body[data-theme="red"] #map .distance-ants.inactive-measurement{stroke-opacity:.8}body[data-theme="red"] #map .distance-ants.active-measurement{stroke-opacity:1;stroke:#dfbc7d}
