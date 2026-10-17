@@ -74,21 +74,62 @@
  const coordinates=()=>{const c=map.getCenter();document.querySelector('#coordinates').textContent=c.lat.toFixed(5)+'°, '+c.lng.toFixed(5)+'° · Zoom '+map.getZoom();};
  map.on('moveend zoomend',coordinates);coordinates();
  locate.disabled=false;
+
+ const tracking=document.querySelector('#tracking'),follow=document.querySelector('#follow-me');
+ let watchId=null,lastTrackDraw=0,pendingPosition=null,trackTimer=null;
+ function showPosition(position,recenter){
+  const {latitude,longitude,accuracy}=position.coords,point=[latitude,longitude];
+  if(marker){
+   marker.setLatLng(point);circle.setLatLng(point);pulseLayers.forEach(ring=>ring.setLatLng(point));
+  }else{
+   circle=L.circleMarker(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
+   pulseLayers=[0,1].map(()=>L.circleMarker(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
+   marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map);
+   restartPulse();
+  }
+  marker.bindPopup('Your location · accuracy about '+Math.round(accuracy)+' m');
+  if(recenter)map.setView(point,map.getZoom());
+  status.textContent=(tracking.checked?'Tracking':'Location updated')+' · accuracy about '+Math.round(accuracy)+' m';
+  updateDistance();
+ }
+ function locationError(error){
+  status.textContent=error.code===1?'Location permission denied. Allow location in browser settings to try again.':error.code===3?'Location request timed out.':'Could not determine your location.';
+  if(error.code===1){tracking.checked=false;follow.checked=false;stopTracking();}
+ }
  function locateUser(){
   if(!navigator.geolocation){status.textContent='Location is unavailable in this browser.';return;}
   locate.disabled=true;status.textContent='Finding your location…';
-  navigator.geolocation.getCurrentPosition(position=>{
-   locate.disabled=false;const {latitude,longitude,accuracy}=position.coords,point=[latitude,longitude];
-   stopPulse();pulseLayers.forEach(ring=>map.removeLayer(ring));pulseLayers=[];
-   if(marker)map.removeLayer(marker);if(circle)map.removeLayer(circle);
-   circle=L.circleMarker(point,{radius:pulseRadius,color:'#85c99b',weight:1,opacity:.4,fillColor:'#85efaa',fillOpacity:.04,interactive:false}).addTo(map);
-   pulseLayers=[0,1].map(()=>L.circleMarker(point,{radius:.1,color:'#a4f3bc',weight:2,opacity:0,fill:false,interactive:false}).addTo(map));
-   marker=L.circleMarker(point,{radius:5,color:'#c3ffd0',weight:1.5,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location · 30 px display radius (not GPS accuracy)');
-   restartPulse();
-   map.setView(point,map.getZoom());
-   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m · Pulse radius 30 pixels at every zoom. Tap the crosshair to update.';updateDistance();
-  },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
+  navigator.geolocation.getCurrentPosition(position=>{locate.disabled=false;showPosition(position,true);},error=>{locate.disabled=false;locationError(error);},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  }
+ function stopTracking(){
+  if(watchId!==null)navigator.geolocation.clearWatch(watchId);
+  watchId=null;if(trackTimer!==null)clearTimeout(trackTimer);trackTimer=null;pendingPosition=null;
+ }
+ function drawTracked(){
+  trackTimer=null;
+  if(!tracking.checked||document.hidden||!pendingPosition)return;
+  const position=pendingPosition;pendingPosition=null;lastTrackDraw=Date.now();
+  showPosition(position,follow.checked);
+ }
+ function startTracking(){
+  stopTracking();
+  if(!tracking.checked||document.hidden)return;
+  if(!navigator.geolocation){tracking.checked=false;follow.checked=false;status.textContent='Location is unavailable in this browser.';return;}
+  lastTrackDraw=0;
+  watchId=navigator.geolocation.watchPosition(position=>{
+   if(!tracking.checked||document.hidden)return;
+   pendingPosition=position;
+   const delay=Math.max(0,2000-(Date.now()-lastTrackDraw));
+   if(!delay){if(trackTimer!==null)clearTimeout(trackTimer);drawTracked();}
+   else if(trackTimer===null)trackTimer=setTimeout(drawTracked,delay);
+  },locationError,{enableHighAccuracy:true,timeout:20000,maximumAge:1000});
+ }
+ tracking.addEventListener('change',()=>{if(tracking.checked)startTracking();else{follow.checked=false;stopTracking();status.textContent='Tracking off';}});
+ follow.addEventListener('change',()=>{if(follow.checked){if(!tracking.checked){tracking.checked=true;startTracking();}if(marker)map.setView(marker.getLatLng(),map.getZoom());}});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stopTracking();else if(tracking.checked)startTracking();});
+ window.addEventListener('pagehide',stopTracking);
+ window.addEventListener('pageshow',()=>{if(tracking.checked&&watchId===null)startTracking();});
+ map.on('dragstart',()=>{follow.checked=false;});
  locate.addEventListener('click',locateUser);
  // User markers are separate from the GPS position.
  const pins=new Set();
