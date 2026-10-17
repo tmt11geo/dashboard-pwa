@@ -173,6 +173,16 @@
    const r=control.getBoundingClientRect();
    return {left:(r.left-bounds.left)*sx-8,right:(r.right-bounds.left)*sx+8,top:(r.top-bounds.top)*sy-8,bottom:(r.bottom-bounds.top)*sy+8};
   });
+  // Keep callouts clear of every visible user marker and the location dot.
+  const markerObstacles=[];
+  for(const dot of [...pins,marker]){
+   if(!dot)continue;
+   const point=map.latLngToContainerPoint(dot.getLatLng());
+   const radius=(dot===marker?9:dot===selected?16:13)+6;
+   if(point.x+radius<0||point.y+radius<0||point.x-radius>size.x||point.y-radius>size.y)continue;
+   markerObstacles.push({left:point.x-radius,right:point.x+radius,top:point.y-radius,bottom:point.y+radius});
+  }
+  controls.push(...markerObstacles);
   for(const pin of targets){
    const from=marker.getLatLng(),to=pin.getLatLng(),metres=map.distance(from,to),pinned=pinnedLines.has(pin);
    const text=metres<1000?Math.round(metres)+' m':(metres/1000).toFixed(1)+' km';
