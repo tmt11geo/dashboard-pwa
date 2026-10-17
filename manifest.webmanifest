@@ -2,12 +2,12 @@
   "id": "./",
   "name": "Tero's Dashboard",
   "short_name": "Dashboard",
-  "description": "An Android-friendly engineering demo dashboard.",
+  "description": "Tactical map with a stock and engineering dashboard.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#101827",
-  "theme_color": "#101827",
+  "background_color": "#07100b",
+  "theme_color": "#07100b",
   "lang": "en",
   "icons": [
     {
