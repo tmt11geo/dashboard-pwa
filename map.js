@@ -19,7 +19,7 @@
  locationControl.onAdd=()=>{
   const box=L.DomUtil.create('div','leaflet-bar marker-control location-control');
   locate=L.DomUtil.create('button','locate-target',box);
-  locate.type='button';locate.textContent='🎯';locate.title='Locate me';locate.setAttribute('aria-label','Locate me');
+  locate.type='button';locate.innerHTML="<svg viewBox=\"0 0 32 32\" width=\"28\" height=\"28\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"16\" cy=\"16\" r=\"8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/><path d=\"M16 2v8m0 12v8M2 16h8m12 0h8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"16\" cy=\"16\" r=\"3\" fill=\"currentColor\"/></svg>";locate.title='Locate me';locate.setAttribute('aria-label','Locate me');
   L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
   return box;
  };
