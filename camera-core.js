@@ -54,3 +54,26 @@ export function decode(output,width,height,threshold) {
  }
  return detections;
 }
+
+// Rank a returning detection using label, appearance, size and exit position.
+export function reacquireCandidate(target,detections,similarity,seconds=0){
+ const area=b=>(b.x2-b.x1)*(b.y2-b.y1),oldArea=area(target.box);
+ const candidates=[];
+ for(const d of detections){
+  if(d.label!==target.label||d.score<.55)continue;
+  const ratio=area(d.box)/(oldArea||1);if(ratio<.2||ratio>5)continue;
+  const c=centre(d.box),side=target.exit||'';
+  if(seconds<4&&((side.includes('left')&&c.x>.5)||(side.includes('right')&&c.x<.5)||(side.includes('top')&&c.y>.5)||(side.includes('bottom')&&c.y<.5)))continue;
+  const appearance=similarity(d);if(!Number.isFinite(appearance)||appearance<.6)continue;
+  const old=centre(target.box),distance=Math.hypot(c.x-old.x,c.y-old.y);
+  candidates.push({d,score:appearance*.7+d.score*.25+Math.max(0,1-distance)*.05});
+ }
+ candidates.sort((a,b)=>b.score-a.score);
+ if(!candidates.length||(candidates[1]&&candidates[0].score-candidates[1].score<.08))return null;
+ return candidates[0].d;
+}
+export function sameReacquisition(a,b){
+ if(!a||!b||a.label!==b.label)return false;
+ const ac=centre(a.box),bc=centre(b.box);
+ return iou(a.box,b.box)>.15||Math.hypot(ac.x-bc.x,ac.y-bc.y)<.15;
+}

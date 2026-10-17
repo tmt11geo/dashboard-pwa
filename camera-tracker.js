@@ -34,6 +34,11 @@ export class VisualTracker {
   this.template=this.anchor;this.vx=0;this.vy=0;this.first=true;
   this.valid=Boolean(this.anchor);
  }
+ similarity(frame,box){
+  if(!this.valid)return -1;
+  const sample=patch(frame,(box.x1+box.x2)/2*frame.width,(box.y1+box.y2)/2*frame.height,(box.x2-box.x1)*frame.width,(box.y2-box.y1)*frame.height);
+  return sample?correlation(sample,this.anchor)*.7+correlation(sample,this.template)*.3:-1;
+ }
  update(frame){
   if(!this.valid||frame.width!==this.width||frame.height!==this.height)return null;
   const radius=this.first?Math.round(Math.max(frame.width,frame.height)*.22):14;
