@@ -1,6 +1,6 @@
 "use strict";
 (() => {
- const status=document.querySelector('#status'), locate=document.querySelector('#locate'),home=document.querySelector('#home');
+ const status=document.querySelector('#status');
  if(!window.L){status.textContent='Map library could not load. Check your internet connection and reload.';return;}
 
  const shade=document.querySelector('#map-shade'),shadeValue=document.querySelector('#shade-value');
@@ -13,7 +13,18 @@
  shade.addEventListener('input',()=>{applyShade(shade.value);try{localStorage.setItem('tmt11-map-brightness',shade.value);}catch{}});
  document.querySelector('#shade-reset').addEventListener('click',()=>{applyShade(79);try{localStorage.removeItem('tmt11-map-brightness');}catch{}});
 
- const map=L.map('map',{zoomControl:true,tapHold:false}).setView([61.48,23.63],11);
+ const map=L.map('map',{zoomControl:false,tapHold:false}).setView([61.48,23.63],11);
+ let locate;
+ const locationControl=L.control({position:'topleft'});
+ locationControl.onAdd=()=>{
+  const box=L.DomUtil.create('div','leaflet-bar marker-control location-control');
+  locate=L.DomUtil.create('button','locate-target',box);
+  locate.type='button';locate.textContent='🎯';locate.title='Locate me';locate.setAttribute('aria-label','Locate me');
+  L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
+  return box;
+ };
+ locationControl.addTo(map);
+ L.control.zoom({position:'topleft'}).addTo(map);
  const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',updateWhenIdle:true,keepBuffer:1}).addTo(map);
  L.control.scale({imperial:false}).addTo(map);
  let tileError=false,marker,circle;
@@ -22,8 +33,7 @@
  tiles.on('load',()=>{if(!tileError)status.textContent='Ready to explore. Location stays off until requested.';});
  const coordinates=()=>{const c=map.getCenter();document.querySelector('#coordinates').textContent=c.lat.toFixed(5)+'°, '+c.lng.toFixed(5)+'° · Zoom '+map.getZoom();};
  map.on('moveend zoomend',coordinates);coordinates();
- home.disabled=false;locate.disabled=false;
- home.addEventListener('click',()=>map.setView([61.48,23.63],11));
+ locate.disabled=false;
  locate.addEventListener('click',()=>{
   if(!navigator.geolocation){status.textContent='Location is unavailable in this browser.';return;}
   locate.disabled=true;status.textContent='Finding your location…';
@@ -33,7 +43,7 @@
    marker=L.circleMarker(point,{radius:8,color:'#ffffff',weight:2,fillColor:'#85efaa',fillOpacity:1}).addTo(map).bindPopup('Your location');
    circle=L.circle(point,{radius:accuracy,color:'#85efaa',weight:1,fillOpacity:.08}).addTo(map);
    map.fitBounds(circle.getBounds(),{maxZoom:16,padding:[30,30]});
-   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m. Tap Locate me to update.';
+   status.textContent='Location found · accuracy about '+Math.round(accuracy)+' m. Tap 🎯 to update.';
   },error=>{locate.disabled=false;status.textContent=error.code===1?'Location permission denied. You can still explore the map. Allow location in your browser settings to try again.':error.code===3?'Location request timed out. Try again outside or near a window.':'Could not determine your location. You can still move around the map.';},{enableHighAccuracy:true,timeout:15000,maximumAge:30000});
  });
  // User markers are separate from the GPS position.
