@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6E transfer/verify shard 2 only; browser handoff if absent.
+implementation or model assets have been deployed. Next task: resume 6E after user uploads shard 2; verify remote bytes and checkpoint.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -529,3 +529,23 @@ if absent: prepare verified shard 2 for download and checkpoint WAITING FOR USER
 UPLOAD; after upload verify immutable remote bytes. Do not repeat the interrupted
 multi-megabyte create_blob path. Do not upload shard 2 during this 6D run.
 This pointer supersedes all historical next-action paragraphs.
+
+
+## Stage 6E partial — shard 2 phone upload ready, 2026-10-18
+
+Working/outcome branch: depth-tfjs-webgl; starting commit e59a83b7a83e40139f470a9f7c759154ec209022.
+Fresh complete recursive tree: no AGENTS.md and no shard 2 path.
+Recovered original group1-shard2of24.bin and verified length 4,194,304 bytes,
+SHA256 29341eab5d3feed201a3c539f4fc5f69c9f2534ceeced61bbcabc8e9a472492a,
+Git blob 63c58b0a76b53613d829b08b8f8655b7052fd50a. All match package-inventory.json.
+Download copy: /workspace/scratch/c49fd39fc577/group1-shard2of24.bin (temporary).
+Evidence: tools/depth-tfjs/evidence/package-shard2-preparation.json.
+6E PARTIAL / WAITING FOR USER UPLOAD. No binary tool upload attempted.
+
+Exact next action: user downloads unchanged shard 2 and uploads it through GitHub
+website into models/depth-anything-v2-small-tfjs-fp32-224-v1 on depth-tfjs-webgl,
+committing only that file. Then resume 6E: inspect current head/path, download bytes
+from immutable commit URL and verify length/SHA256/blob against inventory, commit
+receipt and mark 6E DONE only on success. Do not begin 6F or upload shard 3.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed or rechecked. No app/Access/PWA changes. Only documentation/evidence changed.
