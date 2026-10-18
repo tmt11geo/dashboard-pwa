@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6H–6AA — WAITING FOR USER UPLOAD of shards 5–24** |
-| Current blocker | Waiting for user batch upload of shards 5–24 |
-| Outcome of this checkpoint | Shards 5–24 verified locally and ZIP prepared; batch upload pending |
+| Next stage | **6H–6K — WAITING FOR MISSING SHARDS 5–8** |
+| Current blocker | Missing uploads: shards 5, 6, 7 and 8 |
+| Outcome of this checkpoint | Shards 9–24 pass remote checks; 20/24 shards verified; 5–8 missing |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -31,7 +31,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
-| 6. Model packaging/hosting | **PARTIAL** | 6A–6G DONE; shards 1–4 attached and remote bytes verified. 6H–6AE pending; remaining 20 shards and model.json not attached. |
+| 6. Model packaging/hosting | **PARTIAL** | Shards 1–4 and 9–24 verified; 6H–6K await shards 5–8. model.json and final checks pending. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
@@ -52,22 +52,22 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6I | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 6 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6J | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 7 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6K | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 8 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6L | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 9 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6M | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 10 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6N | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 11 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6O | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 12 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6P | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 13 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6Q | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 14 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6R | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 15 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6S | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 16 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6T | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 17 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6U | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 18 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6V | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 19 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6W | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 20 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6X | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 21 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6Y | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 22 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6Z | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 23 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6AA | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6L | DONE | Transfer shard 9 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6M | DONE | Transfer shard 10 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6N | DONE | Transfer shard 11 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6O | DONE | Transfer shard 12 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6P | DONE | Transfer shard 13 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Q | DONE | Transfer shard 14 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6R | DONE | Transfer shard 15 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6S | DONE | Transfer shard 16 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6T | DONE | Transfer shard 17 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6U | DONE | Transfer shard 18 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6V | DONE | Transfer shard 19 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6W | DONE | Transfer shard 20 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6X | DONE | Transfer shard 21 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Y | DONE | Transfer shard 22 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Z | DONE | Transfer shard 23 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6AA | DONE | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6AB | NOT STARTED | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
 | 6AC | NOT STARTED | Audit all 25 branch assets and final license/provenance/integrity metadata. |
 | 6AD | NOT STARTED | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
@@ -329,3 +329,24 @@ mark only passing rows DONE. Stop after this authorized batch. model.json remain
 6AB, not included or started; final audit/URLs/model load remain 6AC–6AE.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no app,
 Access, PWA or deployment changes; no new deployment verification claimed.
+
+
+## Remaining batch partially uploaded — 2026-10-18
+
+Branch depth-tfjs-webgl; inspected upload/start commit f7ae565fe9cfd937ce9f456c3209e207041b94f6.
+Complete recursive tree has shards 1–4 and 9–24. Shards 5,6,7,8 are absent;
+no AGENTS.md found. All 16 newly uploaded shards 9–24 independently downloaded
+from immutable raw GitHub URLs, HTTP 200; lengths/SHA256/Git blob IDs all match
+package inventory (Python urllib, timeout 30s, hashlib; exit 0).
+Evidence: tools/depth-tfjs/evidence/package-shards5-24-remote.json.
+6L–6AA DONE (shards 9–24). 6H–6K remain PARTIAL/WAITING FOR USER UPLOAD (5–8).
+Together with prior verified shards 1–4, 20 of 24 shards are verified.
+
+Exact next action: user uploads only group1-shard5of24.bin, group1-shard6of24.bin,
+group1-shard7of24.bin and group1-shard8of24.bin from the previously supplied ZIP
+into models/depth-anything-v2-small-tfjs-fp32-224-v1 on depth-tfjs-webgl.
+Then verify these four immutable remote files and checkpoint; no need to reupload
+9–24. model.json remains absent and stage 6AB is not started. Stop after closing
+this batch; do not begin model.json or final package audit in the same run.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed/rechecked, no application/Access/PWA changes. Only docs/evidence changed.

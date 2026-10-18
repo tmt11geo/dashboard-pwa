@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: user-authorized batch upload of shards 5–24 (6H–6AA), then verify each.
+implementation or model assets have been deployed. Next task: upload missing shards 5–8 and verify; shards 9–24 passed.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -629,3 +629,24 @@ mark only passing rows DONE. Stop after this authorized batch. model.json remain
 6AB, not included or started; final audit/URLs/model load remain 6AC–6AE.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no app,
 Access, PWA or deployment changes; no new deployment verification claimed.
+
+
+## Remaining batch partially uploaded — 2026-10-18
+
+Branch depth-tfjs-webgl; inspected upload/start commit f7ae565fe9cfd937ce9f456c3209e207041b94f6.
+Complete recursive tree has shards 1–4 and 9–24. Shards 5,6,7,8 are absent;
+no AGENTS.md found. All 16 newly uploaded shards 9–24 independently downloaded
+from immutable raw GitHub URLs, HTTP 200; lengths/SHA256/Git blob IDs all match
+package inventory (Python urllib, timeout 30s, hashlib; exit 0).
+Evidence: tools/depth-tfjs/evidence/package-shards5-24-remote.json.
+6L–6AA DONE (shards 9–24). 6H–6K remain PARTIAL/WAITING FOR USER UPLOAD (5–8).
+Together with prior verified shards 1–4, 20 of 24 shards are verified.
+
+Exact next action: user uploads only group1-shard5of24.bin, group1-shard6of24.bin,
+group1-shard7of24.bin and group1-shard8of24.bin from the previously supplied ZIP
+into models/depth-anything-v2-small-tfjs-fp32-224-v1 on depth-tfjs-webgl.
+Then verify these four immutable remote files and checkpoint; no need to reupload
+9–24. model.json remains absent and stage 6AB is not started. Stop after closing
+this batch; do not begin model.json or final package audit in the same run.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed/rechecked, no application/Access/PWA changes. Only docs/evidence changed.
