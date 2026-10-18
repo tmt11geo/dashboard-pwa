@@ -10,13 +10,13 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Branch containing this outcome | `depth-tfjs-webgl` |
 | Starting main commit | `9db5c0345faf7339f3d4cc24142dad362122649e` |
 | Live application branch | `main` |
-| Live application commit last checked | `9db5c0345faf7339f3d4cc24142dad362122649e` |
+| Live application commit last checked | `d9651e62b82ae1f4152e1ed2414b5f285e7c06cf` |
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6AB — Attach and verify model.json only** |
-| Current blocker | None for shard transfer; model.json and final package checks pending |
-| Outcome of this checkpoint | All 24 shards attached and verified; 6AB next |
+| Next stage | **6AC — Audit complete package and metadata only** |
+| Current blocker | None for 6AB; final package checks pending |
+| Outcome of this checkpoint | Exact model.json attached and remotely verified; 6AC next |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -31,7 +31,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
-| 6. Model packaging/hosting | **PARTIAL** | 6A–6AA DONE; all 24 shards attached and verified. model.json and final package checks 6AB–6AE pending. |
+| 6. Model packaging/hosting | **PARTIAL** | 6A–6AB DONE; all 24 shards and model.json attached and verified. Final package checks 6AC–6AE pending. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
@@ -68,7 +68,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6Y | DONE | Transfer shard 22 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6Z | DONE | Transfer shard 23 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6AA | DONE | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6AB | NOT STARTED | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
+| 6AB | DONE | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
 | 6AC | NOT STARTED | Audit all 25 branch assets and final license/provenance/integrity metadata. |
 | 6AD | NOT STARTED | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
 | 6AE | NOT STARTED | Actual complete GraphModel load with explicit WebGL; only then mark parent stage 6 DONE. |
@@ -369,3 +369,35 @@ verify its remote bytes, update checkpoint and stop. No model.json work in this 
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed/rechecked or app/Access/PWA changes. Documentation/evidence only.
 This pointer supersedes all earlier missing-shard and batch-waiting instructions.
+
+
+## Stage 6AB complete — exact model.json attached and verified, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting commit
+`7e037875f341f89d11d6d5526f7d89b60662e1ab`.
+Original local model.json passed inventory length/SHA256/Git blob checks.
+Attached unchanged UTF-8 bytes through the connected GitHub integration in commit
+`8d6ba9f6e6fa1708f3cc445bdba9f1624e7df7bf`, then updated the branch with an expected-head lease.
+Remote tree confirms intended model path, mode 100644, 671,603 bytes and blob
+`8daa3840f06ea22aa70b144e53e66c51befbb0ea`.
+Independently downloaded immutable remote bytes using Python urllib (30-second
+timeout): HTTP 200; length 671,603; SHA256
+`5ab6f29764edf13ae194d53a23f09ece13a6bce1edd5de2b2d820c8a1e2a7c3f`;
+Git blob ID matches inventory. JSON parse passed; all assertions passed.
+Evidence: `tools/depth-tfjs/evidence/package-model-remote.json`.
+Fresh complete starting tree contained no AGENTS.md or model.json; no partial
+manifest upload was present. 6AB DONE; no blocker. Parent stage 6 remains PARTIAL.
+
+Main has advanced independently to `d9651e62b82ae1f4152e1ed2414b5f285e7c06cf`:
+its upload commit adds duplicate shards 5–8 at repository root. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39132225480
+completed successfully for that exact SHA. Preserve/reconcile this intervening
+main work during stage 9; no main edits or deployment were made by this run.
+The feature branch retains the correctly located shards. This run adds only
+model.json and checkpoint documentation/evidence; app, Access and PWA unchanged.
+
+Exact next action: **6AC only**. Read current branch/head and audit all 25 model
+assets against package-inventory.json plus final license/provenance/integrity
+metadata. Commit evidence and updated checkpoint, then stop. Full immutable URL
+checks remain 6AD and actual explicit-WebGL GraphModel load remains 6AE.
+This pointer supersedes historical next-action text; 6AC was not started here.

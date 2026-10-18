@@ -4,8 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6AB only, attach and verify exact model.json; all 24 shards verified.
+Working/outcome branch: depth-tfjs-webgl. Current main/live: d9651e62b82ae1f4152e1ed2414b5f285e7c06cf (Pages run 39132225480 successful). Current deliverable completes 6AB: exact model.json attached and remote length/SHA256/Git blob verified. Stages 6A–6AB are DONE; parent stage 6 remains PARTIAL. No TFJS camera implementation has been deployed. Next task: 6AC only, audit all 25 model assets and final license/provenance/integrity metadata.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -72,9 +71,7 @@ OnePlus 12R, Android 16; reported Chrome 155. Existing WASM works around 2.7–3
 
 ## Next action
 
-Run **6C only**, as specified in the Stage 6B appendix below and PACKAGING.md.
-Historical next-action paragraphs below describe previous checkpoints and are
-superseded by this pointer and DONE.md.
+Run **6AC only**: audit all 25 model assets and final license/provenance/integrity metadata. See latest 6AB appendix and DONE.md. Historical pointers below are superseded.
 
 ## Stage 2 reproduced — 2026-10-18
 
@@ -669,3 +666,35 @@ verify its remote bytes, update checkpoint and stop. No model.json work in this 
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed/rechecked or app/Access/PWA changes. Documentation/evidence only.
 This pointer supersedes all earlier missing-shard and batch-waiting instructions.
+
+
+## Stage 6AB complete — exact model.json attached and verified, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting commit
+`7e037875f341f89d11d6d5526f7d89b60662e1ab`.
+Original local model.json passed inventory length/SHA256/Git blob checks.
+Attached unchanged UTF-8 bytes through the connected GitHub integration in commit
+`8d6ba9f6e6fa1708f3cc445bdba9f1624e7df7bf`, then updated the branch with an expected-head lease.
+Remote tree confirms intended model path, mode 100644, 671,603 bytes and blob
+`8daa3840f06ea22aa70b144e53e66c51befbb0ea`.
+Independently downloaded immutable remote bytes using Python urllib (30-second
+timeout): HTTP 200; length 671,603; SHA256
+`5ab6f29764edf13ae194d53a23f09ece13a6bce1edd5de2b2d820c8a1e2a7c3f`;
+Git blob ID matches inventory. JSON parse passed; all assertions passed.
+Evidence: `tools/depth-tfjs/evidence/package-model-remote.json`.
+Fresh complete starting tree contained no AGENTS.md or model.json; no partial
+manifest upload was present. 6AB DONE; no blocker. Parent stage 6 remains PARTIAL.
+
+Main has advanced independently to `d9651e62b82ae1f4152e1ed2414b5f285e7c06cf`:
+its upload commit adds duplicate shards 5–8 at repository root. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39132225480
+completed successfully for that exact SHA. Preserve/reconcile this intervening
+main work during stage 9; no main edits or deployment were made by this run.
+The feature branch retains the correctly located shards. This run adds only
+model.json and checkpoint documentation/evidence; app, Access and PWA unchanged.
+
+Exact next action: **6AC only**. Read current branch/head and audit all 25 model
+assets against package-inventory.json plus final license/provenance/integrity
+metadata. Commit evidence and updated checkpoint, then stop. Full immutable URL
+checks remain 6AD and actual explicit-WebGL GraphModel load remains 6AE.
+This pointer supersedes historical next-action text; 6AC was not started here.
