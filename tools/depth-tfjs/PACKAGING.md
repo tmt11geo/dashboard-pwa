@@ -32,7 +32,7 @@ Complete graph is 97,817,343 bytes (93.29 MiB); largest shard 4,194,304 bytes.
 Proposed destination: `models/depth-anything-v2-small-tfjs-fp32-224-v1/` in this
 repository. Keep paths relative to model.json and later to `/dashboard-pwa/`.
 Use ordinary binary blobs, not Git LFS pointer files. Preserve original FP32 bytes.
-Immutable commit-pinned raw GitHub URLs can be checked in 6J; live custom-domain
+Immutable commit-pinned raw GitHub URLs can be checked in 6AD; live custom-domain
 Pages checks wait for stage 9. No branch merge, Access change or deployment in 6.
 
 Starting recursive tree: 96 blobs, 578,288 bytes; adding this graph gives
@@ -120,3 +120,13 @@ Record the returned ID or exact failure in a small committed receipt and update
 DONE/status before stopping. Do not attach in 6C2, start 6D, or upload shard 2.
 The upload request itself is indivisible with create_blob; this split saves progress
 around it, not within it. Do not claim this removes any transport/context limit.
+
+
+## Current distribution — stage 6AC
+
+All 25 model files and three provenance documents are now attached. Earlier
+transfer instructions above are historical; DONE.md is the authoritative ledger.
+Run `python tools/depth-tfjs/audit_package.py` from the repository root to verify
+the actual checked-out distribution, including the license/model-card hashes.
+Evidence: `evidence/package-audit.json`. All model bytes are unchanged.
+Next is 6AD URL/hash verification only; 6AE loading and stage 9 deployment remain.

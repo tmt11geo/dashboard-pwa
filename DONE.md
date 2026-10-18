@@ -10,13 +10,13 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Branch containing this outcome | `depth-tfjs-webgl` |
 | Starting main commit | `9db5c0345faf7339f3d4cc24142dad362122649e` |
 | Live application branch | `main` |
-| Live application commit last checked | `d9651e62b82ae1f4152e1ed2414b5f285e7c06cf` |
+| Live application commit last checked | `7386a02552ee1e8d55a52bd5025d5112614ea276` |
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6AC — Audit complete package and metadata only** |
-| Current blocker | None for 6AB; final package checks pending |
-| Outcome of this checkpoint | Exact model.json attached and remotely verified; 6AC next |
+| Next stage | **6AD — Verify immutable URLs and downloaded hashes only** |
+| Current blocker | None for 6AC; URL/load checks pending |
+| Outcome of this checkpoint | Complete distribution and metadata audit passed; 6AD next |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -31,7 +31,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
-| 6. Model packaging/hosting | **PARTIAL** | 6A–6AB DONE; all 24 shards and model.json attached and verified. Final package checks 6AC–6AE pending. |
+| 6. Model packaging/hosting | **PARTIAL** | 6A–6AC DONE; complete distribution audited. URL/load checks 6AD–6AE pending. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
@@ -69,7 +69,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6Z | DONE | Transfer shard 23 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6AA | DONE | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6AB | DONE | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
-| 6AC | NOT STARTED | Audit all 25 branch assets and final license/provenance/integrity metadata. |
+| 6AC | DONE | Audit all 25 branch assets and final license/provenance/integrity metadata. |
 | 6AD | NOT STARTED | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
 | 6AE | NOT STARTED | Actual complete GraphModel load with explicit WebGL; only then mark parent stage 6 DONE. |
 
@@ -401,3 +401,36 @@ assets against package-inventory.json plus final license/provenance/integrity
 metadata. Commit evidence and updated checkpoint, then stop. Full immutable URL
 checks remain 6AD and actual explicit-WebGL GraphModel load remains 6AE.
 This pointer supersedes historical next-action text; 6AC was not started here.
+
+
+## Stage 6AC complete — distribution audit, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; audited starting commit
+`56e4193b402ca4630207684f92e3af57978796ca`.
+Connected GitHub integration returned the complete recursive tree (no AGENTS.md).
+All 25 asset paths, modes 100644, sizes and Git blob IDs match the inventory.
+A fresh Git checkout of that exact commit independently passed SHA256, length
+and Git blob checks for every asset against the inventory and conversion-run-2.
+The manifest references exactly 24 unique, ordered relative shards; declared
+unquantized weights total 97,145,740 bytes, full model 97,817,343 bytes.
+The exact pinned model card and full Apache-2.0 license still match their stage
+6B lengths/hashes; source revision agrees across conversion/inventory/provenance.
+Authorship and modification notice retained; stale pre-upload wording and relative
+provenance links corrected. No model bytes changed.
+
+Reproduce: `python tools/depth-tfjs/audit_package.py` (Python standard library + Git,
+exit 0). Evidence: `tools/depth-tfjs/evidence/package-audit.json`.
+6AC DONE; blockers: none. Parent stage 6 remains PARTIAL.
+Main/live is `7386a02552ee1e8d55a52bd5025d5112614ea276`; Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39133290852 completed
+successfully for that exact SHA. Main's separate cleanup removed root duplicates;
+correct feature-branch assets remain intact. No app, Access, PWA, main or deployment
+changes in this run. Preserve current main during stage 9 reconciliation.
+
+Exact next action: **6AD only**. Pin the current feature-branch commit, download
+all 25 assets from their intended immutable raw GitHub URLs, verify full response
+length/SHA256/Git blob against inventory, and commit URL/hash evidence plus updated
+DONE/status. Live custom-domain Pages checks remain deferred to stage 9. Stop
+after 6AD; actual explicit-WebGL GraphModel loading remains 6AE.
+This supersedes earlier continuation pointers. No URL sweep or runtime load was
+performed in 6AC; Git checkout verification is not a claim about HTTP model loading.

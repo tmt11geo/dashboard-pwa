@@ -4,7 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Current main/live: d9651e62b82ae1f4152e1ed2414b5f285e7c06cf (Pages run 39132225480 successful). Current deliverable completes 6AB: exact model.json attached and remote length/SHA256/Git blob verified. Stages 6A–6AB are DONE; parent stage 6 remains PARTIAL. No TFJS camera implementation has been deployed. Next task: 6AC only, audit all 25 model assets and final license/provenance/integrity metadata.
+Working/outcome branch: depth-tfjs-webgl. Current main/live: 7386a02552ee1e8d55a52bd5025d5112614ea276 (Pages run 39133290852 successful). Current deliverable completes 6AC: all 25 branch assets and final provenance audited. Stages 6A–6AC DONE; parent stage 6 PARTIAL. No TFJS camera implementation deployed. Next: 6AD only, verify immutable asset URLs and downloaded hashes.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -698,3 +698,36 @@ assets against package-inventory.json plus final license/provenance/integrity
 metadata. Commit evidence and updated checkpoint, then stop. Full immutable URL
 checks remain 6AD and actual explicit-WebGL GraphModel load remains 6AE.
 This pointer supersedes historical next-action text; 6AC was not started here.
+
+
+## Stage 6AC complete — distribution audit, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; audited starting commit
+`56e4193b402ca4630207684f92e3af57978796ca`.
+Connected GitHub integration returned the complete recursive tree (no AGENTS.md).
+All 25 asset paths, modes 100644, sizes and Git blob IDs match the inventory.
+A fresh Git checkout of that exact commit independently passed SHA256, length
+and Git blob checks for every asset against the inventory and conversion-run-2.
+The manifest references exactly 24 unique, ordered relative shards; declared
+unquantized weights total 97,145,740 bytes, full model 97,817,343 bytes.
+The exact pinned model card and full Apache-2.0 license still match their stage
+6B lengths/hashes; source revision agrees across conversion/inventory/provenance.
+Authorship and modification notice retained; stale pre-upload wording and relative
+provenance links corrected. No model bytes changed.
+
+Reproduce: `python tools/depth-tfjs/audit_package.py` (Python standard library + Git,
+exit 0). Evidence: `tools/depth-tfjs/evidence/package-audit.json`.
+6AC DONE; blockers: none. Parent stage 6 remains PARTIAL.
+Main/live is `7386a02552ee1e8d55a52bd5025d5112614ea276`; Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39133290852 completed
+successfully for that exact SHA. Main's separate cleanup removed root duplicates;
+correct feature-branch assets remain intact. No app, Access, PWA, main or deployment
+changes in this run. Preserve current main during stage 9 reconciliation.
+
+Exact next action: **6AD only**. Pin the current feature-branch commit, download
+all 25 assets from their intended immutable raw GitHub URLs, verify full response
+length/SHA256/Git blob against inventory, and commit URL/hash evidence plus updated
+DONE/status. Live custom-domain Pages checks remain deferred to stage 9. Stop
+after 6AD; actual explicit-WebGL GraphModel loading remains 6AE.
+This supersedes earlier continuation pointers. No URL sweep or runtime load was
+performed in 6AC; Git checkout verification is not a claim about HTTP model loading.
