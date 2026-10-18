@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6F only, shard 3 phone upload preparation and verification.
+implementation or model assets have been deployed. Next task: user-authorized paired 6F/6G upload of shards 3 and 4, then verify both.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -569,3 +569,21 @@ retry the interrupted large create_blob path. No shard 3 work in this run.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed or rechecked. App, Access and PWA unchanged. This supersedes earlier
 6E waiting/next-action text. Documentation and evidence only in this checkpoint.
+
+
+## User-authorized paired upload: 6F + 6G, 2026-10-18
+
+User explicitly requested the next two shards in one upload; this overrides the
+one-substage restriction for this pair only. Starting/outcome branch depth-tfjs-webgl,
+starting commit 98562dffeb027fb2a0adbe634434cee89d2b68d1. Fresh recursive tree has no AGENTS.md or shard 3/4.
+Both originals recovered; lengths, SHA256 and Git blob IDs verified against inventory.
+Download copies prepared at /workspace/scratch/c49fd39fc577/group1-shard{3,4}of24.bin.
+Evidence: tools/depth-tfjs/evidence/package-shards3-4-preparation.json.
+6F and 6G PARTIAL / WAITING FOR USER UPLOAD; neither is complete yet.
+Exact next action: upload both unchanged files into
+models/depth-anything-v2-small-tfjs-fp32-224-v1 on depth-tfjs-webgl in one commit.
+Then inspect current head and independently download/hash both immutable remote
+files; mark each stage DONE only if its length/SHA256/Git blob checks pass.
+Stop after this pair; do not start 6H/shard 5. No binary tool upload attempted.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no app,
+Access, PWA or deployment changes; deployment not rechecked.

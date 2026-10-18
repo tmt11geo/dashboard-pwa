@@ -14,8 +14,8 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6F — Transfer and verify shard 3 only** |
-| Current blocker | None for 6E |
+| Next stage | **6F + 6G — WAITING FOR USER UPLOAD of shards 3 and 4** |
+| Current blocker | Waiting for user paired browser upload of shards 3 and 4 |
 | Outcome of this checkpoint | 6E DONE; shards 1 and 2 attached and remote bytes verified |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
@@ -46,8 +46,8 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6C | DONE | User browser upload and attachment verified; see latest checkpoint below. |
 | 6D | DONE | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
 | 6E | DONE | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
-| 6G | NOT STARTED | Transfer shard 4 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6F | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6G | PARTIAL — WAITING FOR USER UPLOAD | Transfer shard 4 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6H | NOT STARTED | Transfer shard 5 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6I | NOT STARTED | Transfer shard 6 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6J | NOT STARTED | Transfer shard 7 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
@@ -269,3 +269,21 @@ retry the interrupted large create_blob path. No shard 3 work in this run.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed or rechecked. App, Access and PWA unchanged. This supersedes earlier
 6E waiting/next-action text. Documentation and evidence only in this checkpoint.
+
+
+## User-authorized paired upload: 6F + 6G, 2026-10-18
+
+User explicitly requested the next two shards in one upload; this overrides the
+one-substage restriction for this pair only. Starting/outcome branch depth-tfjs-webgl,
+starting commit 98562dffeb027fb2a0adbe634434cee89d2b68d1. Fresh recursive tree has no AGENTS.md or shard 3/4.
+Both originals recovered; lengths, SHA256 and Git blob IDs verified against inventory.
+Download copies prepared at /workspace/scratch/c49fd39fc577/group1-shard{3,4}of24.bin.
+Evidence: tools/depth-tfjs/evidence/package-shards3-4-preparation.json.
+6F and 6G PARTIAL / WAITING FOR USER UPLOAD; neither is complete yet.
+Exact next action: upload both unchanged files into
+models/depth-anything-v2-small-tfjs-fp32-224-v1 on depth-tfjs-webgl in one commit.
+Then inspect current head and independently download/hash both immutable remote
+files; mark each stage DONE only if its length/SHA256/Git blob checks pass.
+Stop after this pair; do not start 6H/shard 5. No binary tool upload attempted.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no app,
+Access, PWA or deployment changes; deployment not rechecked.
