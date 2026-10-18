@@ -9,7 +9,7 @@ class Element{
  getContext(){return {drawImage(){},clearRect(){},putImageData(){},fillRect(){},getImageData:(x,y,w,h)=>({data:new Uint8ClampedArray(w*h*4)})};}
 }
 test('depth session backpressure, pause/step, hidden cleanup, stale responses and permission cancellation',async()=>{
- const ids='start stop pause step status capability backend resolution facing frequency video standby depth-image relief empty view-depth view-relief result-title relief-tools rotate-left rotate-right relief-out relief-in reset-view inference average rate age engine'.split(' ');
+ const ids='start stop pause step status capability backend resolution facing frequency video standby depth-image relief empty view-depth view-relief result-title relief-tools rotate-left rotate-right relief-out relief-in reset-view inference average rate age engine diagnostic-log diagnostics-panel copy-log clear-log log-status'.split(' ');
  const el=Object.fromEntries(ids.map(id=>[id,new Element()]));el.backend.value='auto';el.resolution.value='224';el.frequency.value='5';el.facing.value='environment';
  Object.assign(el.video,{videoWidth:640,videoHeight:480,currentTime:1,readyState:2,play:async()=>{}});
  const doc=new Element();doc.hidden=false;doc.getElementById=id=>el[id];doc.createElement=()=>new Element();globalThis.document=doc;
@@ -33,4 +33,18 @@ test('depth session backpressure, pause/step, hidden cleanup, stale responses an
  old.onmessage({data:{type:'ready',backend:'webgpu',precision:'FP16',modelBytes:50000000}});assert.equal(el.video.srcObject,null);assert.equal(el.pause.disabled,true);
  doc.hidden=false;let resolve;navigator.mediaDevices.getUserMedia=()=>new Promise(r=>resolve=r);
  const pending=el.start.fire('click');await el.stop.fire('click');resolve(media);await pending;assert.equal(stopped,2);assert.equal(el.video.srcObject,null);
+ // A worker GPU failure must survive cleanup and be copyable, with no camera payload.
+ navigator.mediaDevices.getUserMedia=async()=>media;el.backend.value='webgpu';
+ await el.start.fire('click');
+ active.onmessage({data:{type:'diagnostic',level:'warn',event:'gpu.requestAdapter.null'}});
+ active.onmessage({data:{type:'error',stage:'gpu-probe',error:{name:'Error',message:'requestAdapter returned null'},message:'GPU unavailable'}});
+ assert.equal(stopped,3);assert.equal(active.terminated,true);assert.equal(el['diagnostics-panel'].open,true);
+ assert.match(el['diagnostic-log'].value,/worker.gpu.requestAdapter.null/);assert.match(el['diagnostic-log'].value,/gpu-probe/);
+ let copied;navigator.clipboard={writeText:async text=>copied=text};await el['copy-log'].fire('click');
+ assert.match(copied,/depth-lab-2/);assert.match(copied,/GPU unavailable/);assert.match(el['log-status'].textContent,/copied/);
+ assert.doesNotMatch(copied,/pixels|deviceId/);
+ navigator.clipboard.writeText=async()=>{throw Error('denied');};let selected=false;
+ Object.assign(el['diagnostic-log'],{focus(){},select(){selected=true;},setSelectionRange(){}});
+ await el['copy-log'].fire('click');assert.equal(selected,true);assert.match(el['log-status'].textContent,/selected/);
+ await el['clear-log'].fire('click');assert.doesNotMatch(el['diagnostic-log'].value,/GPU unavailable/);
 });

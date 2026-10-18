@@ -3,8 +3,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Depth Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
-<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=1">
-<script type="module" src="./depth.js?v=1"></script><script defer src="./pwa-register.js?v=35"></script>
+<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=2">
+<script type="module" src="./depth.js?v=2"></script><script defer src="./pwa-register.js?v=35"></script>
 </head><body>
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
 <header><strong>TACTICAL <span>DEPTH LAB</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html" aria-current="page">Depth</a></nav></header>
@@ -20,6 +20,12 @@
 <div class="controls"><button id="start" type="button">Start depth camera</button><button id="pause" type="button" disabled>Pause depth</button><button id="step" type="button" disabled>One depth frame</button><button id="stop" type="button" disabled>Stop &amp; release</button></div>
 <p id="status" role="status">Ready. Starting downloads public model weights (~27–99 MB). Camera frames stay on this device.</p>
 <p id="capability" class="help">Checking browser capabilities…</p>
+<details id="diagnostics-panel" class="panel diagnostics" open><summary>Diagnostic log</summary>
+<p class="help">Reproduce the problem, then tap Copy log and paste it into our chat. Logs stay on this page and include browser capabilities, camera state, GPU checks, processing stages and errors. No camera images or account information are included.</p>
+<div class="controls"><button id="copy-log" type="button">Copy log</button><button id="clear-log" type="button">Clear log</button></div>
+<p id="log-status" class="help" role="status"></p><label class="help" for="diagnostic-log">Latest 300 diagnostic entries · depth-lab-2</label>
+<textarea id="diagnostic-log" readonly spellcheck="false" rows="10" aria-label="Diagnostic log, selectable for copying"></textarea>
+</details>
 <div class="depth-grid">
 <section class="depth-card"><div class="section-title"><h2>Live camera</h2><span class="small-tag">UNMIRRORED</span></div><div class="image-frame"><video id="video" autoplay playsinline muted></video><p id="standby">CAMERA STANDBY</p></div></section>
 <section class="depth-card"><div class="section-title"><h2 id="result-title">Relative depth</h2><div class="view-switch" role="group" aria-label="Depth view"><button id="view-depth" aria-pressed="true" type="button">Depth</button><button id="view-relief" aria-pressed="false" type="button">3D relief</button></div></div><div class="image-frame"><canvas id="depth-image" aria-label="Relative inverse depth image; brighter colours indicate nearer surfaces"></canvas><canvas id="relief" hidden tabindex="0" aria-label="Estimated 3D relief of the latest frame. Drag to rotate or use arrow keys; plus and minus zoom."></canvas><p id="empty">DEPTH STANDBY</p></div><div class="depth-legend"><span>Farther</span><span class="ramp"></span><span>Nearer</span></div></section>
