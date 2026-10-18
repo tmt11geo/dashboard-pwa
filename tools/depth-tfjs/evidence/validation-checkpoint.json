@@ -1,0 +1,31 @@
+{
+  "stage": 4,
+  "status": "PASS",
+  "utc": "2026-10-18T10:56:09.366692+00:00",
+  "working_branch": "depth-tfjs-webgl",
+  "starting_commit": "73eb63f07dff9efeb4103767125bc30587f3ecb4",
+  "main_and_verified_pages_commit": "9db5c0345faf7339f3d4cc24142dad362122649e",
+  "pages_run": 39104746337,
+  "pages_conclusion": "success",
+  "scope": "numerical parity only; no stage 5 benchmark, hardware claim, app change or deployment",
+  "commands": {
+    "prepare": "/workspace/scratch/e11ad2108fd0/depth-env/bin/python -u tools/depth-tfjs/prepare_validation.py --source-dir /workspace/scratch/e11ad2108fd0/depth-stage3/source --conversion-dir /workspace/scratch/e11ad2108fd0/depth-stage3/run-2 --output-dir /workspace/scratch/4c361dacd12f/stage4/final",
+    "validate": "DEPTH_CHROMIUM=/tmp/depth-headless/chrome-linux/headless_shell node tools/depth-tfjs/validate_graph.cjs stage4/final /tmp/depth-tf.min.js stage4/final-validation.json"
+  },
+  "node": "v24.19.0",
+  "playwright": "1.62.1",
+  "syntax_checks": [
+    "Python py_compile PASS",
+    "node --check PASS"
+  ],
+  "recorded_script_hashes_match_final_files": true,
+  "files": {
+    "prepare_validation.py": "f64ef4c3298f1e9bc165976feb6ad0f4b94b04636127b21932771fa01f271aac",
+    "validate_graph.cjs": "268d36fbc528624f88df1f0738cc2cf57f377798a7ae1bca078de33fbd626aa1",
+    "validation-fixtures.json": "53884f98882e6205c454b5f782a192f82d31f62a97417774cd6e129a2848edeb",
+    "VALIDATION.md": "4583884726aaa0061a5a79023c70cb07bc4b9f58cca3079c4130ccb62a90c153",
+    "evidence/validation-results.json": "27ad4e823ad04c4e034071b2139fddef501d35259904a93eca6041859ff7e4f3"
+  },
+  "blockers": [],
+  "next_action": "Stage 5 only: dedicated actual-model same-image WebGL benchmark with cancellation, retained failures and resource accounting."
+}

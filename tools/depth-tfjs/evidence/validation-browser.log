@@ -1,0 +1,6 @@
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+log demo01: PASS
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+log demo02: PASS
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+log demo03: PASS

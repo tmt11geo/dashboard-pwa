@@ -4,9 +4,9 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 3: repeatable pinned pretrained conversion with exact GELU rewriting. No TFJS camera implementation or model assets have been deployed. Next task is stage 4.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 4: numerical parity on three pinned real images, including separate exact GELU rewrite and TFJS execution comparisons. No TFJS camera implementation or model assets have been deployed. Next task is stage 5.
 
-The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2 and 3 have now been reproduced below. Reproduction remains required before marking stages 4–5 DONE.
+The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–4 have now been reproduced below. Stage 5 remains PARTIAL until its dedicated benchmark is implemented and run.
 
 ## Existing implementation
 
@@ -71,7 +71,7 @@ OnePlus 12R, Android 16; reported Chrome 155. Existing WASM works around 2.7–3
 
 ## Next action
 
-Run stage 4 only: pin at least three representative real-image fixtures by immutable revision/checksum. Reuse the stage 3 original-model builder and exact GELU rewrite. Feed identical ImageNet-normalized tensors to the original pretrained source and converted TFJS graph, comparing outputs before display normalization; separate rewrite error from conversion/runtime error. Define justified thresholds, preserve fixture provenance, executable validation and machine-readable results. Do not start benchmarking or app integration. See the stage 3 output paths/regeneration instructions below.
+Run stage 5 only: create a dedicated actual-model WebGL benchmark with explicit backend identity, CPU forwarding disabled, repeated same-image warm timings, readback scope, bounded loading/cancellation, retained failure logs and live/pool resource accounting after disposal. Use the stage 3 graph and stage 4 fixture/tensor preparation. Do not integrate or deploy. See the stage 4 appendix for local paths and regeneration commands.
 
 ## Stage 2 reproduced — 2026-10-18
 
@@ -195,3 +195,64 @@ and use the existing run-2 output if still available; otherwise regenerate.
 Keep raw relative-depth outputs before display min/max normalization, retain
 immutable real-image provenance and record numerical pass/fail thresholds/results.
 Stop after that stage; do not integrate or deploy.
+
+## Stage 4 reproduced — 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting commit
+`73eb63f07dff9efeb4103767125bc30587f3ecb4`. The resulting checkpoint is the
+branch head containing this section. No AGENTS.md exists in the inspected recursive
+tree. Main remains `9db5c0345faf7339f3d4cc24142dad362122649e`; Pages run
+[39104746337](https://github.com/tmt11geo/dashboard-pwa/actions/runs/39104746337)
+was verified successful for that SHA. Differences from main remain documentation
+and tooling/evidence only. No application, Access, PWA or hosted model change.
+
+### Deliverables and results
+
+- `tools/depth-tfjs/validation-fixtures.json`: upstream revision
+  `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf`, immutable URLs, lengths and SHA256
+  for demo01/02/03.jpg. Images are fetched locally, not redistributed.
+- `prepare_validation.py`: verifies original source and converted graph files,
+  strict original pretrained loading, RGB decoding, square bilinear resize,
+  ImageNet normalization, original references before 12 exact GELU rewrites,
+  rewritten references, finite/shape/error guards and byte-identical browser inputs.
+- `validate_graph.cjs`: loopback-only numerical runner, tensor/model integrity,
+  explicit TFJS 4.22.0 WebGL with WEBGL_CPU_FORWARD=false, raw float32 outputs,
+  all nine comparisons, error reporting and bounded browser execution.
+- `VALIDATION.md`: commands, dependency/browser pins, rationale, scope and limitations.
+- `evidence/validation-results.json`, `validation-prepare.log`,
+  `validation-browser.log`, `validation-checkpoint.json`: machine-readable results
+  and actual execution/provenance. Python and Node syntax checks passed.
+
+| Fixture | Original source range | Rewrite max error | TFJS vs rewrite max error | TFJS vs original max error | End-to-end MAE/source range |
+| --- | --- | --- | --- | --- | --- |
+| demo01 | 0–3.90340209 | 1.24276e-5 | 2.88934e-5 | 2.44081e-5 | 2.02941e-7 |
+| demo02 | 0–3.15063858 | 2.26498e-5 | 4.04119e-5 | 3.30210e-5 | 2.49123e-7 |
+| demo03 | 0.41774547–3.05141687 | 3.13520e-5 | 7.85589e-5 | 8.38041e-5 | 1.06466e-6 |
+
+All nine comparisons PASS: maximum absolute error <=1e-3 and MAE/original
+source range <=1e-4. Every output is finite float32 [1,224,224,1]. No display
+normalization or fitted scaling was applied. These are float32 parity bounds,
+not ground-truth depth accuracy. Three examples and square-resize input do not
+validate all camera scenes or letterboxing.
+
+Runtime: Playwright 1.62.1, headless Chromium 141.0.7390.37, WebGL 2.0 via
+ANGLE Vulkan SwiftShader. This proves software-rendered WebGL numerical
+compatibility only, not hardware acceleration, phone performance or stage 5 timing.
+Default browser installers returned invalid ZIPs; an explicitly pinned headless-shell
+archive from Microsoft's Playwright download host worked. Full Chrome failed
+process-singleton socket creation. Details and archive hash are in VALIDATION.md.
+An earlier headless numerical execution also passed; final committed evidence uses
+the final preparer and runner (single-process/no-zygote flags). No stage 5 benchmark
+was attempted; no timing or resource-retention conclusions are claimed.
+
+### Persistence and exact next action
+
+Stage 4 is DONE; blocker: none. Prepared local tensors and copied graph:
+`/workspace/scratch/4c361dacd12f/stage4/final`. These are transient; regenerate with
+VALIDATION.md if absent. The existing stage 3 source/environment/output paths
+remain valid at this checkpoint; model and 24 shard hashes were verified before use.
+
+Exact next action is stage 5 only: implement/run the dedicated same-image WebGL
+benchmark, cancellation/cleanup and failure retention, memory accounting and
+viability decision. Reuse `stage4/final/demo01-input.bin` and its graph if present,
+otherwise regenerate. Do not start asset hosting, camera integration or deployment.
