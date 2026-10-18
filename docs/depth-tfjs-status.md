@@ -4,8 +4,8 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable reconciles user upload: 6C2/6C3 and parent 6C DONE. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6D remote byte verification only.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
+implementation or model assets have been deployed. Next task: 6E transfer/verify shard 2 only; browser handoff if absent.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -506,3 +506,26 @@ length/SHA256/Git blob ID, save evidence and checkpoint, then stop. This run
 verified remote tree metadata/content identity, not an independent remote SHA256.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed or new deployment verification claimed. No app files changed.
+
+
+## Stage 6D complete — remote bytes verified, 2026-10-18
+
+Working/outcome branch: depth-tfjs-webgl; starting commit cefe6c4c8f4d20dadfbae0c47a2b9c98ebe0b8aa.
+Downloaded shard 1 from the immutable raw GitHub URL recorded in
+`tools/depth-tfjs/evidence/package-shard1-remote.json`, using Python urllib
+with a 30-second timeout. HTTP 200; complete response: 4,194,304 bytes.
+Independent SHA256: 9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855.
+Independent Git blob ID: 465c35791bb7139749f64bd758c46971a7607477.
+All three assertions match the committed package inventory; process exit 0.
+Connected integration confirmed the branch-referenced path/blob/size; complete
+recursive tree has no AGENTS.md and only shard 1 among the binary model assets.
+6D DONE; no blocker. Stage 6 remains PARTIAL; complete model loading is not yet possible.
+Main remains 9db5c0345faf7339f3d4cc24142dad362122649e. No app, Access, PWA or deployment changes;
+no new deployment check claimed. This run changes documentation/evidence only.
+
+Exact next action: **6E only**, transfer and verify shard 2. First inspect current
+branch/path and resume any user upload. Use the proven phone/browser upload handoff
+if absent: prepare verified shard 2 for download and checkpoint WAITING FOR USER
+UPLOAD; after upload verify immutable remote bytes. Do not repeat the interrupted
+multi-megabyte create_blob path. Do not upload shard 2 during this 6D run.
+This pointer supersedes all historical next-action paragraphs.

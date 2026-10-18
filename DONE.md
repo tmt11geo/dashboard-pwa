@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6D — Remote byte verification of shard 1 only** |
-| Current blocker | None for 6C; remote byte verification next |
-| Outcome of this checkpoint | 6C DONE via verified user upload; shard 1 attached; 6D next |
+| Next stage | **6E — Transfer and verify shard 2 only** |
+| Current blocker | None for 6D; browser upload handoff available for subsequent shards |
+| Outcome of this checkpoint | 6D DONE; shard 1 remote length/SHA256/Git blob verified; 6E next |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -31,7 +31,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
-| 6. Model packaging/hosting | **PARTIAL** | 6A–6B DONE: integrity inventory and license/provenance committed. 6C–6AE pending; no branch-referenced graph/weight assets. |
+| 6. Model packaging/hosting | **PARTIAL** | 6A–6D DONE; shard 1 attached and remote bytes verified. 6E–6AE pending; remaining 23 shards and model.json not attached. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
@@ -44,7 +44,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6A | DONE | Integrity audit and exact 25-file inventory (unchanged). |
 | 6B | DONE | License/attribution and pilot transfer preparation only; no binary upload. |
 | 6C | DONE | User browser upload and attachment verified; see latest checkpoint below. |
-| 6D | NOT STARTED | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
+| 6D | DONE | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
 | 6E | NOT STARTED | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6G | NOT STARTED | Transfer shard 4 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
@@ -206,3 +206,26 @@ length/SHA256/Git blob ID, save evidence and checkpoint, then stop. This run
 verified remote tree metadata/content identity, not an independent remote SHA256.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed or new deployment verification claimed. No app files changed.
+
+
+## Stage 6D complete — remote bytes verified, 2026-10-18
+
+Working/outcome branch: depth-tfjs-webgl; starting commit cefe6c4c8f4d20dadfbae0c47a2b9c98ebe0b8aa.
+Downloaded shard 1 from the immutable raw GitHub URL recorded in
+`tools/depth-tfjs/evidence/package-shard1-remote.json`, using Python urllib
+with a 30-second timeout. HTTP 200; complete response: 4,194,304 bytes.
+Independent SHA256: 9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855.
+Independent Git blob ID: 465c35791bb7139749f64bd758c46971a7607477.
+All three assertions match the committed package inventory; process exit 0.
+Connected integration confirmed the branch-referenced path/blob/size; complete
+recursive tree has no AGENTS.md and only shard 1 among the binary model assets.
+6D DONE; no blocker. Stage 6 remains PARTIAL; complete model loading is not yet possible.
+Main remains 9db5c0345faf7339f3d4cc24142dad362122649e. No app, Access, PWA or deployment changes;
+no new deployment check claimed. This run changes documentation/evidence only.
+
+Exact next action: **6E only**, transfer and verify shard 2. First inspect current
+branch/path and resume any user upload. Use the proven phone/browser upload handoff
+if absent: prepare verified shard 2 for download and checkpoint WAITING FOR USER
+UPLOAD; after upload verify immutable remote bytes. Do not repeat the interrupted
+multi-megabyte create_blob path. Do not upload shard 2 during this 6D run.
+This pointer supersedes all historical next-action paragraphs.

@@ -53,8 +53,8 @@ the selected checkpoint. See tools/depth-tfjs/PACKAGING.md.
 | --- | --- | --- |
 | 6A | DONE | Integrity audit and exact 25-file inventory (unchanged). |
 | 6B | DONE | License/attribution and pilot transfer preparation only; no binary upload. |
-| 6C | PARTIAL | Split into 6C1 DONE, 6C2 upload/receipt NEXT, 6C3 attachment pending. See overriding checkpoint below. |
-| 6D | NOT STARTED | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
+| 6C | DONE | Phone upload and attachment verified. |
+| 6D | DONE | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
 | 6E | NOT STARTED | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6G | NOT STARTED | Transfer shard 4 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
@@ -180,3 +180,11 @@ Record the returned ID or exact failure in a small committed receipt and update
 DONE/status before stopping. Do not attach in 6C2, start 6D, or upload shard 2.
 The upload request itself is indivisible with create_blob; this split saves progress
 around it, not within it. Do not claim this removes any transport/context limit.
+
+
+## Current continuation pointer — 2026-10-18
+
+6C and 6D are DONE; consult current DONE.md over historical instructions above.
+Next: 6E only, shard 2. Inspect branch/path first. Use phone/browser upload handoff
+if absent; checkpoint waiting for upload rather than retry large create_blob calls.
+Then verify uploaded remote bytes and checkpoint. Do not start a second substage.
