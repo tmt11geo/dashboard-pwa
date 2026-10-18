@@ -10,7 +10,7 @@ First inspect branch depth-tfjs-webgl and read DONE.md from that branch, plus an
 
 Tell me which branch and commit you are using, the current live/deployed commit, and which stage you will handle. Complete ONLY the earliest incomplete stage whose prerequisites are satisfied. Resume a partially completed stage before starting another. Use previous evidence to avoid rediscovery, but do not treat historical results with missing artifacts as reproducible deliverables.
 
-For stage 6, select only the earliest incomplete substage 6A–6J from DONE.md; never run the whole parent stage. Resume a PARTIAL batch first and skip verified branch-referenced files. Stop after that one substage, including a blocked checkpoint. Never print binary/base64 payloads into the conversation.
+For stage 6, select only the earliest incomplete substage 6A–6AE from DONE.md; never run the whole parent stage. Resume a PARTIAL substage first and skip verified branch-referenced files. Stage 6B is license/preparation only, 6C is shard 1 upload/attachment, 6D is remote byte verification; later transfers are one shard per run. Follow the revised ledger rather than historical 6B–6J scopes. Stop after that one substage, including a blocked checkpoint. Never print binary/base64 payloads into the conversation.
 
 Work autonomously within that single stage. I authorize committing checkpoints to the documented working branch. At stage 9 I authorize merging the verified changes into main and deploying through the existing Pages arrangement, then verifying the exact deployment succeeds. At stage 10, if device logs are missing, provide the test sequence and stop with WAITING FOR DEVICE LOGS; do not invent results.
 

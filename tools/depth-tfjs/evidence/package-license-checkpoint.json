@@ -1,0 +1,67 @@
+{
+  "stage": "6B",
+  "scope": "Revised license/provenance and pilot preparation only",
+  "status": "PASS",
+  "date": "2026-10-18",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "d13dabeee16b56d001d8f3fa55c78ccc98edad36",
+  "supersedes": "Old 6B pilot scope split into 6B preparation, 6C upload/attachment, 6D remote bytes; all later uploads one shard each",
+  "checks": {
+    "recursive_tree_complete": true,
+    "agents_files": [],
+    "starting_model_assets": [],
+    "source_model_card_exact_match": true,
+    "license_complete": true,
+    "attribution_and_modification_notice": true,
+    "local_shard1_matches_inventory": true,
+    "revised_ledger_consistent": true
+  },
+  "source_model_card": {
+    "revision": "0fa3d627036ffe8029b34850dbdab5028696f011",
+    "bytes": 4720,
+    "sha256": "96e49b7f17fdb5c5adbb9740ea6581f699be39f03bb327bac03cdc0ed2de126d",
+    "listing": [
+      ".gitattributes",
+      "README.md",
+      "config.json",
+      "image_converter.json",
+      "metadata.json",
+      "model.weights.h5"
+    ],
+    "separate_license_or_notice": false
+  },
+  "license": {
+    "url": "https://github.com/DepthAnything/Depth-Anything-V2/blob/a561b849ebae10a6f5ef49e26c83cbbcd36c71bf/LICENSE",
+    "bytes": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  },
+  "shard1": {
+    "path": "/workspace/scratch/4c361dacd12f/stage4/final/graph-model/group1-shard1of24.bin",
+    "name": "group1-shard1of24.bin",
+    "bytes": 4194304,
+    "sha256": "9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855",
+    "git_blob_sha": "465c35791bb7139749f64bd758c46971a7607477",
+    "remote_verified": false
+  },
+  "transport": {
+    "upload_attempted": false,
+    "proven": false,
+    "error": null,
+    "base64_payload_bytes": 5592408,
+    "protocol": "Programmatic bytes -> base64 -> integration create_blob, compare ID -> immediate tree/commit/leased ref update; no base64 output"
+  },
+  "main_commit": "9db5c0345faf7339f3d4cc24142dad362122649e",
+  "pages": {
+    "run_id": 39104746337,
+    "head_sha": "9db5c0345faf7339f3d4cc24142dad362122649e",
+    "conclusion": "success"
+  },
+  "blockers": [],
+  "limitations": [
+    "No graph/weights attached",
+    "Binary transport unproven",
+    "Runtime notices audited when runtime distribution added",
+    "No actual load/phone result"
+  ],
+  "next_action": "6C only: upload/attach shard 1, verify ref/tree metadata, checkpoint and stop. Remote byte SHA256 belongs to 6D."
+}

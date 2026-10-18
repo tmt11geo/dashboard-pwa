@@ -4,9 +4,9 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 6A only: recovered package integrity audit,
-transfer inventory and bounded substages 6B–6J. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6B pilot shard 1.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes revised stage 6B only: license/provenance and
+pilot preparation. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
+implementation or model assets have been deployed. Next task: 6C shard 1 upload/attachment only.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -73,7 +73,7 @@ OnePlus 12R, Android 16; reported Chrome 155. Existing WASM works around 2.7–3
 
 ## Next action
 
-Run **6B only**, as specified in the current Stage 6A appendix and PACKAGING.md.
+Run **6C only**, as specified in the Stage 6B appendix below and PACKAGING.md.
 Historical next-action paragraphs below describe previous checkpoints and are
 superseded by this pointer and DONE.md.
 
@@ -375,3 +375,43 @@ and branch commit, then verify remote file length/SHA256/blob ID. A blob respons
 alone is insufficient. If transport is unavailable/fails, commit exact blocker and
 safe alternative; do not keep retrying or start other shards. Parent stage 6
 remains incomplete until full distribution and URL/load checks pass. Stop after 6B.
+
+## Stage 6B — license and pilot preparation, 2026-10-18
+
+Starting/outcome branch: `depth-tfjs-webgl`; starting commit
+`d13dabeee16b56d001d8f3fa55c78ccc98edad36`. This user-requested finer split
+supersedes every historical 6B–6J next-action/scope reference above. 6A remains DONE;
+6B now completes only license/preparation. 6C uploads/attaches shard 1, 6D checks
+its remote bytes, 6E–6AA transfer one subsequent shard each. 6AB adds model.json,
+6AC audits distribution, 6AD checks immutable URLs, 6AE actually loads the model.
+
+Deliverables: full `LICENSE.txt`, exact `SOURCE_MODEL_CARD.md` and
+`ATTRIBUTION.md` at `models/depth-anything-v2-small-tfjs-fp32-224-v1/`.
+The card downloaded from the immutable Keras revision matches stage 3's 4,720 bytes
+and SHA256. Its pinned file listing has no separate LICENSE or NOTICE. The complete
+Apache-2.0 text was retrieved using the connected GitHub integration from original
+DepthAnything upstream commit `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf`; author attribution
+was checked against its README. The conversion modification notice accompanies
+future binary shards without corrupting their bytes. Runtime dependency notice
+audit remains required if runtime code is later distributed.
+
+Evidence: `tools/depth-tfjs/evidence/package-license-checkpoint.json`.
+Local shard 1 was re-read at the 6A source path; length/SHA256/blob ID match inventory.
+Remote starting tree: no AGENTS.md, graph or weights; no partial branch asset to
+resume. No upload attempted in this bounded substage. Binary transport remains
+unproven, with no measured tool-limit/error claimed. No hosting or phone result.
+
+Main/live state: main still `9db5c0345faf7339f3d4cc24142dad362122649e`;
+Pages run 39104746337 rechecked `success` for that exact head. Only documentation,
+evidence and license/provenance files change in this run. App, Access and deployment
+configuration remain unchanged. No stage 6B blocker.
+
+Exact next action: **6C only**. Re-read current branch head and intended shard path;
+use the expected inventory to recover/skip already attached work. Read shard 1
+programmatically from the recorded graph path, base64-encode without output to the
+conversation, and make one create_blob call through the integration. Compare returned
+blob ID `465c35791bb7139749f64bd758c46971a7607477`; immediately attach via tree,
+commit and leased ref update. Record resulting commit and ref/tree metadata evidence,
+then stop. If transport fails, capture exact error, checkpoint blocked and stop.
+6D alone subsequently checks remote byte SHA256. Never count a dangling blob or
+start shard 2 in 6C. No user input currently required.

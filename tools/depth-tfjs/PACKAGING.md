@@ -2,7 +2,7 @@
 
 Stage 6A verifies and inventories bytes; it does not upload or host the model.
 Run only one substage from `../../DONE.md` per conversation. The original stage 6
-is replaced by 6A–6J in `../../docs/depth-tfjs-plan.md`.
+is replaced by 6A–6AE in `../../docs/depth-tfjs-plan.md`.
 
 ## Verify the source package
 
@@ -47,37 +47,33 @@ model in the existing service worker as part of packaging.
 Reference checked 2026-10-18:
 https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits
 
-## Transfer protocol (6B pilot, then 6C–6H batches)
+## Current transfer protocol — finer split after 6A
 
-Before the first weight is attached, preserve the Apache-2.0 license text and
-source/derivative attribution alongside it; use the pinned provenance in
-CONVERSION.md and conversion-run-2.json. Stage 6I audits the completed distribution
-and notices. The pilot must not redistribute weights without their license.
+The old 6B–6J scopes are superseded. See the exact ledger in ../../DONE.md.
+6B has committed LICENSE.txt, SOURCE_MODEL_CARD.md and ATTRIBUTION.md at the
+model destination. No weights have been attached. 6C uploads/attaches only
+shard 1; 6D verifies its remote bytes; 6E–6AA transfer one shard per run (2–24).
+6AB adds model.json; 6AC audits complete distribution/notices; 6AD checks immutable
+URLs/hashes; 6AE performs the actual explicit-WebGL load. Stop after one row.
 
-1. Read current branch head/tree and the intended path. Skip a file only after
-   checking its remote content, size and blob ID against inventory.
-2. Read binary bytes and base64-encode programmatically without printing the
-   encoded string or a binary fetch response into the conversation. Pass content
-   directly to the GitHub integration's `create_blob` call. Never paste a 5.6 MB
-   payload through model context. Whether this tool path supports the request is
-   unproven: **6B tests only shard 1**, not the full model or the 24-shard loop.
-3. Compare returned SHA to inventory. Create a tree entry referencing that SHA,
-   commit with current branch head as parent, then update the branch with an
-   expected-head lease. Preserve intervening commits if the lease fails.
-4. Verify branch head/path, remote size and blob ID, then decode a remote content
-   response programmatically to check SHA256. Commit DONE/status with per-file
-   progress before the next large upload. Never count an unattached blob.
-5. Stop after the assigned batch. If any call fails or transfer cannot be made
-   without printing a huge payload, capture the exact limit/error and commit a
-   blocked checkpoint. Do not repeat the failed operation indefinitely. Choose
-   an available authenticated bounded binary-transfer alternative in a later run;
-   do not request credentials or assume shell git has authentication.
+1. Re-read branch head/tree and intended path. Resume partial work first. Skip
+   attached files only when verified against inventory; never count dangling blobs.
+2. Read and base64-encode binary programmatically without printing it. Pass directly
+   to the integration create_blob tool; never paste megabytes through model context.
+   The first 4 MiB request remains unproven. Do not assume shell git authentication.
+3. Compare returned SHA to inventory; immediately create a referencing tree entry,
+   commit with current parent and update the branch using expected-head lease.
+   Inspect/preserve intervening commits if the lease fails. Verify ref/tree metadata.
+4. For shard 1, stop at attachment in 6C; save its exact commit/path/blob ID.
+   6D alone retrieves remote content programmatically and checks decoded length,
+   SHA256 and Git blob ID. For later one-shard runs, attachment is immediately
+   followed by these checks and a durable DONE/status/evidence checkpoint.
+5. On failure, record exact error with at most one diagnostic follow-up, then commit
+   a blocked checkpoint and stop. Do not repeat an upload indefinitely. If transfer
+   cannot happen without printing a huge payload, record that limitation; evaluate
+   an authenticated bounded alternative in a later run without requesting credentials.
 
-6B = shard 1; 6C = 2–5; 6D = 6–9; 6E = 10–13; 6F = 14–17;
-6G = 18–21; 6H = 22–24. A partially completed batch resumes first. Make smaller
-checkpoints if required; never combine batches to fill a conversation.
-
-Stage 6I adds exact model.json and final attribution/integrity metadata and audits
-all branch assets. Stage 6J checks all immutable URLs/bytes and performs an actual
-GraphModel load with explicit WebGL. Hosting is not DONE until those checks pass.
-Keep the live-URL deferral explicit until stage 9; no phone speed claim follows.
+Never concatenate padded base64 chunks. Do not repack, quantize or modify validated
+bytes. Use ordinary Git blobs. Do not add the model to the service worker precache.
+Parent stage 6 remains PARTIAL until full distribution, immutable URL and actual
+load checks pass. Live custom-domain checks remain deferred to stage 9.

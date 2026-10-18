@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6B — Pilot transfer of shard 1 only** |
-| Current blocker | None for 6A; binary transport unproven; phone performance remains unknown |
-| Outcome of this checkpoint | Stage 6A package audit PASS; exact transfer inventory and smaller 6B–6J checkpoints preserved; no binary assets uploaded |
+| Next stage | **6C — Upload and attach shard 1 only** |
+| Current blocker | None for 6B; binary transport unproven; phone performance remains unknown |
+| Outcome of this checkpoint | Stage 6B license/preparation PASS; pilot separated into 6C upload and 6D verification; later transfers limited to one shard per run; no binary assets uploaded |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -31,7 +31,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
-| 6. Model packaging/hosting | **PARTIAL** | 6A DONE: all 25 recovered files match stage 3 hashes. 6B–6J pending; no branch-referenced model assets. |
+| 6. Model packaging/hosting | **PARTIAL** | 6A–6B DONE: integrity inventory and license/provenance committed. 6C–6AE pending; no branch-referenced graph/weight assets. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
@@ -41,20 +41,44 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 
 | Substage | State | Exact scope |
 | --- | --- | --- |
-| 6A | **DONE** | Integrity audit, 25-file SHA256/length/Git blob inventory, verifier and bounded transfer plan. |
-| 6B | **NOT STARTED — NEXT** | Only shard 1 with license/attribution: prove upload, branch commit and remote byte verification. |
-| 6C | **NOT STARTED** | Shards 2–5. |
-| 6D | **NOT STARTED** | Shards 6–9. |
-| 6E | **NOT STARTED** | Shards 10–13. |
-| 6F | **NOT STARTED** | Shards 14–17. |
-| 6G | **NOT STARTED** | Shards 18–21. |
-| 6H | **NOT STARTED** | Shards 22–24. |
-| 6I | **NOT STARTED** | model.json, licenses/attribution, full branch asset verification. |
-| 6J | **NOT STARTED** | Immutable URL hash checks and actual model load; document live URL deferral to stage 9. |
+| 6A | DONE | Integrity audit and exact 25-file inventory (unchanged). |
+| 6B | DONE | License/attribution and pilot transfer preparation only; no binary upload. |
+| 6C | NOT STARTED — NEXT | Upload shard 1 and immediately attach it to a branch commit; compare returned blob ID. No second shard. |
+| 6D | NOT STARTED | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
+| 6E | NOT STARTED | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6G | NOT STARTED | Transfer shard 4 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6H | NOT STARTED | Transfer shard 5 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6I | NOT STARTED | Transfer shard 6 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6J | NOT STARTED | Transfer shard 7 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6K | NOT STARTED | Transfer shard 8 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6L | NOT STARTED | Transfer shard 9 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6M | NOT STARTED | Transfer shard 10 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6N | NOT STARTED | Transfer shard 11 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6O | NOT STARTED | Transfer shard 12 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6P | NOT STARTED | Transfer shard 13 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Q | NOT STARTED | Transfer shard 14 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6R | NOT STARTED | Transfer shard 15 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6S | NOT STARTED | Transfer shard 16 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6T | NOT STARTED | Transfer shard 17 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6U | NOT STARTED | Transfer shard 18 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6V | NOT STARTED | Transfer shard 19 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6W | NOT STARTED | Transfer shard 20 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6X | NOT STARTED | Transfer shard 21 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Y | NOT STARTED | Transfer shard 22 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Z | NOT STARTED | Transfer shard 23 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6AA | NOT STARTED | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6AB | NOT STARTED | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
+| 6AC | NOT STARTED | Audit all 25 branch assets and final license/provenance/integrity metadata. |
+| 6AD | NOT STARTED | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
+| 6AE | NOT STARTED | Actual complete GraphModel load with explicit WebGL; only then mark parent stage 6 DONE. |
 
-Complete only one substage per run. After each blob, commit it before the next
-large upload. Resume partial batches before starting another. Parent stage 6
-requires every row; an inventory or unreferenced blob is not hosted assets.
+Complete only one substage per run. This finer split supersedes the old 6B–6J
+scopes; completed 6A is unchanged. The original pilot's license/preparation is
+6B, upload/attachment is 6C, and remote byte verification is 6D. Thereafter
+transfer only one shard per run and commit it immediately before verification.
+Resume partial work first. Parent stage 6 requires every row; a dangling blob
+or inventory is not a hosted model. Never start a second substage in one run.
 
 ## Completed points
 
@@ -88,3 +112,5 @@ Use [the reusable prompt](docs/depth-tfjs-continue-prompt.md). Read [the stage p
 
 
 - 2026-10-18: Stage 6A completed from `1b8409a367a1e816490aab117b35577f22d2d4e1` on `depth-tfjs-webgl`. User requested smaller chunks after blob-creation interruption. Recovered local stage 4 graph: all 25 files match stage 3 run-2 lengths/SHA256; 24 manifest shards total 97,145,740 bytes, complete graph 97,817,343 bytes. All expected Git blob IDs independently match `git hash-object`; corrupt/missing graph guards pass. Evidence: `tools/depth-tfjs/evidence/package-{inventory,checkpoint}.json`; verifier and `PACKAGING.md`. Recursive starting tree has no AGENTS.md or model assets; interrupted uploads cannot be recovered from branch state. No upload attempted in 6A. Main/live remain `9db5c0345faf7339f3d4cc24142dad362122649e`, Pages run 39104746337 verified successful. Exact next action: **6B only**, transfer `group1-shard1of24.bin` to `models/depth-anything-v2-small-tfjs-fp32-224-v1/`, commit and verify remote length/SHA256/blob ID. If transport fails, save a blocked checkpoint and stop. No application/deployment changes.
+
+- 2026-10-18: Stage 6B (new smaller scope) completed from `d13dabeee16b56d001d8f3fa55c78ccc98edad36` on `depth-tfjs-webgl`. Split old 6B into license/preparation (6B), shard 1 upload/attachment (6C), remote byte verification (6D); all subsequent transfers are one shard each (6E–6AA), followed by separate manifest, audit, URL and load checkpoints (6AB–6AE). No partial branch assets were found to resume. Full Apache-2.0 text, exact hash-verified pinned Keras model card, authorship and modification notice committed at the model destination. Local shard 1 still matches 4,194,304 bytes, SHA256 `9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855`, blob `465c35791bb7139749f64bd758c46971a7607477`. Evidence: `tools/depth-tfjs/evidence/package-license-checkpoint.json`. No binary upload attempted; transport remains unproven. Main remains `9db5c0345faf7339f3d4cc24142dad362122649e`; Pages run 39104746337 rechecked successful for that SHA. Exact next action: **6C only**, inspect the current branch/path and attempt one programmatic base64 upload of shard 1 through the connected integration, compare blob ID, immediately attach to a branch commit and checkpoint; stop on transport failure. Do not start 6D remote hash verification or shard 2 in that run.

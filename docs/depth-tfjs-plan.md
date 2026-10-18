@@ -45,34 +45,64 @@ Acceptance: durable runnable benchmark and results, explicit backend identity, r
 
 ## 6 — Model packaging and hosting (parent stage)
 
-Stage 6 remains PARTIAL until 6A–6J pass. Each row is ONE run; select the earliest
-incomplete row and stop after its checkpoint. Resume a partially uploaded row first.
-Never execute the whole parent stage in one run. See `tools/depth-tfjs/PACKAGING.md`.
+Stage 6 remains PARTIAL until 6A–6AE pass. This finer split supersedes the
+previous 6B–6J scopes. Each row is ONE run. Resume partial work first; stop after
+the selected checkpoint. See tools/depth-tfjs/PACKAGING.md.
 
-| Substage | Bounded deliverable / acceptance |
-| --- | --- |
-| 6A | Recover and verify the 25 local graph files; commit SHA256/length/Git blob inventory, verifier and this split. No binary transfer. |
-| 6B | Pilot transfer: only shard 1, with license/attribution preserved before redistribution. Commit it at the documented destination; verify branch-referenced bytes, length, SHA256 and Git blob ID. Stop if transport fails; preserve precise error and fallback plan. |
-| 6C | Transfer shards 2–5, one blob request at a time; verify and commit remote checkpoint. |
-| 6D | Transfer shards 6–9; same verification. |
-| 6E | Transfer shards 10–13; same verification. |
-| 6F | Transfer shards 14–17; same verification. |
-| 6G | Transfer shards 18–21; same verification. |
-| 6H | Transfer shards 22–24; same verification. |
-| 6I | Attach exact model.json plus complete license texts, attribution, source/rewrite provenance and integrity metadata. Verify all 25 branch assets. |
-| 6J | Verify immutable intended URLs and download hashes; actual GraphModel load with explicit WebGL. Record Access/deployment limitations; only then mark parent 6 DONE. |
+| Substage | State | Exact scope |
+| --- | --- | --- |
+| 6A | DONE | Integrity audit and exact 25-file inventory (unchanged). |
+| 6B | DONE | License/attribution and pilot transfer preparation only; no binary upload. |
+| 6C | NOT STARTED — NEXT | Upload shard 1 and immediately attach it to a branch commit; compare returned blob ID. No second shard. |
+| 6D | NOT STARTED | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
+| 6E | NOT STARTED | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6G | NOT STARTED | Transfer shard 4 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6H | NOT STARTED | Transfer shard 5 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6I | NOT STARTED | Transfer shard 6 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6J | NOT STARTED | Transfer shard 7 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6K | NOT STARTED | Transfer shard 8 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6L | NOT STARTED | Transfer shard 9 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6M | NOT STARTED | Transfer shard 10 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6N | NOT STARTED | Transfer shard 11 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6O | NOT STARTED | Transfer shard 12 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6P | NOT STARTED | Transfer shard 13 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Q | NOT STARTED | Transfer shard 14 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6R | NOT STARTED | Transfer shard 15 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6S | NOT STARTED | Transfer shard 16 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6T | NOT STARTED | Transfer shard 17 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6U | NOT STARTED | Transfer shard 18 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6V | NOT STARTED | Transfer shard 19 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6W | NOT STARTED | Transfer shard 20 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6X | NOT STARTED | Transfer shard 21 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Y | NOT STARTED | Transfer shard 22 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6Z | NOT STARTED | Transfer shard 23 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6AA | NOT STARTED | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
+| 6AB | NOT STARTED | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
+| 6AC | NOT STARTED | Audit all 25 branch assets and final license/provenance/integrity metadata. |
+| 6AD | NOT STARTED | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
+| 6AE | NOT STARTED | Actual complete GraphModel load with explicit WebGL; only then mark parent stage 6 DONE. |
 
-After EACH successful blob, attach it to the branch with a commit before starting
-another large request. Keep per-file progress in DONE/status. A dangling blob is
-not a completed transfer. If interrupted mid-batch, resume that batch and skip
-already verified branch files. Any failed request gets at most one diagnostic
-follow-up; checkpoint the failure instead of repeating it indefinitely.
+6B acceptance: full Apache-2.0 license, pinned hash-verified source model card,
+authorship/modification notice, shard 1 local readiness evidence and this plan
+are committed. No binary transfer in 6B.
 
-Use the exact FP32 graph set and unchanged manifest. No quantization or repacking.
-Do not print base64 or binary tool responses into the conversation. Independently
-padded base64 strings cannot be concatenated. The 6B pilot must demonstrate a
-bounded transport path before other batches start. No camera backend or main
-merge/deployment in stage 6; live Pages URL checks wait for stage 9 when necessary.
+For 6C, read the current head/path first. Programmatically encode shard 1 and
+pass it directly to create_blob without printing binary/base64. Require expected
+blob ID, create a tree referencing it, commit against the current parent and
+update the branch with an expected-head lease. A dangling blob is not completion.
+After attachment, verify the ref and tree path/size/blob metadata; the remote
+byte SHA256 check is a separate run (6D). If interrupted, recover/attach an existing
+verified blob before attempting another upload. If transport fails, capture the
+exact error and stop with a blocked checkpoint; at most one diagnostic follow-up.
+
+6D downloads/decode-checks the attached shard programmatically, then records its
+remote length/SHA256/blob ID. For 6E–6AA the now-proven transport transfers and
+verifies just one shard per run, committing immediately after upload. If still
+too large, split that row before working. Keep per-file evidence in DONE/status.
+Use unchanged FP32 bytes and manifest; no repacking/quantization or LFS pointers.
+Never concatenate independently padded base64 strings. No main merge, deployment,
+camera integration or phone performance claims in stage 6.
 
 ## 7 — Camera integration
 
