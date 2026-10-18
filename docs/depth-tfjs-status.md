@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: resume 6E after user uploads shard 2; verify remote bytes and checkpoint.
+implementation or model assets have been deployed. Next task: 6F only, shard 3 phone upload preparation and verification.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -549,3 +549,23 @@ from immutable commit URL and verify length/SHA256/blob against inventory, commi
 receipt and mark 6E DONE only on success. Do not begin 6F or upload shard 3.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed or rechecked. No app/Access/PWA changes. Only documentation/evidence changed.
+
+
+## Stage 6E complete — shard 2 remote verification, 2026-10-18
+
+Working/outcome branch: depth-tfjs-webgl; user upload/start commit 42e5bf8a83bac3ab922184351edbf41cdee593a2.
+Connected GitHub tree confirms correct model path, mode 100644, 4,194,304 bytes,
+blob 63c58b0a76b53613d829b08b8f8655b7052fd50a. No AGENTS.md found.
+Independently downloaded complete shard bytes via Python urllib from the immutable
+raw GitHub URL at that commit (HTTP 200, timeout 30s). Length, SHA256
+29341eab5d3feed201a3c539f4fc5f69c9f2534ceeced61bbcabc8e9a472492a and Git blob
+ID all exactly match package-inventory.json. All assertions pass, exit 0.
+Evidence: tools/depth-tfjs/evidence/package-shard2-remote.json.
+6E DONE; no blocker. Stage 6 remains PARTIAL; shards 1 and 2 now verified.
+Exact next action: **6F only**, shard 3. Inspect current head/path; if absent,
+prepare the verified local shard for phone/browser upload and checkpoint waiting.
+After upload verify immutable remote bytes before marking 6F complete. Do not
+retry the interrupted large create_blob path. No shard 3 work in this run.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed or rechecked. App, Access and PWA unchanged. This supersedes earlier
+6E waiting/next-action text. Documentation and evidence only in this checkpoint.
