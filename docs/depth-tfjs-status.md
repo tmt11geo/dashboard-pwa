@@ -4,7 +4,9 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 5: isolated actual-model worker WebGL benchmark, repeated same-image timing, resource accounting and cancellation/failure/restart evidence. No TFJS camera implementation or model assets have been deployed. Next task is stage 6.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 6A only: recovered package integrity audit,
+transfer inventory and bounded substages 6B–6J. Stage 6 is PARTIAL. No TFJS camera
+implementation or model assets have been deployed. Next task: 6B pilot shard 1.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -71,7 +73,9 @@ OnePlus 12R, Android 16; reported Chrome 155. Existing WASM works around 2.7–3
 
 ## Next action
 
-Run stage 6 only: package and durably host the validated FP32 GraphModel and 24 shards with licenses/attribution. Assess repository/hosting limits, preserve bytes/hashes, verify every intended URL and an actual model load. Reuse the stage 3 conversion if available, otherwise regenerate. Do not change precision without repeating numerical validation. Do not add a selectable app backend or deploy camera integration. See the stage 5 appendix for current local artifacts and evidence.
+Run **6B only**, as specified in the current Stage 6A appendix and PACKAGING.md.
+Historical next-action paragraphs below describe previous checkpoints and are
+superseded by this pointer and DONE.md.
 
 ## Stage 2 reproduced — 2026-10-18
 
@@ -333,3 +337,41 @@ shards with complete licenses/attribution; choose permitted durable hosting, ver
 all intended URLs against committed lengths/hashes and test actual loading. Do
 not change precision without new numerical validation. Do not integrate camera,
 add a selectable backend or deploy the application in stage 6.
+
+
+## Stage 6A — package integrity and bounded transfer plan, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting commit
+`1b8409a367a1e816490aab117b35577f22d2d4e1`. Checkpoint SHA is the branch commit
+containing this appendix; resolve it from GitHub. User supplied screenshot shows
+an interruption during binary blob creation. The current recursive branch tree
+contains no model assets and no AGENTS.md; no remote blob success is inferred.
+
+Recovered exact local graph at
+`/workspace/scratch/4c361dacd12f/stage4/final/graph-model` (temporary).
+`verify_package.py` verifies all 25 files against committed conversion-run-2.json,
+checks manifest completeness and weight byte count, and derives Git blob IDs.
+All SHA256/lengths match; all 25 blob IDs also match independent `git hash-object`.
+Missing/corrupt model guards reject inputs. Total graph 97,817,343 bytes; weights
+97,145,740 bytes. No numerical rerun needed: bytes are unchanged from validated
+stage 4 and benchmarked stage 5. No precision or preprocessing changes.
+
+Deliverables: `tools/depth-tfjs/verify_package.py`, `PACKAGING.md`,
+`evidence/package-inventory.json`, `evidence/package-checkpoint.json`, updated
+stage plan and reusable prompt. 6A DONE; 6B–6J NOT STARTED. No binary transfer
+attempted in this substage. Remote content transfer capability remains unproven.
+License-text/notice packaging is 6I; no redistribution of weights in 6A.
+
+Main/live remain `9db5c0345faf7339f3d4cc24142dad362122649e`; Pages run
+39104746337 rechecked completed/success for that exact SHA. Differences from main
+remain development documentation/tooling/evidence; no application, Access,
+service worker, hosting configuration or deployment change.
+
+Exact next action: **6B only**. Verify cached graph with the committed verifier,
+then attempt only shard 1 at the versioned destination in package-inventory.json.
+Read/encode bytes programmatically, never emit multi-megabyte base64 into model
+context. Verify create_blob SHA against inventory, immediately attach to a tree
+and branch commit, then verify remote file length/SHA256/blob ID. A blob response
+alone is insufficient. If transport is unavailable/fails, commit exact blocker and
+safe alternative; do not keep retrying or start other shards. Parent stage 6
+remains incomplete until full distribution and URL/load checks pass. Stop after 6B.

@@ -1,4 +1,4 @@
-# Ten bounded stage prompts
+# Bounded stage prompts (stage 6 split into checkpoints)
 
 Use one stage per run. The reusable continuation prompt selects the next eligible stage from DONE.md. These prompts are repository instructions for this work, not instructions to execute all stages in one turn.
 
@@ -43,11 +43,36 @@ Build and run a benchmark using the actual converted graph. Require successful s
 SwiftShader results establish software-rendered WebGL compatibility only. They do not prove hardware acceleration or phone speed.
 Acceptance: durable runnable benchmark and results, explicit backend identity, repeated steady timings, resource accounting and a documented viability decision. Stop if actual-model execution remains blocked.
 
-## 6 — Model packaging and hosting
+## 6 — Model packaging and hosting (parent stage)
 
-Assess generated sizes, GitHub limits, repository impact, licenses and download behavior. Prefer relative assets in existing hosting where practical, or immutable public hosting. Earlier FP32 output was about 98 MB across 24 shards. A precision change requires repeated numerical validation.
-Complete asset transfer as its own task. Verify manifest/shard completeness, checksums and loading from the intended URLs. Do not treat an interrupted upload or dangling blob as published assets. For chunked binary transport, preserve bytes correctly; independently padded base64 strings cannot simply be concatenated. Verify hashes after transfer.
-Acceptance: all required assets are durably available with provenance and attribution. No selectable app backend until loading works.
+Stage 6 remains PARTIAL until 6A–6J pass. Each row is ONE run; select the earliest
+incomplete row and stop after its checkpoint. Resume a partially uploaded row first.
+Never execute the whole parent stage in one run. See `tools/depth-tfjs/PACKAGING.md`.
+
+| Substage | Bounded deliverable / acceptance |
+| --- | --- |
+| 6A | Recover and verify the 25 local graph files; commit SHA256/length/Git blob inventory, verifier and this split. No binary transfer. |
+| 6B | Pilot transfer: only shard 1, with license/attribution preserved before redistribution. Commit it at the documented destination; verify branch-referenced bytes, length, SHA256 and Git blob ID. Stop if transport fails; preserve precise error and fallback plan. |
+| 6C | Transfer shards 2–5, one blob request at a time; verify and commit remote checkpoint. |
+| 6D | Transfer shards 6–9; same verification. |
+| 6E | Transfer shards 10–13; same verification. |
+| 6F | Transfer shards 14–17; same verification. |
+| 6G | Transfer shards 18–21; same verification. |
+| 6H | Transfer shards 22–24; same verification. |
+| 6I | Attach exact model.json plus complete license texts, attribution, source/rewrite provenance and integrity metadata. Verify all 25 branch assets. |
+| 6J | Verify immutable intended URLs and download hashes; actual GraphModel load with explicit WebGL. Record Access/deployment limitations; only then mark parent 6 DONE. |
+
+After EACH successful blob, attach it to the branch with a commit before starting
+another large request. Keep per-file progress in DONE/status. A dangling blob is
+not a completed transfer. If interrupted mid-batch, resume that batch and skip
+already verified branch files. Any failed request gets at most one diagnostic
+follow-up; checkpoint the failure instead of repeating it indefinitely.
+
+Use the exact FP32 graph set and unchanged manifest. No quantization or repacking.
+Do not print base64 or binary tool responses into the conversation. Independently
+padded base64 strings cannot be concatenated. The 6B pilot must demonstrate a
+bounded transport path before other batches start. No camera backend or main
+merge/deployment in stage 6; live Pages URL checks wait for stage 9 when necessary.
 
 ## 7 — Camera integration
 
@@ -81,3 +106,4 @@ Acceptance: real device findings recorded, or an explicit waiting state with pre
 - Current main and known deployed SHA; do not equate working-branch commits with deployment.
 - Durable artifact paths/URLs, checks and material limitations.
 - Exact next stage/action or blocker and required user input.
+
