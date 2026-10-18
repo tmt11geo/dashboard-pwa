@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6C1 preparation only; parent 6C is PARTIAL. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6C2 recover/upload shard 1 and commit receipt only; 6C3 attachment follows in a separate run.
+implementation or model assets have been deployed. Next task: 6C2 waiting for manual phone upload; reconcile its receipt/attachment before further work.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -457,3 +457,31 @@ Record the returned ID or exact failure in a small committed receipt and update
 DONE/status before stopping. Do not attach in 6C2, start 6D, or upload shard 2.
 The upload request itself is indivisible with create_blob; this split saves progress
 around it, not within it. Do not claim this removes any transport/context limit.
+
+
+## Stage 6C2 blocked — phone upload handoff, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting commit `d30f1d75d0ddbe252880abadddb9efc477a51812`.
+6C2 remains BLOCKED pending manual upload. No 6C3 or 6D executed.
+Fresh recursive tree inspection found no AGENTS.md or binary assets. Recovery probe
+returned HTTP 422: expected blob 465c35791bb7139749f64bd758c46971a7607477 is not a valid blob.
+Local shard was recovered and verified: 4,194,304 bytes, SHA256
+9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855,
+Git blob 465c35791bb7139749f64bd758c46971a7607477.
+One base64 create_blob attempt (5,592,408 characters) returned
+"aborted by user after 6.1s" with no receipt. User screenshot shows conversation
+maximum-length message. The interruption source is not established by the tool label;
+no GitHub rejection or successful upload is inferred. Do not retry this large payload path.
+
+Alternative requested by user: download the unchanged group1-shard1of24.bin to phone,
+then use Chrome GitHub website (Desktop site if necessary), Add file > Upload files
+inside models/depth-anything-v2-small-tfjs-fp32-224-v1 on branch depth-tfjs-webgl.
+Commit only that file to this branch, never main. Browser upload combines upload and
+attachment; next run must reconcile 6C2/6C3 against the actual user commit, not duplicate it.
+GitHub documents a 25 MiB browser file limit; this file is 4 MiB.
+
+Exact next action: wait for user upload/commit link; read current branch and path,
+confirm expected blob ID and length, record receipt and reconcile attachment status.
+Remote byte verification stays 6D. No shard 2, app integration or deployment in this run.
+Main remains 9db5c0345faf7339f3d4cc24142dad362122649e; deployment not rechecked.
+Only checkpoint documentation changes in this commit.

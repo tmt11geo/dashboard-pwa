@@ -14,8 +14,8 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6C2 — Recover/upload shard 1 and save receipt only** |
-| Current blocker | 6C upload outcome unknown after interrupted tool call; attachment pending |
+| Next stage | **6C2 — BLOCKED; waiting for phone upload of shard 1** |
+| Current blocker | Large tool upload interrupted again; manual phone upload handoff prepared |
 | Outcome of this checkpoint | 6C1 preparation DONE; 6C split into 6C1 preparation, 6C2 upload receipt, 6C3 attachment; no branch-referenced binary assets |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
@@ -123,7 +123,7 @@ User requested a durable checkpoint before the large binary tool call.
 | Substage | State | Scope |
 | --- | --- | --- |
 | 6C1 | DONE | Check branch/path and local shard identity; commit preparation and stop before another binary upload. |
-| 6C2 | NOT STARTED — NEXT | Inspect branch/path and recover expected blob if available; otherwise attempt one programmatic binary upload. Commit a small receipt or exact blocker to this branch, then stop. |
+| 6C2 | BLOCKED — WAITING FOR USER UPLOAD | Inspect branch/path and recover expected blob if available; otherwise attempt one programmatic binary upload. Commit a small receipt or exact blocker to this branch, then stop. |
 | 6C3 | NOT STARTED | Attach the expected blob to the model path using tree/commit/leased ref update; verify ref and tree path, size and blob ID; checkpoint and stop. |
 
 Parent 6C remains PARTIAL until 6C3. 6D still performs remote byte verification.
@@ -157,3 +157,31 @@ Record the returned ID or exact failure in a small committed receipt and update
 DONE/status before stopping. Do not attach in 6C2, start 6D, or upload shard 2.
 The upload request itself is indivisible with create_blob; this split saves progress
 around it, not within it. Do not claim this removes any transport/context limit.
+
+
+## Stage 6C2 blocked — phone upload handoff, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting commit `d30f1d75d0ddbe252880abadddb9efc477a51812`.
+6C2 remains BLOCKED pending manual upload. No 6C3 or 6D executed.
+Fresh recursive tree inspection found no AGENTS.md or binary assets. Recovery probe
+returned HTTP 422: expected blob 465c35791bb7139749f64bd758c46971a7607477 is not a valid blob.
+Local shard was recovered and verified: 4,194,304 bytes, SHA256
+9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855,
+Git blob 465c35791bb7139749f64bd758c46971a7607477.
+One base64 create_blob attempt (5,592,408 characters) returned
+"aborted by user after 6.1s" with no receipt. User screenshot shows conversation
+maximum-length message. The interruption source is not established by the tool label;
+no GitHub rejection or successful upload is inferred. Do not retry this large payload path.
+
+Alternative requested by user: download the unchanged group1-shard1of24.bin to phone,
+then use Chrome GitHub website (Desktop site if necessary), Add file > Upload files
+inside models/depth-anything-v2-small-tfjs-fp32-224-v1 on branch depth-tfjs-webgl.
+Commit only that file to this branch, never main. Browser upload combines upload and
+attachment; next run must reconcile 6C2/6C3 against the actual user commit, not duplicate it.
+GitHub documents a 25 MiB browser file limit; this file is 4 MiB.
+
+Exact next action: wait for user upload/commit link; read current branch and path,
+confirm expected blob ID and length, record receipt and reconcile attachment status.
+Remote byte verification stays 6D. No shard 2, app integration or deployment in this run.
+Main remains 9db5c0345faf7339f3d4cc24142dad362122649e; deployment not rechecked.
+Only checkpoint documentation changes in this commit.
