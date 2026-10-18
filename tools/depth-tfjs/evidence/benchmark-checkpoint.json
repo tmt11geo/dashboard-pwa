@@ -1,0 +1,46 @@
+{
+  "stage": 5,
+  "status": "PASS",
+  "utc": "2026-10-18T11:06:12.134Z",
+  "working_branch": "depth-tfjs-webgl",
+  "starting_commit": "59985fa561e435e96c54e125aaeaed5bbe1ad373",
+  "verified_main_pages_commit": "9db5c0345faf7339f3d4cc24142dad362122649e",
+  "pages_run": 39104746337,
+  "pages_conclusion": "success",
+  "script_hashes_verified": true,
+  "syntax_checks": "worker.js, controller.js, run_benchmark.cjs: node --check PASS",
+  "command": "DEPTH_CHROMIUM=/tmp/depth-headless/chrome-linux/headless_shell node tools/depth-tfjs/run_benchmark.cjs stage4/final /tmp/depth-tf.min.js stage5/benchmark-results.json",
+  "checks": [
+    {
+      "name": "actual graph first + three same-image warm runs",
+      "pass": true
+    },
+    {
+      "name": "failure retained and controls restored",
+      "pass": true
+    },
+    {
+      "name": "cancel during loading",
+      "pass": true
+    },
+    {
+      "name": "cancel during inference",
+      "pass": true
+    },
+    {
+      "name": "bounded timeout",
+      "pass": true
+    },
+    {
+      "name": "restart after failure/cancel/timeout",
+      "pass": true
+    },
+    {
+      "name": "copyable logs retained across runs",
+      "pass": true
+    }
+  ],
+  "scope": "Stage 5 only; software-rendered WebGL; no camera/hosting/deployment",
+  "blockers": [],
+  "next_action": "Stage 6 only: package/license/host verified FP32 graph and all shards; verify actual URL loading."
+}

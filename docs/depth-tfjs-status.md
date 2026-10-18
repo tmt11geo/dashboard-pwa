@@ -4,9 +4,9 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 4: numerical parity on three pinned real images, including separate exact GELU rewrite and TFJS execution comparisons. No TFJS camera implementation or model assets have been deployed. Next task is stage 5.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 5: isolated actual-model worker WebGL benchmark, repeated same-image timing, resource accounting and cancellation/failure/restart evidence. No TFJS camera implementation or model assets have been deployed. Next task is stage 6.
 
-The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–4 have now been reproduced below. Stage 5 remains PARTIAL until its dedicated benchmark is implemented and run.
+The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
 ## Existing implementation
 
@@ -61,7 +61,7 @@ First execution with readback took ~25.17 s in SwiftShader; subsequent different
 
 ## Pending implementation decisions
 
-A dedicated benchmark, failure retention/cancellation, durable hosting, worker OffscreenCanvas/WebGL support and actual camera integration are not implemented. Candidate design: explicit WebGL choice, fixed 224 mode, aspect-preserving letterboxing and output unpadding, existing one-frame backpressure and worker termination. Do not report this design as completed.
+The isolated stage 5 benchmark now verifies worker OffscreenCanvas/WebGL on this host, with cancellation and retained failures. Durable hosting and actual camera integration are not implemented; browser/device support still must be checked in that integration. Candidate design: explicit WebGL choice, fixed 224 mode, aspect-preserving letterboxing and output unpadding, existing one-frame backpressure and worker termination. Do not report this design as completed.
 
 A local git dry-run push previously lacked credentials. Use the connected GitHub integration for repository writes. An interrupted blob-upload attempt is not evidence of completed hosting; verify actual branch-referenced assets before relying on uploads. Large binary transfer should be isolated into stage 6, with exact lengths/hashes and bounded chunks. Never concatenate independently padded base64 chunks as a complete encoding.
 
@@ -71,7 +71,7 @@ OnePlus 12R, Android 16; reported Chrome 155. Existing WASM works around 2.7–3
 
 ## Next action
 
-Run stage 5 only: create a dedicated actual-model WebGL benchmark with explicit backend identity, CPU forwarding disabled, repeated same-image warm timings, readback scope, bounded loading/cancellation, retained failure logs and live/pool resource accounting after disposal. Use the stage 3 graph and stage 4 fixture/tensor preparation. Do not integrate or deploy. See the stage 4 appendix for local paths and regeneration commands.
+Run stage 6 only: package and durably host the validated FP32 GraphModel and 24 shards with licenses/attribution. Assess repository/hosting limits, preserve bytes/hashes, verify every intended URL and an actual model load. Reuse the stage 3 conversion if available, otherwise regenerate. Do not change precision without repeating numerical validation. Do not add a selectable app backend or deploy camera integration. See the stage 5 appendix for current local artifacts and evidence.
 
 ## Stage 2 reproduced — 2026-10-18
 
@@ -256,3 +256,80 @@ Exact next action is stage 5 only: implement/run the dedicated same-image WebGL
 benchmark, cancellation/cleanup and failure retention, memory accounting and
 viability decision. Reuse `stage4/final/demo01-input.bin` and its graph if present,
 otherwise regenerate. Do not start asset hosting, camera integration or deployment.
+
+## Stage 5 reproduced — 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`, starting commit
+`59985fa561e435e96c54e125aaeaed5bbe1ad373`. The new checkpoint is the branch
+head containing this section. Recursive tree inspection found no AGENTS.md.
+Main/live remain `9db5c0345faf7339f3d4cc24142dad362122649e`; Pages run
+[39104746337](https://github.com/tmt11geo/dashboard-pwa/actions/runs/39104746337)
+was rechecked as successful for that exact commit. No app, Access, PWA or deployment
+changes. Differences from main remain development documentation/tooling/evidence.
+
+### Durable benchmark and checks
+
+- `tools/depth-tfjs/benchmark/index.html`, `controller.js`, `worker.js`: isolated
+  local UI with run/cancel/copy/download, retained logs, generation guards and
+  dedicated worker; actual fixed-224 graph and identical stage 4 demo01 tensor.
+- `run_benchmark.cjs`: verifies graph/input/TFJS hashes, loopback serving and
+  automated actual-model checks; records full timing/resource/failure evidence.
+- `BENCHMARK.md`: reproduction/UI commands, dependency pins via VALIDATION.md,
+  timing boundaries, resource/cancellation semantics and limitations.
+- `evidence/benchmark-results.json`, `benchmark.log`, `benchmark-checkpoint.json`:
+  actual results/provenance. All three JavaScript syntax checks passed.
+
+Runtime: Playwright 1.62.1, Chromium 141.0.7390.37, TFJS 4.22.0; dedicated worker
+with OffscreenCanvas, WebGL 2.0, ANGLE/Vulkan SwiftShader. Explicit setBackend
+succeeded, getBackend returned webgl and WEBGL_CPU_FORWARD remained false. This
+is software-rendered compatibility evidence, not hardware or OnePlus performance.
+
+| Full run | Local model load | First inference | Warm min / median / max | Warm mean |
+| --- | --- | --- | --- | --- |
+| Initial | 466.3 ms | 11,020.0 ms | 7,959.8 / 8,078.1 / 8,116.5 ms | 8,051.5 ms |
+| Restart after interruptions | 591.6 ms | 18,908.0 ms | 8,102.6 / 8,142.3 / 8,163.6 ms | 8,136.2 ms |
+
+Each cycle used the same input tensor for the first and three warm inferences.
+Times include execution and complete output.data readback, excluding input
+creation, finite/range scan and output disposal. Model load is local HTTP graph/
+shard fetch and GraphModel construction, not an internet transfer prediction.
+Different first-run times are retained as measured, not interpreted as stable
+hardware startup performance. Every output was finite [1,224,224,1].
+
+Each normal cycle: peak observed live GPU bytes 98,597,104; allocated texture
+pool 674,886,468 bytes, equal in both cycles. After output/model/input disposal:
+zero tensors, data buffers, JS-accounted tensor bytes and live GPU bytes; all
+674,886,468 allocated bytes were then free pool. The backend was removed and
+context loss observed. Pool allocation before context teardown is not a live-tensor
+leak; context loss is not an OS-level GPU-memory measurement.
+
+All seven checks PASS: actual graph first+3 warm runs; forced model-404 failure
+with retained logs/restored controls; cancellation during delayed model load;
+cancellation during first inference; bounded automatic timeout; complete restart
+after failure/cancellation/timeout; logs retained across runs. Cancellation kills
+the worker, avoiding main-thread inference blocking. Post-termination worker GPU
+counters are unavailable; no measured-zero claim is made for cancelled contexts.
+Normal completion performs measured disposal before parent termination. Full
+camera/app lifecycle regressions remain stage 8.
+
+### Viability, persistence and next action
+
+Stage 5 is DONE; blocker for this stage: none. Continue the experimental WebGL
+path to packaging: actual model execution, numerical parity, worker execution,
+bounded interruption and normal cleanup are demonstrated on this host. The
+~675 MB pool and 11–19 s first-inference costs are material limitations. SwiftShader
+warm times (~8 s) cannot predict phone GPU speed or beat the phone's existing WASM
+baseline. Hardware worker-WebGL support, device memory pressure, heat and sustained
+performance remain unproven and must be evaluated later. No production readiness
+or phone speed claim.
+
+Artifacts reused locally: `/workspace/scratch/4c361dacd12f/stage4/final` contains
+verified model/shards and tensors. Runtime bundle `/tmp/depth-tf.min.js`; browser
+`/tmp/depth-headless/chrome-linux/headless_shell`. These are transient; recreate
+via CONVERSION.md, VALIDATION.md and BENCHMARK.md if absent.
+
+Exact next action: stage 6 only, package the validated FP32 GraphModel plus 24
+shards with complete licenses/attribution; choose permitted durable hosting, verify
+all intended URLs against committed lengths/hashes and test actual loading. Do
+not change precision without new numerical validation. Do not integrate camera,
+add a selectable backend or deploy the application in stage 6.

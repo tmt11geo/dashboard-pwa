@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **5 — Actual-model single-image WebGL benchmark** |
-| Current blocker | None for stage 4; dedicated benchmark is next; assets are not hosted |
-| Outcome of this checkpoint | Stage 4 numerical validation PASS for three pinned real images; runnable validator, provenance and results preserved; application unchanged |
+| Next stage | **6 — Model packaging and hosting** |
+| Current blocker | None for stage 5; model packaging/hosting is next; phone performance remains unknown |
+| Outcome of this checkpoint | Stage 5 actual-model worker WebGL benchmark and cancellation/restart checks PASS; tooling and evidence preserved; application unchanged |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -30,7 +30,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 2. Conversion environment | **DONE** | Clean CPython 3.12.14 environment passes pip check, DepthAnythingBackbone import, TensorFlow operation and converter startup. Executable setup, complete version lock and evidence are under tools/depth-tfjs/. |
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
-| 5. WebGL benchmark | **PARTIAL** | Actual graph ran with webgl selected and CPU forwarding disabled; disposal reached zero tensors. Dedicated benchmark UI, repeated same-image timings and lifecycle checks remain. |
+| 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
 | 6. Model packaging/hosting | **NOT STARTED** | Earlier local shards existed; no verified hosted backend assets or completed repository upload. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
@@ -48,7 +48,8 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 - [x] Preserve a reproducible pretrained conversion, metadata and regeneration arrangement.
 - [x] Validate model outputs on three pinned real images, with raw numerical results.
 - [ ] Preserve hosted model assets.
-- [ ] Complete the benchmark, camera integration, tests, deployment and phone evaluation.
+- [x] Complete the isolated WebGL benchmark and resource/cancellation checks.
+- [ ] Complete camera integration, regressions, deployment and phone evaluation.
 
 ## How to continue
 
@@ -63,3 +64,5 @@ Use [the reusable prompt](docs/depth-tfjs-continue-prompt.md). Read [the stage p
 - 2026-10-18: Stage 3 completed from checkpoint `cf3af3af3e7b73a7304fcf0f84b1cea9b8e955d6` on `depth-tfjs-webgl`. Evidence: `tools/depth-tfjs/evidence/conversion-run-{1,2}.json` and `conversion-reproduction.json`. Both conversions succeeded; 24 byte-identical shards, semantically identical GraphModel JSON, 97,817,343 total bytes. Exact GELU rewrite smoke maximum error `3.337860107421875e-6`. Binary outputs are temporary; the committed converter regenerates them from immutable verified source files. No hosted assets or app changes. Main/live remain `9db5c0345faf7339f3d4cc24142dad362122649e` (Pages run 39104746337 successful). Exact next action: stage 4 only, pin at least three real-image fixtures and compare original pretrained outputs to rewritten/converted TFJS outputs before display normalization; commit the validator, provenance and numerical results. See technical status for available local outputs and regeneration command.
 
 - 2026-10-18: Stage 4 completed from checkpoint `73eb63f07dff9efeb4103767125bc30587f3ecb4` on `depth-tfjs-webgl`. All nine comparisons PASS; largest error across all comparisons `8.380413055419922e-5`, largest MAE/source range `1.064663832685052e-6`, against limits `1e-3` and `1e-4`. Evidence: `tools/depth-tfjs/evidence/validation-results.json`; commands and fixture provenance: `tools/depth-tfjs/VALIDATION.md`, `validation-fixtures.json`. Explicit TFJS 4.22.0 WebGL, CPU forwarding false, Chromium 141 SwiftShader. No hardware/phone speed claim. Main/live remain `9db5c0345faf7339f3d4cc24142dad362122649e` (Pages run 39104746337 verified successful). Exact next action: stage 5 only, build the dedicated actual-model benchmark with repeated same-image timing, cancellation/failure logs and lifecycle/resource accounting. Do not integrate or deploy yet.
+
+- 2026-10-18: Stage 5 completed from `59985fa561e435e96c54e125aaeaed5bbe1ad373` on `depth-tfjs-webgl`. Evidence: `tools/depth-tfjs/evidence/benchmark-results.json` and `benchmark.log`; runnable UI/worker/harness and commands in `BENCHMARK.md`. Two actual-model cycles each completed first+3 warm inferences of the identical stage 4 tensor. Warm medians 8078.1 / 8142.3 ms including readback (SwiftShader only). Normal disposal returned live tensors/data/GPU bytes to zero; 674,886,468 pooled bytes remained before backend removal/context loss. All seven checks PASS, including forced failure, loading/inference cancellation, timeout and restart. Viability: continue experimental packaging, with high memory/startup costs and real-device speed/support still unproven. Main/live unchanged at `9db5c0345faf7339f3d4cc24142dad362122649e`; Pages run 39104746337 successful. Exact next action: stage 6 only, package/license/host the validated FP32 graph and all 24 shards, verify intended URLs, hashes and actual loading. No app integration or deployment in this run.

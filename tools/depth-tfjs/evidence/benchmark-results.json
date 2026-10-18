@@ -1,0 +1,1428 @@
+{
+  "stage": 5,
+  "status": "PASS",
+  "utc": "2026-10-18T11:03:43.056Z",
+  "fixture": "demo01",
+  "input": {
+    "path": "demo01-input.bin",
+    "bytes": 602112,
+    "sha256": "949c5c47ac0b3082e2d803b0a11bf791c331962872bdc406adb52961f125c73c"
+  },
+  "model_files": {
+    "group1-shard10of24.bin": {
+      "bytes": 4194304,
+      "sha256": "b272e2d801062f1326a85c0f58338df02a0039cb5d5e1fc50940a31949209a47"
+    },
+    "group1-shard11of24.bin": {
+      "bytes": 4194304,
+      "sha256": "07b6b4a772ac6dcab0d65c1a8425dfafb1922388933a166b8b37b8b3c44f2757"
+    },
+    "group1-shard12of24.bin": {
+      "bytes": 4194304,
+      "sha256": "8ec527dd84f16b519822ed54077c97afd0541bd395bbf458ca4d49415bad22c7"
+    },
+    "group1-shard13of24.bin": {
+      "bytes": 4194304,
+      "sha256": "d8496dc981813b42aad7ffdb54e75cef65c24f1ba3c7d60337ba8c1b8b510937"
+    },
+    "group1-shard14of24.bin": {
+      "bytes": 4194304,
+      "sha256": "c1f9a4da3455218e60c05a6deff18ae9a7c2b44f58aa1339aabaa4e143dae4e9"
+    },
+    "group1-shard15of24.bin": {
+      "bytes": 4194304,
+      "sha256": "ebb677f5ff0ad6d191543fd35978c6cc1e73593e14a3de693e6c75147f01f4b7"
+    },
+    "group1-shard16of24.bin": {
+      "bytes": 4194304,
+      "sha256": "b360d4717c999ed1df88c501f32f7f22357c480023fe345cd83fa3566e73cc4d"
+    },
+    "group1-shard17of24.bin": {
+      "bytes": 4194304,
+      "sha256": "8eb2f5c1b7d63d4c7d9d1ff6a80857d02eaa71b62ec33177872a76f14b2cb5dd"
+    },
+    "group1-shard18of24.bin": {
+      "bytes": 4194304,
+      "sha256": "4858189b55da05abb8fff4401eac5cc7d446355d420fac1874e03cbbc75515c5"
+    },
+    "group1-shard19of24.bin": {
+      "bytes": 4194304,
+      "sha256": "aa4de39678b3838a9c90ac4241a172a1e2e119a7cae20376ac0b551d8766b702"
+    },
+    "group1-shard1of24.bin": {
+      "bytes": 4194304,
+      "sha256": "9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855"
+    },
+    "group1-shard20of24.bin": {
+      "bytes": 4194304,
+      "sha256": "6817dea926d083915fe7d715cfae3ea6425ff5dd883ec403f6860d0d7b5a06a7"
+    },
+    "group1-shard21of24.bin": {
+      "bytes": 4194304,
+      "sha256": "7098478c7ab00ff88b55e6c64146534c2e4bd3ab8653042259e5f23dda624e10"
+    },
+    "group1-shard22of24.bin": {
+      "bytes": 4194304,
+      "sha256": "a195cb06e28f0379b2bfdccce8ef2e7ed3bdb97b9087e01f38d25fcfc63fc3ca"
+    },
+    "group1-shard23of24.bin": {
+      "bytes": 4194304,
+      "sha256": "49d4e76e6af9baabe0947506ea0a444b0cd8264e4dd79a7affd8603b10c79ef0"
+    },
+    "group1-shard24of24.bin": {
+      "bytes": 676748,
+      "sha256": "20016a9f557eb4fdb9fc4a78e313f5cd8b27e7c162c53a7313259277835e7d83"
+    },
+    "group1-shard2of24.bin": {
+      "bytes": 4194304,
+      "sha256": "29341eab5d3feed201a3c539f4fc5f69c9f2534ceeced61bbcabc8e9a472492a"
+    },
+    "group1-shard3of24.bin": {
+      "bytes": 4194304,
+      "sha256": "64036542cf25cd90ca77041f11317a3b612551d7db72b3f0d6295ad38e14eb64"
+    },
+    "group1-shard4of24.bin": {
+      "bytes": 4194304,
+      "sha256": "aa553d0a12f6d2a4faf8251e0a63aed9dd925b02be07b27e3d80aacb3cf1a6ed"
+    },
+    "group1-shard5of24.bin": {
+      "bytes": 4194304,
+      "sha256": "a8fd646bf7ed7d9c41f4806df1aaaf34c646ae83b1079b7da3102b0567d19f7d"
+    },
+    "group1-shard6of24.bin": {
+      "bytes": 4194304,
+      "sha256": "39370b85855d58adde4b333f697705b773d79f680b4ed6fa6056f483dec97919"
+    },
+    "group1-shard7of24.bin": {
+      "bytes": 4194304,
+      "sha256": "5b8353ff51e8abaf5e3989251a139a06e271a823c863a9e03a51537edc17790d"
+    },
+    "group1-shard8of24.bin": {
+      "bytes": 4194304,
+      "sha256": "1801187b9ea62cb135628d2de85d55389e5892402fc689d9f538680ccb9e49cb"
+    },
+    "group1-shard9of24.bin": {
+      "bytes": 4194304,
+      "sha256": "5a354560258eae0cdf701c13eb40a99850bb7d0a8f154965fe571e9075508bbd"
+    },
+    "model.json": {
+      "bytes": 671603,
+      "sha256": "5ab6f29764edf13ae194d53a23f09ece13a6bce1edd5de2b2d820c8a1e2a7c3f"
+    }
+  },
+  "tfjs_sha256": "300dfae273d20b4046f46a06d735688f03675a807561e9bcb5f664eb2f3d2831",
+  "scripts": {
+    "run_benchmark.cjs": "d213276f0106a60c30dea1e5633e3082312516b9a43d61e5e7f0490972f4d6b3",
+    "benchmark/controller.js": "d8dba103be63645df822567094276fa310a9b96968b2e7f445b8c782e8918b41",
+    "benchmark/worker.js": "1f94be1d9f2579e9dc6183cf3c26301fd7587617e56d15f87e63214ef6ae181b",
+    "benchmark/index.html": "c9b9f30bc4513bda5e5067b5b8726dd106be84fd3a3570359a4d05d128fcae51"
+  },
+  "runs": [
+    {
+      "stage": 5,
+      "status": "PASS",
+      "timings": {
+        "model_load_ms": 466.29999999981374,
+        "first_ms": 11020,
+        "warm_ms": {
+          "min": 7959.799999999814,
+          "median": 8078.100000000093,
+          "max": 8116.5,
+          "mean": 8051.466666666635
+        }
+      },
+      "memory": {
+        "before_load": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 0,
+          "numBytesInGPUFree": 0,
+          "numTensors": 0,
+          "numDataBuffers": 0,
+          "numBytes": 0
+        },
+        "loaded": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 0,
+          "numBytesInGPUFree": 0,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_0": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674689860,
+          "numBytesInGPUFree": 576092756,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_0": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674689860,
+          "numBytesInGPUFree": 576494708,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_1": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576289364,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_1": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576691316,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_2": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576289364,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_2": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576691316,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_3": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576289364,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_3": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576691316,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "after_dispose": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 674886468,
+          "numTensors": 0,
+          "numDataBuffers": 0,
+          "numBytes": 0
+        }
+      },
+      "samples": [
+        {
+          "kind": "first",
+          "index": 0,
+          "elapsed_ms": 11020,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        },
+        {
+          "kind": "warm",
+          "index": 1,
+          "elapsed_ms": 8116.5,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        },
+        {
+          "kind": "warm",
+          "index": 2,
+          "elapsed_ms": 7959.799999999814,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        },
+        {
+          "kind": "warm",
+          "index": 3,
+          "elapsed_ms": 8078.100000000093,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        }
+      ],
+      "timing_scope": "performance.now wall ms; executeAsync plus complete output.data readback; input creation excluded",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+        "worker": true,
+        "offscreenCanvas": true,
+        "tfjs": "4.22.0",
+        "backend": "webgl",
+        "cpu_forward": false,
+        "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "live_resources_released": true,
+      "context_lost": true,
+      "backend_removed": true
+    },
+    {
+      "stage": 5,
+      "status": "PASS",
+      "timings": {
+        "model_load_ms": 591.5999999996275,
+        "first_ms": 18908,
+        "warm_ms": {
+          "min": 8102.5999999996275,
+          "median": 8142.299999999814,
+          "max": 8163.5999999996275,
+          "mean": 8136.166666666356
+        }
+      },
+      "memory": {
+        "before_load": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 0,
+          "numBytesInGPUFree": 0,
+          "numTensors": 0,
+          "numDataBuffers": 0,
+          "numBytes": 0
+        },
+        "loaded": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 0,
+          "numBytesInGPUFree": 0,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_0": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674689860,
+          "numBytesInGPUFree": 576092756,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_0": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674689860,
+          "numBytesInGPUFree": 576494708,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_1": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576289364,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_1": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576691316,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_2": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576289364,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_2": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576691316,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "inference_3": {
+          "unreliable": false,
+          "numBytesInGPU": 98597104,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576289364,
+          "numTensors": 564,
+          "numDataBuffers": 564,
+          "numBytes": 97948556
+        },
+        "after_sample_3": {
+          "unreliable": false,
+          "numBytesInGPU": 98195152,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 576691316,
+          "numTensors": 563,
+          "numDataBuffers": 563,
+          "numBytes": 97747852
+        },
+        "after_dispose": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 674886468,
+          "numBytesInGPUFree": 674886468,
+          "numTensors": 0,
+          "numDataBuffers": 0,
+          "numBytes": 0
+        }
+      },
+      "samples": [
+        {
+          "kind": "first",
+          "index": 0,
+          "elapsed_ms": 18908,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        },
+        {
+          "kind": "warm",
+          "index": 1,
+          "elapsed_ms": 8102.5999999996275,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        },
+        {
+          "kind": "warm",
+          "index": 2,
+          "elapsed_ms": 8163.5999999996275,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        },
+        {
+          "kind": "warm",
+          "index": 3,
+          "elapsed_ms": 8142.299999999814,
+          "output_range": [
+            0,
+            3.903400182723999
+          ],
+          "shape": [
+            1,
+            224,
+            224,
+            1
+          ]
+        }
+      ],
+      "timing_scope": "performance.now wall ms; executeAsync plus complete output.data readback; input creation excluded",
+      "environment": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+        "worker": true,
+        "offscreenCanvas": true,
+        "tfjs": "4.22.0",
+        "backend": "webgl",
+        "cpu_forward": false,
+        "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "live_resources_released": true,
+      "context_lost": true,
+      "backend_removed": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "actual graph first + three same-image warm runs",
+      "pass": true
+    },
+    {
+      "name": "failure retained and controls restored",
+      "pass": true
+    },
+    {
+      "name": "cancel during loading",
+      "pass": true
+    },
+    {
+      "name": "cancel during inference",
+      "pass": true
+    },
+    {
+      "name": "bounded timeout",
+      "pass": true
+    },
+    {
+      "name": "restart after failure/cancel/timeout",
+      "pass": true
+    },
+    {
+      "name": "copyable logs retained across runs",
+      "pass": true
+    }
+  ],
+  "browser": "141.0.7390.37",
+  "failure": {
+    "stage": 5,
+    "status": "FAIL",
+    "timings": {},
+    "memory": {
+      "before_load": {
+        "unreliable": false,
+        "numBytesInGPU": 0,
+        "numBytesInGPUAllocated": 0,
+        "numBytesInGPUFree": 0,
+        "numTensors": 0,
+        "numDataBuffers": 0,
+        "numBytes": 0
+      },
+      "after_dispose": {
+        "unreliable": false,
+        "numBytesInGPU": 0,
+        "numBytesInGPUAllocated": 0,
+        "numBytesInGPUFree": 0,
+        "numTensors": 0,
+        "numDataBuffers": 0,
+        "numBytes": 0
+      }
+    },
+    "samples": [],
+    "timing_scope": "performance.now wall ms; executeAsync plus complete output.data readback; input creation excluded",
+    "environment": {
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    "error": "Error: Request to /missing-model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\n    at e.<anonymous> (http://127.0.0.1:41049/tf.js:17:435774)\n    at h (http://127.0.0.1:41049/tf.js:17:2100)\n    at Generator.<anonymous> (http://127.0.0.1:41049/tf.js:17:3441)\n    at Generator.next (http://127.0.0.1:41049/tf.js:17:2463)\n    at u (http://127.0.0.1:41049/tf.js:17:8324)\n    at o (http://127.0.0.1:41049/tf.js:17:8527)",
+    "live_resources_released": true,
+    "context_lost": true,
+    "backend_removed": true
+  },
+  "cancel_loading": {
+    "status": "CANCELLED",
+    "phase": "loading",
+    "reason": "user"
+  },
+  "cancel_inference": {
+    "status": "CANCELLED",
+    "phase": "first-inference",
+    "reason": "user"
+  },
+  "timeout": {
+    "status": "TIMEOUT",
+    "phase": "loading",
+    "reason": "timeout"
+  },
+  "events": [
+    {
+      "utc": "2026-10-18T11:03:43.225Z",
+      "type": "start",
+      "generation": 1
+    },
+    {
+      "utc": "2026-10-18T11:03:43.243Z",
+      "type": "phase",
+      "phase": "runtime"
+    },
+    {
+      "utc": "2026-10-18T11:03:43.387Z",
+      "type": "identity",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "utc": "2026-10-18T11:03:43.388Z",
+      "type": "phase",
+      "phase": "loading"
+    },
+    {
+      "utc": "2026-10-18T11:03:43.859Z",
+      "type": "phase",
+      "phase": "first-inference"
+    },
+    {
+      "utc": "2026-10-18T11:03:54.881Z",
+      "type": "sample",
+      "sample": {
+        "kind": "first",
+        "index": 0,
+        "elapsed_ms": 11020,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:03:54.882Z",
+      "type": "phase",
+      "phase": "warm-1"
+    },
+    {
+      "utc": "2026-10-18T11:04:03.000Z",
+      "type": "sample",
+      "sample": {
+        "kind": "warm",
+        "index": 1,
+        "elapsed_ms": 8116.5,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:03.000Z",
+      "type": "phase",
+      "phase": "warm-2"
+    },
+    {
+      "utc": "2026-10-18T11:04:10.964Z",
+      "type": "sample",
+      "sample": {
+        "kind": "warm",
+        "index": 2,
+        "elapsed_ms": 7959.799999999814,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:10.965Z",
+      "type": "phase",
+      "phase": "warm-3"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.045Z",
+      "type": "sample",
+      "sample": {
+        "kind": "warm",
+        "index": 3,
+        "elapsed_ms": 8078.100000000093,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:19.045Z",
+      "type": "phase",
+      "phase": "cleanup"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.156Z",
+      "type": "result",
+      "report": {
+        "stage": 5,
+        "status": "PASS",
+        "timings": {
+          "model_load_ms": 466.29999999981374,
+          "first_ms": 11020,
+          "warm_ms": {
+            "min": 7959.799999999814,
+            "median": 8078.100000000093,
+            "max": 8116.5,
+            "mean": 8051.466666666635
+          }
+        },
+        "memory": {
+          "before_load": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 0,
+            "numBytesInGPUFree": 0,
+            "numTensors": 0,
+            "numDataBuffers": 0,
+            "numBytes": 0
+          },
+          "loaded": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 0,
+            "numBytesInGPUFree": 0,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_0": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674689860,
+            "numBytesInGPUFree": 576092756,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_0": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674689860,
+            "numBytesInGPUFree": 576494708,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_1": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576289364,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_1": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576691316,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_2": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576289364,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_2": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576691316,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_3": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576289364,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_3": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576691316,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "after_dispose": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 674886468,
+            "numTensors": 0,
+            "numDataBuffers": 0,
+            "numBytes": 0
+          }
+        },
+        "samples": [
+          {
+            "kind": "first",
+            "index": 0,
+            "elapsed_ms": 11020,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          },
+          {
+            "kind": "warm",
+            "index": 1,
+            "elapsed_ms": 8116.5,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          },
+          {
+            "kind": "warm",
+            "index": 2,
+            "elapsed_ms": 7959.799999999814,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          },
+          {
+            "kind": "warm",
+            "index": 3,
+            "elapsed_ms": 8078.100000000093,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          }
+        ],
+        "timing_scope": "performance.now wall ms; executeAsync plus complete output.data readback; input creation excluded",
+        "environment": {
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+          "worker": true,
+          "offscreenCanvas": true,
+          "tfjs": "4.22.0",
+          "backend": "webgl",
+          "cpu_forward": false,
+          "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+        },
+        "live_resources_released": true,
+        "context_lost": true,
+        "backend_removed": true
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:19.175Z",
+      "type": "start",
+      "generation": 2
+    },
+    {
+      "utc": "2026-10-18T11:04:19.184Z",
+      "type": "phase",
+      "phase": "runtime"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.322Z",
+      "type": "identity",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.324Z",
+      "type": "phase",
+      "phase": "loading"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.326Z",
+      "type": "failure",
+      "error": "Error: Request to /missing-model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\n    at e.<anonymous> (http://127.0.0.1:41049/tf.js:17:435774)\n    at h (http://127.0.0.1:41049/tf.js:17:2100)\n    at Generator.<anonymous> (http://127.0.0.1:41049/tf.js:17:3441)\n    at Generator.next (http://127.0.0.1:41049/tf.js:17:2463)\n    at u (http://127.0.0.1:41049/tf.js:17:8324)\n    at o (http://127.0.0.1:41049/tf.js:17:8527)"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.327Z",
+      "type": "phase",
+      "phase": "cleanup"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.378Z",
+      "type": "result",
+      "report": {
+        "stage": 5,
+        "status": "FAIL",
+        "timings": {},
+        "memory": {
+          "before_load": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 0,
+            "numBytesInGPUFree": 0,
+            "numTensors": 0,
+            "numDataBuffers": 0,
+            "numBytes": 0
+          },
+          "after_dispose": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 0,
+            "numBytesInGPUFree": 0,
+            "numTensors": 0,
+            "numDataBuffers": 0,
+            "numBytes": 0
+          }
+        },
+        "samples": [],
+        "timing_scope": "performance.now wall ms; executeAsync plus complete output.data readback; input creation excluded",
+        "environment": {
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+          "worker": true,
+          "offscreenCanvas": true,
+          "tfjs": "4.22.0",
+          "backend": "webgl",
+          "cpu_forward": false,
+          "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+        },
+        "error": "Error: Request to /missing-model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\n    at e.<anonymous> (http://127.0.0.1:41049/tf.js:17:435774)\n    at h (http://127.0.0.1:41049/tf.js:17:2100)\n    at Generator.<anonymous> (http://127.0.0.1:41049/tf.js:17:3441)\n    at Generator.next (http://127.0.0.1:41049/tf.js:17:2463)\n    at u (http://127.0.0.1:41049/tf.js:17:8324)\n    at o (http://127.0.0.1:41049/tf.js:17:8527)",
+        "live_resources_released": true,
+        "context_lost": true,
+        "backend_removed": true
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:19.419Z",
+      "type": "start",
+      "generation": 3
+    },
+    {
+      "utc": "2026-10-18T11:04:19.435Z",
+      "type": "phase",
+      "phase": "runtime"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.563Z",
+      "type": "identity",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.565Z",
+      "type": "phase",
+      "phase": "loading"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.604Z",
+      "type": "cancel",
+      "reason": "user",
+      "phase": "loading",
+      "cleanup": "worker terminated; browser owns context destruction; post-termination GPU counters unavailable"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.637Z",
+      "type": "start",
+      "generation": 5
+    },
+    {
+      "utc": "2026-10-18T11:04:19.651Z",
+      "type": "phase",
+      "phase": "runtime"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.791Z",
+      "type": "identity",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "utc": "2026-10-18T11:04:19.792Z",
+      "type": "phase",
+      "phase": "loading"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.187Z",
+      "type": "phase",
+      "phase": "first-inference"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.319Z",
+      "type": "cancel",
+      "reason": "user",
+      "phase": "first-inference",
+      "cleanup": "worker terminated; browser owns context destruction; post-termination GPU counters unavailable"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.325Z",
+      "type": "start",
+      "generation": 7
+    },
+    {
+      "utc": "2026-10-18T11:04:20.335Z",
+      "type": "phase",
+      "phase": "runtime"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.521Z",
+      "type": "identity",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.523Z",
+      "type": "phase",
+      "phase": "loading"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.577Z",
+      "type": "cancel",
+      "reason": "timeout",
+      "phase": "loading",
+      "cleanup": "worker terminated; browser owns context destruction; post-termination GPU counters unavailable"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.620Z",
+      "type": "start",
+      "generation": 9
+    },
+    {
+      "utc": "2026-10-18T11:04:20.636Z",
+      "type": "phase",
+      "phase": "runtime"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.819Z",
+      "type": "identity",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+      "worker": true,
+      "offscreenCanvas": true,
+      "tfjs": "4.22.0",
+      "backend": "webgl",
+      "cpu_forward": false,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "utc": "2026-10-18T11:04:20.820Z",
+      "type": "phase",
+      "phase": "loading"
+    },
+    {
+      "utc": "2026-10-18T11:04:21.417Z",
+      "type": "phase",
+      "phase": "first-inference"
+    },
+    {
+      "utc": "2026-10-18T11:04:40.329Z",
+      "type": "sample",
+      "sample": {
+        "kind": "first",
+        "index": 0,
+        "elapsed_ms": 18908,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:40.331Z",
+      "type": "phase",
+      "phase": "warm-1"
+    },
+    {
+      "utc": "2026-10-18T11:04:48.434Z",
+      "type": "sample",
+      "sample": {
+        "kind": "warm",
+        "index": 1,
+        "elapsed_ms": 8102.5999999996275,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:48.436Z",
+      "type": "phase",
+      "phase": "warm-2"
+    },
+    {
+      "utc": "2026-10-18T11:04:56.601Z",
+      "type": "sample",
+      "sample": {
+        "kind": "warm",
+        "index": 2,
+        "elapsed_ms": 8163.5999999996275,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:04:56.603Z",
+      "type": "phase",
+      "phase": "warm-3"
+    },
+    {
+      "utc": "2026-10-18T11:05:04.746Z",
+      "type": "sample",
+      "sample": {
+        "kind": "warm",
+        "index": 3,
+        "elapsed_ms": 8142.299999999814,
+        "output_range": [
+          0,
+          3.903400182723999
+        ],
+        "shape": [
+          1,
+          224,
+          224,
+          1
+        ]
+      }
+    },
+    {
+      "utc": "2026-10-18T11:05:04.747Z",
+      "type": "phase",
+      "phase": "cleanup"
+    },
+    {
+      "utc": "2026-10-18T11:05:04.847Z",
+      "type": "result",
+      "report": {
+        "stage": 5,
+        "status": "PASS",
+        "timings": {
+          "model_load_ms": 591.5999999996275,
+          "first_ms": 18908,
+          "warm_ms": {
+            "min": 8102.5999999996275,
+            "median": 8142.299999999814,
+            "max": 8163.5999999996275,
+            "mean": 8136.166666666356
+          }
+        },
+        "memory": {
+          "before_load": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 0,
+            "numBytesInGPUFree": 0,
+            "numTensors": 0,
+            "numDataBuffers": 0,
+            "numBytes": 0
+          },
+          "loaded": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 0,
+            "numBytesInGPUFree": 0,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_0": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674689860,
+            "numBytesInGPUFree": 576092756,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_0": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674689860,
+            "numBytesInGPUFree": 576494708,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_1": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576289364,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_1": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576691316,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_2": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576289364,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_2": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576691316,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "inference_3": {
+            "unreliable": false,
+            "numBytesInGPU": 98597104,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576289364,
+            "numTensors": 564,
+            "numDataBuffers": 564,
+            "numBytes": 97948556
+          },
+          "after_sample_3": {
+            "unreliable": false,
+            "numBytesInGPU": 98195152,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 576691316,
+            "numTensors": 563,
+            "numDataBuffers": 563,
+            "numBytes": 97747852
+          },
+          "after_dispose": {
+            "unreliable": false,
+            "numBytesInGPU": 0,
+            "numBytesInGPUAllocated": 674886468,
+            "numBytesInGPUFree": 674886468,
+            "numTensors": 0,
+            "numDataBuffers": 0,
+            "numBytes": 0
+          }
+        },
+        "samples": [
+          {
+            "kind": "first",
+            "index": 0,
+            "elapsed_ms": 18908,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          },
+          {
+            "kind": "warm",
+            "index": 1,
+            "elapsed_ms": 8102.5999999996275,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          },
+          {
+            "kind": "warm",
+            "index": 2,
+            "elapsed_ms": 8163.5999999996275,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          },
+          {
+            "kind": "warm",
+            "index": 3,
+            "elapsed_ms": 8142.299999999814,
+            "output_range": [
+              0,
+              3.903400182723999
+            ],
+            "shape": [
+              1,
+              224,
+              224,
+              1
+            ]
+          }
+        ],
+        "timing_scope": "performance.now wall ms; executeAsync plus complete output.data readback; input creation excluded",
+        "environment": {
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+          "worker": true,
+          "offscreenCanvas": true,
+          "tfjs": "4.22.0",
+          "backend": "webgl",
+          "cpu_forward": false,
+          "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+        },
+        "live_resources_released": true,
+        "context_lost": true,
+        "backend_removed": true
+      }
+    }
+  ]
+}
