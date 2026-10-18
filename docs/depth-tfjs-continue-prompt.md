@@ -77,3 +77,12 @@ checkpointed. Next: **stage 9 only**, reconcile latest main, bump diagnostic bui
 and affected asset queries, final checks, merge/deploy through existing Pages,
 verify exact deployment and preserve Cloudflare Access. Stop before stage 10.
 No TFJS camera deployment or phone performance claim has been made yet.
+
+
+## Latest pointer after stage 9 — 2026-10-18
+
+Stages 1–9 DONE. Main e599a76ad2a48e97650545f64980abf4756de3e8 deployed
+successfully (Pages run 39134967348). Latest checkpoint remains on depth-tfjs-webgl.
+Next: stage 10 only, obtain OnePlus logs using docs/depth-tfjs-phone-test.md.
+No phone results yet. Automated live URL checks received Cloudflare 403/1010;
+authenticated application verification is pending. This supersedes earlier pointers.

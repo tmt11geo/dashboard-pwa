@@ -1,0 +1,16 @@
+{
+  "id": 39134967348,
+  "sha": "e599a76ad2a48e97650545f64980abf4756de3e8",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/tmt11geo/dashboard-pwa/actions/runs/39134967348",
+  "branch": "main",
+  "checkpoint_branch": "depth-tfjs-webgl",
+  "preparation_commit": "207458ca50a92ad01d9949f4be0f07567c81d7d5",
+  "tested_tree": "068f6f605347661dbaf476bc8b6c1473d8cde977",
+  "node_tests": 56,
+  "package_files": 25,
+  "package_bytes": 97817343,
+  "live_validation": "Cloudflare HTTP 403; page follow-up error 1010. No authenticated app validation.",
+  "next_action": "Stage 10 only: obtain OnePlus logs; see docs/depth-tfjs-phone-test.md."
+}

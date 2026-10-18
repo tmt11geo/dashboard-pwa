@@ -10,13 +10,13 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Branch containing this outcome | `depth-tfjs-webgl` |
 | Starting main commit | `9db5c0345faf7339f3d4cc24142dad362122649e` |
 | Live application branch | `main` |
-| Live application commit last checked | `7386a02552ee1e8d55a52bd5025d5112614ea276` |
-| Live diagnostic build | `depth-lab-3` |
-| New TFJS backend deployed? | No |
-| Active stage | 9 — merge/deploy, PARTIAL |
-| Next stage | **9 — Merge and deploy** |
-| Current blocker | None for stage 8; deployment and phone evaluation pending |
-| Outcome of this checkpoint | 6AE, 7 and 8 complete; ready for stage 9 deployment |
+| Live application commit last checked | `e599a76ad2a48e97650545f64980abf4756de3e8` |
+| Live diagnostic build | `depth-lab-4` |
+| New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
+| Active stage | None; stage 9 complete |
+| Next stage | **10 — OnePlus device evaluation** |
+| Current blocker | Phone logs needed for stage 10; live automated requests receive Cloudflare 403/1010 |
+| Outcome of this checkpoint | Stage 9 complete; merged and Pages deployment verified |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -34,8 +34,8 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6. Model packaging/hosting | **DONE** | 6A–6AE DONE; complete package integrity, immutable URLs, actual WebGL load/inference and cleanup verified. Live Pages deferred to stage 9. |
 | 7. Camera integration | **DONE** | Explicit TFJS WebGL worker, fixed-224 letterboxing/crop, backpressure and diagnostics; actual app/model smoke PASS. |
 | 8. Lifecycle/regressions | **DONE** | 56 Node tests, 23 actual-browser lifecycle checks and 8 deployment-prefix checks PASS; phone evaluation remains stage 10. |
-| 9. Merge/deploy | **PARTIAL** | Final checks pass; merge and deployment verification pending. |
-| 10. OnePlus device evaluation | **WAITING ON STAGE 9** | No phone TFJS performance evidence. |
+| 9. Merge/deploy | **DONE** | Exact merged SHA deployed successfully; live automated requests blocked by Cloudflare. |
+| 10. OnePlus device evaluation | **NOT STARTED — NEXT** | Test instructions ready; no phone TFJS performance evidence. |
 
 ## Stage 6 substage ledger
 
@@ -578,3 +578,43 @@ Stage 9 PARTIAL pending merge and exact Pages deployment verification.
 Exact next action: merge this verified tree with current main, verify the resulting
 Pages run and protected URLs, then save deployment receipt and phone test handoff.
 No stage 10 execution or phone performance claim.
+
+
+## Stage 9 complete — merge and deployment verified, 2026-10-18
+
+Working/outcome checkpoint branch: depth-tfjs-webgl. Starting feature commit:
+87e998cd3d1dbe98313d5558b24c6a8fe9b43dbb. Preparation commit:
+207458ca50a92ad01d9949f4be0f07567c81d7d5. Merged/deployed main: e599a76ad2a48e97650545f64980abf4756de3e8.
+The merge has both main and feature parents, preserves main's duplicate-shard
+cleanup and uses the exact verified preparation tree 068f6f605347661dbaf476bc8b6c1473d8cde977.
+Main had no net changes since the common ancestor; no AGENTS.md found.
+Connected integration updated refs with expected-head leases.
+
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/39134967348
+completed successfully for this exact merged SHA; build, deploy and report jobs
+all succeeded. Remote main fetched and matches the deployed SHA; deployed app
+files match the tested working bytes. Final receipt is on depth-tfjs-webgl only,
+so main remains the exact verified deployment commit.
+
+Build depth-lab-4; depth.html loads depth.js?v=5, which imports diagnostics?v=3.
+New TFJS modules/worker use first-release v=1. Existing unchanged asset versions
+remain valid. Final checks: 56/56 Node tests, full 25-file/97,817,343-byte model
+audit, JS syntax and git diff --check PASS. Protected map/navigation/theme/tracker/
+PWA files and ONNX worker/core match main byte-for-byte. No Access or service-worker
+configuration changed. Prior stage 8 browser evidence retained; no new phone test.
+Evidence: tools/depth-tfjs/evidence/stage9-{node-tests.log,package-audit.json,
+deployment.json,live-urls.json}.
+
+Unauthenticated checks of the live depth page, depth.js and model.json returned
+HTTP 403. A follow-up page response identifies Cloudflare error 1010 (cfOrigin=0).
+This is an environment/client access limitation, not evidence of missing assets,
+and does not independently verify the Access login policy. No alternate hostname
+or authentication bypass attempted. Authenticated live app/model validation remains
+for the user; Pages success is verified separately. Stage 9 has no deployment blocker.
+
+Exact next action: stage 10 only, OnePlus evaluation. Open
+https://tmt11.com/dashboard-pwa/depth.html?v=4 through normal Access authentication;
+confirm diagnostics show depth-lab-4. See docs/depth-tfjs-phone-test.md for the
+short baseline/WebGL/timing/lifecycle sequence and requested copied logs.
+Stage 10 NOT STARTED; no phone performance or hardware acceleration result claimed.
+This pointer supersedes all historical deployment-preparation/next-action text.

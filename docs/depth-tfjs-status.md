@@ -4,7 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Stages 1–8 DONE; next stage 9 merge/deploy. 56 Node tests, 23 actual-browser lifecycle checks and 8 deployment-prefix checks PASS. Synthetic camera and SwiftShader only; no phone performance claim. Not deployed. Main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276 (Pages run 39133290852 success).
+Working/outcome branch: depth-tfjs-webgl. Stages 1–9 DONE; next stage 10 OnePlus evaluation. Main deployed at e599a76ad2a48e97650545f64980abf4756de3e8, build depth-lab-4, Pages run 39134967348 success. Final 56 Node tests and package audit PASS. Live automated requests blocked by Cloudflare 403/1010; authenticated device verification pending. No phone performance claim.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -874,3 +874,43 @@ Stage 9 PARTIAL pending merge and exact Pages deployment verification.
 Exact next action: merge this verified tree with current main, verify the resulting
 Pages run and protected URLs, then save deployment receipt and phone test handoff.
 No stage 10 execution or phone performance claim.
+
+
+## Stage 9 complete — merge and deployment verified, 2026-10-18
+
+Working/outcome checkpoint branch: depth-tfjs-webgl. Starting feature commit:
+87e998cd3d1dbe98313d5558b24c6a8fe9b43dbb. Preparation commit:
+207458ca50a92ad01d9949f4be0f07567c81d7d5. Merged/deployed main: e599a76ad2a48e97650545f64980abf4756de3e8.
+The merge has both main and feature parents, preserves main's duplicate-shard
+cleanup and uses the exact verified preparation tree 068f6f605347661dbaf476bc8b6c1473d8cde977.
+Main had no net changes since the common ancestor; no AGENTS.md found.
+Connected integration updated refs with expected-head leases.
+
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/39134967348
+completed successfully for this exact merged SHA; build, deploy and report jobs
+all succeeded. Remote main fetched and matches the deployed SHA; deployed app
+files match the tested working bytes. Final receipt is on depth-tfjs-webgl only,
+so main remains the exact verified deployment commit.
+
+Build depth-lab-4; depth.html loads depth.js?v=5, which imports diagnostics?v=3.
+New TFJS modules/worker use first-release v=1. Existing unchanged asset versions
+remain valid. Final checks: 56/56 Node tests, full 25-file/97,817,343-byte model
+audit, JS syntax and git diff --check PASS. Protected map/navigation/theme/tracker/
+PWA files and ONNX worker/core match main byte-for-byte. No Access or service-worker
+configuration changed. Prior stage 8 browser evidence retained; no new phone test.
+Evidence: tools/depth-tfjs/evidence/stage9-{node-tests.log,package-audit.json,
+deployment.json,live-urls.json}.
+
+Unauthenticated checks of the live depth page, depth.js and model.json returned
+HTTP 403. A follow-up page response identifies Cloudflare error 1010 (cfOrigin=0).
+This is an environment/client access limitation, not evidence of missing assets,
+and does not independently verify the Access login policy. No alternate hostname
+or authentication bypass attempted. Authenticated live app/model validation remains
+for the user; Pages success is verified separately. Stage 9 has no deployment blocker.
+
+Exact next action: stage 10 only, OnePlus evaluation. Open
+https://tmt11.com/dashboard-pwa/depth.html?v=4 through normal Access authentication;
+confirm diagnostics show depth-lab-4. See docs/depth-tfjs-phone-test.md for the
+short baseline/WebGL/timing/lifecycle sequence and requested copied logs.
+Stage 10 NOT STARTED; no phone performance or hardware acceleration result claimed.
+This pointer supersedes all historical deployment-preparation/next-action text.
