@@ -1,6 +1,6 @@
 // All frame processing stays in this worker. Network requests only download public code/weights.
 import {MODEL_ROOT,prepareInput,normalizeDepth} from './depth-core.js?v=1';
-import {BUILD,probeGPU,errorInfo} from './depth-diagnostics.js?v=1';
+import {BUILD,probeGPU,errorInfo} from './depth-diagnostics.js?v=2';
 const ROOT='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/';
 let runtime,session,busy=false,initialized=false;
 let stage='boot';
@@ -42,10 +42,12 @@ self.onmessage=async({data})=>{
    if(data.backend==='webgpu'&&!adapter)throw new Error(`WebGPU unavailable in the worker: ${probe.reason}. Select CPU / WASM and retry.`);
    const backend=adapter?'webgpu':'wasm',half=adapter?.features.has('shader-f16');
    const file=backend==='wasm'?'model_quantized.onnx':half?'model_fp16.onnx':'model.onnx';
-   diagnostic('info','backend.selected',{backend,file,reason:probe.reason});stage='runtime-import';
+   diagnostic('info','backend.selected',{backend,file,mode:probe.mode,reason:probe.reason});stage='runtime-import';
    progress(`Loading ${backend==='webgpu'?'WebGPU':'CPU / WASM'} runtime…`);
    runtime=await import(ROOT+(backend==='webgpu'?'ort.webgpu.min.mjs':'ort.wasm.min.mjs'));
    runtime.env.wasm.wasmPaths=ROOT;runtime.env.wasm.numThreads=1;runtime.env.wasm.proxy=false;
+   // Ensure ORT uses the tested adapter instead of requesting a new Core-only one.
+   if(adapter)runtime.env.webgpu.adapter=adapter;
    diagnostic('info','runtime.loaded',{version:runtime.env.versions,wasmThreads:1});stage='model-download';
    progress(`Downloading ${file==='model_fp16.onnx'?'FP16 (~50 MB)':file==='model.onnx'?'FP32 (~99 MB)':'INT8 (~27 MB)'} depth model…`);
    const bytes=await download(MODEL_ROOT+file);
@@ -53,7 +55,7 @@ self.onmessage=async({data})=>{
    progress('Preparing depth model; first inference also needs warm-up…');
    session=await runtime.InferenceSession.create(bytes,{executionProviders:[backend],graphOptimizationLevel:'all'});
    diagnostic('info','session.create.complete',{ms:Math.round(performance.now()-createStart),inputNames:session.inputNames,outputNames:session.outputNames});
-   self.postMessage({type:'ready',backend,precision:backend==='wasm'?'INT8':half?'FP16':'FP32',modelBytes:bytes.byteLength});
+   self.postMessage({type:'ready',backend,gpuMode:probe.mode,precision:backend==='wasm'?'INT8':half?'FP16':'FP32',modelBytes:bytes.byteLength});
   }else if(data.type==='frame'&&session){
    stage='preprocessing';
    const start=performance.now(),rgba=new Uint8ClampedArray(data.pixels);

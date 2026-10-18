@@ -18,3 +18,11 @@ test('GPU diagnostics distinguish a missing API, null adapter, rejection and usa
  const adapter={features:new Set(['shader-f16']),limits:{maxBufferSize:1024},info:{vendor:'test',architecture:'test'}};
  r=await probeGPU({requestAdapter:async()=>adapter},emit);assert.equal(r.adapter,adapter);assert.deepEqual(events.at(-1).details.features,['shader-f16']);
 });
+test('compatibility adapter is tried after Core fails, and Core remains preferred',async()=>{
+ const options=[],adapter={features:new Set(),limits:{}},emit=()=>{};
+ const result=await probeGPU({requestAdapter:async option=>{options.push(option);return option?.featureLevel==='compatibility'?adapter:null;}},emit);
+ assert.deepEqual(options,[undefined,{featureLevel:'compatibility'}]);assert.equal(result.adapter,adapter);assert.equal(result.mode,'compatibility');
+ options.length=0;
+ const core=await probeGPU({requestAdapter:async option=>{options.push(option);return adapter;}},emit);
+ assert.equal(options.length,1);assert.equal(core.mode,'core');
+});

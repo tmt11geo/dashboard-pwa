@@ -1,4 +1,4 @@
-export const BUILD='depth-lab-2';
+export const BUILD='depth-lab-3';
 // Deliberately exclude camera frames, camera IDs, credentials and page query strings.
 export function cleanText(value){
  return String(value).replace(/https?:\/\/[^\s)"']+/g,url=>url.split(/[?#]/)[0]).slice(0,3000);
@@ -19,12 +19,16 @@ export function createLog(output,limit=300){
 export async function probeGPU(gpu,emit){
  emit('info','gpu.api',{available:!!gpu});
  if(!gpu)return {adapter:null,reason:'API unavailable in this execution context'};
- try{
-  emit('info','gpu.requestAdapter.begin');
-  const adapter=await gpu.requestAdapter();
-  if(!adapter){emit('warn','gpu.requestAdapter.null');return {adapter:null,reason:'requestAdapter returned null'};}
-  let info;try{info=adapter.info;}catch(error){emit('warn','gpu.adapter.infoUnavailable',errorInfo(error));}
-  emit('info','gpu.adapter',{features:[...adapter.features],vendor:info?.vendor||'',architecture:info?.architecture||'',isFallbackAdapter:adapter.isFallbackAdapter??null,maxBufferSize:adapter.limits?.maxBufferSize??null});
-  return {adapter,reason:'Adapter available'};
- }catch(error){emit('error','gpu.requestAdapter.error',errorInfo(error));return {adapter:null,reason:`requestAdapter failed: ${cleanText(error.message||error)}`};}
+ const failures=[];
+ for(const mode of ['core','compatibility']){
+  try{
+   emit('info','gpu.requestAdapter.begin',{mode});
+   const adapter=await gpu.requestAdapter(mode==='compatibility'?{featureLevel:'compatibility'}:undefined);
+   if(!adapter){emit('warn','gpu.requestAdapter.null',{mode});failures.push(`${mode}: requestAdapter returned null`);continue;}
+   let info;try{info=adapter.info;}catch(error){emit('warn','gpu.adapter.infoUnavailable',errorInfo(error));}
+   emit('info','gpu.adapter',{mode,features:[...adapter.features],vendor:info?.vendor||'',architecture:info?.architecture||'',isFallbackAdapter:info?.isFallbackAdapter??adapter.isFallbackAdapter??null,maxBufferSize:adapter.limits?.maxBufferSize??null,maxStorageBuffersPerShaderStage:adapter.limits?.maxStorageBuffersPerShaderStage??null,maxComputeWorkgroupStorageSize:adapter.limits?.maxComputeWorkgroupStorageSize??null});
+   return {adapter,mode,reason:`${mode} adapter available`};
+  }catch(error){emit('error','gpu.requestAdapter.error',{mode,...errorInfo(error)});failures.push(`${mode}: requestAdapter failed: ${cleanText(error.message||error)}`);}
+ }
+ return {adapter:null,reason:failures.join('; ')};
 }

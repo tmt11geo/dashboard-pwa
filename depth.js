@@ -1,5 +1,5 @@
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=1';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=2';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
@@ -96,16 +96,16 @@ async function start(){
   if(document.hidden){stop('Paused because this page is hidden. Tap Start to resume.');return;}
   ui.standby.hidden=true;running=true;starting=false;lastFresh=performance.now();controls();
   emit('info','worker.create');lastProgressLog=0;
-  const active=new Worker(new URL('./depth-worker.js?v=2',import.meta.url),{type:'module'});worker=active;
+  const active=new Worker(new URL('./depth-worker.js?v=3',import.meta.url),{type:'module'});worker=active;
   active.onmessage=({data})=>{
    if(mine!==generation||worker!==active)return;
    try{
     if(data.type==='diagnostic')log.write(data.level||'info','worker.'+data.event,data.details);
     else if(data.type==='progress'){status(data.message);guard(240000,'Model loading timed out.');if(performance.now()-lastProgressLog>2000){lastProgressLog=performance.now();emit('info','worker.progress',{message:data.message});}}
     else if(data.type==='ready'){
-     emit('info','worker.ready',{backend:data.backend,precision:data.precision,modelBytes:data.modelBytes});
+     emit('info','worker.ready',{backend:data.backend,gpuMode:data.gpuMode,precision:data.precision,modelBytes:data.modelBytes});
      clearTimeout(watchdog);ready=true;controls();
-     ui.engine.textContent=`${data.backend==='webgpu'?'WebGPU':'CPU / WASM'} · ${data.precision} · ${(data.modelBytes/1e6).toFixed(1)} MB weights · ${ui.resolution.value} px maximum edge`;
+     ui.engine.textContent=`${data.backend==='webgpu'?'WebGPU'+(data.gpuMode==='compatibility'?' compatibility':''):'CPU / WASM'} · ${data.precision} · ${(data.modelBytes/1e6).toFixed(1)} MB weights · ${ui.resolution.value} px maximum edge`;
      status('Running. Move slowly; the first frame includes model warm-up.');
      ageTimer=setInterval(()=>{if(lastResult)ui.age.textContent=`${((performance.now()-lastResult)/1000).toFixed(1)} s${paused?' · paused':''}`;},250);
      sendFrame(false);
