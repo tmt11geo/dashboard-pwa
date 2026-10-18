@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **7 — Camera integration** |
-| Current blocker | None for stage 6; camera integration next |
-| Outcome of this checkpoint | Complete package loads/runs on explicit WebGL; stage 6 DONE |
+| Next stage | **8 — Lifecycle and regressions** |
+| Current blocker | None for stage 7; full lifecycle/regression checks next |
+| Outcome of this checkpoint | TFJS camera integration and actual-model smoke passed; stage 8 next |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -32,7 +32,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
 | 6. Model packaging/hosting | **DONE** | 6A–6AE DONE; complete package integrity, immutable URLs, actual WebGL load/inference and cleanup verified. Live Pages deferred to stage 9. |
-| 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
+| 7. Camera integration | **DONE** | Explicit TFJS WebGL worker, fixed-224 letterboxing/crop, backpressure and diagnostics; actual app/model smoke PASS. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
 | 10. OnePlus device evaluation | **WAITING ON STAGE 9** | No phone TFJS performance evidence. |
@@ -490,3 +490,25 @@ validation. Main remains 7386a02552ee1e8d55a52bd5025d5112614ea276 (successful Pa
 run 39133290852 checked in 6AD); no deployment in this step.
 Next: stage 7 camera integration, fixed-224 letterboxing, explicit TFJS WebGL,
 worker/backpressure/diagnostics, preserve ONNX paths. Then stage 8 as authorized.
+
+
+## Stage 7 complete — explicit TFJS camera option, 2026-10-18
+
+Branch: depth-tfjs-webgl. Preceding 6AE checkpoint: 7fe68183a1a0175411bf6e239e7466468c36a392.
+Added separate TFJS worker and fixed-224 NHWC helpers; explicit WebGL/no CPU
+forwarding, relative same-origin model paths, full-view letterboxing and matching
+raw depth/colour crop. Existing ONNX Auto/WASM/WebGPU path preserved. Resolution
+is locked for TFJS; loading/inference deadlines, one-frame backpressure, pause/step,
+copyable identity/timing/memory/errors, context-loss handling and termination remain
+explicit. TFJS runtime version and license linked; no runtime bundle redistribution.
+Actual page + actual model smoke passed eight checks with a simulated camera:
+fixed resolution, correct 224x168 landscape output, engine label, pause/step,
+WebGL identity, ended tracks, controls restored, all 25 package assets requested.
+Evidence: tools/depth-tfjs/evidence/camera-smoke.json; runner and CAMERA.md committed.
+Existing depth tests: 9/9 PASS (`node --test tests/depth*.test.mjs`). JS syntax and
+`git diff --check` pass. No physical-camera/phone performance claim.
+Main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276; no deployment,
+Access, map, theme, tracker, navigation, manifest or service-worker changes.
+Blockers: none. Exact next action: stage 8 only, test lifecycle failures, timeouts,
+stale responses, repeated runs and portrait/landscape alignment; fix regressions,
+commit evidence. User authorized continuing to stage 8 in this run. Stage 9 excluded.

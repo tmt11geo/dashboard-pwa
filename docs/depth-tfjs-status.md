@@ -4,7 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Stages 1–6 DONE, next stage 7 camera integration. Packaged model load/inference/cleanup passed on explicit TFJS WebGL (SwiftShader only). No TFJS camera deployment. Main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276.
+Working/outcome branch: depth-tfjs-webgl. Stages 1–7 DONE; next stage 8 lifecycle/regressions. TFJS camera option passed actual-model simulated-camera smoke on SwiftShader. No deployment; main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -787,3 +787,25 @@ validation. Main remains 7386a02552ee1e8d55a52bd5025d5112614ea276 (successful Pa
 run 39133290852 checked in 6AD); no deployment in this step.
 Next: stage 7 camera integration, fixed-224 letterboxing, explicit TFJS WebGL,
 worker/backpressure/diagnostics, preserve ONNX paths. Then stage 8 as authorized.
+
+
+## Stage 7 complete — explicit TFJS camera option, 2026-10-18
+
+Branch: depth-tfjs-webgl. Preceding 6AE checkpoint: 7fe68183a1a0175411bf6e239e7466468c36a392.
+Added separate TFJS worker and fixed-224 NHWC helpers; explicit WebGL/no CPU
+forwarding, relative same-origin model paths, full-view letterboxing and matching
+raw depth/colour crop. Existing ONNX Auto/WASM/WebGPU path preserved. Resolution
+is locked for TFJS; loading/inference deadlines, one-frame backpressure, pause/step,
+copyable identity/timing/memory/errors, context-loss handling and termination remain
+explicit. TFJS runtime version and license linked; no runtime bundle redistribution.
+Actual page + actual model smoke passed eight checks with a simulated camera:
+fixed resolution, correct 224x168 landscape output, engine label, pause/step,
+WebGL identity, ended tracks, controls restored, all 25 package assets requested.
+Evidence: tools/depth-tfjs/evidence/camera-smoke.json; runner and CAMERA.md committed.
+Existing depth tests: 9/9 PASS (`node --test tests/depth*.test.mjs`). JS syntax and
+`git diff --check` pass. No physical-camera/phone performance claim.
+Main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276; no deployment,
+Access, map, theme, tracker, navigation, manifest or service-worker changes.
+Blockers: none. Exact next action: stage 8 only, test lifecycle failures, timeouts,
+stale responses, repeated runs and portrait/landscape alignment; fix regressions,
+commit evidence. User authorized continuing to stage 8 in this run. Stage 9 excluded.
