@@ -13,7 +13,7 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live application commit last checked | `7386a02552ee1e8d55a52bd5025d5112614ea276` |
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
-| Active stage | None; this is a saved handoff |
+| Active stage | 9 — merge/deploy, PARTIAL |
 | Next stage | **9 — Merge and deploy** |
 | Current blocker | None for stage 8; deployment and phone evaluation pending |
 | Outcome of this checkpoint | 6AE, 7 and 8 complete; ready for stage 9 deployment |
@@ -34,7 +34,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6. Model packaging/hosting | **DONE** | 6A–6AE DONE; complete package integrity, immutable URLs, actual WebGL load/inference and cleanup verified. Live Pages deferred to stage 9. |
 | 7. Camera integration | **DONE** | Explicit TFJS WebGL worker, fixed-224 letterboxing/crop, backpressure and diagnostics; actual app/model smoke PASS. |
 | 8. Lifecycle/regressions | **DONE** | 56 Node tests, 23 actual-browser lifecycle checks and 8 deployment-prefix checks PASS; phone evaluation remains stage 10. |
-| 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
+| 9. Merge/deploy | **PARTIAL** | Final checks pass; merge and deployment verification pending. |
 | 10. OnePlus device evaluation | **WAITING ON STAGE 9** | No phone TFJS performance evidence. |
 
 ## Stage 6 substage ledger
@@ -561,3 +561,20 @@ the existing Pages setup, preserving Cloudflare Access. Verify Pages for the exa
 merged commit and accessible asset URLs without bypassing authentication. Record
 live state and provide OnePlus test instructions. Do not claim phone results or
 start stage 10 automatically. This pointer supersedes historical instructions.
+
+
+## Stage 9 deployment preparation — 2026-10-18
+
+Working branch depth-tfjs-webgl; starting commit 87e998cd3d1dbe98313d5558b24c6a8fe9b43dbb.
+Main 7386a02552ee1e8d55a52bd5025d5112614ea276 has no net tree changes since
+the common ancestor (duplicate root shards uploaded then removed). No AGENTS.md.
+Bumped diagnostic build to depth-lab-4, page script to depth.js?v=5 and
+diagnostics import to v=3. New TFJS worker/core retain their first-release v=1.
+56/56 Node tests PASS; full 25-file package audit PASS; git diff --check PASS.
+Evidence: tools/depth-tfjs/evidence/stage9-node-tests.log and stage9-package-audit.json.
+Protected existing app files and service-worker policy unchanged. Prior stage 8
+actual-model browser/prefix evidence remains applicable; only build/cache IDs changed.
+Stage 9 PARTIAL pending merge and exact Pages deployment verification.
+Exact next action: merge this verified tree with current main, verify the resulting
+Pages run and protected URLs, then save deployment receipt and phone test handoff.
+No stage 10 execution or phone performance claim.

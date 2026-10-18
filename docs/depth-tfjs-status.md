@@ -857,3 +857,20 @@ the existing Pages setup, preserving Cloudflare Access. Verify Pages for the exa
 merged commit and accessible asset URLs without bypassing authentication. Record
 live state and provide OnePlus test instructions. Do not claim phone results or
 start stage 10 automatically. This pointer supersedes historical instructions.
+
+
+## Stage 9 deployment preparation — 2026-10-18
+
+Working branch depth-tfjs-webgl; starting commit 87e998cd3d1dbe98313d5558b24c6a8fe9b43dbb.
+Main 7386a02552ee1e8d55a52bd5025d5112614ea276 has no net tree changes since
+the common ancestor (duplicate root shards uploaded then removed). No AGENTS.md.
+Bumped diagnostic build to depth-lab-4, page script to depth.js?v=5 and
+diagnostics import to v=3. New TFJS worker/core retain their first-release v=1.
+56/56 Node tests PASS; full 25-file package audit PASS; git diff --check PASS.
+Evidence: tools/depth-tfjs/evidence/stage9-node-tests.log and stage9-package-audit.json.
+Protected existing app files and service-worker policy unchanged. Prior stage 8
+actual-model browser/prefix evidence remains applicable; only build/cache IDs changed.
+Stage 9 PARTIAL pending merge and exact Pages deployment verification.
+Exact next action: merge this verified tree with current main, verify the resulting
+Pages run and protected URLs, then save deployment receipt and phone test handoff.
+No stage 10 execution or phone performance claim.
