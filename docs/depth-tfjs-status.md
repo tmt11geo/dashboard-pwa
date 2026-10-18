@@ -4,9 +4,9 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable is a documentation checkpoint. No TFJS camera implementation or model assets have been deployed. Next task is stage 2.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes stage 2: a reproducible pinned Python conversion environment. No TFJS camera implementation or model assets have been deployed. Next task is stage 3.
 
-The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Reproduction is required before marking stages 2–5 DONE.
+The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stage 2 has now been reproduced below. Reproduction remains required before marking stages 3–5 DONE.
 
 ## Existing implementation
 
@@ -71,4 +71,44 @@ OnePlus 12R, Android 16; reported Chrome 155. Existing WASM works around 2.7–3
 
 ## Next action
 
-Recreate stage 2's isolated environment, commit requirements/setup and verify model/converter imports plus dependency consistency. Stop after that stage. Update DONE.md and this file with a remote checkpoint and next action.
+Run stage 3 only: recreate the environment with `bash tools/depth-tfjs/setup.sh /tmp/depth-tfjs-env` if the local verified environment is unavailable. Retrieve model revision `0fa3d627036ffe8029b34850dbdab5028696f011`, verify config/weights against the hashes above, and implement fixed [1,224,224,3] pretrained export plus the exact GELU rewrite. Preserve conversion scripts, metadata and regeneration/asset-persistence arrangements. Do not start numerical validation or integration in that run.
+
+## Stage 2 reproduced — 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`. Starting checkpoint:
+`56d4d161507ef865484f84014b7eb79005758fd2`. Resolve the new checkpoint SHA from
+the branch head/commit containing this section; a commit cannot embed its own SHA.
+
+Current main: `9db5c0345faf7339f3d4cc24142dad362122649e`, unchanged from the
+branch base. Pages run [39104746337](https://github.com/tmt11geo/dashboard-pwa/actions/runs/39104746337)
+completed successfully for that exact SHA. No deployment was triggered by this stage;
+Cloudflare Access and all application files remain unchanged. The only differences
+from main are handoff documentation and conversion-environment tooling/evidence.
+
+Durable tooling in `tools/depth-tfjs/`:
+
+- `requirements.txt`: historical top-level versions, verified without changes.
+- `requirements.lock.txt`: all 70 installed distributions, exact versions including pip 25.0.1.
+- `setup.sh`: clean CPython 3.12 venv setup, sequential pip installs and smoke checks.
+- `verify_environment.py`: version assertions, pip consistency, backbone/TFJS imports,
+  TensorFlow operation, tensorflow Keras backend and bounded converter startup.
+- `README.md`: commands, platform scope, failure notes and limitations.
+- `evidence/environment.json`: first clean environment PASS.
+- `evidence/environment-reproduced.json`: independent clean setup-script reproduction PASS.
+- `evidence/converter-help.txt` and stderr logs: actual converter startup evidence.
+- `evidence/reproduction.json`: commands, checksums, result and checkpoint provenance.
+
+Acceptance: `pip check` reports “No broken requirements found.”;
+`keras_hub.models.DepthAnythingBackbone` imports; TensorFlow sum returns 3;
+`tensorflowjs_converter --help` exits 0 with the expected input-format option.
+No model weights were downloaded and no model export/conversion was attempted.
+
+Platform: CPython 3.12.14, Linux x86_64, glibc 2.39, CPU-only conversion use.
+CUDA factory/initialization and legacy pkg_resources deprecation messages were observed,
+but did not prevent the checks. Version pins avoid the historical YDF/Protobuf and
+setuptools failures. The lock is platform-specific and version-pinned, not a wheel
+archive with hash verification. Index/package availability remains external.
+
+Stage 2 blocker: none. Stages 3–5 still have historical evidence only.
+Exact next action is the stage 3 procedure above; stop this run after committing
+and verifying this checkpoint remotely.

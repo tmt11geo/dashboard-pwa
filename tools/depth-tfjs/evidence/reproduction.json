@@ -1,0 +1,46 @@
+{
+  "stage": 2,
+  "status": "PASS",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "56d4d161507ef865484f84014b7eb79005758fd2",
+  "main_commit": "9db5c0345faf7339f3d4cc24142dad362122649e",
+  "commands": [
+    "python -m venv depth-env",
+    "depth-env/bin/python -m pip install --disable-pip-version-check -r tools/depth-tfjs/requirements.txt",
+    "depth-env/bin/python tools/depth-tfjs/verify_environment.py",
+    "depth-env/bin/python -m pip freeze --all > tools/depth-tfjs/requirements.lock.txt",
+    "bash -n tools/depth-tfjs/setup.sh",
+    "bash tools/depth-tfjs/setup.sh /workspace/scratch/e11ad2108fd0/depth-env-repro",
+    "depth-env-repro/bin/python -m pip freeze --all > repro.lock.txt",
+    "diff -u tools/depth-tfjs/requirements.lock.txt repro.lock.txt"
+  ],
+  "checks": {
+    "first_environment": "PASS",
+    "clean_setup_reproduction": "PASS",
+    "resolved_lock_identical": true,
+    "shell_syntax": "PASS",
+    "existing_environment_refused_exit": 1,
+    "converter_help_exit": 0
+  },
+  "distribution_count": 70,
+  "model_downloaded": false,
+  "model_converted": false,
+  "limits": [
+    "Linux x86_64 CPython 3.12 only",
+    "Version lock, no wheel hashes",
+    "No model export or WebGL proof"
+  ],
+  "sha256": {
+    "README.md": "89cfabac62d177dbf382532881e13646f4a60170546b482af311b2eb466df7aa",
+    "evidence/converter-help.stderr.log": "f1c45d2b636b6e5c70821c21751dd5a356e6e6c7768c4dd61da65d8a45cc980d",
+    "evidence/converter-help.txt": "b72fbf0ce387a674fccde002a2c30842fcb935b512466cd04ca1217e96dbecc8",
+    "evidence/environment-reproduced.json": "855f0b3048a0cc391ad2abcad98e3bb37d6c85a2c84b3f8f49a05e9c7935520e",
+    "evidence/environment.json": "6e2605c058e8e19db8e9317d8b3b2ecf4b32915ac17984e8c4f0024a0a3f6b66",
+    "evidence/environment.stderr.log": "2f617d5a0b27846ce2cb55282f6bdc3ebdf028a9c474663785c5c5fcc5135018",
+    "evidence/existing-env-refusal.txt": "14c2866e6a7fb0eac915fe06663db01f721dc98832493945c51e7c34a85fc411",
+    "requirements.lock.txt": "101da3277aa9820b986d524181808282f6b3510fe9b6c57becc1163e22f85bff",
+    "requirements.txt": "10567da49fb9b572ab2851ad3978a3ec5764b2d38450820ce10710508e405e91",
+    "setup.sh": "00cccada89b3ede34970fc87e465ddc0a18912dedd67207a608d4c647e134e8f",
+    "verify_environment.py": "851d17676e6ab2ce413524cbfa34e1684ba9de7482a5a06afd8a42b22e380ab1"
+  }
+}
