@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6H only, shard 5 phone upload preparation and verification.
+implementation or model assets have been deployed. Next task: user-authorized batch upload of shards 5–24 (6H–6AA), then verify each.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -605,3 +605,27 @@ paired authorization applied only to shards 3 and 4. No shard 5 work in this run
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed or rechecked; no app, Access or PWA changes. This supersedes earlier
 paired waiting instructions. This checkpoint changes documentation/evidence only.
+
+
+## User-authorized remaining-shard batch — 2026-10-18
+
+User requested all remaining shards for one download/upload. This explicitly
+supersedes the one-shard restriction for shards 5–24 (6H–6AA) only.
+Branch depth-tfjs-webgl; starting commit 893c02a6dec3d470f62755038fe42466dfa8c368.
+Fresh tree contains shards 1–4 only and no AGENTS.md.
+All 20 original shards 5–24 independently match inventory length/SHA256/Git blob ID.
+Prepared flat ZIP depth-shards-05-24.zip: 74,872,666 bytes; uncompressed 80,368,524 bytes.
+ZIP SHA256 c66e9d315c1ba6b2d9773feec37a1c5781a98df5c446056fe548f3f82195a6ae.
+Reopened ZIP, CRC check passed, all 20 extracted member SHA256 values match inventory.
+Temporary download: /workspace/scratch/c49fd39fc577/depth-shards-05-24.zip.
+Evidence: tools/depth-tfjs/evidence/package-shards5-24-preparation.json.
+6H–6AA PARTIAL / WAITING FOR USER UPLOAD. No binary tool upload attempted.
+
+Exact next action: user extracts ZIP on phone and uploads its 20 .bin files directly
+into models/depth-anything-v2-small-tfjs-fp32-224-v1 on depth-tfjs-webgl in one commit.
+Do not upload ZIP itself or an enclosing folder. After upload inspect branch/tree,
+independently download and verify each immutable remote shard, commit evidence and
+mark only passing rows DONE. Stop after this authorized batch. model.json remains
+6AB, not included or started; final audit/URLs/model load remain 6AC–6AE.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no app,
+Access, PWA or deployment changes; no new deployment verification claimed.
