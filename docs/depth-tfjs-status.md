@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: user-authorized paired 6F/6G upload of shards 3 and 4, then verify both.
+implementation or model assets have been deployed. Next task: 6H only, shard 5 phone upload preparation and verification.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -587,3 +587,21 @@ files; mark each stage DONE only if its length/SHA256/Git blob checks pass.
 Stop after this pair; do not start 6H/shard 5. No binary tool upload attempted.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no app,
 Access, PWA or deployment changes; deployment not rechecked.
+
+
+## Stages 6F + 6G complete — paired remote verification, 2026-10-18
+
+User-authorized pair verified on depth-tfjs-webgl, upload/start commit
+74791062c1c1600dc2f431a5a0f7b299887fea07. Remote tree confirms correct paths/mode 100644;
+no AGENTS.md found. Independently downloaded both complete files at immutable
+raw GitHub commit URLs using Python urllib (30s timeout) and hashlib.
+Both HTTP 200, 4,194,304 bytes; SHA256 and Git blob IDs exactly match inventory.
+All assertions passed, exit 0. Evidence: tools/depth-tfjs/evidence/package-shards3-4-remote.json.
+6F DONE and 6G DONE; no blocker. Shards 1–4 verified; stage 6 still PARTIAL.
+Exact next action: **6H only, shard 5**. Inspect current branch/path; if absent,
+prepare verified file for phone/browser upload and checkpoint waiting. Verify
+immutable remote bytes after upload before marking complete. Stop after 6H;
+paired authorization applied only to shards 3 and 4. No shard 5 work in this run.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed or rechecked; no app, Access or PWA changes. This supersedes earlier
+paired waiting instructions. This checkpoint changes documentation/evidence only.

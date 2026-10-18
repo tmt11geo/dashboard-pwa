@@ -1,0 +1,32 @@
+{
+  "stages": [
+    "6F",
+    "6G"
+  ],
+  "status": "PASS",
+  "branch": "depth-tfjs-webgl",
+  "upload_commit": "74791062c1c1600dc2f431a5a0f7b299887fea07",
+  "method": "Independent complete remote download; SHA256 and Git blob SHA1 calculated from bytes",
+  "exit_code": 0,
+  "files": [
+    {
+      "name": "group1-shard3of24.bin",
+      "bytes": 4194304,
+      "sha256": "64036542cf25cd90ca77041f11317a3b612551d7db72b3f0d6295ad38e14eb64",
+      "git_blob_sha": "6031241cdc2f01a830589e918330deb4de3140a4",
+      "http_status": 200,
+      "verified": true,
+      "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/74791062c1c1600dc2f431a5a0f7b299887fea07/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin"
+    },
+    {
+      "name": "group1-shard4of24.bin",
+      "bytes": 4194304,
+      "sha256": "aa553d0a12f6d2a4faf8251e0a63aed9dd925b02be07b27e3d80aacb3cf1a6ed",
+      "git_blob_sha": "363eaa4fc7f4975865c1d0e9f84d615bbe06c9fa",
+      "http_status": 200,
+      "verified": true,
+      "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/74791062c1c1600dc2f431a5a0f7b299887fea07/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin"
+    }
+  ],
+  "next": "6H only"
+}
