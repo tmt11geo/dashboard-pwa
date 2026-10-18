@@ -4,7 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Current main/live: 7386a02552ee1e8d55a52bd5025d5112614ea276 (Pages run 39133290852 successful). Current deliverable completes 6AD: all 25 immutable raw GitHub URLs and downloaded lengths/SHA256/Git blob IDs verified. Stages 6A–6AD DONE; parent stage 6 PARTIAL. No TFJS camera implementation deployed. Next: 6AE only, actual complete GraphModel load with explicit WebGL.
+Working/outcome branch: depth-tfjs-webgl. Stages 1–6 DONE, next stage 7 camera integration. Packaged model load/inference/cleanup passed on explicit TFJS WebGL (SwiftShader only). No TFJS camera deployment. Main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -765,3 +765,25 @@ WebGL and CPU forwarding disabled; record runtime/backend identity, load outcome
 errors and cleanup. If successful, checkpoint 6AE and parent stage 6 DONE, then
 stop before stage 7 camera integration. If blocked, preserve evidence and exact
 blocker instead. This pointer supersedes historical continuation instructions.
+
+
+## Stage 6AE complete — packaged GraphModel WebGL load, 2026-10-18
+
+Branch: depth-tfjs-webgl. Starting commit: 591483b4c68b45656d61ae7106303135e2fde5f3.
+User explicitly authorized at least three steps this run: 6AE, 7, 8; stop before deployment.
+`run_package_load.cjs` verified all branch model bytes and pinned TFJS/input hashes,
+served the actual package at its relative models path on loopback HTTP, and ran
+the existing dedicated-worker benchmark. All 25 assets fetched. TFJS 4.22.0,
+WebGL, WEBGL_CPU_FORWARD=false, Chromium 141 / SwiftShader. First plus three warm
+inferences PASS. Load 525.4 ms; first 12319 ms; warm median 9335.2 ms (local HTTP,
+software renderer only). Finite [1,224,224,1] outputs; live tensor/data/GPU counters
+returned to zero, backend removed, context lost. Texture pools reported separately.
+Evidence: tools/depth-tfjs/evidence/package-load.json. Runner: run_package_load.cjs.
+Command: NODE_PATH=<playwright modules> DEPTH_CHROMIUM=<headless_shell> node
+ tools/depth-tfjs/run_package_load.cjs <verified tf.js> <prepared fixtures> <report>.
+Exit 0. Dependencies and fixture regeneration: VALIDATION.md. All stage 6 rows DONE.
+No blockers. No physical camera/hardware-GPU/phone performance claim; no live Pages
+validation. Main remains 7386a02552ee1e8d55a52bd5025d5112614ea276 (successful Pages
+run 39133290852 checked in 6AD); no deployment in this step.
+Next: stage 7 camera integration, fixed-224 letterboxing, explicit TFJS WebGL,
+worker/backpressure/diagnostics, preserve ONNX paths. Then stage 8 as authorized.
