@@ -53,7 +53,7 @@ the selected checkpoint. See tools/depth-tfjs/PACKAGING.md.
 | --- | --- | --- |
 | 6A | DONE | Integrity audit and exact 25-file inventory (unchanged). |
 | 6B | DONE | License/attribution and pilot transfer preparation only; no binary upload. |
-| 6C | NOT STARTED — NEXT | Upload shard 1 and immediately attach it to a branch commit; compare returned blob ID. No second shard. |
+| 6C | PARTIAL | Split into 6C1 DONE, 6C2 upload/receipt NEXT, 6C3 attachment pending. See overriding checkpoint below. |
 | 6D | NOT STARTED | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
 | 6E | NOT STARTED | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
@@ -137,3 +137,46 @@ Acceptance: real device findings recorded, or an explicit waiting state with pre
 - Durable artifact paths/URLs, checks and material limitations.
 - Exact next stage/action or blocker and required user input.
 
+
+## Stage 6C split — preparation checkpoint, 2026-10-18
+
+This section supersedes earlier instructions to upload and attach shard 1 in one run.
+User requested a durable checkpoint before the large binary tool call.
+
+| Substage | State | Scope |
+| --- | --- | --- |
+| 6C1 | DONE | Check branch/path and local shard identity; commit preparation and stop before another binary upload. |
+| 6C2 | NOT STARTED — NEXT | Inspect branch/path and recover expected blob if available; otherwise attempt one programmatic binary upload. Commit a small receipt or exact blocker to this branch, then stop. |
+| 6C3 | NOT STARTED | Attach the expected blob to the model path using tree/commit/leased ref update; verify ref and tree path, size and blob ID; checkpoint and stop. |
+
+Parent 6C remains PARTIAL until 6C3. 6D still performs remote byte verification.
+No other Stage 6 scopes change. A dangling blob is not a hosted model.
+
+Starting branch/head: `depth-tfjs-webgl` at `64a6c1091ffe2927f85299d95ff55dfa46d30f04`.
+The inspected recursive tree had no AGENTS.md or binary model assets.
+Local shard: `/workspace/scratch/4c361dacd12f/stage4/final/graph-model/group1-shard1of24.bin`.
+Length 4,194,304 bytes; SHA256 `9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855`;
+Git blob ID `465c35791bb7139749f64bd758c46971a7607477`.
+All match the inventory. These local bytes remain temporary.
+
+Before the upload attempt, create_tree with the expected blob returned HTTP 422:
+`tree.sha 465c35791bb7139749f64bd758c46971a7607477 is not a valid blob`.
+A 5,592,408-character base64 payload was then prepared programmatically using
+3-byte-aligned reads, without printing it. The subsequent create_blob call was
+reported as `aborted by user after 5.8s`; no success response or blob ID was received.
+This does not establish whether GitHub accepted the upload. No upload retry was made.
+The branch head was re-read after interruption and remained at the starting commit.
+
+Evidence: `tools/depth-tfjs/evidence/package-shard1-preparation.json`.
+Blocker: binary upload outcome unknown; branch attachment not completed.
+Main last checked at `9db5c0345faf7339f3d4cc24142dad362122649e`; last previously
+verified successful Pages run 39104746337. No new deployment check is claimed.
+
+Exact next action: run **6C2 only**. First inspect the current head/path and check
+whether expected blob 465c35791bb7139749f64bd758c46971a7607477 can be recovered.
+If absent, re-read and verify the local shard (or regenerate via CONVERSION.md if
+missing), encode without emitting payloads, then make at most one create_blob attempt.
+Record the returned ID or exact failure in a small committed receipt and update
+DONE/status before stopping. Do not attach in 6C2, start 6D, or upload shard 2.
+The upload request itself is indivisible with create_blob; this split saves progress
+around it, not within it. Do not claim this removes any transport/context limit.
