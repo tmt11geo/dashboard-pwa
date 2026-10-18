@@ -5,7 +5,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 ## Current scope and branch
 
 Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6D: shard 1 remote length/SHA256/Git blob verified. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: upload missing shards 5–8 and verify; shards 9–24 passed.
+implementation or model assets have been deployed. Next task: 6AB only, attach and verify exact model.json; all 24 shards verified.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -650,3 +650,22 @@ Then verify these four immutable remote files and checkpoint; no need to reuploa
 this batch; do not begin model.json or final package audit in the same run.
 Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
 performed/rechecked, no application/Access/PWA changes. Only docs/evidence changed.
+
+
+## Remaining shard batch complete — 2026-10-18
+
+Branch depth-tfjs-webgl; upload/start commit c6cc4c87f2aa398ead679e168a5c6f95ab99a6a6.
+Fresh complete recursive tree: all 24 shard paths, sizes and Git blob IDs match
+inventory; no AGENTS.md found. Shards 5–8 independently downloaded from immutable
+raw GitHub commit URLs: HTTP 200, each 4,194,304 bytes; SHA256 and Git blob hashes
+all exactly match inventory. Python urllib (30s timeout), hashlib, four assertions
+pass, process exit 0. Evidence: tools/depth-tfjs/evidence/package-shards5-8-remote.json.
+6H–6K DONE; combined with earlier verification 6A–6AA DONE. All 24 shards verified
+across recorded runs and still present with identical blob IDs in this tree.
+No blocker for shard transfer. Parent stage 6 remains PARTIAL: model.json absent,
+complete distribution audit, URL checks and actual model loading still pending.
+Exact next action: **6AB only**, attach exact inventory-matching model.json,
+verify its remote bytes, update checkpoint and stop. No model.json work in this run.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed/rechecked or app/Access/PWA changes. Documentation/evidence only.
+This pointer supersedes all earlier missing-shard and batch-waiting instructions.
