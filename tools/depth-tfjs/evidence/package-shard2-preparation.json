@@ -1,0 +1,15 @@
+{
+  "stage": "6E",
+  "status": "WAITING_FOR_USER_UPLOAD",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "e59a83b7a83e40139f470a9f7c759154ec209022",
+  "file": "group1-shard2of24.bin",
+  "destination": "models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+  "bytes": 4194304,
+  "sha256": "29341eab5d3feed201a3c539f4fc5f69c9f2534ceeced61bbcabc8e9a472492a",
+  "git_blob_sha": "63c58b0a76b53613d829b08b8f8655b7052fd50a",
+  "local_inventory_match": true,
+  "remote_path_present": false,
+  "upload_attempted": false,
+  "next": "User browser upload, then immutable remote byte verification; remain in 6E."
+}

@@ -1,0 +1,63 @@
+{
+  "stage": 8,
+  "status": "PASS",
+  "branch": "depth-tfjs-webgl",
+  "preceding_checkpoint": "9342505ffdca403362b78ba1878d4e586547ba3c",
+  "node_tests": {
+    "passed": 56,
+    "failed": 0,
+    "log": "stage8-node-tests.log"
+  },
+  "browser_lifecycle": {
+    "passed": 23,
+    "failed": 0,
+    "report": "camera-lifecycle.json"
+  },
+  "deployment_prefix": {
+    "passed": 8,
+    "failed": 0,
+    "report": "camera-prefix.json"
+  },
+  "source_sha256": {
+    "depth.js": "39842428fcf662cba361a07bce4e3a5f180ba31af1c08e0dd7169de827225b16",
+    "depth.html": "b07ba817bb9096cd19d5449153ec0bf90e410f1f327a51bf617df37a056f3f94",
+    "depth-tfjs-core.js": "0ec8e62fb2bd4bd2a371cf0d5f954bb98b08ebad1ef07178a9b1d0604c71421d",
+    "depth-tfjs-worker.js": "5b608fd0666083f798e0a83794470310f39ecdf104e31086c9d3cb2867a57796",
+    "tools/depth-tfjs/run_camera_smoke.cjs": "3a4090d6acb878fcffb28bcb78815b92b6d915dc76c7f0d8729154b6d4771521",
+    "tests/depth-tfjs-core.test.mjs": "3e0e8aeebfb296df67d132e7125a7e6a89eecd835c48b8d9e23807d34d01924e",
+    "tests/depth-tfjs-worker.test.mjs": "95223fe116a139bba9c32774655c27e7e72d6c763b8f86cb2c794699632194d9",
+    "tests/depth-tfjs-lifecycle.test.mjs": "1907b0696a653145d88e48288553ced906f8ab8844cb8032f356f9504ebb6e1e"
+  },
+  "protected_files_identical_to_main": [
+    "index.html",
+    "map.html",
+    "map.js",
+    "map.css",
+    "app.js",
+    "camera.html",
+    "camera.js",
+    "camera-core.js",
+    "camera-tracker.js",
+    "dashboard.html",
+    "styles.css",
+    "sw.js",
+    "pwa-register.js",
+    "manifest.webmanifest",
+    "depth-worker.js",
+    "depth-core.js",
+    "depth-diagnostics.js"
+  ],
+  "main_commit": "7386a02552ee1e8d55a52bd5025d5112614ea276",
+  "pages": {
+    "run": 39133290852,
+    "conclusion": "success"
+  },
+  "blockers": [],
+  "limitations": [
+    "SwiftShader and simulated camera only",
+    "No new ONNX device inference run; source and regression tests preserved",
+    "No deployment in this run",
+    "Physical camera/OnePlus performance remains stage 10"
+  ],
+  "next_action": "Stage 9 only: reconcile main, build/query bump, final checks, merge/deploy and verify Pages without changing Access"
+}

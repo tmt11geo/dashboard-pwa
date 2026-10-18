@@ -1,0 +1,15 @@
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+PASS actual graph first + three same-image warm runs
+PASS failure retained and controls restored
+PASS cancel during loading
+PASS cancel during inference
+PASS bounded timeout
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+warning This model execution did not contain any nodes with control flow or dynamic output shapes. You can use model.execute() instead.
+PASS restart after failure/cancel/timeout
+PASS copyable logs retained across runs

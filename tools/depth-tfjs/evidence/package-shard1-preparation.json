@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-18",
+  "stage": "6C1",
+  "state": "DONE",
+  "parent_stage": "6C PARTIAL",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "64a6c1091ffe2927f85299d95ff55dfa46d30f04",
+  "local_path": "/workspace/scratch/4c361dacd12f/stage4/final/graph-model/group1-shard1of24.bin",
+  "bytes": 4194304,
+  "sha256": "9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855",
+  "git_blob": "465c35791bb7139749f64bd758c46971a7607477",
+  "preupload_recovery": {
+    "status": 422,
+    "message": "tree.sha 465c35791bb7139749f64bd758c46971a7607477 is not a valid blob"
+  },
+  "prepared_base64_characters": 5592408,
+  "upload_result": "aborted by user after 5.8s",
+  "upload_outcome": "unknown; no success response received",
+  "upload_retries": 0,
+  "branch_attachment": false,
+  "remote_bytes_verified": false,
+  "next_action": "6C2 only: recover expected blob or attempt upload once; commit receipt/blocker and stop before attachment"
+}

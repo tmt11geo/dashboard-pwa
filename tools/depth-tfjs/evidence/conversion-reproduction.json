@@ -1,0 +1,48 @@
+{
+  "stage": 3,
+  "status": "PASS",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "cf3af3af3e7b73a7304fcf0f84b1cea9b8e955d6",
+  "runs": [
+    "conversion-run-1.json",
+    "conversion-run-2.json"
+  ],
+  "repeatability": {
+    "conversions_succeeded": 2,
+    "all_24_binary_shards_byte_identical": true,
+    "model_json_parsed_content_identical": true,
+    "model_json_bytes_identical": false,
+    "difference": "JSON object key serialization order only",
+    "same_operation_inventory": true,
+    "same_signature": true
+  },
+  "run_1_note": "Initial converter version before adding post-conversion signature/shard-byte assertions and script/lock hashes. Export and conversion algorithm unchanged. Run 2 uses committed final script.",
+  "integrity_failure_check": {
+    "corrupt_config_rejected": true,
+    "error": "Source integrity failed: config.json: {'bytes': 7, 'sha256': '11d510e067d2cdcd7559bd86d27a2f4c20babd43670346b97af99b522c1f0075'}"
+  },
+  "durable_artifacts": "Repository scripts, lock, reports and logs; generated model binaries remain temporary. Recreate with convert_model.py if absent; hosting is stage 6.",
+  "local_successful_output": "/workspace/scratch/e11ad2108fd0/depth-stage3/run-2",
+  "limits": [
+    "Synthetic GELU rewrite smoke only",
+    "No representative-image or TFJS runtime validation",
+    "No hosted assets",
+    "No application change or deployment"
+  ],
+  "commands": [
+    "depth-env/bin/python -u tools/depth-tfjs/convert_model.py --source-dir depth-stage3/source --output-dir depth-stage3/run-1",
+    "depth-env/bin/python -u tools/depth-tfjs/convert_model.py --source-dir depth-stage3/source --output-dir depth-stage3/run-2"
+  ],
+  "licensing_metadata": {
+    "keras-hub==0.24.0": "License-Expression: Apache-2.0",
+    "tensorflowjs==4.22.0": "License: Apache 2.0",
+    "small_weights": "Apache 2.0 statement in pinned model card; URL/hash in conversion reports"
+  },
+  "sha256": {
+    "tools/depth-tfjs/convert_model.py": "a737d130e6bc55b412116180651bc382ca9d086b31995c644157943e7818086d",
+    "tools/depth-tfjs/requirements.lock.txt": "101da3277aa9820b986d524181808282f6b3510fe9b6c57becc1163e22f85bff",
+    "tools/depth-tfjs/CONVERSION.md": "bc01d86e7ec94c8e433d3651e3fdc25d739e733d6eebd586dabc926efd224b63",
+    "tools/depth-tfjs/evidence/conversion-run-1.json": "221e30d304c067e05f0acb5bd11e3cbbfde0d8ae329b850097b5184fcc9a62fc",
+    "tools/depth-tfjs/evidence/conversion-run-2.json": "8a30b82dd540c434bf4ec59cdf49a21a81b117c5b9449fd39c5500e3d337b143"
+  }
+}

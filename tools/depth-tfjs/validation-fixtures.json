@@ -1,0 +1,23 @@
+{
+  "revision": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+  "fixtures": [
+    {
+      "name": "demo01.jpg",
+      "url": "https://raw.githubusercontent.com/DepthAnything/Depth-Anything-V2/a561b849ebae10a6f5ef49e26c83cbbcd36c71bf/assets/examples/demo01.jpg",
+      "bytes": 488150,
+      "sha256": "35ef1bbb63f6540e49aa9b6302b9b938be4fe8b9c08c07c3694b02396b0e87e0"
+    },
+    {
+      "name": "demo02.jpg",
+      "url": "https://raw.githubusercontent.com/DepthAnything/Depth-Anything-V2/a561b849ebae10a6f5ef49e26c83cbbcd36c71bf/assets/examples/demo02.jpg",
+      "bytes": 510806,
+      "sha256": "c1f116034aa5abd5b5470226be2bb03bd938c8affe90389c52d10fe8b1ac7e21"
+    },
+    {
+      "name": "demo03.jpg",
+      "url": "https://raw.githubusercontent.com/DepthAnything/Depth-Anything-V2/a561b849ebae10a6f5ef49e26c83cbbcd36c71bf/assets/examples/demo03.jpg",
+      "bytes": 464937,
+      "sha256": "764dffd4d97bbacd620bc005fa86837018393ccb5ffd1059c2245a3cacff7782"
+    }
+  ]
+}

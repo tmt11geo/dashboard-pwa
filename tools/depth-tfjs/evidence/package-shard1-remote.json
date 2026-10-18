@@ -1,0 +1,22 @@
+{
+  "stage": "6D",
+  "status": "PASS",
+  "date": "2026-10-18",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "cefe6c4c8f4d20dadfbae0c47a2b9c98ebe0b8aa",
+  "upload_commit": "b1dcfe169931a425cb80a66d611c8f9f556a920b",
+  "path": "models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+  "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/cefe6c4c8f4d20dadfbae0c47a2b9c98ebe0b8aa/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+  "method": "Python urllib.request.urlopen(timeout=30); read complete response; hashlib.sha256(bytes); hashlib.sha1(b'blob '+str(len(bytes)).encode()+b'\\0'+bytes)",
+  "http_status": 200,
+  "bytes": 4194304,
+  "sha256": "9fa4b753d284376f2bfd5831f583dec5c879dcdf92ddc41187732ec864c29855",
+  "git_blob_sha": "465c35791bb7139749f64bd758c46971a7607477",
+  "inventory": "tools/depth-tfjs/evidence/package-inventory.json",
+  "all_three_assertions_pass": true,
+  "process_exit_code": 0,
+  "remote_tree_matches": true,
+  "main_commit": "9db5c0345faf7339f3d4cc24142dad362122649e",
+  "deployment_rechecked": false,
+  "next": "6E: shard 2 only; use browser upload handoff, not repeated large connector payloads"
+}

@@ -1,0 +1,95 @@
+{
+  "provenance": "Transcribed from actual tool output in this conversation; original temporary files unavailable. Not rerun during documentation checkpoint.",
+  "date": "2026-10-18",
+  "sourceRevision": "0fa3d627036ffe8029b34850dbdab5028696f011",
+  "info": {
+    "backend": "webgl",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "version": "4.22.0",
+    "cpuForward": false
+  },
+  "results": [
+    {
+      "i": 0,
+      "ms": 25168,
+      "shape": [
+        1,
+        224,
+        224,
+        1
+      ],
+      "mae": 4.831682065055155e-7,
+      "maxError": 0.000027433037757873535,
+      "normalizedMAE": 1.2378137352038405e-7,
+      "memory": {
+        "unreliable": false,
+        "numBytesInGPU": 98597104,
+        "numBytesInGPUAllocated": 674689860,
+        "numBytesInGPUFree": 576092756,
+        "numTensors": 564,
+        "numDataBuffers": 564,
+        "numBytes": 97948556
+      }
+    },
+    {
+      "i": 1,
+      "ms": 15201.900000000373,
+      "shape": [
+        1,
+        224,
+        224,
+        1
+      ],
+      "mae": 8.249647793008433e-7,
+      "maxError": 0.000033795833587646484,
+      "normalizedMAE": 2.6184043995728135e-7,
+      "memory": {
+        "unreliable": false,
+        "numBytesInGPU": 98597104,
+        "numBytesInGPUAllocated": 674886468,
+        "numBytesInGPUFree": 576289364,
+        "numTensors": 564,
+        "numDataBuffers": 564,
+        "numBytes": 97948556
+      }
+    },
+    {
+      "i": 2,
+      "ms": 16825.5,
+      "shape": [
+        1,
+        224,
+        224,
+        1
+      ],
+      "mae": 0.000004648304620415581,
+      "maxError": 0.0001361370086669922,
+      "normalizedMAE": 0.0000017649555392545967,
+      "memory": {
+        "unreliable": false,
+        "numBytesInGPU": 98597104,
+        "numBytesInGPUAllocated": 674886468,
+        "numBytesInGPUFree": 576289364,
+        "numTensors": 564,
+        "numDataBuffers": 564,
+        "numBytes": 97948556
+      }
+    }
+  ],
+  "afterDispose": {
+    "unreliable": false,
+    "numBytesInGPU": 0,
+    "numBytesInGPUAllocated": 674886468,
+    "numBytesInGPUFree": 674886468,
+    "numTensors": 0,
+    "numDataBuffers": 0,
+    "numBytes": 0
+  },
+  "limitations": [
+    "Software-rendered WebGL, not phone GPU performance",
+    "Three different images, not repeated same-image steady timing",
+    "Original fixtures, image revision/checksums and generated weights unavailable",
+    "No camera integration or new-backend lifecycle validation",
+    "No completed model upload or deployment"
+  ]
+}

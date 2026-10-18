@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "stages": [
+    "6H",
+    "6I",
+    "6J",
+    "6K"
+  ],
+  "branch": "depth-tfjs-webgl",
+  "upload_commit": "c6cc4c87f2aa398ead679e168a5c6f95ab99a6a6",
+  "files": [
+    {
+      "name": "group1-shard5of24.bin",
+      "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/c6cc4c87f2aa398ead679e168a5c6f95ab99a6a6/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "http_status": 200,
+      "bytes": 4194304,
+      "sha256": "a8fd646bf7ed7d9c41f4806df1aaaf34c646ae83b1079b7da3102b0567d19f7d",
+      "git_blob_sha": "6612922cdd4a9b548ef42534721aa6604ffff9b6",
+      "pass": true
+    },
+    {
+      "name": "group1-shard6of24.bin",
+      "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/c6cc4c87f2aa398ead679e168a5c6f95ab99a6a6/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "http_status": 200,
+      "bytes": 4194304,
+      "sha256": "39370b85855d58adde4b333f697705b773d79f680b4ed6fa6056f483dec97919",
+      "git_blob_sha": "935d2c6a69d02d702bce9a4a50531da27f515a19",
+      "pass": true
+    },
+    {
+      "name": "group1-shard7of24.bin",
+      "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/c6cc4c87f2aa398ead679e168a5c6f95ab99a6a6/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "http_status": 200,
+      "bytes": 4194304,
+      "sha256": "5b8353ff51e8abaf5e3989251a139a06e271a823c863a9e03a51537edc17790d",
+      "git_blob_sha": "b7392c10e83dc51e4745d0f4c89ea365f40baba7",
+      "pass": true
+    },
+    {
+      "name": "group1-shard8of24.bin",
+      "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/c6cc4c87f2aa398ead679e168a5c6f95ab99a6a6/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "http_status": 200,
+      "bytes": 4194304,
+      "sha256": "1801187b9ea62cb135628d2de85d55389e5892402fc689d9f538680ccb9e49cb",
+      "git_blob_sha": "5f96a4beb430a4f364476c3711a6a553f743ff1c",
+      "pass": true
+    }
+  ],
+  "exit_code": 0,
+  "all_24_current_tree_match_inventory": true,
+  "next": "6AB only"
+}

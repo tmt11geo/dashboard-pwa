@@ -1,0 +1,26 @@
+{
+  "stages": [
+    "6F",
+    "6G"
+  ],
+  "status": "WAITING_FOR_USER_UPLOAD",
+  "starting_commit": "98562dffeb027fb2a0adbe634434cee89d2b68d1",
+  "branch": "depth-tfjs-webgl",
+  "user_authorized_pair": true,
+  "local_checks_pass": true,
+  "remote_paths_absent": true,
+  "files": [
+    {
+      "name": "group1-shard3of24.bin",
+      "bytes": 4194304,
+      "sha256": "64036542cf25cd90ca77041f11317a3b612551d7db72b3f0d6295ad38e14eb64",
+      "git_blob_sha": "6031241cdc2f01a830589e918330deb4de3140a4"
+    },
+    {
+      "name": "group1-shard4of24.bin",
+      "bytes": 4194304,
+      "sha256": "aa553d0a12f6d2a4faf8251e0a63aed9dd925b02be07b27e3d80aacb3cf1a6ed",
+      "git_blob_sha": "363eaa4fc7f4975865c1d0e9f84d615bbe06c9fa"
+    }
+  ]
+}

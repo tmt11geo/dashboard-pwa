@@ -1,0 +1,31 @@
+{
+  "stage": 2,
+  "status": "PASS",
+  "utc": "2026-10-18T10:41:07Z",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "packages": {
+    "tensorflow": "2.19.0",
+    "tensorflow-text": "2.19.0",
+    "tf-keras": "2.19.0",
+    "keras": "3.15.1",
+    "keras-hub": "0.24.0",
+    "tensorflowjs": "4.22.0",
+    "tensorflow-decision-forests": "1.12.0",
+    "ydf": "0.11.0",
+    "protobuf": "5.29.6",
+    "setuptools": "80.9.0",
+    "packaging": "23.2",
+    "jax": "0.5.3",
+    "jaxlib": "0.5.3",
+    "flax": "0.10.6"
+  },
+  "pip_check": "No broken requirements found.",
+  "depth_anything_class": "keras_hub.src.models.depth_anything.depth_anything_backbone.DepthAnythingBackbone",
+  "keras_backend": "tensorflow",
+  "tensorflow_smoke_sum": 3.0,
+  "converter_help_exit": 0,
+  "converter_version": "4.22.0",
+  "scope": "Environment only; no pretrained weights, model conversion or WebGL execution"
+}

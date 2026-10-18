@@ -1,0 +1,16 @@
+{
+  "stage": "6E",
+  "status": "PASS",
+  "branch": "depth-tfjs-webgl",
+  "upload_commit": "42e5bf8a83bac3ab922184351edbf41cdee593a2",
+  "path": "models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+  "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/42e5bf8a83bac3ab922184351edbf41cdee593a2/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+  "http_status": 200,
+  "bytes": 4194304,
+  "sha256": "29341eab5d3feed201a3c539f4fc5f69c9f2534ceeced61bbcabc8e9a472492a",
+  "git_blob_sha": "63c58b0a76b53613d829b08b8f8655b7052fd50a",
+  "method": "Complete urllib response; hashlib.sha256 and Git blob SHA1 calculated independently",
+  "inventory_match": true,
+  "exit_code": 0,
+  "next": "6F only"
+}

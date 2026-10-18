@@ -1,0 +1,13 @@
+{
+  "stage": "6C",
+  "status": "DONE",
+  "branch": "depth-tfjs-webgl",
+  "upload_commit": "b1dcfe169931a425cb80a66d611c8f9f556a920b",
+  "path": "models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+  "size": 4194304,
+  "git_blob_sha": "465c35791bb7139749f64bd758c46971a7607477",
+  "matches_inventory": true,
+  "method": "User browser upload; immutable remote tree metadata checked",
+  "independent_remote_sha256_verified": false,
+  "next": "6D"
+}

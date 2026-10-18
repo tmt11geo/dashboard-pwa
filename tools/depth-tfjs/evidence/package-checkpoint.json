@@ -1,0 +1,26 @@
+{
+  "stage": "6A",
+  "status": "PASS",
+  "starting_commit": "1b8409a367a1e816490aab117b35577f22d2d4e1",
+  "branch": "depth-tfjs-webgl",
+  "checks": {
+    "exact_files_and_sha256": 25,
+    "independent_git_hash_object_matches": 25,
+    "corrupt_model_rejected": true,
+    "missing_model_rejected": true,
+    "recursive_tree_has_AGENTS": false,
+    "remote_model_assets_in_starting_tree": 0
+  },
+  "repository_before": {
+    "blob_count": 96,
+    "blob_bytes": 578288
+  },
+  "repository_plus_model_bytes": 98395631,
+  "local_graph": "/workspace/scratch/4c361dacd12f/stage4/final/graph-model",
+  "main_sha": "9db5c0345faf7339f3d4cc24142dad362122649e",
+  "pages_run": 39104746337,
+  "pages_conclusion": "success",
+  "remote_upload_attempted": false,
+  "blocker": "None for 6A; binary transport not yet proven",
+  "next_action": "6B: upload only group1-shard1of24.bin, attach to branch tree and verify remote size/blob/content hashes; stop."
+}

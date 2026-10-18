@@ -1,0 +1,22 @@
+{
+  "stage": "6AB",
+  "status": "PASS",
+  "branch": "depth-tfjs-webgl",
+  "starting_commit": "7e037875f341f89d11d6d5526f7d89b60662e1ab",
+  "asset_commit": "8d6ba9f6e6fa1708f3cc445bdba9f1624e7df7bf",
+  "path": "models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+  "bytes": 671603,
+  "sha256": "5ab6f29764edf13ae194d53a23f09ece13a6bce1edd5de2b2d820c8a1e2a7c3f",
+  "git_blob_sha": "8daa3840f06ea22aa70b144e53e66c51befbb0ea",
+  "http_status": 200,
+  "url": "https://raw.githubusercontent.com/tmt11geo/dashboard-pwa/8d6ba9f6e6fa1708f3cc445bdba9f1624e7df7bf/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+  "method": "Python urllib timeout 30s, hashlib SHA256 and Git blob SHA1; JSON parse and all assertions passed",
+  "tree_verified": true,
+  "agents_found": [],
+  "blockers": [],
+  "main_commit": "d9651e62b82ae1f4152e1ed2414b5f285e7c06cf",
+  "pages_run": 39132225480,
+  "pages_conclusion": "success",
+  "next_action": "6AC only: audit all 25 assets and final license/provenance/integrity metadata",
+  "scope": "model.json only; 6AC-6AE not started"
+}
