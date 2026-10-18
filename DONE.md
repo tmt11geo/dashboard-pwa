@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6AD — Verify immutable URLs and downloaded hashes only** |
-| Current blocker | None for 6AC; URL/load checks pending |
-| Outcome of this checkpoint | Complete distribution and metadata audit passed; 6AD next |
+| Next stage | **6AE — Actual complete GraphModel load with explicit WebGL only** |
+| Current blocker | None for 6AD; actual WebGL load pending |
+| Outcome of this checkpoint | All 25 immutable URLs and downloaded hashes verified; 6AE next |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -31,7 +31,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 3. Pretrained conversion | **DONE** | Pinned source hashes verified; strict pretrained load; exact GELU smoke passed; two SavedModel → GraphModel conversions succeeded. All 24 shard hashes match between runs. Durable script, metadata and explicit regeneration/persistence arrangement in tools/depth-tfjs/CONVERSION.md; asset hosting remains stage 6. |
 | 4. Numerical validation | **DONE** | Three revision/hash-pinned real images pass original vs rewrite, TFJS vs rewrite and TFJS vs original checks. Raw output shape/finite/range/error evidence and runnable tools committed under tools/depth-tfjs/. SwiftShader WebGL compatibility only. |
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
-| 6. Model packaging/hosting | **PARTIAL** | 6A–6AC DONE; complete distribution audited. URL/load checks 6AD–6AE pending. |
+| 6. Model packaging/hosting | **PARTIAL** | 6A–6AD DONE; distribution and immutable URLs verified. Actual WebGL load 6AE pending. |
 | 7. Camera integration | **NOT STARTED** | Letterboxing and explicit 224 px mode were proposed only. |
 | 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
@@ -70,7 +70,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 6AA | DONE | Transfer shard 24 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6AB | DONE | Attach exact model.json only; verify remote bytes/hash and checkpoint. |
 | 6AC | DONE | Audit all 25 branch assets and final license/provenance/integrity metadata. |
-| 6AD | NOT STARTED | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
+| 6AD | DONE | Verify all immutable intended URLs and downloaded hashes; record live Pages deferral to stage 9. |
 | 6AE | NOT STARTED | Actual complete GraphModel load with explicit WebGL; only then mark parent stage 6 DONE. |
 
 Complete only one substage per run. This finer split supersedes the old 6B–6J
@@ -434,3 +434,37 @@ DONE/status. Live custom-domain Pages checks remain deferred to stage 9. Stop
 after 6AD; actual explicit-WebGL GraphModel loading remains 6AE.
 This supersedes earlier continuation pointers. No URL sweep or runtime load was
 performed in 6AC; Git checkout verification is not a claim about HTTP model loading.
+
+
+## Stage 6AD complete — immutable URLs verified, 2026-10-18
+
+Working/outcome branch: `depth-tfjs-webgl`; starting and asset commit:
+`e1477f06af60f6cba2ff1271f4e98ee7bb858e80`.
+Fresh connected-integration recursive tree was complete and had no AGENTS.md.
+Downloaded every asset from the commit-pinned raw.githubusercontent.com path
+under `models/depth-anything-v2-small-tfjs-fp32-224-v1/`.
+All 25 URLs returned HTTP 200 without redirects. Complete downloaded lengths,
+SHA256 and Git blob IDs match `package-inventory.json`: 97,817,343 bytes total.
+The downloaded model.json parses and references the exact 24 ordered relative
+shard paths. No model bytes or application files changed.
+
+Command (Python 3.12.14, standard library, four concurrent downloads, 30-second
+socket timeout, no automatic retries):
+`python tools/depth-tfjs/verify_package_urls.py --commit e1477f06af60f6cba2ff1271f4e98ee7bb858e80`
+Evidence: `tools/depth-tfjs/evidence/package-urls.json`, including every immutable
+URL, response status, length and both hashes. All checks passed; process exit 0.
+6AD DONE; blockers: none. Parent stage 6 remains PARTIAL pending 6AE.
+
+Main/live remains `7386a02552ee1e8d55a52bd5025d5112614ea276`; Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39133290852 rechecked
+completed/success for that exact SHA. No merge/deployment/Access/PWA changes.
+Live custom-domain Pages URL and authenticated application checks are deferred
+to stage 9. Raw HTTP success does not establish browser CORS, WebGL loading,
+phone speed, or the availability of the feature branch on live Pages.
+
+Exact next action: **6AE only**. Use the verified complete package and committed
+benchmark/validation tooling to perform an actual GraphModel load with explicit
+WebGL and CPU forwarding disabled; record runtime/backend identity, load outcome,
+errors and cleanup. If successful, checkpoint 6AE and parent stage 6 DONE, then
+stop before stage 7 camera integration. If blocked, preserve evidence and exact
+blocker instead. This pointer supersedes historical continuation instructions.

@@ -130,3 +130,17 @@ Run `python tools/depth-tfjs/audit_package.py` from the repository root to verif
 the actual checked-out distribution, including the license/model-card hashes.
 Evidence: `evidence/package-audit.json`. All model bytes are unchanged.
 Next is 6AD URL/hash verification only; 6AE loading and stage 9 deployment remain.
+
+
+## Immutable URLs — stage 6AD
+
+All 25 commit-pinned raw GitHub URLs passed HTTP/length/SHA256/Git blob checks.
+Reproduce with:
+
+```sh
+python tools/depth-tfjs/verify_package_urls.py --commit e1477f06af60f6cba2ff1271f4e98ee7bb858e80
+```
+
+Evidence: `evidence/package-urls.json`. The exact immutable base URL and each
+manifest/shard URL are recorded there. Stage 6AE must still verify actual browser
+WebGL GraphModel loading; live custom-domain Pages checks wait for stage 9.

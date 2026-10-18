@@ -184,7 +184,8 @@ around it, not within it. Do not claim this removes any transport/context limit.
 
 ## Current continuation pointer — 2026-10-18
 
-6C and 6D are DONE; consult current DONE.md over historical instructions above.
-Next: 6E only, shard 2. Inspect branch/path first. Use phone/browser upload handoff
-if absent; checkpoint waiting for upload rather than retry large create_blob calls.
-Then verify uploaded remote bytes and checkpoint. Do not start a second substage.
+6A–6AD are DONE; DONE.md is authoritative over historical instructions above.
+Next: **6AE only**, actual complete GraphModel loading with explicit WebGL and
+CPU forwarding disabled. Use the immutable asset URLs in
+`tools/depth-tfjs/evidence/package-urls.json`. Record load/backend/cleanup evidence
+and checkpoint; mark parent stage 6 DONE only if 6AE passes. Stop before stage 7.
