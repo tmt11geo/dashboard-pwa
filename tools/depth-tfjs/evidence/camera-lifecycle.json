@@ -1,0 +1,1456 @@
+{
+  "stage": 8,
+  "status": "PASS",
+  "utc": "2026-10-18T14:05:34.097Z",
+  "checks": [
+    {
+      "name": "fixed resolution enforced",
+      "pass": true
+    },
+    {
+      "name": "actual frame and aspect ratio",
+      "pass": true
+    },
+    {
+      "name": "accurate engine label",
+      "pass": true
+    },
+    {
+      "name": "pause then single step",
+      "pass": true
+    },
+    {
+      "name": "explicit WebGL without CPU forwarding",
+      "pass": true
+    },
+    {
+      "name": "camera tracks ended",
+      "pass": true
+    },
+    {
+      "name": "controls restored",
+      "pass": true
+    },
+    {
+      "name": "all packaged model files requested",
+      "pass": true
+    },
+    {
+      "name": "all tracks released after interruption",
+      "pass": true
+    },
+    {
+      "name": "model failure retained",
+      "pass": true
+    },
+    {
+      "name": "all tracks released after interruption",
+      "pass": true
+    },
+    {
+      "name": "stop during actual model loading",
+      "pass": true
+    },
+    {
+      "name": "all tracks released after interruption",
+      "pass": true
+    },
+    {
+      "name": "loading deadline terminates worker",
+      "pass": true
+    },
+    {
+      "name": "all tracks released after interruption",
+      "pass": true
+    },
+    {
+      "name": "stop during actual inference",
+      "pass": true
+    },
+    {
+      "name": "all tracks released after interruption",
+      "pass": true
+    },
+    {
+      "name": "inference deadline terminates worker",
+      "pass": true
+    },
+    {
+      "name": "portrait restart alignment",
+      "pass": true
+    },
+    {
+      "name": "repeated frames retain only model tensors",
+      "pass": true
+    },
+    {
+      "name": "all tracks released after interruption",
+      "pass": true
+    },
+    {
+      "name": "actual context loss fails visibly",
+      "pass": true
+    },
+    {
+      "name": "navigation destroys worker",
+      "pass": true
+    }
+  ],
+  "fixture_sha256": "35ef1bbb63f6540e49aa9b6302b9b938be4fe8b9c08c07c3694b02396b0e87e0",
+  "runtime_sha256": "300dfae273d20b4046f46a06d735688f03675a807561e9bcb5f664eb2f3d2831",
+  "scope": "Actual Depth Lab and TFJS worker on loopback, synthetic camera from local fixture; SwiftShader, not physical camera or phone",
+  "browser": "141.0.7390.37",
+  "logs": "2026-10-18T14:05:34.227Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:05:34.328Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:05:34.330Z INFO main.camera.permission.begin\n2026-10-18T14:05:34.351Z INFO main.camera.track {\"state\":\"live\",\"width\":640,\"height\":480,\"frameRate\":10}\n2026-10-18T14:05:34.568Z INFO main.camera.playing {\"width\":640,\"height\":480,\"readyState\":4}\n2026-10-18T14:05:34.569Z INFO main.worker.create\n2026-10-18T14:05:34.775Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:05:34.781Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:05:35.287Z INFO worker.tfjs.load.complete {\"ms\":506.09999999962747,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}}\n2026-10-18T14:05:35.288Z INFO main.worker.ready {\"backend\":\"tfjs-webgl\",\"precision\":\"FP32\",\"modelBytes\":97817343}\n2026-10-18T14:05:35.290Z INFO main.frame.sent {\"id\":1,\"width\":224,\"height\":224}\n2026-10-18T14:05:35.294Z INFO worker.tfjs.inference.begin {\"frame\":1}\n2026-10-18T14:05:35.337Z INFO main.pause {\"paused\":true}\n2026-10-18T14:05:48.668Z INFO worker.tfjs.frame {\"frame\":1,\"warmup\":true,\"inferenceMs\":13362.799999999814,\"content\":{\"x\":0,\"y\":28,\"width\":224,\"height\":168}}\n2026-10-18T14:05:48.669Z INFO main.frame.complete {\"id\":1,\"width\":224,\"height\":168,\"inferenceMs\":13363,\"processingMs\":13377,\"roundTripMs\":13379}\n2026-10-18T14:05:48.674Z INFO worker.tfjs.frame.disposed {\"unreliable\":false,\"numBytesInGPU\":97392336,\"numBytesInGPUAllocated\":674689860,\"numBytesInGPUFree\":577297524,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}\n2026-10-18T14:05:48.732Z INFO worker.tfjs.inference.begin {\"frame\":2}\n2026-10-18T14:05:51.907Z WARN main.camera.track.mute\n2026-10-18T14:05:54.423Z WARN main.camera.track.unmute\n2026-10-18T14:05:56.938Z WARN main.camera.track.mute\n2026-10-18T14:05:57.755Z INFO worker.tfjs.frame {\"frame\":2,\"warmup\":false,\"inferenceMs\":9026.599999999627,\"content\":{\"x\":0,\"y\":28,\"width\":224,\"height\":168}}\n2026-10-18T14:05:57.756Z INFO main.frame.complete {\"id\":2,\"width\":224,\"height\":168,\"inferenceMs\":9027,\"processingMs\":9034,\"roundTripMs\":9035}\n2026-10-18T14:05:57.758Z INFO worker.tfjs.frame.disposed {\"unreliable\":false,\"numBytesInGPU\":97392336,\"numBytesInGPUAllocated\":674886468,\"numBytesInGPUFree\":577494132,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}",
+  "cycles": [
+    "2026-10-18T14:05:58.384Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:05:58.421Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:05:58.422Z INFO main.camera.permission.begin\n2026-10-18T14:05:58.443Z INFO main.camera.track {\"state\":\"live\",\"width\":640,\"height\":480,\"frameRate\":10}\n2026-10-18T14:05:58.485Z INFO main.camera.playing {\"width\":640,\"height\":480,\"readyState\":4}\n2026-10-18T14:05:58.486Z INFO main.worker.create\n2026-10-18T14:05:58.493Z INFO main.worker.progress {\"message\":\"Loading TFJS WebGL runtime…\"}\n2026-10-18T14:05:58.652Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:05:58.659Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:05:58.662Z ERROR worker.tfjs.failure {\"stage\":\"model-load\",\"name\":\"Error\",\"message\":\"Request to http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\",\"stack\":\"Error: Request to http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\\n    at e.<anonymous> (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:435774)\\n    at h (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:2100)\\n    at Generator.<anonymous> (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:3441)\\n    at Generator.next (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:2463)\\n    at u (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:8324)\\n    at o (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:8527)\"}\n2026-10-18T14:05:58.662Z INFO worker.tfjs.disposed {\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}\n2026-10-18T14:05:58.664Z ERROR main.worker.error {\"stage\":\"model-load\",\"name\":\"Error\",\"message\":\"Request to http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\",\"stack\":\"Error: Request to http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\\n    at e.<anonymous> (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:435774)\\n    at h (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:2100)\\n    at Generator.<anonymous> (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:3441)\\n    at Generator.next (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:2463)\\n    at u (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:8324)\\n    at o (https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js:17:8527)\"}\n2026-10-18T14:05:58.664Z ERROR main.failure {\"message\":\"Request to http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load.\"}\n2026-10-18T14:05:58.665Z INFO main.stop {\"reason\":\"Request to http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json failed with status code 404. Please verify this URL points to the model JSON of the model to load. Stop/retry, reduce detail, or select another compute option.\",\"running\":true,\"starting\":false,\"inFlight\":false,\"frames\":0}\n2026-10-18T14:05:58.666Z INFO main.tfjs.release {\"method\":\"worker termination\",\"note\":\"Browser owns context destruction; post-termination GPU counters unavailable\"}",
+    "2026-10-18T14:05:58.718Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:05:58.752Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:05:58.752Z INFO main.camera.permission.begin\n2026-10-18T14:05:58.776Z INFO main.camera.track {\"state\":\"live\",\"width\":640,\"height\":480,\"frameRate\":10}\n2026-10-18T14:05:58.808Z INFO main.camera.playing {\"width\":640,\"height\":480,\"readyState\":4}\n2026-10-18T14:05:58.809Z INFO main.worker.create\n2026-10-18T14:05:58.820Z INFO main.worker.progress {\"message\":\"Loading TFJS WebGL runtime…\"}\n2026-10-18T14:05:58.970Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:05:58.977Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:05:59.017Z INFO main.stop {\"reason\":\"Stopped. Camera and model released; the last depth result remains available.\",\"running\":true,\"starting\":false,\"inFlight\":false,\"frames\":0}\n2026-10-18T14:05:59.018Z INFO main.tfjs.release {\"method\":\"worker termination\",\"note\":\"Browser owns context destruction; post-termination GPU counters unavailable\"}",
+    "2026-10-18T14:05:59.051Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:05:59.084Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:05:59.084Z INFO main.camera.permission.begin\n2026-10-18T14:05:59.109Z INFO main.camera.track {\"state\":\"live\",\"width\":640,\"height\":480,\"frameRate\":10}\n2026-10-18T14:05:59.141Z INFO main.camera.playing {\"width\":640,\"height\":480,\"readyState\":4}\n2026-10-18T14:05:59.142Z INFO main.worker.create\n2026-10-18T14:05:59.150Z INFO main.worker.progress {\"message\":\"Loading TFJS WebGL runtime…\"}\n2026-10-18T14:05:59.291Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:05:59.301Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:06:00.642Z ERROR main.failure {\"message\":\"Model loading timed out.\"}\n2026-10-18T14:06:00.643Z INFO main.stop {\"reason\":\"Model loading timed out. Stop/retry, reduce detail, or select another compute option.\",\"running\":true,\"starting\":false,\"inFlight\":false,\"frames\":0}\n2026-10-18T14:06:00.644Z INFO main.tfjs.release {\"method\":\"worker termination\",\"note\":\"Browser owns context destruction; post-termination GPU counters unavailable\"}",
+    "2026-10-18T14:06:00.686Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:06:00.719Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:06:00.719Z INFO main.camera.permission.begin\n2026-10-18T14:06:00.746Z INFO main.camera.track {\"state\":\"live\",\"width\":640,\"height\":480,\"frameRate\":10}\n2026-10-18T14:06:00.807Z INFO main.camera.playing {\"width\":640,\"height\":480,\"readyState\":4}\n2026-10-18T14:06:00.808Z INFO main.worker.create\n2026-10-18T14:06:00.822Z INFO main.worker.progress {\"message\":\"Loading TFJS WebGL runtime…\"}\n2026-10-18T14:06:01.013Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:06:01.034Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:06:01.710Z INFO worker.tfjs.load.complete {\"ms\":676.2999999998137,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}}\n2026-10-18T14:06:01.711Z INFO main.worker.ready {\"backend\":\"tfjs-webgl\",\"precision\":\"FP32\",\"modelBytes\":97817343}\n2026-10-18T14:06:01.712Z INFO main.frame.sent {\"id\":3,\"width\":224,\"height\":224}\n2026-10-18T14:06:01.715Z INFO worker.tfjs.inference.begin {\"frame\":1}\n2026-10-18T14:06:01.775Z INFO main.stop {\"reason\":\"Stopped. Camera and model released; the last depth result remains available.\",\"running\":true,\"starting\":false,\"inFlight\":true,\"frames\":0}\n2026-10-18T14:06:01.776Z INFO main.tfjs.release {\"method\":\"worker termination\",\"note\":\"Browser owns context destruction; post-termination GPU counters unavailable\"}",
+    "2026-10-18T14:06:01.871Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:06:01.905Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:06:01.906Z INFO main.camera.permission.begin\n2026-10-18T14:06:01.928Z INFO main.camera.track {\"state\":\"live\",\"width\":640,\"height\":480,\"frameRate\":10}\n2026-10-18T14:06:02.109Z INFO main.camera.playing {\"width\":640,\"height\":480,\"readyState\":4}\n2026-10-18T14:06:02.110Z INFO main.worker.create\n2026-10-18T14:06:02.120Z INFO main.worker.progress {\"message\":\"Loading TFJS WebGL runtime…\"}\n2026-10-18T14:06:02.383Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:06:02.398Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:06:02.984Z INFO worker.tfjs.load.complete {\"ms\":586.3999999994412,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}}\n2026-10-18T14:06:02.985Z INFO main.worker.ready {\"backend\":\"tfjs-webgl\",\"precision\":\"FP32\",\"modelBytes\":97817343}\n2026-10-18T14:06:02.986Z INFO main.frame.sent {\"id\":4,\"width\":224,\"height\":224}\n2026-10-18T14:06:02.990Z INFO worker.tfjs.inference.begin {\"frame\":1}\n2026-10-18T14:06:03.486Z ERROR main.failure {\"message\":\"Depth inference exceeded 60 seconds.\"}\n2026-10-18T14:06:03.487Z INFO main.stop {\"reason\":\"Depth inference exceeded 60 seconds. Stop/retry, reduce detail, or select another compute option.\",\"running\":true,\"starting\":false,\"inFlight\":true,\"frames\":0}\n2026-10-18T14:06:03.488Z INFO main.tfjs.release {\"method\":\"worker termination\",\"note\":\"Browser owns context destruction; post-termination GPU counters unavailable\"}",
+    "2026-10-18T14:06:03.533Z INFO main.environment {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false}\n2026-10-18T14:06:03.567Z INFO main.start {\"build\":\"depth-lab-3\",\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\",\"secureContext\":true,\"crossOriginIsolated\":false,\"hardwareConcurrency\":9,\"deviceMemory\":8,\"webgpuAPI\":true,\"cameraAPI\":true,\"visibility\":\"visible\",\"standalone\":false,\"settings\":{\"backend\":\"tfjs-webgl\",\"resolution\":\"224\",\"facing\":\"environment\",\"frequency\":\"2\"}}\n2026-10-18T14:06:03.568Z INFO main.camera.permission.begin\n2026-10-18T14:06:03.592Z INFO main.camera.track {\"state\":\"live\",\"width\":480,\"height\":640,\"frameRate\":10}\n2026-10-18T14:06:03.924Z INFO main.camera.playing {\"width\":480,\"height\":640,\"readyState\":4}\n2026-10-18T14:06:03.925Z INFO main.worker.create\n2026-10-18T14:06:03.945Z INFO main.worker.progress {\"message\":\"Loading TFJS WebGL runtime…\"}\n2026-10-18T14:06:04.255Z INFO worker.tfjs.identity {\"tfjs\":\"4.22.0\",\"backend\":\"webgl\",\"cpuForward\":false,\"webgl\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"worker\":true}\n2026-10-18T14:06:04.266Z INFO worker.tfjs.load.begin {\"model\":\"http://127.0.0.1:44457/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json\",\"bytes\":97817343,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}}\n2026-10-18T14:06:05.040Z INFO worker.tfjs.load.complete {\"ms\":775.7000000001863,\"memory\":{\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":0,\"numBytesInGPUFree\":0,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}}\n2026-10-18T14:06:05.041Z INFO main.worker.ready {\"backend\":\"tfjs-webgl\",\"precision\":\"FP32\",\"modelBytes\":97817343}\n2026-10-18T14:06:05.042Z INFO main.frame.sent {\"id\":5,\"width\":224,\"height\":224}\n2026-10-18T14:06:05.045Z INFO worker.tfjs.inference.begin {\"frame\":1}\n2026-10-18T14:06:05.148Z INFO main.pause {\"paused\":true}\n2026-10-18T14:06:18.888Z INFO worker.tfjs.frame {\"frame\":1,\"warmup\":true,\"inferenceMs\":13832.400000000373,\"content\":{\"x\":28,\"y\":0,\"width\":168,\"height\":224}}\n2026-10-18T14:06:18.889Z INFO main.frame.complete {\"id\":5,\"width\":168,\"height\":224,\"inferenceMs\":13832,\"processingMs\":13845,\"roundTripMs\":13847}\n2026-10-18T14:06:18.895Z INFO worker.tfjs.frame.disposed {\"unreliable\":false,\"numBytesInGPU\":97392336,\"numBytesInGPUAllocated\":674689860,\"numBytesInGPUFree\":577297524,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}\n2026-10-18T14:06:18.947Z INFO worker.tfjs.inference.begin {\"frame\":2}\n2026-10-18T14:06:23.660Z WARN main.camera.track.mute\n2026-10-18T14:06:28.083Z INFO worker.tfjs.frame {\"frame\":2,\"warmup\":false,\"inferenceMs\":9138.200000000186,\"content\":{\"x\":28,\"y\":0,\"width\":168,\"height\":224}}\n2026-10-18T14:06:28.084Z INFO main.frame.complete {\"id\":6,\"width\":168,\"height\":224,\"inferenceMs\":9138,\"processingMs\":9147,\"roundTripMs\":9148}\n2026-10-18T14:06:28.085Z INFO worker.tfjs.frame.disposed {\"unreliable\":false,\"numBytesInGPU\":97392336,\"numBytesInGPUAllocated\":674886468,\"numBytesInGPUFree\":577494132,\"numTensors\":562,\"numDataBuffers\":562,\"numBytes\":97145740}\n2026-10-18T14:06:28.637Z ERROR worker.tfjs.failure {\"stage\":\"idle\",\"name\":\"Error\",\"message\":\"TFJS WebGL context lost. Stop and restart.\",\"stack\":\"Error: TFJS WebGL context lost. Stop and restart.\\n    at OffscreenCanvas.<anonymous> (http://127.0.0.1:44457/depth-tfjs-worker.js)\"}\n2026-10-18T14:06:28.640Z INFO worker.tfjs.disposed {\"unreliable\":false,\"numBytesInGPU\":0,\"numBytesInGPUAllocated\":674886468,\"numBytesInGPUFree\":674886468,\"numTensors\":0,\"numDataBuffers\":0,\"numBytes\":0}\n2026-10-18T14:06:28.644Z ERROR main.worker.error {\"stage\":\"idle\",\"name\":\"Error\",\"message\":\"TFJS WebGL context lost. Stop and restart.\",\"stack\":\"Error: TFJS WebGL context lost. Stop and restart.\\n    at OffscreenCanvas.<anonymous> (http://127.0.0.1:44457/depth-tfjs-worker.js)\"}\n2026-10-18T14:06:28.645Z ERROR main.failure {\"message\":\"TFJS WebGL context lost. Stop and restart.\"}\n2026-10-18T14:06:28.646Z INFO main.stop {\"reason\":\"TFJS WebGL context lost. Stop and restart. Stop/retry, reduce detail, or select another compute option.\",\"running\":true,\"starting\":false,\"inFlight\":false,\"frames\":2}\n2026-10-18T14:06:28.647Z INFO main.tfjs.release {\"method\":\"worker termination\",\"note\":\"Browser owns context destruction; post-termination GPU counters unavailable\"}"
+  ],
+  "steady_memory": [
+    {
+      "unreliable": false,
+      "numBytesInGPU": 97392336,
+      "numBytesInGPUAllocated": 674689860,
+      "numBytesInGPUFree": 577297524,
+      "numTensors": 562,
+      "numDataBuffers": 562,
+      "numBytes": 97145740
+    },
+    {
+      "unreliable": false,
+      "numBytesInGPU": 97392336,
+      "numBytesInGPUAllocated": 674886468,
+      "numBytesInGPUFree": 577494132,
+      "numTensors": 562,
+      "numDataBuffers": 562,
+      "numBytes": 97145740
+    }
+  ],
+  "lifecycle_requests": [
+    {
+      "path": "/depth.html",
+      "bytes": 8031
+    },
+    {
+      "path": "/camera.css",
+      "bytes": 4367
+    },
+    {
+      "path": "/depth.css",
+      "bytes": 3139
+    },
+    {
+      "path": "/depth.js",
+      "bytes": 15981
+    },
+    {
+      "path": "/pwa-register.js",
+      "bytes": 2075
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/depth-diagnostics.js",
+      "bytes": 2335
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    }
+  ],
+  "requests": [
+    {
+      "path": "/depth.html",
+      "bytes": 8031
+    },
+    {
+      "path": "/camera.css",
+      "bytes": 4367
+    },
+    {
+      "path": "/depth.css",
+      "bytes": 3139
+    },
+    {
+      "path": "/depth.js",
+      "bytes": 15981
+    },
+    {
+      "path": "/pwa-register.js",
+      "bytes": 2075
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/depth-diagnostics.js",
+      "bytes": 2335
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    },
+    {
+      "path": "/fixture.jpg",
+      "bytes": 488150
+    },
+    {
+      "path": "/depth-tfjs-worker.js",
+      "bytes": 4653
+    },
+    {
+      "path": "/depth-tfjs-core.js",
+      "bytes": 1843
+    },
+    {
+      "path": "/depth-core.js",
+      "bytes": 2981
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+      "bytes": 671603
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard2of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard3of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard5of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard4of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard7of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard6of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard8of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard9of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard10of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard11of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard12of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard13of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard14of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard15of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard16of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard17of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard18of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard19of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard20of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard21of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard23of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard22of24.bin",
+      "bytes": 4194304
+    },
+    {
+      "path": "/models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard24of24.bin",
+      "bytes": 676748
+    }
+  ]
+}

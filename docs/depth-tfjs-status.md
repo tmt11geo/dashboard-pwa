@@ -4,7 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Stages 1–7 DONE; next stage 8 lifecycle/regressions. TFJS camera option passed actual-model simulated-camera smoke on SwiftShader. No deployment; main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276.
+Working/outcome branch: depth-tfjs-webgl. Stages 1–8 DONE; next stage 9 merge/deploy. 56 Node tests, 23 actual-browser lifecycle checks and 8 deployment-prefix checks PASS. Synthetic camera and SwiftShader only; no phone performance claim. Not deployed. Main/live remains 7386a02552ee1e8d55a52bd5025d5112614ea276 (Pages run 39133290852 success).
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -809,3 +809,51 @@ Access, map, theme, tracker, navigation, manifest or service-worker changes.
 Blockers: none. Exact next action: stage 8 only, test lifecycle failures, timeouts,
 stale responses, repeated runs and portrait/landscape alignment; fix regressions,
 commit evidence. User authorized continuing to stage 8 in this run. Stage 9 excluded.
+
+
+## Stage 8 complete — lifecycle and regression evidence, 2026-10-18
+
+Working/outcome branch: depth-tfjs-webgl. Preceding stage 7 checkpoint:
+9342505ffdca403362b78ba1878d4e586547ba3c. User authorized three steps; 6AE, 7 and 8
+are now complete. Stop before stage 9; no merge/deployment in this run.
+
+`node --test tests/*.test.mjs`: 56/56 PASS. Includes new exhaustive pixel alignment
+and normalized-padding checks in landscape, portrait, square and widescreen;
+invalid/nonfinite guards; fixed loading/inference deadlines; stale responses;
+worker crash/message errors; hide/navigation; late permissions/denial; switching
+back to Auto/WASM/WebGPU; unsupported worker/backend and silent-CPU rejection.
+Actual browser/TFJS worker lifecycle: 23 checks PASS. Covers missing-model error,
+Stop during real HTTP loading and inference, both parent deadline paths, portrait
+restart with actual inference, two-frame stable live resources, actual WebGL context
+loss, camera tracks ended after each interruption, navigation worker destruction.
+Separate `/dashboard-pwa/` prefix run: 8 checks PASS, including correct relative
+worker/module/model resolution and all 25 package assets. Browser tests use a local
+pinned scene as a simulated camera and the hash-verified pinned TFJS runtime.
+TFJS 4.22.0, Chromium 141, SwiftShader, WebGL CPU forwarding false.
+
+After each portrait inference: 562 model tensors/data buffers, 97,145,740 live
+CPU bytes, 97,392,336 live GPU bytes; no per-frame growth. Allocated GPU pool was
+674,689,860 then 674,886,468 bytes; this retained pool is not reported as a leak or
+as freed. Stop terminates the worker; post-termination GPU counters unavailable.
+Stage 6AE separately measured normal model/backend/context disposal to zero.
+Added an inference-start diagnostic to make cancellation timing observable.
+
+Evidence: tools/depth-tfjs/evidence/stage8-results.json, stage8-node-tests.log,
+camera-lifecycle.json, camera-prefix.json. Reproduction: CAMERA.md.
+JS syntax and diff whitespace checks PASS. Protected files compared byte-for-byte
+to current main: map/navigation/theme/tracker/PWA and existing ONNX worker/core/
+diagnostics unchanged. ONNX preservation is backed by unchanged source and tests;
+no new actual ONNX device inference claim. No physical camera/phone/hardware-GPU
+performance evidence; stage 10 remains required. Stage 8 blockers: none.
+
+Main/live still 7386a02552ee1e8d55a52bd5025d5112614ea276. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39133290852 rechecked
+completed/success for this exact SHA. No Access/configuration/deployment changes.
+
+Exact next action: **stage 9 only**. Inspect latest main and reconcile intervening
+changes (root duplicates already removed), bump affected asset queries and diagnostic
+build IDs, run final relevant checks, merge verified implementation and deploy via
+the existing Pages setup, preserving Cloudflare Access. Verify Pages for the exact
+merged commit and accessible asset URLs without bypassing authentication. Record
+live state and provide OnePlus test instructions. Do not claim phone results or
+start stage 10 automatically. This pointer supersedes historical instructions.

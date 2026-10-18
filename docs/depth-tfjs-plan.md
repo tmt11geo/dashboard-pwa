@@ -184,8 +184,9 @@ around it, not within it. Do not claim this removes any transport/context limit.
 
 ## Current continuation pointer — 2026-10-18
 
-6A–6AD are DONE; DONE.md is authoritative over historical instructions above.
-Next: **6AE only**, actual complete GraphModel loading with explicit WebGL and
-CPU forwarding disabled. Use the immutable asset URLs in
-`tools/depth-tfjs/evidence/package-urls.json`. Record load/backend/cleanup evidence
-and checkpoint; mark parent stage 6 DONE only if 6AE passes. Stop before stage 7.
+Stages 1–8, including all 6A–6AE substages, are DONE. DONE.md is authoritative
+above historical instructions. The user authorized 6AE, 7 and 8 together, all now
+checkpointed. Next: **stage 9 only**, reconcile latest main, bump diagnostic build
+and affected asset queries, final checks, merge/deploy through existing Pages,
+verify exact deployment and preserve Cloudflare Access. Stop before stage 10.
+No TFJS camera deployment or phone performance claim has been made yet.

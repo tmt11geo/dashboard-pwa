@@ -53,7 +53,7 @@ self.onmessage=async({data})=>{
    let input,output;
    try{
     input=tf.tensor(core.prepareNHWC(rgba,data.content),[1,224,224,3],'float32');
-    stage='inference';const begin=performance.now();
+    stage='inference';diagnostic('info','tfjs.inference.begin',{frame:frames+1});const begin=performance.now();
     output=await model.executeAsync(input);
     if(Array.isArray(output)||output.shape.join()!=='1,224,224,1'||output.dtype!=='float32')throw Error('Unexpected TFJS output');
     const values=await output.data(),inferenceMs=performance.now()-begin;requireBackend();

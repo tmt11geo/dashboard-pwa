@@ -37,3 +37,25 @@ node tools/depth-tfjs/run_camera_smoke.cjs <verified tf.js> <demo01.jpg> <report
 Evidence: `evidence/camera-smoke.json`. SwiftShader and a simulated camera establish
 integration compatibility only. Physical camera/OnePlus behavior remains stage 10.
 Main deployment and diagnostic build-id update remain stage 9.
+
+## Stage 8 reproduction and limits
+
+Run `node --test tests/*.test.mjs` for preprocessing, parent lifecycle, unsupported
+execution, and existing camera/depth regressions. The committed log records 56/56.
+The same browser harness has a longer lifecycle mode:
+
+```sh
+NODE_PATH=<playwright modules> DEPTH_CHROMIUM=<headless_shell> DEPTH_LIFECYCLE=1 \
+node tools/depth-tfjs/run_camera_smoke.cjs <verified tf.js> <demo01.jpg> <lifecycle.json>
+
+NODE_PATH=<playwright modules> DEPTH_CHROMIUM=<headless_shell> DEPTH_PREFIX=/dashboard-pwa \
+node tools/depth-tfjs/run_camera_smoke.cjs <verified tf.js> <demo01.jpg> <prefix.json>
+```
+
+Lifecycle mode injects HTTP failure/delay and shortens parent timers solely in the
+test page to exercise real timeout paths. It triggers actual context loss through
+the WebGL extension. App deadlines are unchanged. Evidence is in
+`evidence/camera-lifecycle.json` and `evidence/camera-prefix.json`. The complete
+summary and tested source hashes are in `evidence/stage8-results.json`.
+Physical camera, hardware GPU, sustained heat and real-device latency still require
+stage 10. Stage 9 must update the diagnostic build ID before deployment.

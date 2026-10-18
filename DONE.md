@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **8 — Lifecycle and regressions** |
-| Current blocker | None for stage 7; full lifecycle/regression checks next |
-| Outcome of this checkpoint | TFJS camera integration and actual-model smoke passed; stage 8 next |
+| Next stage | **9 — Merge and deploy** |
+| Current blocker | None for stage 8; deployment and phone evaluation pending |
+| Outcome of this checkpoint | 6AE, 7 and 8 complete; ready for stage 9 deployment |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -33,7 +33,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 5. WebGL benchmark | **DONE** | Dedicated local worker benchmark runs actual fixed-224 graph with explicit WebGL and CPU forwarding disabled; two full first+3 warm cycles; live resources return to zero, context lost; failure/loading+inference cancel/timeout/restart checks PASS. SwiftShader compatibility only; see evidence/benchmark-results.json. |
 | 6. Model packaging/hosting | **DONE** | 6A–6AE DONE; complete package integrity, immutable URLs, actual WebGL load/inference and cleanup verified. Live Pages deferred to stage 9. |
 | 7. Camera integration | **DONE** | Explicit TFJS WebGL worker, fixed-224 letterboxing/crop, backpressure and diagnostics; actual app/model smoke PASS. |
-| 8. Lifecycle/regressions | **NOT STARTED** | Existing baseline previously passed 47 tests; new backend lifecycle is unimplemented. |
+| 8. Lifecycle/regressions | **DONE** | 56 Node tests, 23 actual-browser lifecycle checks and 8 deployment-prefix checks PASS; phone evaluation remains stage 10. |
 | 9. Merge/deploy | **NOT STARTED** | Main has no TFJS implementation. |
 | 10. OnePlus device evaluation | **WAITING ON STAGE 9** | No phone TFJS performance evidence. |
 
@@ -92,7 +92,8 @@ or inventory is not a hosted model. Never start a second substage in one run.
 - [x] Validate model outputs on three pinned real images, with raw numerical results.
 - [x] Preserve hosted model assets.
 - [x] Complete the isolated WebGL benchmark and resource/cancellation checks.
-- [ ] Complete camera integration, regressions, deployment and phone evaluation.
+- [x] Complete camera integration and regressions.
+- [ ] Complete deployment and phone evaluation.
 
 ## How to continue
 
@@ -512,3 +513,51 @@ Access, map, theme, tracker, navigation, manifest or service-worker changes.
 Blockers: none. Exact next action: stage 8 only, test lifecycle failures, timeouts,
 stale responses, repeated runs and portrait/landscape alignment; fix regressions,
 commit evidence. User authorized continuing to stage 8 in this run. Stage 9 excluded.
+
+
+## Stage 8 complete — lifecycle and regression evidence, 2026-10-18
+
+Working/outcome branch: depth-tfjs-webgl. Preceding stage 7 checkpoint:
+9342505ffdca403362b78ba1878d4e586547ba3c. User authorized three steps; 6AE, 7 and 8
+are now complete. Stop before stage 9; no merge/deployment in this run.
+
+`node --test tests/*.test.mjs`: 56/56 PASS. Includes new exhaustive pixel alignment
+and normalized-padding checks in landscape, portrait, square and widescreen;
+invalid/nonfinite guards; fixed loading/inference deadlines; stale responses;
+worker crash/message errors; hide/navigation; late permissions/denial; switching
+back to Auto/WASM/WebGPU; unsupported worker/backend and silent-CPU rejection.
+Actual browser/TFJS worker lifecycle: 23 checks PASS. Covers missing-model error,
+Stop during real HTTP loading and inference, both parent deadline paths, portrait
+restart with actual inference, two-frame stable live resources, actual WebGL context
+loss, camera tracks ended after each interruption, navigation worker destruction.
+Separate `/dashboard-pwa/` prefix run: 8 checks PASS, including correct relative
+worker/module/model resolution and all 25 package assets. Browser tests use a local
+pinned scene as a simulated camera and the hash-verified pinned TFJS runtime.
+TFJS 4.22.0, Chromium 141, SwiftShader, WebGL CPU forwarding false.
+
+After each portrait inference: 562 model tensors/data buffers, 97,145,740 live
+CPU bytes, 97,392,336 live GPU bytes; no per-frame growth. Allocated GPU pool was
+674,689,860 then 674,886,468 bytes; this retained pool is not reported as a leak or
+as freed. Stop terminates the worker; post-termination GPU counters unavailable.
+Stage 6AE separately measured normal model/backend/context disposal to zero.
+Added an inference-start diagnostic to make cancellation timing observable.
+
+Evidence: tools/depth-tfjs/evidence/stage8-results.json, stage8-node-tests.log,
+camera-lifecycle.json, camera-prefix.json. Reproduction: CAMERA.md.
+JS syntax and diff whitespace checks PASS. Protected files compared byte-for-byte
+to current main: map/navigation/theme/tracker/PWA and existing ONNX worker/core/
+diagnostics unchanged. ONNX preservation is backed by unchanged source and tests;
+no new actual ONNX device inference claim. No physical camera/phone/hardware-GPU
+performance evidence; stage 10 remains required. Stage 8 blockers: none.
+
+Main/live still 7386a02552ee1e8d55a52bd5025d5112614ea276. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/39133290852 rechecked
+completed/success for this exact SHA. No Access/configuration/deployment changes.
+
+Exact next action: **stage 9 only**. Inspect latest main and reconcile intervening
+changes (root duplicates already removed), bump affected asset queries and diagnostic
+build IDs, run final relevant checks, merge verified implementation and deploy via
+the existing Pages setup, preserving Cloudflare Access. Verify Pages for the exact
+merged commit and accessible asset URLs without bypassing authentication. Record
+live state and provide OnePlus test instructions. Do not claim phone results or
+start stage 10 automatically. This pointer supersedes historical instructions.
