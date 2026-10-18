@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07100b"><title>Depth Lab · Tactical</title>
+<link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
+<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=1">
+<script type="module" src="./depth.js?v=1"></script><script defer src="./pwa-register.js?v=35"></script>
+</head><body>
+<script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
+<header><strong>TACTICAL <span>DEPTH LAB</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html" aria-current="page">Depth</a></nav></header>
+<main>
+<div class="heading"><div><p class="eyebrow">ON-DEVICE DEPTH EXPERIMENT</p><h1>Explore the shape of a scene.</h1></div><span class="badge">V2 SMALL</span></div>
+<p class="intro">Live relative depth from one camera. Test speed on this device before adding depth to mapping.</p>
+<div class="settings panel">
+<label>Compute <select id="backend"><option value="auto">Auto · prefer WebGPU</option><option value="webgpu">WebGPU only</option><option value="wasm">CPU / WASM · slower</option></select></label>
+<label>Detail <select id="resolution"><option value="224">224 px · fast test</option><option value="336">336 px · balanced</option><option value="518">518 px · detailed</option></select></label>
+<label>Camera <select id="facing"><option value="environment">Rear</option><option value="user">Front</option></select></label>
+<label>Update limit <select id="frequency"><option value="1">1 / second</option><option value="2" selected>2 / second</option><option value="5">5 / second</option></select></label>
+</div>
+<div class="controls"><button id="start" type="button">Start depth camera</button><button id="pause" type="button" disabled>Pause depth</button><button id="step" type="button" disabled>One depth frame</button><button id="stop" type="button" disabled>Stop &amp; release</button></div>
+<p id="status" role="status">Ready. Starting downloads public model weights (~27–99 MB). Camera frames stay on this device.</p>
+<p id="capability" class="help">Checking browser capabilities…</p>
+<div class="depth-grid">
+<section class="depth-card"><div class="section-title"><h2>Live camera</h2><span class="small-tag">UNMIRRORED</span></div><div class="image-frame"><video id="video" autoplay playsinline muted></video><p id="standby">CAMERA STANDBY</p></div></section>
+<section class="depth-card"><div class="section-title"><h2 id="result-title">Relative depth</h2><div class="view-switch" role="group" aria-label="Depth view"><button id="view-depth" aria-pressed="true" type="button">Depth</button><button id="view-relief" aria-pressed="false" type="button">3D relief</button></div></div><div class="image-frame"><canvas id="depth-image" aria-label="Relative inverse depth image; brighter colours indicate nearer surfaces"></canvas><canvas id="relief" hidden tabindex="0" aria-label="Estimated 3D relief of the latest frame. Drag to rotate or use arrow keys; plus and minus zoom."></canvas><p id="empty">DEPTH STANDBY</p></div><div class="depth-legend"><span>Farther</span><span class="ramp"></span><span>Nearer</span></div></section>
+</div>
+<div id="relief-tools" class="relief-tools" hidden><button id="rotate-left" type="button" aria-label="Rotate relief left">←</button><button id="rotate-right" type="button" aria-label="Rotate relief right">→</button><button id="relief-out" type="button" aria-label="Zoom relief out">−</button><button id="relief-in" type="button" aria-label="Zoom relief in">+</button><button id="reset-view" type="button">Reset view</button><span>Drag to rotate. Latest frame only; shape and scale are approximate.</span></div>
+<section class="metrics-grid" aria-label="Depth performance"><div><span>Inference</span><strong id="inference">—</strong></div><div><span>Mean · last 20 warm frames</span><strong id="average">—</strong></div><div><span>Delivered depth updates</span><strong id="rate">—</strong></div><div><span>Result age</span><strong id="age">—</strong></div></section>
+<p id="engine" class="engine">Engine idle · no YOLO running on this page</p><p id="timing-note" class="help">Inference includes model execution; delivered rate also reflects processing and your update limit. The first frame warms up the model and is excluded from the mean.</p>
+<details class="panel"><summary>What this experiment can do</summary>
+<p>Move slowly and compare nearby objects with the background. Start at 224 px; stop before changing detail or compute mode. Auto prefers WebGPU and uses CPU when no GPU adapter is available. If GPU initialization fails, choose CPU / WASM and retry. CPU mode may be much slower. Pause depth keeps the camera open; One depth frame processes a single fresh frame while paused. Stop &amp; release, hiding the page, or leaving it stops the camera and terminates the model worker.</p>
+<p>The depth colours are normalized separately for each image: they indicate nearer and farther surfaces, not distances in metres. The 3D relief back-projects that estimated shape using an assumed 55° horizontal field of view and an arbitrary inverse-depth scale. It replaces the previous frame; it is not an accumulated point-cloud map, SLAM, or saved-map localization. Thin objects, sky, reflections and unfamiliar scenes can be wrong. The camera feed is live; depth and relief show the latest completed inference and can lag.</p>
+<p>Processing runs locally in a dedicated worker with at most one frame in flight. No video, frames or timing data are uploaded. The last result stays in memory for inspection until restart or page close. Model weights download from Hugging Face; runtime code and WASM download from jsDelivr. Internet is required for uncached downloads. This page uses the existing Tactical theme and PWA identity.</p>
+<p><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth Anything V2 Small · Apache-2.0</a> · <a href="https://huggingface.co/onnx-community/depth-anything-v2-small" target="_blank" rel="noopener">ONNX model</a> · <a href="https://github.com/microsoft/onnxruntime" target="_blank" rel="noopener">ONNX Runtime · MIT</a></p>
+</details>
+<noscript>Enable JavaScript to use the camera depth experiment.</noscript>
+</main></body></html>
