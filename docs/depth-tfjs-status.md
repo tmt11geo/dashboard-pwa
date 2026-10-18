@@ -4,8 +4,8 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable completes 6C1 preparation only; parent 6C is PARTIAL. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
-implementation or model assets have been deployed. Next task: 6C2 waiting for manual phone upload; reconcile its receipt/attachment before further work.
+Working/outcome branch: depth-tfjs-webgl. Base/main last checked: 9db5c0345faf7339f3d4cc24142dad362122649e. Current deliverable reconciles user upload: 6C2/6C3 and parent 6C DONE. The current split is 6B–6AE; old 6B–6J scopes are superseded. Stage 6 is PARTIAL. No TFJS camera
+implementation or model assets have been deployed. Next task: 6D remote byte verification only.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -485,3 +485,24 @@ confirm expected blob ID and length, record receipt and reconcile attachment sta
 Remote byte verification stays 6D. No shard 2, app integration or deployment in this run.
 Main remains 9db5c0345faf7339f3d4cc24142dad362122649e; deployment not rechecked.
 Only checkpoint documentation changes in this commit.
+
+
+## Stage 6C completed by phone upload — 2026-10-18
+
+This current checkpoint supersedes all earlier 6C waiting/blocker/next-action text.
+Working/outcome branch: depth-tfjs-webgl. User uploaded shard 1 in commit
+b1dcfe169931a425cb80a66d611c8f9f556a920b, parent 87b55b3d495a4a7c22fc2b7190c15eeb66816063.
+Fresh immutable recursive tree inspection confirms the exact destination
+models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin,
+mode 100644, length 4,194,304, blob 465c35791bb7139749f64bd758c46971a7607477.
+Length and content-addressed Git blob identity exactly match the verified local
+original and inventory. No AGENTS.md found. Browser upload combined upload and
+attachment, so 6C2 and 6C3 are reconciled DONE; parent 6C DONE.
+No duplicate upload/attachment performed. Only shard 1 is present.
+Evidence: tools/depth-tfjs/evidence/package-shard1-upload.json.
+Blocker: none for 6C. Stage 6 remains PARTIAL.
+Exact next action: 6D only, independently retrieve remote shard bytes and verify
+length/SHA256/Git blob ID, save evidence and checkpoint, then stop. This run
+verified remote tree metadata/content identity, not an independent remote SHA256.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed or new deployment verification claimed. No app files changed.

@@ -14,9 +14,9 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-3` |
 | New TFJS backend deployed? | No |
 | Active stage | None; this is a saved handoff |
-| Next stage | **6C2 — BLOCKED; waiting for phone upload of shard 1** |
-| Current blocker | Large tool upload interrupted again; manual phone upload handoff prepared |
-| Outcome of this checkpoint | 6C1 preparation DONE; 6C split into 6C1 preparation, 6C2 upload receipt, 6C3 attachment; no branch-referenced binary assets |
+| Next stage | **6D — Remote byte verification of shard 1 only** |
+| Current blocker | None for 6C; remote byte verification next |
+| Outcome of this checkpoint | 6C DONE via verified user upload; shard 1 attached; 6D next |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -43,7 +43,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | --- | --- | --- |
 | 6A | DONE | Integrity audit and exact 25-file inventory (unchanged). |
 | 6B | DONE | License/attribution and pilot transfer preparation only; no binary upload. |
-| 6C | PARTIAL | 6C1 DONE; 6C2 upload/receipt NEXT; 6C3 attachment pending. See latest split below. |
+| 6C | DONE | User browser upload and attachment verified; see latest checkpoint below. |
 | 6D | NOT STARTED | Verify branch-referenced shard 1: length, SHA256 and Git blob ID from remote bytes. No upload. |
 | 6E | NOT STARTED | Transfer shard 2 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
 | 6F | NOT STARTED | Transfer shard 3 only; immediately commit, verify remote length/SHA256/blob ID, checkpoint and stop. |
@@ -123,8 +123,8 @@ User requested a durable checkpoint before the large binary tool call.
 | Substage | State | Scope |
 | --- | --- | --- |
 | 6C1 | DONE | Check branch/path and local shard identity; commit preparation and stop before another binary upload. |
-| 6C2 | BLOCKED — WAITING FOR USER UPLOAD | Inspect branch/path and recover expected blob if available; otherwise attempt one programmatic binary upload. Commit a small receipt or exact blocker to this branch, then stop. |
-| 6C3 | NOT STARTED | Attach the expected blob to the model path using tree/commit/leased ref update; verify ref and tree path, size and blob ID; checkpoint and stop. |
+| 6C2 | DONE (user upload) | Inspect branch/path and recover expected blob if available; otherwise attempt one programmatic binary upload. Commit a small receipt or exact blocker to this branch, then stop. |
+| 6C3 | DONE (user upload attachment) | Attach the expected blob to the model path using tree/commit/leased ref update; verify ref and tree path, size and blob ID; checkpoint and stop. |
 
 Parent 6C remains PARTIAL until 6C3. 6D still performs remote byte verification.
 No other Stage 6 scopes change. A dangling blob is not a hosted model.
@@ -185,3 +185,24 @@ confirm expected blob ID and length, record receipt and reconcile attachment sta
 Remote byte verification stays 6D. No shard 2, app integration or deployment in this run.
 Main remains 9db5c0345faf7339f3d4cc24142dad362122649e; deployment not rechecked.
 Only checkpoint documentation changes in this commit.
+
+
+## Stage 6C completed by phone upload — 2026-10-18
+
+This current checkpoint supersedes all earlier 6C waiting/blocker/next-action text.
+Working/outcome branch: depth-tfjs-webgl. User uploaded shard 1 in commit
+b1dcfe169931a425cb80a66d611c8f9f556a920b, parent 87b55b3d495a4a7c22fc2b7190c15eeb66816063.
+Fresh immutable recursive tree inspection confirms the exact destination
+models/depth-anything-v2-small-tfjs-fp32-224-v1/group1-shard1of24.bin,
+mode 100644, length 4,194,304, blob 465c35791bb7139749f64bd758c46971a7607477.
+Length and content-addressed Git blob identity exactly match the verified local
+original and inventory. No AGENTS.md found. Browser upload combined upload and
+attachment, so 6C2 and 6C3 are reconciled DONE; parent 6C DONE.
+No duplicate upload/attachment performed. Only shard 1 is present.
+Evidence: tools/depth-tfjs/evidence/package-shard1-upload.json.
+Blocker: none for 6C. Stage 6 remains PARTIAL.
+Exact next action: 6D only, independently retrieve remote shard bytes and verify
+length/SHA256/Git blob ID, save evidence and checkpoint, then stop. This run
+verified remote tree metadata/content identity, not an independent remote SHA256.
+Main/live last checked at 9db5c0345faf7339f3d4cc24142dad362122649e; no deployment
+performed or new deployment verification claimed. No app files changed.
