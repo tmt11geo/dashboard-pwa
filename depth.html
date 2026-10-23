@@ -3,8 +3,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Depth Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
-<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=4">
-<script type="module" src="./depth.js?v=7"></script><script defer src="./pwa-register.js?v=35"></script>
+<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=5">
+<script type="module" src="./depth.js?v=8"></script><script defer src="./pwa-register.js?v=35"></script>
 </head><body>
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
 <header><strong>TACTICAL <span>DEPTH LAB</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html" aria-current="page">Depth</a></nav></header>
@@ -16,7 +16,7 @@
 <p class="scan-cycle">Move a little → hold still → wait for the green <strong>MOVE NOW</strong> flash.</p>
 <div class="scan-command"><div class="controls scan-primary"><button id="scan-start" type="button">Start scan</button><button id="scan-pause" type="button" disabled>Pause scan</button><button id="scan-finish" type="button" disabled>Finish scan</button></div>
 <p id="scan-guide" role="status" aria-live="polite">Ready. Start a guided scan to accumulate accepted views.</p></div><div class="depth-grid">
-<section class="depth-card"><div class="section-title"><h2>Live camera</h2><span class="small-tag">UNMIRRORED</span></div><div class="image-frame"><video id="video" autoplay playsinline muted></video><p id="standby">CAMERA STANDBY</p><div id="scan-overlay" class="scan-overlay" hidden aria-hidden="true"></div><div id="scan-camera-controls" hidden><button id="scan-camera-pause" type="button">Pause scan</button><button id="scan-camera-finish" type="button">Finish scan</button></div></div></section>
+<section class="depth-card"><div class="section-title"><h2>Live camera</h2><span class="small-tag">UNMIRRORED</span></div><div class="image-frame"><video id="video" autoplay playsinline muted></video><p id="standby">CAMERA STANDBY</p><div id="scan-overlay" class="scan-overlay" hidden aria-hidden="true"></div><div id="scan-movement" hidden><strong id="scan-movement-arrow">↔</strong><span id="scan-movement-text"></span><progress id="scan-movement-progress" max="100" value="0" aria-label="Movement toward next capture"></progress><small id="scan-movement-detail"></small></div><div id="scan-camera-controls" hidden><button id="scan-camera-pause" type="button">Pause scan</button><button id="scan-camera-finish" type="button">Finish scan</button></div></div></section>
 <section class="depth-card"><div class="section-title"><h2 id="result-title">Relative depth</h2><div class="view-switch" role="group" aria-label="Depth view"><button id="view-depth" aria-pressed="true" type="button">Depth</button><button id="view-relief" aria-pressed="false" type="button">3D relief</button></div></div><div class="image-frame"><canvas id="depth-image" aria-label="Relative inverse depth image; brighter colours indicate nearer surfaces"></canvas><canvas id="relief" hidden tabindex="0" aria-label="Estimated 3D relief. Drag to rotate or use arrow keys; plus and minus zoom."></canvas><p id="empty">DEPTH STANDBY</p></div><div class="depth-legend"><span>Farther</span><span class="ramp"></span><span>Nearer</span></div></section>
 </div>
 <div id="relief-tools" class="relief-tools" hidden><button id="rotate-left" type="button" aria-label="Rotate relief left">←</button><button id="rotate-right" type="button" aria-label="Rotate relief right">→</button><button id="relief-out" type="button" aria-label="Zoom relief out">−</button><button id="relief-in" type="button" aria-label="Zoom relief in">+</button><button id="reset-view" type="button">Reset view</button><span>Drag to rotate. Guided scans retain accepted views. Shape and scale are approximate.</span></div>
@@ -37,7 +37,7 @@
 <details id="diagnostics-panel" class="panel diagnostics"><summary>Diagnostic log</summary>
 <p class="help">Reproduce the problem, then tap Copy log and paste it into our chat. Logs stay on this page and include browser capabilities, camera state, GPU checks, processing stages and errors. No camera images or account information are included.</p>
 <div class="controls"><button id="copy-log" type="button">Copy log</button><button id="clear-log" type="button">Clear log</button></div>
-<p id="log-status" class="help" role="status"></p><label class="help" for="diagnostic-log">Latest 300 diagnostic entries · depth-lab-6</label>
+<p id="log-status" class="help" role="status"></p><label class="help" for="diagnostic-log">Latest 300 diagnostic entries · depth-lab-7</label>
 <textarea id="diagnostic-log" readonly spellcheck="false" rows="10" aria-label="Diagnostic log, selectable for copying"></textarea>
 </details>
 <section class="metrics-grid" aria-label="Depth performance"><div><span>Inference</span><strong id="inference">—</strong></div><div><span>Mean · last 20 warm frames</span><strong id="average">—</strong></div><div><span>Delivered depth updates</span><strong id="rate">—</strong></div><div><span>Result age</span><strong id="age">—</strong></div></section>

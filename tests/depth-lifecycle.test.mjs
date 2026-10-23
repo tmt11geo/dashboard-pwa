@@ -41,7 +41,7 @@ test('depth session backpressure, pause/step, hidden cleanup, stale responses an
  assert.equal(stopped,3);assert.equal(active.terminated,true);assert.equal(el['diagnostics-panel'].open,true);
  assert.match(el['diagnostic-log'].value,/worker.gpu.requestAdapter.null/);assert.match(el['diagnostic-log'].value,/gpu-probe/);
  let copied;navigator.clipboard={writeText:async text=>copied=text};await el['copy-log'].fire('click');
- assert.match(copied,/depth-lab-6/);assert.match(copied,/GPU unavailable/);assert.match(el['log-status'].textContent,/copied/);
+ assert.match(copied,/depth-lab-7/);assert.match(copied,/GPU unavailable/);assert.match(el['log-status'].textContent,/copied/);
  assert.doesNotMatch(copied,/pixels|deviceId/);
  navigator.clipboard.writeText=async()=>{throw Error('denied');};let selected=false;
  Object.assign(el['diagnostic-log'],{focus(){},select(){selected=true;},setSelectionRange(){}});

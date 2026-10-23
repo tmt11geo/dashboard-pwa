@@ -1,5 +1,16 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Movement guidance follow-up — 2026-10-23
+
+User reports additions remain difficult and requested a visible movement amount. Scope: this UX/capture-guidance follow-up only; original stage 10 remains PARTIAL. Starting/outcome branch depth-tfjs-webgl at 8f23c7f80e62f9bcd84bf817fbc0e4dfa3afac87; starting main 1df5e0fb48d13e3a645a17b0a7808e1090ef2cca.
+
+Build depth-lab-7 adds local 72px preview translation matching against the last accepted capture. Camera overlay shows direction, progress, approximate image shift and a suggested 6–14% range. Small movement asks for more; sufficient movement asks to hold still; overshoot points back; weak or ambiguous overlap asks to return. Capture requires a first view or a confident shift in range, plus existing stability/cooldown/retry checks. Accepted-view flash, pause, cleanup and saved scenes retained. This is a heuristic image translation, not camera pose, degrees, centimetres, or a guarantee of successful 3D alignment. Rotation, parallax, repetitive texture and moving objects can make it uncertain. Actual-model registration and thresholds unchanged.
+
+Validation: 68 Node tests PASS; 22 local Chromium UI checks PASS, including uncertain-overlap gating, overshoot arrow, three registered additions, pause/resume, stop cleanup and file roundtrip. Evidence: tools/depth-scan/evidence/node-tests-v7.log and browser-ui-v7.json. Synthetic rendered camera + inference double + real registration; no new physical-phone performance or real-model claim. Phone screenshot reviewed. Fixtures use larger sideways steps for the new movement target; old evidence preserved.
+Deployment: pending exact Pages receipt for this implementation.
+Blocker: OnePlus guidance/registration acceptance is still unverified; live automated requests were previously blocked by Access.
+Exact next action: open depth.html?v=7, confirm depth-lab-7. After the first accepted view, move sideways following the arrow until the bar fills and HOLD STILL appears; keep still until the accepted-view green flash. If overshooting, follow the return arrow. Try 3–5 views and send diagnostic logs plus whether the guidance reaches the target and additions align. Keep phone pointing the same way. Working/outcome branch: depth-tfjs-webgl.
+
 ## Compact scan controls and move cue — 2026-10-23
 
 User-requested device UX follow-up only, based on depth-tfjs-webgl ecbf42d357670c31b354e5b6260ca5a6f135a565; main before this change faf6339373a38345905949b864cd1c651ccc9689.

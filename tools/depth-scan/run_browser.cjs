@@ -52,9 +52,9 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
      terminate(){this.ended=true;}
     };
     navigator.mediaDevices.getUserMedia=async()=>{
-     window.fixtures??=await (await fetch('/fixtures/rendered.json')).json();
+     window.fixtures??=await (await fetch('/fixtures/rendered-move.json')).json();
      const canvas=document.createElement('canvas');canvas.width=168;canvas.height=224;const ctx=canvas.getContext('2d');
-     const draw=()=>{const f=fixtures[frameIndex];ctx.putImageData(new ImageData(Uint8ClampedArray.from(f.pixels),168,224),0,0);};draw();const timer=setInterval(draw,100),stream=canvas.captureStream(10);
+     const draw=()=>{const f=fixtures[frameIndex];ctx.putImageData(new ImageData(Uint8ClampedArray.from(f.pixels),168,224),0,0);if(window.previewOffset)ctx.drawImage(canvas,window.previewOffset,0);if(window.previewBlank){ctx.fillStyle='#777';ctx.fillRect(0,0,168,224);}};draw();const timer=setInterval(draw,100),stream=canvas.captureStream(10);
      for(const t of stream.getTracks()){const stop=t.stop.bind(t);t.stop=()=>{clearInterval(timer);stop();};}streams.push(stream);return stream;
     };
    });
@@ -70,6 +70,13 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    check('reduced motion suppresses pulse',await page.locator('.image-frame').first().evaluate(e=>getComputedStyle(e,'::after').animationName==='none'));
    await page.emulateMedia({reducedMotion:'no-preference'});
    await page.screenshot({path:path.join(fixtures,'scan-phone.png'),fullPage:true});
+   await page.evaluate(()=>previewBlank=true);await page.waitForFunction(()=>document.querySelector('#scan-movement').dataset.state==='lost');
+   check('uncertain overlap blocks addition',(await page.locator('#scan-count').textContent()).startsWith('1 accepted'));
+   await page.evaluate(()=>{previewBlank=false;previewOffset=34;});await page.waitForFunction(()=>document.querySelector('#scan-movement').dataset.state==='back');
+   check('overshoot shows return arrow',await page.locator('#scan-movement-arrow').textContent()==='→');
+   await page.screenshot({path:path.join(fixtures,'scan-movement-phone.png'),fullPage:true});
+   await page.evaluate(()=>previewOffset=0);
+   check('movement overlay is shown',await page.locator('#scan-movement').isVisible());
    await page.evaluate(()=>frameIndex=1);await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('2 accepted'),{},{timeout:20000});
    check('moved view extends persistent scene',true);
    await page.click('#scan-pause');const paused=await page.locator('#scan-count').textContent();await page.evaluate(()=>frameIndex=2);await page.waitForTimeout(3000);
@@ -96,6 +103,6 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    check('no page errors',report.errors.length===0);
   }
   report.status='PASS';
- }catch(e){report.status='FAIL';report.error=e.stack;console.error(e);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(path.join(root,'tools/depth-scan/evidence',real?'real-sequence.json':'browser-ui-v6.json'),JSON.stringify(report,null,2)+'\n');}
+ }catch(e){report.status='FAIL';report.error=e.stack;console.error(e);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(path.join(root,'tools/depth-scan/evidence',real?'real-sequence.json':'browser-ui-v7.json'),JSON.stringify(report,null,2)+'\n');}
  if(report.status!=='PASS')process.exitCode=1;
 })();

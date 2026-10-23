@@ -1,3 +1,4 @@
+import {estimateMovement} from './depth-scan-motion.js?v=1';
 import {CaptureGate,validateScene} from './depth-scan-core.js?v=1';
 export function createScanner(hooks){
  const $=id=>document.getElementById(id);if(!$('scan-start'))return null;
@@ -7,7 +8,7 @@ export function createScanner(hooks){
  const tell=(message,state='hold')=>{for(const id of ['scan-guide','scan-overlay']){if($(id).textContent!==message)$(id).textContent=message;$(id).dataset.state=state;} $('scan-workspace').dataset.state=state;};
  function clearFlash(){clearTimeout(flashTimer);flashTimer=null;$('scan-workspace').classList.remove('move-flash');}
  function moveCue(){
-  tell('✓ VIEW ADDED — MOVE NOW','move');clearFlash();
+  movementHint({state:'more',arrow:'↔',progress:0,message:'View added — move slightly sideways'});tell('✓ VIEW ADDED — MOVE NOW','move');clearFlash();
   // One soft pulse per accepted view, never on inference alone or rejection.
   void $('scan-workspace').offsetWidth;$('scan-workspace').classList.add('move-flash');
   flashTimer=setTimeout(clearFlash,1400);hooks.log('info','scan.moveCue',{views:scene.views});
@@ -21,17 +22,27 @@ export function createScanner(hooks){
  }
  function stop(){
   clearFlash();pendingMoveCue=false;const wasActive=active;active=false;paused=false;busy=false;epoch++;clearInterval(tick);clearTimeout(deadline);tick=deadline=null;
-  worker?.terminate();worker=null;$('scan-overlay').hidden=true;$('scan-camera-controls').hidden=true;buttons();
+  worker?.terminate();worker=null;$('scan-movement').hidden=true;$('scan-overlay').hidden=true;$('scan-camera-controls').hidden=true;buttons();
   if(wasActive)tell(scene?'Scan finished. Inspect the relief or save it to a file.':'Scan stopped. No view was accepted yet.','hold');
+ }
+ function movementHint(hint){
+  const box=$('scan-movement');box.hidden=false;box.dataset.state=hint.state;
+  $('scan-movement-arrow').textContent=hint.arrow;
+  $('scan-movement-text').textContent=hint.message;
+  $('scan-movement-progress').value=hint.progress;
+  $('scan-movement-detail').textContent=hint.shift===undefined?'Small sideways steps; keep the phone pointing the same way':`Image shift ${hint.shift}% · aim for 6–14% · approximate`;
  }
  function sample(){
   const s=hooks.state();if(!active||paused||busy||!s.ready||s.inFlight||document.hidden||s.video.readyState<2)return;
   ctx.drawImage(s.video,0,0,72,72);const rgba=ctx.getImageData(0,0,72,72).data;
   const image=new Float32Array(72*72);for(let i=0;i<image.length;i++)image[i]=(rgba[i*4]+rgba[i*4+1]+rgba[i*4+2])/765;
   preview=image;const signal=gate.sample(image,performance.now());
-  if(signal.capture){busy=true;capturedPreview=preview.slice();tell('◷ CAPTURING — wait for green','capture');if(!hooks.capture()){busy=false;gate.complete(performance.now(),preview,false);}}
-  else if(performance.now()>=gate.nextAt){
-   if(signal.state==='retry')return;
+  const hint=estimateMovement(gate.anchor,image);movementHint(hint);
+  const positioned=hint.state==='first'||hint.state==='ready';
+  if(signal.capture&&positioned){busy=true;capturedPreview=preview.slice();movementHint({state:'capture',arrow:'Ⅱ',progress:100,message:'Hold still — capturing'});tell('◷ CAPTURING — wait for green','capture');if(!hooks.capture()){busy=false;gate.complete(performance.now(),preview,false);}}
+  else if(performance.now()>=gate.nextAt||hint.state==='back'||hint.state==='lost'){
+   if(!positioned){tell(hint.arrow+' '+hint.message,hint.state==='more'?'move':'lost');return;}
+   if(signal.state==='retry'){movementHint({...hint,state:'lost',message:'Last capture rejected — adjust your view slightly'});return;}
    if(signal.state==='slow')tell('⚠ SLOW DOWN — keep overlap','slow');
    else if(signal.state==='move')tell('→ MOVE NOW — slightly sideways','move');
    else tell('Ⅱ HOLD STILL — steady the phone','hold');
@@ -60,7 +71,7 @@ export function createScanner(hooks){
   worker.postMessage({type:'frame',id:epoch,frame:{width:data.width,height:data.height,raw:data.rawDepth,pixels:data.pixels,orientation:data.capture?.orientation??0,capturedAt:data.capture?.timestamp}},[data.rawDepth,data.pixels]);
  }
  $('scan-start').addEventListener('click',()=>{if(active||scene)return;hooks.start();});
- $('scan-pause').addEventListener('click',()=>{if(!active)return;paused=!paused;gate.previous=null;gate.stillSince=null;buttons();clearFlash();if(paused)tell('Ⅱ PAUSED — current capture may finish','paused');else if(pendingMoveCue){pendingMoveCue=false;moveCue();}else if(busy)tell('◷ CAPTURING — wait for green','capture');else tell(scene?'→ MOVE NOW — slightly sideways':'Ⅱ HOLD STILL — steady the phone',scene?'move':'hold');});
+ $('scan-pause').addEventListener('click',()=>{if(!active)return;paused=!paused;gate.previous=null;gate.stillSince=null;buttons();clearFlash();if(paused){$('scan-movement').hidden=true;tell('Ⅱ PAUSED — current capture may finish','paused');}else if(pendingMoveCue){pendingMoveCue=false;moveCue();}else if(busy)tell('◷ CAPTURING — wait for green','capture');else tell(scene?'→ MOVE NOW — slightly sideways':'Ⅱ HOLD STILL — steady the phone',scene?'move':'hold');});
  $('scan-finish').addEventListener('click',()=>hooks.stop());
  $('scan-camera-finish').addEventListener('click',()=>hooks.stop());
  $('scan-camera-pause').addEventListener('click',()=>$('scan-pause').click());

@@ -1,7 +1,7 @@
-import {createScanner} from './depth-scan.js?v=2';
+import {createScanner} from './depth-scan.js?v=3';
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=5';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=6';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);

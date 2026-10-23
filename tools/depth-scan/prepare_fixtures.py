@@ -25,3 +25,5 @@ console.log(JSON.stringify([render(),render(.045,0,[1.4,.3]),render(.09,0,[1.4,.
 (out / 'rendered.json').write_bytes(subprocess.check_output(['node', '--input-type=module', '-e', script], cwd=root))
 (out / 'fixture-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
 print(json.dumps(receipt, indent=2))
+
+(out / 'rendered-move.json').write_bytes(subprocess.check_output(['node', '--input-type=module', '-e', script.replace('render(.045', 'render(.09').replace('render(.09,0,[1.4,.3])].map', 'render(.18,0,[1.4,.3])].map')], cwd=root))

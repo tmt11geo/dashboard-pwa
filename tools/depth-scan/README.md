@@ -74,7 +74,7 @@ validation and capture gating. No actual OnePlus guided-scan result is claimed.
 
 ## Next physical-device test
 
-On OnePlus, open depth.html?v=6 and confirm depth-lab-6. Start guided scan facing
+On OnePlus, open depth.html?v=7 and confirm depth-lab-7. Start guided scan facing
 textured stationary furniture. Wait for the first view, move a few centimetres
 sideways with overlap, hold and wait for acceptance. Try 3–5 views, pause, finish,
 rotate the relief, Save, reload and Open. Share the diagnostic log and whether
@@ -82,3 +82,5 @@ geometry aligns, the UI responds, and the phone warms. If a view is rejected,
 return towards the last accepted view; do not repeatedly sweep across the room.
 
 Build 6 UX checks: evidence/browser-ui-v6.json (19 checks), node-tests-v6.log (64 tests). Both views and scan controls share one panel. Wait for the green MOVE NOW pulse before moving; amber capture/alignment means keep still. Reduced-motion preference replaces the pulse with a static outline.
+
+Build 7: movement overlay uses a 72px preview and normalized translation correlation (not pose). Target 4–10 preview pixels, approximately 6–14% image shift. Capture is withheld outside this range or with ambiguous matches. 68 Node tests and 22 browser checks; evidence/node-tests-v7.log and browser-ui-v7.json. prepare_fixtures.py additionally creates rendered-move.json with larger sideways steps for this target. No new physical-device acceptance claim.
