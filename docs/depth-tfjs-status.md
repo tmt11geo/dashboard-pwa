@@ -1,5 +1,17 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Rotation competition and held-out stress checkpoint — 2026-10-23
+
+Bounded offline task COMPLETE, promotion gate FAIL; scanner/stage 10 remains PARTIAL. Starting branch depth-tfjs-webgl b8b1ff4f43dd1748fa7cd13ec59cc9eb83977d2d. Working/outcome branch depth-tfjs-webgl. Main remains 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8); no deployment or app/depth changes.
+
+Added robust rotation-only model competition using calibrated matched rays, preserving the prior prototype byte-for-byte for same-input comparisons. Frozen candidate/specification before held-out evaluation; no tuning on held-out results. Tested 456 new-texture/profile cases (clean, blur, noise, deliberately wrong calibration; 640 and 224) plus 64 unseen-layout cases, each through baseline and candidate. Source/input hashes and per-case results are committed. Nine unit tests PASS; dependency check PASS. Quality runners correctly exit 1.
+
+Results: zero false translations and correct required orientations across all 268 candidate negative controls; 13 inaccurate accepted positive poses remain. Correct pose recovery across held-out sets at 640 is unchanged at 91/126; at 224 it falls from baseline 67/126 to candidate 44/126. On new layouts alone, 640 recovers 9/18 poses, 224 candidate 1/18. This is a conservative rotation-discrimination change, not an overall reconstruction fix. No real-phone/browser performance or stitching accuracy claim.
+
+Evidence/method: tools/depth-pose/STRESS-REVIEW.md, README.md comparison table, stress_spec.json, evidence/stress-summary.json, stress-{clean,blur,noise,wrong_calibration}.json, layouts.json, development-rotation.json, stress-unit-tests.log. Previous baseline evidence retained. The new textures initially shared geometry; a separate two-layout run changes surface depth/extent/position.
+
+Blockers: pairwise low-parallax recovery, incorrect accepted translation direction under low resolution/wrong calibration, no ground-truth real-device sequence or browser port. Exact next bounded action: temporal/keyframe tracking at 640 to accumulate useful baseline, explicit calibration checks, fresh held-out sequences and pose-consistency evaluation; retain current failures as regression cases. Keep depth at 224 as a future integration choice, but do not fuse/deploy until quality gates pass. No more phone-log retries needed for this offline work. Verify remote checkpoint and unchanged main after committing.
+
 ## Offline image-pose prototype checkpoint — 2026-10-23
 
 Bounded task COMPLETE: separate repeatable six-axis image harness and RGB-only reference pose prototype, with a measured FAIL for promotion. Overall scanner/stage 10 remains PARTIAL. Starting/work/outcome branch depth-tfjs-webgl at 0169f3950b7d778e6b4c6e78b89defac6a287b30. Live main remains 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8); no deployment or application-code changes in this task.
@@ -49,7 +61,7 @@ Updated 2026-10-23. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Offline image-pose prototype and 105-case harness complete; promotion FAIL. Live main unchanged at 308686f9d81e1218c866c936b8a24e3a74064fe4, depth-lab-8. Next: model selection and held-out image validation per tools/depth-pose/README.md. No phone log retry needed; stitching remains unresolved.
+Working/outcome branch: depth-tfjs-webgl. Rotation competition and 520 held-out cases complete; promotion FAIL. Main unchanged at 308686f9d81e1218c866c936b8a24e3a74064fe4, depth-lab-8. Next: temporal/keyframe tracking with calibration checks and new sequences. No phone-log retries needed; stitching remains unresolved.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 

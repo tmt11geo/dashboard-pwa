@@ -11,6 +11,31 @@ def angle(a, b):
 def rotation_error(a,b):
     return float(np.degrees(np.arccos(np.clip((np.trace(a@b.T)-1)/2,-1,1))))
 
+def rotation_model(a,b,K):
+    """Robust 3-DoF competitor, fitted directly to calibrated image rays."""
+    ar=np.c_[cv2.undistortPoints(a[:,None,:],K,None).reshape(-1,2),np.ones(len(a))]
+    br=np.c_[cv2.undistortPoints(b[:,None,:],K,None).reshape(-1,2),np.ones(len(b))]
+    ar/=np.linalg.norm(ar,axis=1)[:,None];br/=np.linalg.norm(br,axis=1)[:,None]
+    def fit(ids):
+        u,_,v=np.linalg.svd(br[ids].T@ar[ids])
+        return u@np.diag([1.,1.,np.linalg.det(u@v)])@v
+    def errors(R):
+        projected=(ar@R.T)@K.T
+        valid=projected[:,2]>1e-9
+        uv=projected[:,:2]/np.maximum(projected[:,2:],1e-9)
+        return np.where(valid,np.linalg.norm(uv-b,axis=1),np.inf)
+    rng=np.random.default_rng(731);best=None;score=(-1,-np.inf)
+    for _ in range(96):
+        R=fit(rng.choice(len(a),3,replace=False));e=errors(R);keep=e<1.
+        rank=(int(keep.sum()),-float(np.median(e)))
+        if rank>score: score=rank;best=R
+    keep=errors(best)<1.
+    if keep.sum()>=3:
+        refined=fit(np.flatnonzero(keep))
+        if (errors(refined)<1.).sum()>=keep.sum(): best=refined
+    e=errors(best)
+    return best,float((e<1.).mean()),float(np.median(e))
+
 def estimate(first, second, K):
     if first.ndim!=2 or second.shape!=first.shape or first.dtype!=np.uint8 or second.dtype!=np.uint8:
         raise ValueError('Expected same-sized uint8 grayscale images')
@@ -32,6 +57,12 @@ def estimate(first, second, K):
     a=np.float64([ka[i].pt for i,j in pairs]); b=np.float64([kb[j].pt for i,j in pairs])
     if np.median(np.linalg.norm(a-b,axis=1))<.3:
         return {**result,"status":"stationary","reason":"negligible-image-motion","R":np.eye(3).tolist()}
+    rotation,ratio,residual=rotation_model(a,b,K)
+    result.update(rotationSupport=ratio,rotationMedianPx=residual)
+    # If a simpler three-DoF explanation fits almost all matches to one
+    # pixel, translation is not resolved. Do not manufacture a direction.
+    if ratio>=.85:
+        return {**result,"status":"rotation_only","reason":"rotation-model-supported","R":rotation.tolist(),"t":None}
     H,hm=cv2.findHomography(a,b,cv2.RANSAC,1.0)
     hr=float(hm.mean()) if hm is not None else 0
     result["homographyRatio"]=hr

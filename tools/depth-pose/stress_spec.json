@@ -1,0 +1,14 @@
+{
+  "baseline_commit": "b8b1ff4f43dd1748fa7cd13ec59cc9eb83977d2d",
+  "held_out_seeds": [211, 683, 1559],
+  "widths": [640, 224],
+  "profiles": ["clean", "blur", "noise", "wrong_calibration"],
+  "blur_sigma_pixels": 1.2,
+  "noise_sigma_intensity": 8.0,
+  "focal_multiplier": 1.15,
+  "principal_offset_at_640": [8.0, -6.0],
+  "rotation_error_degrees": 2.0,
+  "translation_direction_error_degrees": 10.0,
+  "negative_control_policy": "no translation; signed rotation and stationary cases also require correct orientation",
+  "policy": "Freeze candidate and specification before held-out evaluation; do not tune on held-out results in this stage."
+}

@@ -1,0 +1,198 @@
+{
+  "versions": {
+    "python": "3.12.14",
+    "opencv": "4.11.0",
+    "numpy": "2.2.6"
+  },
+  "spec": {
+    "baseline_commit": "b8b1ff4f43dd1748fa7cd13ec59cc9eb83977d2d",
+    "held_out_seeds": [
+      211,
+      683,
+      1559
+    ],
+    "widths": [
+      640,
+      224
+    ],
+    "profiles": [
+      "clean",
+      "blur",
+      "noise",
+      "wrong_calibration"
+    ],
+    "blur_sigma_pixels": 1.2,
+    "noise_sigma_intensity": 8.0,
+    "focal_multiplier": 1.15,
+    "principal_offset_at_640": [
+      8.0,
+      -6.0
+    ],
+    "rotation_error_degrees": 2.0,
+    "translation_direction_error_degrees": 10.0,
+    "negative_control_policy": "no translation; signed rotation and stationary cases also require correct orientation",
+    "policy": "Freeze candidate and specification before held-out evaluation; do not tune on held-out results in this stage."
+  },
+  "sourceSha256": {
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "baseline_b8b1ff4.py": "13a33fccea28cba5b898bc3c390d7e6c17f8e3c7c930cc77b3025d58896a621c",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_stress.py": "dd3b434fe4754340d9076f2df93740de5090fdc636368693c3c5f4ef6e91308c",
+    "stress_spec.json": "f2dd0dedd80ba93e6a56e896911d6fee0298288d9d8a582ea7f265517f31a76c"
+  },
+  "summary": {
+    "clean": {
+      "640": {
+        "baseline": {
+          "posePassed": 21,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        },
+        "candidate": {
+          "posePassed": 21,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        }
+      },
+      "224": {
+        "baseline": {
+          "posePassed": 17,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 3
+        },
+        "candidate": {
+          "posePassed": 9,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 3
+        }
+      }
+    },
+    "blur": {
+      "640": {
+        "baseline": {
+          "posePassed": 21,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        },
+        "candidate": {
+          "posePassed": 21,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        }
+      },
+      "224": {
+        "baseline": {
+          "posePassed": 24,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        },
+        "candidate": {
+          "posePassed": 24,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        }
+      }
+    },
+    "noise": {
+      "640": {
+        "baseline": {
+          "posePassed": 21,
+          "poseTotal": 27,
+          "negativePassed": 28,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        },
+        "candidate": {
+          "posePassed": 21,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 0
+        }
+      },
+      "224": {
+        "baseline": {
+          "posePassed": 6,
+          "poseTotal": 27,
+          "negativePassed": 25,
+          "negativeTotal": 30,
+          "falseTranslations": 1,
+          "inaccurateAcceptedPoses": 5
+        },
+        "candidate": {
+          "posePassed": 3,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 5
+        }
+      }
+    },
+    "wrong_calibration": {
+      "640": {
+        "baseline": {
+          "posePassed": 19,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 1
+        },
+        "candidate": {
+          "posePassed": 19,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 1
+        }
+      },
+      "224": {
+        "baseline": {
+          "posePassed": 16,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 2
+        },
+        "candidate": {
+          "posePassed": 7,
+          "poseTotal": 27,
+          "negativePassed": 30,
+          "negativeTotal": 30,
+          "falseTranslations": 0,
+          "inaccurateAcceptedPoses": 2
+        }
+      }
+    }
+  },
+  "promotionPass": false
+}

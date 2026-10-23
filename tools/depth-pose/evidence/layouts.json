@@ -1,0 +1,1841 @@
+{
+  "scope": "Two unseen geometric layouts; candidate unchanged after prior holdout",
+  "sourceSha256": {
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "baseline_b8b1ff4.py": "13a33fccea28cba5b898bc3c390d7e6c17f8e3c7c930cc77b3025d58896a621c",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_layouts.py": "79830a99b72eb9df840355b72abb3901201b57069c181094351a5a6c41d510a1"
+  },
+  "summary": {
+    "640": {
+      "baseline": {
+        "posePassed": 9,
+        "poseTotal": 18,
+        "negativePassed": 14,
+        "negativeTotal": 14,
+        "falseTranslations": 0,
+        "inaccurateAcceptedPoses": 0
+      },
+      "candidate": {
+        "posePassed": 9,
+        "poseTotal": 18,
+        "negativePassed": 14,
+        "negativeTotal": 14,
+        "falseTranslations": 0,
+        "inaccurateAcceptedPoses": 0
+      }
+    },
+    "224": {
+      "baseline": {
+        "posePassed": 4,
+        "poseTotal": 18,
+        "negativePassed": 14,
+        "negativeTotal": 14,
+        "falseTranslations": 0,
+        "inaccurateAcceptedPoses": 4
+      },
+      "candidate": {
+        "posePassed": 1,
+        "poseTotal": 18,
+        "negativePassed": 14,
+        "negativeTotal": 14,
+        "falseTranslations": 0,
+        "inaccurateAcceptedPoses": 2
+      }
+    }
+  },
+  "cases": [
+    {
+      "seed": 57291,
+      "name": "stationary",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "stationary",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_x_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "b20b91d339813d860209b55bf8f7e3bc4020c27fde99455a0672333ee2b03be7"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.6446811832007608,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.6446811832007608,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_x_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "1c9d45a2145cdfcd2deb1668d2a50e84b4881e06a704852199e1e9fa1de62558"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.6471083588038113,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 1.0236170251077725,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_x_-1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "20d9b38e9b124da4895bf6e03868dc6c9416ed18209f7aa5f3e226f255779f6a"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0008892231845148591,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.00029451602253094844,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_x_-1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "9c4204ea729370f6e69c51c8b6b8ce1e8732eb13db298b5ae5c22e970bafbb20"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.011554041900979101,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.004727354163573777,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_x_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "638fb9ad0f2ff02bb8a9bbefef10abe3ab9c63ac9490a2139e17da33b00384e6"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.6451702044767736,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.6451702044767736,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_x_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "d57ea39332ad2bb51e8c226ff0ac8a586c39f3ea9753bbf27b22e80c82d93214"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.6433135114661012,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 1.105208208954628,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_x_1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "76787a3e9f2a7cf11a0c60d54eb54af4fa8bd789b0bfa59c5b87ba37acd1ced2"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0016065996606278903,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0008197969939961132,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_x_1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "a5308cf0c98fb4769691fd49bcfb5bc2cfc1225edaa59b8b2fabc0e888943930"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.005601159087773287,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.002981860654392068,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_y_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "fd78133299bda0aded1d44baaa3a750f4bbfe1cfb0421c882c4cb38246e85c0d"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.01606531526308684,
+          "directionError": 0.8877121516643157,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.01606531526308684,
+          "directionError": 0.8877121516643157,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_y_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "8b10b1b67b55cb1ef0ba4cc51cda09d21fd5cdf21bd418e3e80a79cbb9716e62"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.6505547806453909,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 1.136195598264011,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_y_-1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "95225bbd307594e633d35e4ab874ef64fb8d7cf8889f4fd60b66680ec1f56845"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0013563182610933759,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0006750429242076568,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_y_-1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "96a3493fedfdba77efe1bc48fc5f0e77a7725ec1747e22bd62d093cc854248af"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.024974013778350245,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.016316917113810815,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_y_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "f06c8f19b2e867b38e47875f3c318c6d8c82fcbccfc66d02f62d5e007fc3dc2b"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.17733610848062,
+          "directionError": 2.899871759250297,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.17733610848062,
+          "directionError": 2.899871759250297,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_y_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "deb29d897df85f987f2d4a7d45645bdbcba9150822c25d11c8a946f16c88bc00"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.3273552772857311,
+          "directionError": 10.772398539400813,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 1.1804031373019903,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_y_1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "b34ce983a2030f5d5e7ab1c30a8fe7348e72aff75df5751321c513900994d823"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0012004773983470241,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.001439687187249534,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_y_1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "a741a0327ffc8ee706e7ac5d26387360d70eb2f8752a27768773cc74be04cd94"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.029563063619902397,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.010635760539149993,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "f5b44d985974b249df456ccefad4fc52ec077572b4c95a60dc5f3a335d9c04ca"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.0011721656113418972,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.0011721656113418972,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "1294fb43efea6ac6f1642dcd83226843c80087367cf5ec88b37848c7711036f9"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.017686829698295124,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.017686829698295124,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_z_-1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "ac5e1abcaa0b5b553a1e13a3ece4da2c3e0fe35063d1d18d9847736d38725277"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0012703096071007502,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0028466974609515925,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_z_-1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "9a1037b30cb215e9cf6f7bac700078faca86507ffedce9f96453fcb79338ca49"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.01203354483689411,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.010932249345046918,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "1ba3c658320a06ac50d204c5fb63d5497dc85a50aadd10e7e7a1ca5ce54e7f17"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.0007032960087151799,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.0007032960087151799,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "3948630ebfbe4c1d215407438d924765dae6d5abc14c6352811c3c16c8613a8b"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.016992753353753946,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.016992753353753946,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_z_1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "b7e1cad62b470fd7317b2c3aac0a66d6d82936f18fbcc9d1991b3ab3e1ef62c1"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.001251541310366263,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0026175371684666235,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "rotate_z_1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "c61b31e1b4292a2c6dc5b2699b9fe5f9937753c34a68d315426ce8bdc1acaca9"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.010838509002669602,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.007409449692179299,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_large_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "8c2cbedc7a73bb3bfecb514a6da21909d2982395930f2923466e3db480fce1ad"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.0015659069871111911,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.0015659069871111911,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_large_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "7b711bd2831805e2ae4a48f4fda30f262ca52cb2fe1a64ac4fe2e3a87f171798"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.008442232285488654,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.008442232285488654,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_large_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "e695c33130fcf102d39c7cce805e2fb5e73aed4a2155c28dc84f5c7a96b2615c"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.0021695038501014664,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.0021695038501014664,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "translate_z_large_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "1d12faacf959ce050c04159e2793c8bea786e1b4bb6442af7a07f881c6c55fe0"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.010701431445267633,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.010701431445267633,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "combined",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "d73374743398cd0da0b5ba77db43471a5ae02be5dcfa4ee7fb3987c5b02dfb62",
+        "cf9e9fddae34fc3f7185ad589ae6c0a688cc67486bf121f20ce8546572fe0cd1"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.6242264896770003,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.6242264896770003,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 57291,
+      "name": "combined",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "03beccf141a83e5af65c3da6ec01c9189705a3f5188a5f95bd38a48ef409b23a",
+        "6324744928097b938700b3d2f5b1a0b75a2331c4f520dc45dbe73e2f4e1fbfac"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.441350844279679,
+          "directionError": 15.798912746141069,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.441350844279679,
+          "directionError": 15.798912746141069,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "stationary",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "stationary",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0,
+          "directionError": null,
+          "status": "stationary",
+          "reason": "negligible-image-motion",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_x_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "ce41f1af0667529b64364a2de8463d141a724d1fb66632fabdeaa521a928c534"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.11944735497556878,
+          "directionError": 1.4867473195131287,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.11944735497556878,
+          "directionError": 1.4867473195131287,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_x_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "e847221c0727693cc7138dc4a26ecb21e822782e0386d46014cd0d91e6a2661a"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.08900899153291593,
+          "directionError": 3.5089396635015317,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.8022685772559404,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_x_-1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "50855869d20366f92076da101be66275cf6d16e5e1d66f1485d80c107c3e75e0"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0011214842518039614,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.008091925740309312,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_x_-1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "97329e2924c90c66a4fc27b3b05b57ae588e91442bad198dfc143589fe629121"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.004520498700003665,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0060424487040540206,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_x_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "0c6a7875cb9e4bdb1e0078e615d9e9814232e830f49b0b0d6b9a5e10ba0d7498"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.02071888346433094,
+          "directionError": 0.8288429695518289,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.02071888346433094,
+          "directionError": 0.8288429695518289,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_x_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "dc1195b81a871d2ed9fc3844c0e169877edd9e5211fad061d317cdc0409bb1c0"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.3592944283177977,
+          "directionError": 11.060467524281579,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.888775164640177,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_x_1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "221cc6d9c11c48a50dcfe1699f6c15ab935cdd15923c13f9a69a2b244869960a"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0015241521603771722,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0008185574591608375,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_x_1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "2bb2a55584275b5727dfc472fc741476afeb85499f2b097c45b0f9fc1dcea194"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0248403309952407,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.010216970437534906,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_y_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "0dec962f699d0bcd9bd09df33abf25357e7f79529af7b603b14396d4548e8894"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.05251677026988447,
+          "directionError": 0.7766316951587371,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.05251677026988447,
+          "directionError": 0.7766316951587371,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_y_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "587137b27122f736197df75680d8184eeca8afdff952c41c548bda92dcae1b81"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.08627775436534728,
+          "directionError": 2.6907134275506417,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.9681261518469795,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_y_-1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "27147b58f14bc500e8a0a8a6d300ddb1fcaffa2f3db807f0697fb79822fdeb52"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0012162178652076587,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.000401662165112823,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_y_-1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "6edfe19be5f6e80d504c3aad4723872eaaa4f48c35d5d61d8096db378ff6bb28"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.014135182806159075,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.005067046396834498,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_y_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "d41d8bfdee0fc6cbb52d6701e691eef718f68bc5083d3a45fc2ec9fe4f9eab9f"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.06334832120790199,
+          "directionError": 3.1017062415041186,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.06334832120790199,
+          "directionError": 3.1017062415041186,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_y_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "ba998198d8c97c3a3c0e346800d03a1fe94c10ee841cbe20037a3fe06f0db1cf"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.7208637004917023,
+          "directionError": 6.816111986304021,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.9616171287228275,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_y_1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "8614b658533296233ed293bb2d72244d1074d2d3e6ac4272480d7a4eec7cd373"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.002425754689410407,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.002378821450038951,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_y_1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "560a64b163ebcf17fd682ef9f2e81d3f74741d1e265fd35739aa950b799ea5e4"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.01671119837071972,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.007586715351218742,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "7dddbc419e543146cbae04ad96261361bb65f8e5d075618c498f7accfc036b68"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": null,
+          "directionError": null,
+          "status": "rejected",
+          "reason": "low-parallax",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": null,
+          "directionError": null,
+          "status": "rejected",
+          "reason": "low-parallax",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "8c5f2ec63553139d4c704198f13a11a3a45e17f420ce6fbab1128d463bf003d8"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.008551447140822831,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.008551447140822831,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_z_-1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "65cc2b36fe8c2d40bee7b5d88c2f1fc6820e9040fa0cf751707c96ace3d2d730"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.002930052640254891,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0028477614534381185,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_z_-1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "b6d55ccf16d9684ad8b8cfda9f2f0e653500f228799254df5c81ad5b3d8466a9"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.02055312516704505,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.01978188768968179,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "d05ad61b6efda0dfa92f7eb5c182ad359e608a2845f757e741ba8d089a603e18"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": null,
+          "directionError": null,
+          "status": "rejected",
+          "reason": "low-parallax",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": null,
+          "directionError": null,
+          "status": "rejected",
+          "reason": "low-parallax",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "6407aa4b7fd938414ae8240f2a709f30c0045db61e8bc047bedba47bd638f5e8"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": null,
+          "directionError": null,
+          "status": "rejected",
+          "reason": "low-parallax",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": null,
+          "directionError": null,
+          "status": "rejected",
+          "reason": "low-parallax",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_z_1",
+      "width": 640,
+      "expected": "no_translation",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "9294936086ec3ce9c7f8ac5b9ad4f75a7b26ae385e6af0780ffb861aee115734"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.0013428803731106082,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.0022486543710609594,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "rotate_z_1",
+      "width": 224,
+      "expected": "no_translation",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "e6613bcb448bbe153c60fcf74a74ad1285c35eff51ebaeac0441a3cb5e4fe2eb"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.023306564145021677,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.008939669595019057,
+          "directionError": null,
+          "status": "rotation_only",
+          "reason": "rotation-model-supported",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_large_-1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "eb490c6c133d7263504a789d5ca82a3ce7ed770e6e71802a58f478f7656d112f"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.2162126349790319,
+          "directionError": 3.4946763446209084,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.2162126349790319,
+          "directionError": 3.4946763446209084,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_large_-1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "f7cfa1a0cb21b67800f7c0a234ffc625ee6e194fac4e5453302ef57a19e7dd44"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.031575076241933446,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.031575076241933446,
+          "directionError": null,
+          "status": "rotation_or_planar",
+          "reason": "translation-unobservable",
+          "translationOutput": false
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_large_1",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "23865d5bcb7108693740c60e5f34976086c92462493dbd5cade701370f286d52"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.03018679278126249,
+          "directionError": 0.46353981352001006,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.03018679278126249,
+          "directionError": 0.46353981352001006,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "translate_z_large_1",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "e09f10513a2e77fa73bfc9351912eec999e7e19f6e76697c147b79baff585b84"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.1849169890291404,
+          "directionError": 1.6919828019997956,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.1849169890291404,
+          "directionError": 1.6919828019997956,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "combined",
+      "width": 640,
+      "expected": "pose",
+      "imageHashes": [
+        "21956aa3b122b8fe5ecbb92b0c5f6f8e935d1020dbd2dbaa34b623f3b6c84635",
+        "6d252aa605372bb87d2dd19957ba15d4705ea31f3de074dda8cc318e174c60e6"
+      ],
+      "results": {
+        "baseline": {
+          "passed": true,
+          "rotationError": 0.09698148305322635,
+          "directionError": 2.580047095925284,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": true,
+          "rotationError": 0.09698148305322635,
+          "directionError": 2.580047095925284,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    },
+    {
+      "seed": 90210,
+      "name": "combined",
+      "width": 224,
+      "expected": "pose",
+      "imageHashes": [
+        "512d9741b806a9914980a877652ffc1791bf5ca434d17e033e45e6714ab4c61f",
+        "fef27593ce0628a7956f6721ab13324cfb207d2eff81a9bbdbc691da3f30020c"
+      ],
+      "results": {
+        "baseline": {
+          "passed": false,
+          "rotationError": 0.38973398264507814,
+          "directionError": 15.303989032368266,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        },
+        "candidate": {
+          "passed": false,
+          "rotationError": 0.38973398264507814,
+          "directionError": 15.303989032368266,
+          "status": "pose",
+          "reason": "validated-pair",
+          "translationOutput": true
+        }
+      }
+    }
+  ]
+}

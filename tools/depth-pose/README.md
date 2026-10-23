@@ -51,3 +51,26 @@ Evidence: synthetic.json, real.json, unit-tests.log. The earlier 50-baseline def
 ## Next bounded action
 
 Improve rotation-versus-translation model selection and track quality at a separate tracking resolution (evaluate 640 while keeping depth at 224). Add held-out texture seeds, image noise/blur and wrong-calibration stress cases before tuning. Require zero false translations on negative controls and retained accurate recovery on signed six-axis cases. Establish ground-truth real-sequence pose errors and an old/new comparison on identical frames. Only then port the validated estimator to a worker/browser and proceed to depth alignment/fusion. No additional user phone logs are needed for this offline step; phone frames/calibration will eventually be needed for device accuracy evaluation.
+
+## Next-stage rotation competition — 2026-10-23
+
+The current candidate adds a robust rotation-only competitor. Historical results above belong to the preserved baseline. Full method, reproducibility, experiment policy and interpretation: [STRESS-REVIEW.md](STRESS-REVIEW.md).
+
+The candidate was frozen before held-out evaluation. 456 cases cover new textures at two resolutions under clean, blur, noise and wrong-calibration conditions; another 64 cover two unseen geometric layouts. Both baseline and candidate process every identical input (1,040 estimator evaluations). Nine unit tests PASS; both quality evaluation commands exit 1, as expected from the failures.
+
+| Test / width | Baseline correct poses | Candidate correct poses | Candidate false translations | Candidate inaccurate accepted poses |
+| --- | --- | --- | --- | --- |
+| clean / 640 | 21/27 | 21/27 | 0 | 0 |
+| clean / 224 | 17/27 | 9/27 | 0 | 3 |
+| blur / 640 | 21/27 | 21/27 | 0 | 0 |
+| blur / 224 | 24/27 | 24/27 | 0 | 0 |
+| noise / 640 | 21/27 | 21/27 | 0 | 0 |
+| noise / 224 | 6/27 | 3/27 | 0 | 5 |
+| wrong_calibration / 640 | 19/27 | 19/27 | 0 | 1 |
+| wrong_calibration / 224 | 16/27 | 7/27 | 0 | 2 |
+| new layouts / 640 | 9/18 | 9/18 | 0 | 0 |
+| new layouts / 224 | 4/18 | 1/18 | 0 | 2 |
+
+Promotion gate remains **FAIL**. The candidate emits no false translation across 268 negative controls, and recovers their required orientations. However, it still accepts 13 inaccurate poses across positive translation cases, and valid pose recovery falls at 224. Across all held-out sets, 640 recovery is unchanged at 91/126; 224 recovery falls from 67/126 to 44/126. Do not summarize the conservative rotation check as an overall accuracy improvement. Blur improves some 224 cases; higher resolution is not universally superior, although these tests favour 640 for reliable accepted directions with correct calibration.
+
+Main remains unchanged. Next: temporal/keyframe tracking at 640 with calibration checks and fresh held-out sequences, retaining these failures as regressions; no fusion/browser integration or additional phone-log retry yet.
