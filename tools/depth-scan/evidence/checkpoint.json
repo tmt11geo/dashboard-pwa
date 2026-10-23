@@ -1,0 +1,35 @@
+{
+  "status": "implementation verified; deployment pending",
+  "build": "depth-lab-5",
+  "starting_branch": "depth-tfjs-webgl",
+  "starting_commit": "dd5186ed28609ad85512fb531339e1e46ab53062",
+  "main_before": "e599a76ad2a48e97650545f64980abf4756de3e8",
+  "node_tests": 64,
+  "source_sha256": {
+    "depth.js": "78ec8758e0aa16efefc1aba1d2a774d80986094356127333aae0ce1058bdcb97",
+    "depth.html": "2334d474a3db15f2cbbcf59ff4bd53dc8b7615037ce76afa38b8209e4c72b1ac",
+    "depth.css": "632854a6a16d6556d321e2b1b6ec61e488587c6cbc75d2c5b17acf31c25fa9e1",
+    "depth-tfjs-worker.js": "26c9c9317c2e9d44a53e94411ab68aa778f4de03c7d5547433a1c1d5c4e2b427",
+    "depth-scan-core.js": "9a1871229fe0cea52f483d67b0bc027378bfff2ae1ccd8622c3712879e7259c9",
+    "depth-scan.js": "996fd8229b58d86215c8e60f587931c1e1600b1da72fad1d59abdd51be50a53e",
+    "depth-scan-worker.js": "98bdc4248c9da0d2a7fd72360356ed2516b6627aa87f1dad7184d6691f5819b8"
+  },
+  "real_sequence": {
+    "source": "https://github.com/isl-org/open3d_downloads/releases/download/20220301-data/SampleRedwoodRGBDImages.zip",
+    "zip_sha256": "4f161ba04d81cbe628fc69dac20552749f1b255b0090fe51c766e5d02355937b",
+    "colour_sha256": {
+      "00000.jpg": "29468161241d7ef92312991cf0019d7ccf199db1fafbf783d27288ef279d270a",
+      "00001.jpg": "99afaf2e053d57f63b0ef730e6c32d2ae313ad2ef9e83218e253f020188a61df",
+      "00002.jpg": "2c540e0a3c76973b32bcff184ca5dfdec074f262615c4bb5b4d40370429905bd",
+      "00003.jpg": "0ceb63f92fa3c37fe594d480593ff85422c32bcefbfbe468b628af33eeb5f6b3",
+      "00004.jpg": "f32bc60e53da906355e57f879ffabc1195203de19964f3b6e1bd17d1ab14b4ec"
+    }
+  },
+  "limits": [
+    "arbitrary scale and assumed intrinsics",
+    "no loop closure or long-scan accuracy validation",
+    "short real-sequence acceptance, not a measured geometry error bound",
+    "OnePlus guided scanning not yet tested",
+    "file save needed for persistence across closing the page"
+  ]
+}

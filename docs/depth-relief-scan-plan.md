@@ -2,7 +2,7 @@
 Date: 2026-10-23. Checkpoint branch: depth-tfjs-webgl.
 Reviewed feature head: 838eebbcb36b2f7eccc2d991fddd065516d8a52a.
 Reviewed main: e599a76ad2a48e97650545f64980abf4756de3e8.
-Status: design recorded; reconstruction and guidance not implemented.
+Status: experimental R1–R4 implementation complete, R5 deployment/phone acceptance pending. See tools/depth-scan/README.md and latest DONE.md checkpoint.
 
 ## User goal
 Accumulate newly observed surfaces into one approximate 3D scene while moving the
@@ -66,3 +66,12 @@ feature branch, then checkpoint. Keep R2–R5 explicitly incomplete.
 Stage 10 of the existing TFJS project remains partial: supplied phone logs confirm
 hardware WebGL startup and repeated inference, but WASM comparison, stop/restart,
 background return, prolonged heat and alignment observations remain missing.
+
+
+## Implementation update — 2026-10-23
+
+The user requested implementation and deployment after the design checkpoint.
+This overrides the old R1-only pointer. Experimental short-scan R1–R4 implemented
+and tested; R5 deployment next, physical-device acceptance pending. Details and
+limits: ../tools/depth-scan/README.md. Do not equate acceptance of two real-sequence
+views with validated long-scan accuracy or calibrated SLAM.

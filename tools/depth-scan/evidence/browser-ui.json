@@ -1,0 +1,60 @@
+{
+  "mode": "UI + inference double + real registration",
+  "checks": [
+    {
+      "name": "page initializes",
+      "pass": true
+    },
+    {
+      "name": "first view added and shown in relief",
+      "pass": true
+    },
+    {
+      "name": "moved view extends persistent scene",
+      "pass": true
+    },
+    {
+      "name": "pause prevents another capture",
+      "pass": true
+    },
+    {
+      "name": "resume adds another view",
+      "pass": true
+    },
+    {
+      "name": "finish releases camera and model",
+      "pass": true
+    },
+    {
+      "name": "saved scene has all accepted views",
+      "pass": true
+    },
+    {
+      "name": "clear removes the map",
+      "pass": true
+    },
+    {
+      "name": "open restores exact saved scene count",
+      "pass": true
+    },
+    {
+      "name": "file survives page reload",
+      "pass": true
+    },
+    {
+      "name": "finish ignores late capture",
+      "pass": true
+    },
+    {
+      "name": "all browser workers released",
+      "pass": true
+    },
+    {
+      "name": "no page errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "browser": "141.0.7390.37",
+  "status": "PASS"
+}

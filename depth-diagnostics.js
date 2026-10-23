@@ -1,4 +1,4 @@
-export const BUILD='depth-lab-4';
+export const BUILD='depth-lab-5';
 // Deliberately exclude camera frames, camera IDs, credentials and page query strings.
 export function cleanText(value){
  return String(value).replace(/https?:\/\/[^\s)"']+/g,url=>url.split(/[?#]/)[0]).slice(0,3000);

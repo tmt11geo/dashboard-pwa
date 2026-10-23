@@ -86,3 +86,13 @@ successfully (Pages run 39134967348). Latest checkpoint remains on depth-tfjs-we
 Next: stage 10 only, obtain OnePlus logs using docs/depth-tfjs-phone-test.md.
 No phone results yet. Automated live URL checks received Cloudflare 403/1010;
 authenticated application verification is pending. This supersedes earlier pointers.
+
+## Guided scan implementation pointer — 2026-10-23
+
+The user requested building and deploying the guided persistent-relief feature.
+Read the newest DONE.md checkpoint and tools/depth-scan/README.md. R1–R4 now have
+an experimental implementation and synthetic/real/browser evidence. Check R5's
+latest deployment receipt before taking action; phone acceptance remains separate.
+Do not rerun completed conversion or shard stages. Stage 10's earlier phone log
+covers ordinary TFJS depth, not the new scanner. Request scanner diagnostics if
+none have been supplied; do not claim OnePlus scan success from local tests.

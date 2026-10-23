@@ -1,6 +1,7 @@
+import {createScanner} from './depth-scan.js?v=1';
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=3';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=4';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
@@ -14,6 +15,18 @@ let generation=0,worker=null,stream=null,running=false,starting=false,ready=fals
 let timer=null,watchdog=null,ageTimer=null,request=0,sentAt=0,lastVideoTime=-1,lastFresh=0;
 let frames=0,samples=[],delivered=[],lastResult=0,points=[],showRelief=false,yaw=0,pitch=0,zoom=1,drag=null,drawPending=false;
 let lastProgressLog=0;
+const scanner=createScanner({
+ state:()=>({running:running||starting,ready,inFlight,video:ui.video}),
+ start:()=>start(true),stop:()=>stop(),capture:()=>sendFrame(true),
+ log:emit,
+ show:scene=>{if(scene){
+  const xs=scene.points.map(p=>p[0]),ys=scene.points.map(p=>p[1]),zs=scene.points.map(p=>p[2]);
+  const cx=(Math.min(...xs)+Math.max(...xs))/2,cy=(Math.min(...ys)+Math.max(...ys))/2,cz=(Math.min(...zs)+Math.max(...zs))/2;
+  const extent=Math.max(Math.max(...xs)-Math.min(...xs),Math.max(...ys)-Math.min(...ys),Math.max(...zs)-Math.min(...zs),1),scale=4/extent;
+  points=scene.points.map(p=>({x:(p[0]-cx)*scale,y:(p[1]-cy)*scale,z:(cz-p[2])*scale,color:`rgb(${p[3]},${p[4]},${p[5]})`}));
+  ui.empty.hidden=true;setView(true);
+ }else{points=[];ui.empty.hidden=true;setView(true);}}
+});
 function status(message){ui.status.textContent=message;}
 function controls(){
  ui.start.disabled=starting||running;ui.stop.disabled=!(starting||running);
@@ -21,11 +34,14 @@ function controls(){
  if(ui.backend.value==='tfjs-webgl'){ui.resolution.value='224';ui.resolution.disabled=true;}
  ui.pause.disabled=!ready;ui.step.disabled=!ready||!paused||inFlight;
  ui.pause.textContent=paused?'Resume depth':'Pause depth';
+ ui.frequency.disabled=!!scanner?.active;
+ if(scanner?.active){ui.pause.disabled=true;ui.step.disabled=true;}
+ scanner?.buttons();
 }
 function clearTimers(){clearTimeout(timer);clearTimeout(watchdog);clearInterval(ageTimer);timer=watchdog=ageTimer=null;}
 function stop(message='Stopped. Camera and model released; the last depth result remains available.'){
  if(running||starting||worker||stream)emit('info','stop',{reason:message||'restart/navigation',running,starting,inFlight,frames});
- generation++;running=starting=ready=inFlight=false;paused=false;clearTimers();
+ generation++;running=starting=ready=inFlight=false;paused=false;clearTimers();scanner?.stop();
  if(worker&&ui.backend.value==='tfjs-webgl')emit('info','tfjs.release',{method:'worker termination',note:'Browser owns context destruction; post-termination GPU counters unavailable'});
  worker?.terminate();worker=null;
  if(stream)for(const track of stream.getTracks())track.stop();stream=null;
@@ -36,15 +52,15 @@ function fail(message){emit('error','failure',{message});$('diagnostics-panel').
 function guard(ms,message){clearTimeout(watchdog);watchdog=setTimeout(()=>fail(message),ms);}
 function schedule(){
  clearTimeout(timer);
- if(!running||!ready||paused||inFlight)return;
- const wait=Math.max(0,1000/Number(ui.frequency.value)-(performance.now()-sentAt));
+ if(!running||!ready||paused||inFlight||scanner?.active)return;
+ const wait=ui.backend.value==='tfjs-webgl'?Math.max(1000,1000/Number(ui.frequency.value)):Math.max(0,1000/Number(ui.frequency.value)-(performance.now()-sentAt));
  timer=setTimeout(()=>sendFrame(false),wait);
 }
 function sendFrame(single=false){
- if(!running||!ready||inFlight||(!single&&paused)||document.hidden)return;
+ if(!running||!ready||inFlight||(!single&&paused)||document.hidden)return false;
  if(ui.video.readyState<2||ui.video.currentTime===lastVideoTime){
   if(performance.now()-lastFresh>10000){fail('The camera stopped delivering fresh frames.');return;}
-  clearTimeout(timer);timer=setTimeout(()=>sendFrame(single),100);return;
+  if(!scanner?.active){clearTimeout(timer);timer=setTimeout(()=>sendFrame(single),100);}return false;
  }
  try{
   const tfjs=ui.backend.value==='tfjs-webgl';
@@ -57,7 +73,7 @@ function sendFrame(single=false){
   lastVideoTime=ui.video.currentTime;lastFresh=sentAt=performance.now();inFlight=true;request++;controls();
   guard(60000,'Depth inference exceeded 60 seconds.');
   if(frames===0||request%10===0)emit('info','frame.sent',{id:request,...size});
-  worker.postMessage({type:'frame',id:request,...size,content,pixels:pixels.buffer},[pixels.buffer]);
+  worker.postMessage({type:'frame',id:request,...size,content,scan:scanner?.active===true,capture:{timestamp:sentAt,orientation:globalThis.screen?.orientation?.angle??0,sourceWidth:ui.video.videoWidth,sourceHeight:ui.video.videoHeight,content},pixels:pixels.buffer},[pixels.buffer]);return true;
  }catch(error){fail(error.message||'Unable to read the camera frame.');}
 }
 function displayResult(data){
@@ -65,7 +81,7 @@ function displayResult(data){
  if(depth.length!==data.width*data.height)throw new Error('Invalid depth result');
  const image=ui['depth-image'];image.width=data.width;image.height=data.height;
  image.getContext('2d').putImageData(new ImageData(colorizeDepth(depth),data.width,data.height),0,0);
- points=makeRelief(depth,data.width,data.height,rgba);ui.empty.hidden=true;lastResult=performance.now();
+ if(!scanner?.active&&!scanner?.scene)points=makeRelief(depth,data.width,data.height,rgba);ui.empty.hidden=true;lastResult=performance.now();
  frames++;ui.inference.textContent=`${Math.round(data.inferenceMs)} ms${frames===1?' · first':''}`;
  if(frames>1){samples.push(data.inferenceMs);if(samples.length>20)samples.shift();}
  ui.average.textContent=samples.length?`${Math.round(samples.reduce((a,b)=>a+b,0)/samples.length)} ms`:'Warming up';
@@ -73,15 +89,15 @@ function displayResult(data){
  ui.rate.textContent=paused?'Paused':delivered.length>1?`${((delivered.length-1)*1000/(lastResult-delivered[0])).toFixed(2)} / s`:'Measuring';
  ui.age.textContent='0.0 s';queueDraw();
 }
-async function start(){
- stop(null);const mine=++generation;starting=true;controls();
+async function start(scanMode=false){
+ stop(null);if(scanMode){ui.backend.value='tfjs-webgl';ui.resolution.value='224';scanner?.begin();}const mine=++generation;starting=true;controls();
  emit('info','start',{...environment(),settings:{backend:ui.backend.value,resolution:ui.resolution.value,facing:ui.facing.value,frequency:ui.frequency.value}});
  if(ui.backend.value==='auto'||ui.backend.value==='webgpu'){
   // Diagnostic comparison only: inference remains in the worker.
   probeGPU(navigator.gpu,(level,event,details)=>{if(mine===generation)emit(level,event,details);}).then(result=>{if(mine===generation)emit('info','gpu.probe.complete',{reason:result.reason});});
  }
- frames=0;samples=[];delivered=[];lastResult=0;points=[];lastVideoTime=-1;
- ui.empty.hidden=false;ui['depth-image'].getContext('2d').clearRect(0,0,ui['depth-image'].width,ui['depth-image'].height);queueDraw();
+ frames=0;samples=[];delivered=[];lastResult=0;if(!scanner?.scene)points=[];lastVideoTime=-1;
+ ui.empty.hidden=!!scanner?.scene;ui['depth-image'].getContext('2d').clearRect(0,0,ui['depth-image'].width,ui['depth-image'].height);queueDraw();
  for(const id of ['inference','average','rate','age'])ui[id].textContent='—';
  ui.engine.textContent='Engine loading · no YOLO';
  status('Requesting camera permission…');
@@ -104,7 +120,7 @@ async function start(){
   ui.standby.hidden=true;running=true;starting=false;lastFresh=performance.now();controls();
   emit('info','worker.create');lastProgressLog=0;
   const tfjs=ui.backend.value==='tfjs-webgl';
-  const active=tfjs?new Worker(new URL('./depth-tfjs-worker.js?v=1',import.meta.url)):new Worker(new URL('./depth-worker.js?v=3',import.meta.url),{type:'module'});worker=active;
+  const active=tfjs?new Worker(new URL('./depth-tfjs-worker.js?v=2',import.meta.url)):new Worker(new URL('./depth-worker.js?v=3',import.meta.url),{type:'module'});worker=active;
   active.onmessage=({data})=>{
    if(mine!==generation||worker!==active)return;
    try{
@@ -116,10 +132,10 @@ async function start(){
      ui.engine.textContent=data.backend==='tfjs-webgl'?'TFJS WebGL · FP32 · 97.8 MB model · fixed 224 × 224 letterbox':`${data.backend==='webgpu'?'WebGPU'+(data.gpuMode==='compatibility'?' compatibility':''):'CPU / WASM'} · ${data.precision} · ${(data.modelBytes/1e6).toFixed(1)} MB weights · ${ui.resolution.value} px maximum edge`;
      status('Running. Move slowly; the first frame includes model warm-up.');
      ageTimer=setInterval(()=>{if(lastResult)ui.age.textContent=`${((performance.now()-lastResult)/1000).toFixed(1)} s${paused?' · paused':''}`;},250);
-     sendFrame(false);
+     if(!scanner?.active)sendFrame(false);
     }else if(data.type==='depth'&&inFlight&&data.id===request){
      emit('info','frame.complete',{id:data.id,width:data.width,height:data.height,inferenceMs:Math.round(data.inferenceMs),processingMs:Math.round(data.processingMs||0),roundTripMs:Math.round(performance.now()-sentAt)});
-     clearTimeout(watchdog);inFlight=false;displayResult(data);controls();schedule();
+     clearTimeout(watchdog);inFlight=false;displayResult(data);if(scanner?.active)scanner.result(data);controls();schedule();
     }else if(data.type==='error'){emit('error','worker.error',{stage:data.stage,...data.error,message:data.message});fail(data.message||'Depth processing failed.');}
    }catch(error){fail(error.message||'Unable to display depth.');}
   };
@@ -142,11 +158,11 @@ function drawRelief(){
 function setView(relief){
  showRelief=relief;ui.relief.hidden=!relief;ui['depth-image'].hidden=relief;ui['relief-tools'].hidden=!relief;
  ui['view-depth'].setAttribute('aria-pressed',String(!relief));ui['view-relief'].setAttribute('aria-pressed',String(relief));
- ui['result-title'].textContent=relief?'Single-frame 3D relief':'Relative depth';queueDraw();
+ ui['result-title'].textContent=relief?(scanner?.scene?'Persistent 3D relief · experimental':'Single-frame 3D relief'):'Relative depth';queueDraw();
 }
-function turn(dx,dy=0){yaw=Math.max(-1.3,Math.min(1.3,yaw+dx));pitch=Math.max(-1,Math.min(1,pitch+dy));queueDraw();}
+function turn(dx,dy=0){yaw=yaw+dx;pitch=Math.max(-1,Math.min(1,pitch+dy));queueDraw();}
 function magnify(factor){zoom=Math.max(.4,Math.min(3,zoom*factor));queueDraw();}
-ui.start.addEventListener('click',start);ui.stop.addEventListener('click',()=>stop());
+ui.start.addEventListener('click',()=>start(false));ui.stop.addEventListener('click',()=>stop());
 ui.pause.addEventListener('click',()=>{
  if(!ready)return;paused=!paused;clearTimeout(timer);controls();
  emit('info','pause',{paused});

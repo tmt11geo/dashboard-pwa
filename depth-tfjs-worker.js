@@ -59,9 +59,10 @@ self.onmessage=async({data})=>{
     const values=await output.data(),inferenceMs=performance.now()-begin;requireBackend();
     for(const value of values)if(!Number.isFinite(value))throw Error('Nonfinite TFJS model output');
     stage='postprocessing';const result=core.cropOutput(values,rgba,data.content);
+    const rawDepth=data.scan?result.depth.slice():null;
     result.depth=normalizeDepth(result.depth);frames++;
     diagnostic('info','tfjs.frame',{frame:frames,warmup:frames===1,inferenceMs,content:data.content});
-    self.postMessage({type:'depth',id:data.id,...result,depth:result.depth.buffer,pixels:result.pixels.buffer,inferenceMs,processingMs:performance.now()-start},[result.depth.buffer,result.pixels.buffer]);
+    self.postMessage({type:'depth',id:data.id,...result,depth:result.depth.buffer,pixels:result.pixels.buffer,rawDepth:rawDepth?.buffer,capture:data.capture,inferenceMs,processingMs:performance.now()-start},[result.depth.buffer,result.pixels.buffer,...(rawDepth?[rawDepth.buffer]:[])]);
    }finally{if(output)tf.dispose(output);input?.dispose();if(typeof tf!=='undefined'&&tf.getBackend()==='webgl')diagnostic('info','tfjs.frame.disposed',memory());}
   }
  }catch(error){failure(error);}finally{busy=false;stage='idle';}

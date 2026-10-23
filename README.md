@@ -66,6 +66,24 @@ Open `./depth.html` from the map, camera, or dashboard navigation. This isolated
 
 Choose a maximum edge of 224, 336, or 518 px before starting. Both dimensions are rounded to multiples of 14 with aspect approximately preserved. RGB input is rescaled to [0,1], normalized with ImageNet mean [.485,.456,.406] and std [.229,.224,.225], and packed NCHW. Inference produces relative inverse depth, normalized independently for display. There is at most one frame in flight; the update limit is 1, 2, or 5/s and adapts to actual processing duration. Inference, warm-frame mean, delivered update rate and result age are displayed. First-frame compilation/warm-up is excluded from the running mean. Download/loading and inference have bounded watchdogs; stale worker/camera results after cancellation are ignored.
 
-The optional rotatable 3D relief represents only the last frame, using an assumed 55-degree horizontal field of view and arbitrary inverse-depth scale. It is an illustrative point cloud, not metric geometry, accumulated SLAM mapping, occupancy mapping or relocalization. Depth colours do not indicate measured distances. The camera image is live; depth lags by inference time. Pause retains the live camera and model; a one-frame button is available while paused. Stop, pagehide or document hiding stops all camera tracks and terminates the worker. The last result remains only in memory for inspection. Starting again clears it. Frames and performance data are never uploaded; external network requests only retrieve runtime files and public model weights. Existing theme keys, service worker, map behavior and manifest are unchanged.
+In ordinary depth mode, the optional rotatable 3D relief represents only the last frame, using an assumed 55-degree horizontal field of view and arbitrary inverse-depth scale. It is an illustrative point cloud, not metric geometry, accumulated SLAM mapping, occupancy mapping or relocalization. Depth colours do not indicate measured distances. The camera image is live; depth lags by inference time. Pause retains the live camera and model; a one-frame button is available while paused. Stop, pagehide or document hiding stops all camera tracks and terminates the worker. The last result remains only in memory for inspection. Starting again clears it. Frames and performance data are never uploaded; external network requests only retrieve runtime files and public model weights. Existing theme keys, service worker, map behavior and manifest are unchanged.
 
 Validation includes geometry/preprocessing and cancellation/backpressure tests, plus the actual quantized ONNX model in the matching browser WASM runtime. Phone GPU support, sustained speed/heat, and permission/UI behavior still require an Android device check.
+
+
+### Guided persistent relief (experimental)
+
+On Depth Lab, choose **Start guided scan**. This selects TFJS WebGL (fixed 224 px),
+guides small sideways moves and steady captures, and retains only views that pass
+image-feature and depth-alignment checks. **Finish scan** releases the camera and
+workers while retaining the rotatable scene. **Save relief file** and **Open relief
+file** preserve and reopen coloured geometry locally; save before closing the page.
+Clear the scene before starting a new scan. Saved files are for inspection, not
+resuming tracking. Ordinary depth and ONNX options remain available.
+
+The scanner is an approximate short-scan experiment: assumed camera intrinsics,
+arbitrary scale, no loop closure, and possible drift/ghosting. It has been tested
+with synthetic transforms and a small real-image sequence; OnePlus guided-scan
+acceptance is still pending. Use textured stationary objects, maintain overlap,
+and keep the phone's orientation fixed. Detailed limits, test evidence and commands:
+[tools/depth-scan/README.md](tools/depth-scan/README.md).

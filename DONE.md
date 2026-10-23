@@ -13,10 +13,10 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live application commit last checked | `e599a76ad2a48e97650545f64980abf4756de3e8` |
 | Live diagnostic build | `depth-lab-4` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
-| Active stage | None; stage 9 complete |
-| Next stage | Guided relief R1; existing stage 10 evaluation remains partial |
-| Current blocker | Reconstruction needs validated pose/scale alignment; remaining phone lifecycle/baseline evidence pending |
-| Outcome of this checkpoint | Stage 9 complete; merged and Pages deployment verified |
+| Active stage | Guided scan R5 deployment |
+| Next stage | Deploy guided scan; then OnePlus acceptance |
+| Current blocker | Deployment verification and OnePlus guided-scan evidence pending |
+| Outcome of this checkpoint | Experimental guided scanner implemented and locally verified |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 
@@ -641,3 +641,38 @@ Exact next implementation action for the newly approved feature: R1 only in the
 scan plan, preserve raw capture data and build bounded guided scheduling. Pose,
 scale alignment and fusion remain R2/R3 feasibility work. No mapping claim yet.
 This additive project pointer supersedes “no phone results” wording above.
+
+
+## Guided scan implementation — 2026-10-23
+
+User explicitly asked to build and deploy the guided persistent scan, superseding
+the earlier R1-only planning pointer. Started on depth-tfjs-webgl at
+dd5186ed28609ad85512fb531339e1e46ab53062; main inspected at
+e599a76ad2a48e97650545f64980abf4756de3e8. No AGENTS.md found.
+Implemented raw capture data, measured hold/move cues, bounded worker registration,
+accepted-view accumulation, pause/finish/clear and versioned local file save/open.
+Build depth-lab-5. Ordinary TFJS also rests at least one second after each result.
+The experimental scan uses relative-depth offset search and robust similarity
+registration with feature coverage, geometric and reprojection rejection gates.
+It is approximate, arbitrary-scale, limited to 40 views/32,000 points, and has no
+loop closure, calibrated pose or long-scan accuracy guarantee.
+
+Verification: 64 Node tests PASS; browser UI test with controlled inference and
+real registration PASS (three-view accumulation, pause/resume, finish release,
+save/clear/open/reload, late-result rejection). Actual TFJS WebGL/no CPU forwarding
+with packaged model on five Redwood colour images PASS: two accepted views, finite
+raw depth retained separately from normalized display. Chromium 141 SwiftShader;
+no OnePlus guided-scan performance claim. Source hashes, reproducible harness,
+fixture hashes and results are in tools/depth-scan/. Mobile screenshot inspected;
+controls also placed over camera, and diagnostics collapsed initially.
+A failed real test revealed invalid-depth correspondences rejecting entire frames;
+fixed by excluding those samples, with regression test. No quality thresholds were
+relaxed to turn that real test into a pass. Earlier synthetic testing adjusted
+scale-correction search and added rotation/repetition rejection.
+
+R1–R4 implementation complete for experimental short scans; R2 has bounded
+synthetic/real feasibility evidence, not general reconstruction accuracy. R5
+deployment pending; physical OnePlus acceptance remains pending. Original stage 10
+is still partial. No map/tracker/theme/PWA/Access or ONNX behavior changes intended.
+Exact next action in this run: commit, deploy main, verify exact Pages success,
+then checkpoint the receipt and give the user the new scan URL and steps.
