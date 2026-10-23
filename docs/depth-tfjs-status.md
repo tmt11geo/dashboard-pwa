@@ -1,5 +1,15 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Offline image-pose prototype checkpoint — 2026-10-23
+
+Bounded task COMPLETE: separate repeatable six-axis image harness and RGB-only reference pose prototype, with a measured FAIL for promotion. Overall scanner/stage 10 remains PARTIAL. Starting/work/outcome branch depth-tfjs-webgl at 0169f3950b7d778e6b4c6e78b89defac6a287b30. Live main remains 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8); no deployment or application-code changes in this task.
+
+Build-8 phone evidence received: frames 2/5 hit rotation-prefilter; frames 3/4/6 depth-consensus ratios 25/58, 27/54, 21/51; scene stayed at one view. No more log retries needed to establish this failure. The new offline prototype uses only RGB plus known intrinsics: SIFT/mutual matches, essential pose, cheirality, parallax/coverage and homography ambiguity checks. Optical coordinates and transform direction differ from the live scanner and are explicitly documented. Translation is a direction, not metric distance.
+
+Durable implementation, reproduction commands, conventions and next action: tools/depth-pose/README.md. Evidence: tools/depth-pose/evidence/synthetic.json (105 cases, deterministic image/source hashes), real.json (4 pinned real RGB pair sanity replays, not accuracy proof), unit-tests.log (5 contract tests PASS). Dependencies pinned; pip check PASS. Synthetic pose criteria: rotation <2 degrees, translation direction <10 degrees; no false translation on negative controls. Results: 640px 21/27 pose recoveries, 30/30 negatives, zero false translations; 224px 13/27 recoveries, 20/21 negatives, one false translation. The validation command correctly exits 1. No Depth Anything input or depth-scale tuning is used. The limited 640px successes do not establish real-phone accuracy or better reconstruction.
+
+Blockers: low-parallax forward/back recovery, incorrect low-resolution directions, one false roll translation, no calibrated phone/ground-truth real-sequence evaluation or browser port. No fusion was attempted. Exact next bounded action: improve competing rotation/translation model selection at a separate tracking resolution; add held-out seeds, blur/noise and wrong-calibration stress tests before tuning; compare old/new on identical known-pose frames and retain zero false translation. Do not connect to the live scanner until quality gates pass. Main stays unchanged. Remote feature checkpoint and changed files must be verified after commit.
+
 ## Alignment diagnostics and six-axis review — 2026-10-23
 
 Scope PARTIAL: investigate reported build-7 stitching failures and review X/Y/Z translation plus X/Y/Z rotation. Started on depth-tfjs-webgl df6b65a5bfc311e9c34b06fb65dbab934bacd533; live main was 21523a1e26f1702b807c8842509c81b5e75dd972. Working/outcome branch remains depth-tfjs-webgl.
@@ -39,7 +49,7 @@ Updated 2026-10-23. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Diagnostic release main 308686f9d81e1218c866c936b8a24e3a74064fe4, build depth-lab-8, Pages run 40009379745 success. Six-axis solver tests pass; full registration has known false acceptances/rejections. Stitching remains unresolved. Next: build-8 device diagnostics and controlled six-axis pose validation; see depth-scan-6dof-review.md. Original stage 10 remains PARTIAL.
+Working/outcome branch: depth-tfjs-webgl. Offline image-pose prototype and 105-case harness complete; promotion FAIL. Live main unchanged at 308686f9d81e1218c866c936b8a24e3a74064fe4, depth-lab-8. Next: model selection and held-out image validation per tools/depth-pose/README.md. No phone log retry needed; stitching remains unresolved.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 

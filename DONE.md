@@ -1,5 +1,15 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Offline image-pose prototype checkpoint — 2026-10-23
+
+Bounded task COMPLETE: separate repeatable six-axis image harness and RGB-only reference pose prototype, with a measured FAIL for promotion. Overall scanner/stage 10 remains PARTIAL. Starting/work/outcome branch depth-tfjs-webgl at 0169f3950b7d778e6b4c6e78b89defac6a287b30. Live main remains 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8); no deployment or application-code changes in this task.
+
+Build-8 phone evidence received: frames 2/5 hit rotation-prefilter; frames 3/4/6 depth-consensus ratios 25/58, 27/54, 21/51; scene stayed at one view. No more log retries needed to establish this failure. The new offline prototype uses only RGB plus known intrinsics: SIFT/mutual matches, essential pose, cheirality, parallax/coverage and homography ambiguity checks. Optical coordinates and transform direction differ from the live scanner and are explicitly documented. Translation is a direction, not metric distance.
+
+Durable implementation, reproduction commands, conventions and next action: tools/depth-pose/README.md. Evidence: tools/depth-pose/evidence/synthetic.json (105 cases, deterministic image/source hashes), real.json (4 pinned real RGB pair sanity replays, not accuracy proof), unit-tests.log (5 contract tests PASS). Dependencies pinned; pip check PASS. Synthetic pose criteria: rotation <2 degrees, translation direction <10 degrees; no false translation on negative controls. Results: 640px 21/27 pose recoveries, 30/30 negatives, zero false translations; 224px 13/27 recoveries, 20/21 negatives, one false translation. The validation command correctly exits 1. No Depth Anything input or depth-scale tuning is used. The limited 640px successes do not establish real-phone accuracy or better reconstruction.
+
+Blockers: low-parallax forward/back recovery, incorrect low-resolution directions, one false roll translation, no calibrated phone/ground-truth real-sequence evaluation or browser port. No fusion was attempted. Exact next bounded action: improve competing rotation/translation model selection at a separate tracking resolution; add held-out seeds, blur/noise and wrong-calibration stress tests before tuning; compare old/new on identical known-pose frames and retain zero false translation. Do not connect to the live scanner until quality gates pass. Main stays unchanged. Remote feature checkpoint and changed files must be verified after commit.
+
 ## Alignment diagnostics and six-axis review — 2026-10-23
 
 Scope PARTIAL: investigate reported build-7 stitching failures and review X/Y/Z translation plus X/Y/Z rotation. Started on depth-tfjs-webgl df6b65a5bfc311e9c34b06fb65dbab934bacd533; live main was 21523a1e26f1702b807c8842509c81b5e75dd972. Working/outcome branch remains depth-tfjs-webgl.
@@ -49,9 +59,9 @@ Updated: 2026-10-23. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-8` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
 | Active stage | PARTIAL: alignment/6DoF validation; phone stitching failed |
-| Next stage | Six-axis pose validation harness and build-8 diagnostic logs |
+| Next stage | Offline pose model selection and held-out validation; promotion gate FAIL |
 | Current blocker | Physical guided-scan observations needed; automated live URLs return 403/1010 |
-| Outcome of this checkpoint | Six-axis review and diagnostics deployed; stitching unresolved |
+| Outcome of this checkpoint | Offline RGB pose prototype and harness committed; main unchanged; quality gate FAIL |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 

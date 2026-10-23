@@ -1,0 +1,10 @@
+test_blank_rejects (test_prototype.ContractTests.test_blank_rejects) ... ok
+test_fixed_input_is_repeatable (test_prototype.ContractTests.test_fixed_input_is_repeatable) ... ok
+test_invalid_calibration_rejected (test_prototype.ContractTests.test_invalid_calibration_rejected) ... ok
+test_signed_rotations_do_not_invent_translation (test_prototype.ContractTests.test_signed_rotations_do_not_invent_translation) ... ok
+test_stationary_does_not_invent_translation (test_prototype.ContractTests.test_stationary_does_not_invent_translation) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.219s
+
+OK

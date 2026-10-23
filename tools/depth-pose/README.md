@@ -1,0 +1,53 @@
+# RGB-only pose prototype — offline, not deployed
+
+This bounded experiment replaces neither the live scanner nor its fusion. It tests whether camera motion can be estimated independently of Depth Anything. Python/OpenCV is a reference implementation, not a browser-ready dependency. No application files import it.
+
+## Reproduce
+
+From the repository root (Python 3.11 used):
+
+    python -m venv /tmp/depth-pose-venv
+    /tmp/depth-pose-venv/bin/pip install -r tools/depth-pose/requirements.txt
+    /tmp/depth-pose-venv/bin/python -m unittest discover -s tools/depth-pose -p 'test_*.py' -v
+    /tmp/depth-pose-venv/bin/python tools/depth-pose/run_validation.py
+    /tmp/depth-pose-venv/bin/python tools/depth-pose/run_real.py /path/to/scan-fixtures
+
+The final command uses pinned inputs downloaded by tools/depth-scan/prepare_fixtures.py. run_validation.py always writes evidence/synthetic.json and exits **1 if any quality criterion fails**. That is the current expected outcome; do not suppress it in a promotion check. Use --out for a separate report and --images for optional regenerated image fixtures. No images need to be stored in the repository.
+
+## Method and conventions
+
+SIFT features, mutual descriptor matching with ratio checks, robust essential-matrix estimation, cheirality filtering, parallax and spatial-coverage checks. A dominant homography is flagged as rotation/planar ambiguity and supplies no translation. The reported polar-rotation approximation in that ambiguous state must not be used as a trusted general planar camera pose.
+
+Coordinate convention: OpenCV optical X right, Y down, Z forward. Output maps first-camera points to second-camera coordinates: X2 = R X1 + t. Unit t is translation direction only; absolute scale is unobservable here. This differs from the app's X right/Y up convention and current-to-reference transform. A future port must explicitly invert the transform and convert axes; do not copy matrices directly. No depth, IMU, fusion or multi-frame bundle adjustment is used.
+
+OpenCV's default recoverPose distance threshold is 50 unit baselines, not metres. The prototype explicitly uses 10000 and then checks actual median parallax (0.5 degrees minimum). It does not infer metric range from this parameter.
+
+API references:
+- https://docs.opencv.org/4.11.0/d9/d0c/group__calib3d.html (findEssentialMat, recoverPose)
+- https://docs.opencv.org/4.11.0/d7/d60/classcv_1_1SIFT.html
+- https://docs.opencv.org/4.11.0/d1/de0/tutorial_py_feature_homography.html
+
+Dependencies: numpy 2.2.6; opencv-python-headless 4.11.0.86. Exact runtime versions are recorded in evidence/synthetic.json. No production/PWA runtime dependency was added.
+
+## Test design
+
+Independent pinhole renderer: non-repeating textured planes at four known depths, exact intrinsics, fixed seeds 42/117/903. Camera matrices and centres are ground truth; the estimator receives only rendered grayscale image pairs and K. Signed X/Y/Z translations, rotations around each axis, combined six-axis motion, stationary scenes, untextured images, unrelated scenes and a single-plane ambiguity control. Both 640×480 and 224×168 are tested (the three special ambiguity controls currently at 640 only). Small translation magnitude is 0.15 world units, with additional ±0.5 Z cases to test larger forward/back motion. Pixel-centre calibration follows resizing.
+
+Criteria fixed before evaluation: rotation error <2 degrees and translation-direction error <10 degrees for translation cases. Rotation-only cases must return orientation within 2 degrees and no translation; other negative controls must return no translation. Tests report rejection of valid translation as failed recovery, not success. Inputs are hashed; fixtures regenerate deterministically. Report timings are desktop Python timings, not phone/browser performance. The scene is idealized, has sharp/static texture, and does not model rolling shutter or phone exposure.
+
+## Result — promotion gate FAIL
+
+| Resolution | Translation pose recovery | Negative controls | False translations |
+| --- | --- | --- | --- |
+| 640 | 21/27 | 30/30 | 0 |
+| 224 | 13/27 | 20/21 | 1 |
+
+All signed rotation-only cases at 640 recover orientation within the criterion. Small Z motion fails the parallax gate; larger Z motion recovers at 640. At 224, some accepted translations exceed the direction-error limit and one roll-only case emits a false translation. The 5 unit contract tests pass, but that does **not** override the quality-gate failure.
+
+The real-data sanity replay estimates poses for four Redwood pairs using RGB and supplied calibration. It does not use the dataset's depth or claim verified ground-truth pose accuracy. Four recovered pairs are not evidence of better stitching than the existing app; there is no apples-to-apples reconstruction-quality comparison yet.
+
+Evidence: synthetic.json, real.json, unit-tests.log. The earlier 50-baseline default rejected more valid translations; after making the cutoff explicit the remaining failures above remain in the committed report, without loosening the error criteria.
+
+## Next bounded action
+
+Improve rotation-versus-translation model selection and track quality at a separate tracking resolution (evaluate 640 while keeping depth at 224). Add held-out texture seeds, image noise/blur and wrong-calibration stress cases before tuning. Require zero false translations on negative controls and retained accurate recovery on signed six-axis cases. Establish ground-truth real-sequence pose errors and an old/new comparison on identical frames. Only then port the validated estimator to a worker/browser and proceed to depth alignment/fusion. No additional user phone logs are needed for this offline step; phone frames/calibration will eventually be needed for device accuracy evaluation.
