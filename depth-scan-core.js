@@ -67,17 +67,28 @@ function point(f,p,shift=0){
  return [(p.x-(f.width-1)/2)*z/focal,-(p.y-(f.height-1)/2)*z/focal,z];
 }
 function coverage(matches,w,h){const cells=new Set(matches.map(m=>Math.min(2,Math.floor(m.b.x/w*3))+','+Math.min(2,Math.floor(m.b.y/h*3))));const xs=matches.map(m=>m.b.x),ys=matches.map(m=>m.b.y);return cells.size>=4&&Math.max(...xs)-Math.min(...xs)>w*.35&&Math.max(...ys)-Math.min(...ys)>h*.35;}
+export function poseDiagnostics(pose,depth){
+ const r=pose.r,angle=Math.acos(Math.max(-1,Math.min(1,(r[0]+r[4]+r[8]-1)/2)));
+ const factor=angle<1e-8?0:angle/(2*Math.sin(angle))*180/Math.PI;
+ return {rotationDegrees:angle*180/Math.PI,rotationVectorDegrees:angle>Math.PI-1e-5?null:[r[7]-r[5],r[2]-r[6],r[3]-r[1]].map(v=>v*factor),translation:pose.t.slice(),translationOverDepth:norm(pose.t)/depth,depthScale:pose.s};
+}
 export function register(reference,current){
+ const diagnostics={stage:'features',displacementPx:null,rotationOnlyErrorPx:null,rotationDegrees:null,rotationVectorDegrees:null,translationOverDepth:null,translation:null,depthScale:null,inverseDepthShift:null,inlierRatio:null,normalizedError:null,reprojectionPx:null,coverage:null};
+ const reject=(code,reason,extra={})=>({ok:false,code,reason,diagnostics:{...diagnostics},...extra});
  const matches=matchFeatures(reference.features,current.features).filter(m=>point(reference,m.a,reference.shift));
- if(matches.length<16||!coverage(matches,current.width,current.height))return {ok:false,reason:'Not enough shared detail. Return towards the last accepted view.',matches:matches.length};
+ if(matches.length<16||!coverage(matches,current.width,current.height))return reject('shared-detail','Not enough shared detail. Return towards the last accepted view.',{matches:matches.length});
  const displacement=median(matches.map(m=>Math.hypot(m.a.x-m.b.x,m.a.y-m.b.y)));
- if(displacement<2.5)return {ok:false,reason:'Move slightly sideways; this view is already captured.',matches:matches.length};
+ diagnostics.displacementPx=displacement;
+ if(displacement<2.5)return reject('duplicate','Image change is too small to align another view.',{matches:matches.length});
  const focalR=Math.max(current.width,current.height)/(2*Math.tan(55*Math.PI/360));
  const ray=p=>{const v=[(p.x-(current.width-1)/2)/focalR,-(p.y-(current.height-1)/2)/focalR,1];const n=norm(v);return v.map(x=>x/n);};
  const raysA=matches.map(m=>ray(m.b)),raysB=matches.map(m=>ray(m.a));
  const rotation=fitSimilarity(raysA,raysB,true);
+ if(!rotation)return reject('rotation-fit','Motion estimate is degenerate. Try more shared detail.',{matches:matches.length});
  const rotationError=median(raysA.map((p,i)=>norm(sub(rotate(rotation.r,p),raysB[i]))*focalR));
- if(rotationError<1.5)return {ok:false,reason:'Move slightly sideways rather than only turning the phone.',matches:matches.length};
+ diagnostics.rotationOnlyErrorPx=rotationError;diagnostics.stage='rotation-prefilter';
+ if(rotationError<1.5)return reject('rotation-prefilter','Image motion is rotation-like or ambiguous; 3D translation has not been evaluated.',{matches:matches.length});
+ diagnostics.stage='depth-fit';
  const target=matches.map(m=>point(reference,m.a,reference.shift));
  const depth=median(target.filter(Boolean).map(p=>p[2])),threshold=depth*.035;
  let seed=2197,best=null;
@@ -97,7 +108,9 @@ export function register(reference,current){
    if(!best||score>best.score)best={score,shift,source,inliers,pose};
   }
  }
- if(!best||best.inliers.length/matches.length<.6)return {ok:false,reason:'Depth alignment uncertain. Return towards the last accepted view.',matches:matches.length,inliers:best?.inliers.length||0};
+ diagnostics.inlierRatio=(best?.inliers.length||0)/matches.length;
+ if(best){Object.assign(diagnostics,poseDiagnostics(best.pose,depth),{inverseDepthShift:best.shift,normalizedError:median(best.inliers.map(i=>norm(sub(transform(best.pose,best.source[i]),target[i]))/depth))});}
+ if(!best||best.inliers.length/matches.length<.6)return reject('depth-consensus','Depth alignment uncertain. Return towards the last accepted view.',{matches:matches.length,inliers:best?.inliers.length||0});
  const pose=fitSimilarity(best.inliers.map(i=>best.source[i]),best.inliers.map(i=>target[i]));
  const accepted=best.inliers.map(i=>matches[i]);
  const angle=Math.acos(Math.max(-1,Math.min(1,(pose.r[0]+pose.r[4]+pose.r[8]-1)/2)));
@@ -105,9 +118,13 @@ export function register(reference,current){
  const errors=best.inliers.map(i=>norm(sub(transform(pose,best.source[i]),target[i]))/depth);
  const focal=Math.max(current.width,current.height)/(2*Math.tan(55*Math.PI/360));
  const reprojection=best.inliers.map(i=>{const p=transform(pose,best.source[i]),m=matches[i].a;return Math.hypot(p[0]*focal/p[2]+(current.width-1)/2-m.x,-p[1]*focal/p[2]+(current.height-1)/2-m.y);});
- if(!coverage(accepted,current.width,current.height)||median(errors)>.022||median(reprojection)>1.8||angle>.22||translation>.18||pose.s<.3||pose.s>3)return {ok:false,reason:'Move in smaller steps with more overlap; alignment rejected.',matches:matches.length};
- if(translation<.008)return {ok:false,reason:'Move slightly sideways rather than only turning the phone.',matches:matches.length};
- return {ok:true,pose,shift:best.shift,matches:matches.length,inliers:best.inliers.length,error:median(errors),reprojection:median(reprojection)};
+ Object.assign(diagnostics,poseDiagnostics(pose,depth),{stage:'geometry',inverseDepthShift:best.shift,normalizedError:median(errors),reprojectionPx:median(reprojection),coverage:coverage(accepted,current.width,current.height)});
+ const detail={matches:matches.length,inliers:best.inliers.length};
+ if(!diagnostics.coverage||median(errors)>.022||median(reprojection)>1.8||angle>.22||translation>.18||pose.s<.3||pose.s>3)return reject('geometry-limits','Depth alignment is inconsistent; return toward the last accepted view.',detail);
+ if(translation<.008)return reject('translation-small','Estimated translation is too small; sideways motion could not be resolved.',detail);
+ diagnostics.stage='accepted';
+ return {ok:true,pose,shift:best.shift,...detail,error:median(errors),reprojection:median(reprojection),diagnostics};
+
 }
 export class ScanMap{
  constructor(){this.clear();}
@@ -120,7 +137,7 @@ export class ScanMap{
   const result=this.reference?register(this.reference,f):{ok:true,pose:{r:I,s:1,t:[0,0,0]},shift:0,matches:0,inliers:0};
   if(!result.ok)return result;
   f.shift=result.shift;f.pose=this.reference?compose(this.reference.pose,result.pose):result.pose;
-  if(f.pose.s<.15||f.pose.s>6)return {ok:false,reason:'Scale drift is too large. Finish this scene and start a new scan.'};
+  if(f.pose.s<.15||f.pose.s>6)return {...result,ok:false,code:'scale-drift',reason:'Scale drift is too large. Finish this scene and start a new scan.'};
   // Preserve existing surfaces. New observations only fill unoccupied voxels;
   // conflicting colours/depth do not move previously accepted geometry.
   const additions=[];const keys=new Set();
@@ -129,7 +146,7 @@ export class ScanMap{
    const key=q.map(v=>Math.floor(v/.035)).join(',');if(this.voxels.has(key)||keys.has(key))continue;
    const i=(y*f.width+x)*4;additions.push([key,[...q,...f.pixels.slice(i,i+3)]]);keys.add(key);
   }
-  if(this.reference&&additions.length<20)return {ok:false,reason:'This area is already covered. Move a little further sideways.'};
+  if(this.reference&&additions.length<20)return {...result,ok:false,code:'covered',reason:'This area is already covered. Move a little further sideways.'};
   if(this.voxels.size+additions.length>MAX_POINTS)return {ok:false,full:true,reason:'Scene memory limit reached. Finish and save.'};
   for(const [key,p] of additions)this.voxels.set(key,p);
   this.reference=f;this.orientation=f.orientation;this.views++;

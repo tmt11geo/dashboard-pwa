@@ -1,0 +1,511 @@
+{
+  "scope": "Final shipped algorithm; real TFJS output replay and synthetic rotation stress cases",
+  "inputSha256": "26e56df66a03de9c81e10a1a68ae1a9e038c3d2258d7ac9058ceca4363d0c6f3",
+  "limitation": "Five Redwood frames contain mixed motion, not a controlled phone sideways/6DoF accuracy benchmark. Pure-rotation false acceptances below are known defects, not successful reconstruction.",
+  "frames": [
+    {
+      "index": 0,
+      "result": {
+        "ok": true,
+        "pose": {
+          "r": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "s": 1,
+          "t": [
+            0,
+            0,
+            0
+          ]
+        },
+        "shift": 0,
+        "matches": 0,
+        "inliers": 0,
+        "views": 1,
+        "points": 1328,
+        "added": 1328
+      }
+    },
+    {
+      "index": 1,
+      "result": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 2,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 54
+      }
+    },
+    {
+      "index": 2,
+      "result": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 2,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 57
+      }
+    },
+    {
+      "index": 3,
+      "result": {
+        "ok": true,
+        "pose": {
+          "r": [
+            0.998961973766692,
+            -0.026940895436050317,
+            0.036730955899060856,
+            0.02907088153014795,
+            0.9978496720219705,
+            -0.05874449670144362,
+            -0.03506934295385434,
+            0.05975131964023574,
+            0.9975970734650514
+          ],
+          "s": 1.2797992634994093,
+          "t": [
+            -0.028241915236513038,
+            0.06335745368715422,
+            -0.001983113432501682
+          ]
+        },
+        "shift": 0.25,
+        "matches": 60,
+        "inliers": 36,
+        "error": 0.01576073982979048,
+        "reprojection": 1.6401733552297582,
+        "diagnostics": {
+          "stage": "accepted",
+          "displacementPx": 4,
+          "rotationOnlyErrorPx": 1.8629733927568337,
+          "rotationDegrees": 4.285283035325475,
+          "rotationVectorDegrees": [
+            3.3978220365170566,
+            2.058846001511821,
+            1.6061161984947234
+          ],
+          "translationOverDepth": 0.07049649045242923,
+          "translation": [
+            -0.028241915236513038,
+            0.06335745368715422,
+            -0.001983113432501682
+          ],
+          "depthScale": 1.2797992634994093,
+          "inverseDepthShift": 0.25,
+          "inlierRatio": 0.6,
+          "normalizedError": 0.01576073982979048,
+          "reprojectionPx": 1.6401733552297582,
+          "coverage": true
+        },
+        "views": 2,
+        "points": 2065,
+        "added": 737
+      }
+    },
+    {
+      "index": 4,
+      "result": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 0,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 57
+      }
+    }
+  ],
+  "acceptedViews": 2,
+  "rotationCases": [
+    {
+      "yawRadians": 0.01,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 2,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 139
+      }
+    },
+    {
+      "yawRadians": 0.02,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": true,
+        "pose": {
+          "r": [
+            0.9996120868754023,
+            0.0011432094540743316,
+            -0.02782748362226302,
+            -0.001420670604211046,
+            0.9999494581478839,
+            -0.00995303193944534,
+            0.027814698769491143,
+            0.009988704715697802,
+            0.9995631887531998
+          ],
+          "s": 0.9931612352595884,
+          "t": [
+            0.022542882327536238,
+            0.0031672641635885346,
+            0.0024430717637146104
+          ]
+        },
+        "shift": 0,
+        "matches": 79,
+        "inliers": 68,
+        "error": 0.006527787246878788,
+        "reprojection": 1.167691840183583,
+        "diagnostics": {
+          "stage": "accepted",
+          "displacementPx": 4,
+          "rotationOnlyErrorPx": 3.5202634290840353,
+          "rotationDegrees": 1.6951516505376838,
+          "rotationVectorDegrees": [
+            0.5713720261218184,
+            -1.5942636812835864,
+            -0.07346046981610421
+          ],
+          "translationOverDepth": 0.022895014862579964,
+          "translation": [
+            0.022542882327536238,
+            0.0031672641635885346,
+            0.0024430717637146104
+          ],
+          "depthScale": 0.9931612352595884,
+          "inverseDepthShift": 0,
+          "inlierRatio": 0.8607594936708861,
+          "normalizedError": 0.006527787246878788,
+          "reprojectionPx": 1.167691840183583,
+          "coverage": true
+        },
+        "views": 2,
+        "points": 627,
+        "added": 104
+      }
+    },
+    {
+      "yawRadians": 0.03,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": true,
+        "pose": {
+          "r": [
+            0.9997951730703832,
+            -0.0023371202273649145,
+            -0.020103476669603295,
+            0.0021945614775341327,
+            0.9999723127482174,
+            -0.007110389363648307,
+            0.02011953789438926,
+            0.007064814648962953,
+            0.9997726204437147
+          ],
+          "s": 0.9901645282081029,
+          "t": [
+            0.027242099221976814,
+            0.001669151415872783,
+            0.0007586311389591316
+          ]
+        },
+        "shift": 0,
+        "matches": 61,
+        "inliers": 43,
+        "error": 0.008886014195275058,
+        "reprojection": 1.5586722385579286,
+        "diagnostics": {
+          "stage": "accepted",
+          "displacementPx": 6,
+          "rotationOnlyErrorPx": 3.9244631787250768,
+          "rotationDegrees": 1.2287391692409684,
+          "rotationVectorDegrees": [
+            0.40612081104328085,
+            -1.1523928179658811,
+            0.12983306961552302
+          ],
+          "translationOverDepth": 0.02730372790800074,
+          "translation": [
+            0.027242099221976814,
+            0.001669151415872783,
+            0.0007586311389591316
+          ],
+          "depthScale": 0.9901645282081029,
+          "inverseDepthShift": 0,
+          "inlierRatio": 0.7049180327868853,
+          "normalizedError": 0.008886014195275058,
+          "reprojectionPx": 1.5586722385579286,
+          "coverage": true
+        },
+        "views": 2,
+        "points": 634,
+        "added": 111
+      }
+    },
+    {
+      "yawRadians": 0.035,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "code": "geometry-limits",
+        "reason": "Depth alignment is inconsistent; return toward the last accepted view.",
+        "diagnostics": {
+          "stage": "geometry",
+          "displacementPx": 8,
+          "rotationOnlyErrorPx": 3.9251263441549527,
+          "rotationDegrees": 3.416832954709111,
+          "rotationVectorDegrees": [
+            -0.27743852355761767,
+            3.4034492281366857,
+            -0.11961880090146565
+          ],
+          "translationOverDepth": 0.01276896350529686,
+          "translation": [
+            -0.01262307178449043,
+            -0.0017808728957329767,
+            0.0007300544174568824
+          ],
+          "depthScale": 0.989602713829785,
+          "inverseDepthShift": 0,
+          "inlierRatio": 0.8961038961038961,
+          "normalizedError": 0.018642788968697865,
+          "reprojectionPx": 3.7829637131722267,
+          "coverage": true
+        },
+        "matches": 77,
+        "inliers": 69
+      }
+    },
+    {
+      "yawRadians": 0.04,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "code": "geometry-limits",
+        "reason": "Depth alignment is inconsistent; return toward the last accepted view.",
+        "diagnostics": {
+          "stage": "geometry",
+          "displacementPx": 10,
+          "rotationOnlyErrorPx": 6.170624912392359,
+          "rotationDegrees": 1.7484181394457574,
+          "rotationVectorDegrees": [
+            0.20620510142638399,
+            1.7154688711366952,
+            0.2676041827973646
+          ],
+          "translationOverDepth": 0.031290849375304124,
+          "translation": [
+            0.004709306529718432,
+            0.0018979715821717692,
+            -0.030876162172627453
+          ],
+          "depthScale": 1.0704162122970484,
+          "inverseDepthShift": 0.05,
+          "inlierRatio": 0.8181818181818182,
+          "normalizedError": 0.02757424571019986,
+          "reprojectionPx": 6.125587601592336,
+          "coverage": true
+        },
+        "matches": 33,
+        "inliers": 27
+      }
+    },
+    {
+      "yawRadians": 0.05,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "code": "depth-consensus",
+        "reason": "Depth alignment uncertain. Return towards the last accepted view.",
+        "diagnostics": {
+          "stage": "depth-fit",
+          "displacementPx": 18.110770276274835,
+          "rotationOnlyErrorPx": 15.359211381682153,
+          "rotationDegrees": 3.750491516363528,
+          "rotationVectorDegrees": [
+            -0.0612803794900786,
+            2.726271480263729,
+            2.574854393029951
+          ],
+          "translationOverDepth": 0.011350179558589127,
+          "translation": [
+            0.007063818941511757,
+            -0.0037723134960853943,
+            -0.008043549518776283
+          ],
+          "depthScale": 1.0454134267552841,
+          "inverseDepthShift": 0.05,
+          "inlierRatio": 0.5555555555555556,
+          "normalizedError": 0.018082303079157966,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 36,
+        "inliers": 20
+      }
+    },
+    {
+      "yawRadians": 0.07,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "code": "geometry-limits",
+        "reason": "Depth alignment is inconsistent; return toward the last accepted view.",
+        "diagnostics": {
+          "stage": "geometry",
+          "displacementPx": 16,
+          "rotationOnlyErrorPx": 9.345173069378749,
+          "rotationDegrees": 3.370733179404248,
+          "rotationVectorDegrees": [
+            0.0071395934026136,
+            3.370265908943889,
+            -0.05566772812093072
+          ],
+          "translationOverDepth": 0.006958065001521342,
+          "translation": [
+            0.0018896918254798847,
+            -0.0016460002578598497,
+            -0.006491102874029653
+          ],
+          "depthScale": 0.9919247944099115,
+          "inverseDepthShift": 0,
+          "inlierRatio": 0.7058823529411765,
+          "normalizedError": 0.019034923062079306,
+          "reprojectionPx": 3.925797454709392,
+          "coverage": true
+        },
+        "matches": 34,
+        "inliers": 24
+      }
+    },
+    {
+      "yawRadians": 0.1,
+      "truthTranslation": [
+        0,
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "code": "geometry-limits",
+        "reason": "Depth alignment is inconsistent; return toward the last accepted view.",
+        "diagnostics": {
+          "stage": "geometry",
+          "displacementPx": 22,
+          "rotationOnlyErrorPx": 6.716765137658039,
+          "rotationDegrees": 6.865430758328914,
+          "rotationVectorDegrees": [
+            -0.3184300877675026,
+            6.808526223401639,
+            -0.8226253350501262
+          ],
+          "translationOverDepth": 0.015240013004001525,
+          "translation": [
+            -0.014643082313596671,
+            -0.004221809410015119,
+            0.00012025815928951022
+          ],
+          "depthScale": 0.9850137146448432,
+          "inverseDepthShift": 0,
+          "inlierRatio": 0.7368421052631579,
+          "normalizedError": 0.020974980108986352,
+          "reprojectionPx": 4.374516867367427,
+          "coverage": true
+        },
+        "matches": 38,
+        "inliers": 28
+      }
+    }
+  ],
+  "falseRotationAcceptances": 2
+}

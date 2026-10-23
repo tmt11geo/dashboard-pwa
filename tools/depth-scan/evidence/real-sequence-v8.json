@@ -1,0 +1,464 @@
+{
+  "mode": "actual TFJS + real sequence",
+  "checks": [
+    {
+      "name": "page initializes",
+      "pass": true
+    },
+    {
+      "name": "actual raw depth is finite and display is normalized",
+      "pass": true
+    },
+    {
+      "name": "actual WebGL backend, no CPU forwarding",
+      "pass": true
+    },
+    {
+      "name": "real sequence accumulates more than one accepted view",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "browser": "141.0.7390.37",
+  "runtime_sha256": "300dfae273d20b4046f46a06d735688f03675a807561e9bcb5f664eb2f3d2831",
+  "frames": [
+    {
+      "index": 0,
+      "inferenceMs": 14272.5,
+      "registration": {
+        "ok": true,
+        "pose": {
+          "r": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "s": 1,
+          "t": [
+            0,
+            0,
+            0
+          ]
+        },
+        "shift": 0,
+        "matches": 0,
+        "inliers": 0,
+        "views": 1,
+        "points": 1328,
+        "added": 1328
+      },
+      "rawFinite": true,
+      "rawRange": [
+        0,
+        3.7486112117767334
+      ],
+      "displayRange": [
+        0,
+        1
+      ]
+    },
+    {
+      "index": 1,
+      "inferenceMs": 9366.099999999627,
+      "registration": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 2,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 54
+      },
+      "rawFinite": true,
+      "rawRange": [
+        0.4963510036468506,
+        3.4268007278442383
+      ],
+      "displayRange": [
+        0,
+        1
+      ]
+    },
+    {
+      "index": 2,
+      "inferenceMs": 9180.099999999627,
+      "registration": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 2,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 57
+      },
+      "rawFinite": true,
+      "rawRange": [
+        0.23047126829624176,
+        3.5332133769989014
+      ],
+      "displayRange": [
+        0,
+        1
+      ]
+    },
+    {
+      "index": 3,
+      "inferenceMs": 9418.800000000745,
+      "registration": {
+        "ok": true,
+        "pose": {
+          "r": [
+            0.998961973766692,
+            -0.026940895436050317,
+            0.036730955899060856,
+            0.02907088153014795,
+            0.9978496720219705,
+            -0.05874449670144362,
+            -0.03506934295385434,
+            0.05975131964023574,
+            0.9975970734650514
+          ],
+          "s": 1.2797992634994093,
+          "t": [
+            -0.028241915236513038,
+            0.06335745368715422,
+            -0.001983113432501682
+          ]
+        },
+        "shift": 0.25,
+        "matches": 60,
+        "inliers": 36,
+        "error": 0.01576073982979048,
+        "reprojection": 1.6401733552297582,
+        "diagnostics": {
+          "stage": "accepted",
+          "displacementPx": 4,
+          "rotationOnlyErrorPx": 1.8629733927568337,
+          "rotationDegrees": 4.285283035325475,
+          "rotationVectorDegrees": [
+            3.3978220365170566,
+            2.058846001511821,
+            1.6061161984947234
+          ],
+          "translationOverDepth": 0.07049649045242923,
+          "translation": [
+            -0.028241915236513038,
+            0.06335745368715422,
+            -0.001983113432501682
+          ],
+          "depthScale": 1.2797992634994093,
+          "inverseDepthShift": 0.25,
+          "inlierRatio": 0.6,
+          "normalizedError": 0.01576073982979048,
+          "reprojectionPx": 1.6401733552297582,
+          "coverage": true
+        },
+        "views": 2,
+        "points": 2065,
+        "added": 737
+      },
+      "rawFinite": true,
+      "rawRange": [
+        0.3551129698753357,
+        3.399101495742798
+      ],
+      "displayRange": [
+        0,
+        1
+      ]
+    },
+    {
+      "index": 4,
+      "inferenceMs": 8949,
+      "registration": {
+        "ok": false,
+        "code": "duplicate",
+        "reason": "Image change is too small to align another view.",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 0,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": null
+        },
+        "matches": 57
+      },
+      "rawFinite": true,
+      "rawRange": [
+        0,
+        3.6312429904937744
+      ],
+      "displayRange": [
+        0,
+        1
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.identity",
+      "details": {
+        "tfjs": "4.22.0",
+        "backend": "webgl",
+        "cpuForward": false,
+        "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "worker": true
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.load.begin",
+      "details": {
+        "model": "http://127.0.0.1:41203/dashboard-pwa/models/depth-anything-v2-small-tfjs-fp32-224-v1/model.json",
+        "bytes": 97817343,
+        "memory": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 0,
+          "numBytesInGPUFree": 0,
+          "numTensors": 0,
+          "numDataBuffers": 0,
+          "numBytes": 0
+        }
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.load.complete",
+      "details": {
+        "ms": 808,
+        "memory": {
+          "unreliable": false,
+          "numBytesInGPU": 0,
+          "numBytesInGPUAllocated": 0,
+          "numBytesInGPUFree": 0,
+          "numTensors": 562,
+          "numDataBuffers": 562,
+          "numBytes": 97145740
+        }
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.inference.begin",
+      "details": {
+        "frame": 1
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame",
+      "details": {
+        "frame": 1,
+        "warmup": true,
+        "inferenceMs": 14272.5,
+        "content": {
+          "x": 0,
+          "y": 28,
+          "width": 224,
+          "height": 168
+        }
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame.disposed",
+      "details": {
+        "unreliable": false,
+        "numBytesInGPU": 97392336,
+        "numBytesInGPUAllocated": 674689860,
+        "numBytesInGPUFree": 577297524,
+        "numTensors": 562,
+        "numDataBuffers": 562,
+        "numBytes": 97145740
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.inference.begin",
+      "details": {
+        "frame": 2
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame",
+      "details": {
+        "frame": 2,
+        "warmup": false,
+        "inferenceMs": 9366.099999999627,
+        "content": {
+          "x": 0,
+          "y": 28,
+          "width": 224,
+          "height": 168
+        }
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame.disposed",
+      "details": {
+        "unreliable": false,
+        "numBytesInGPU": 97392336,
+        "numBytesInGPUAllocated": 674886468,
+        "numBytesInGPUFree": 577494132,
+        "numTensors": 562,
+        "numDataBuffers": 562,
+        "numBytes": 97145740
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.inference.begin",
+      "details": {
+        "frame": 3
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame",
+      "details": {
+        "frame": 3,
+        "warmup": false,
+        "inferenceMs": 9180.099999999627,
+        "content": {
+          "x": 0,
+          "y": 28,
+          "width": 224,
+          "height": 168
+        }
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame.disposed",
+      "details": {
+        "unreliable": false,
+        "numBytesInGPU": 97392336,
+        "numBytesInGPUAllocated": 674886468,
+        "numBytesInGPUFree": 577494132,
+        "numTensors": 562,
+        "numDataBuffers": 562,
+        "numBytes": 97145740
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.inference.begin",
+      "details": {
+        "frame": 4
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame",
+      "details": {
+        "frame": 4,
+        "warmup": false,
+        "inferenceMs": 9418.800000000745,
+        "content": {
+          "x": 0,
+          "y": 28,
+          "width": 224,
+          "height": 168
+        }
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame.disposed",
+      "details": {
+        "unreliable": false,
+        "numBytesInGPU": 97392336,
+        "numBytesInGPUAllocated": 674886468,
+        "numBytesInGPUFree": 577494132,
+        "numTensors": 562,
+        "numDataBuffers": 562,
+        "numBytes": 97145740
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.inference.begin",
+      "details": {
+        "frame": 5
+      }
+    },
+    {
+      "type": "diagnostic",
+      "level": "info",
+      "event": "tfjs.frame",
+      "details": {
+        "frame": 5,
+        "warmup": false,
+        "inferenceMs": 8949,
+        "content": {
+          "x": 0,
+          "y": 28,
+          "width": 224,
+          "height": 168
+        }
+      }
+    }
+  ],
+  "views": 2,
+  "points": 2065,
+  "status": "PASS"
+}

@@ -46,3 +46,50 @@ test('a rejected unchanged view is not repeatedly sent to the GPU',()=>{
  gate.complete(0,a,false);gate.sample(a,200);gate.sample(a,400);assert.equal(gate.sample(a,6000).capture,false);assert.equal(gate.sample(a,6000).state,'retry');
  gate.sample(b,6200);gate.sample(b,6400);assert.equal(gate.sample(b,7400).capture,true);
 });
+test('known limitation: rotation prefilter can reject depth-supported sideways motion',()=>{
+ const width=168,height=224,focal=224/(2*Math.tan(55*Math.PI/360)),tx=.04;
+ const a={width,height,raw:new Float32Array(width*height).fill(1),range:{scale:1},shift:0,features:[]};
+ const b={...a,raw:a.raw.slice(),features:[]};
+ for(let y=32;y<200;y+=28)for(let x=32;x<150;x+=28){
+  const i=a.features.length,disparity=i%2?6:4,z=tx*focal/disparity;
+  const d=Array.from({length:30},(_,j)=>j===i?5:0);
+  a.features.push({x,y,d});b.features.push({x:x-disparity,y,d});
+  a.raw[y*width+x]=1/z;b.raw[y*width+x-disparity]=1/z;
+ }
+ const result=register(a,b);
+ assert.equal(result.ok,false);
+ assert.equal(result.code,'rotation-prefilter');
+ assert.ok(result.diagnostics.rotationOnlyErrorPx<1.5);
+ assert.equal(result.diagnostics.translation,null,'translation was not evaluated');
+});
+test('rotation rejection reports evaluated geometry rather than claiming user movement',()=>{
+ const m=new ScanMap();m.add(render());const r=m.add(render(0,.035));
+ assert.equal(r.ok,false);
+ assert.ok(['translation-small','rotation-ambiguous','geometry-limits'].includes(r.code),JSON.stringify(r));
+ assert.equal(r.diagnostics.stage,'geometry');
+ assert.ok(Number.isFinite(r.diagnostics.rotationDegrees));
+ assert.ok(Number.isFinite(r.diagnostics.translationOverDepth));
+ assert.ok(Number.isFinite(r.diagnostics.depthScale));
+ assert.ok(Number.isFinite(r.diagnostics.reprojectionPx));
+});
+test('solver recovers signed translations and rotations on all three axes and combined motion',()=>{
+ const points=[[-.3,-.2,1],[.4,-.1,2],[-.1,.5,3],[.2,.3,1.5],[-.4,.1,2.5],[.1,-.4,4]];
+ const rotation=(axis,a)=>{const c=Math.cos(a),s=Math.sin(a);return axis===0?[1,0,0,0,c,-s,0,s,c]:axis===1?[c,0,s,0,1,0,-s,0,c]:[c,-s,0,s,c,0,0,0,1];};
+ const identity=[1,0,0,0,1,0,0,0,1],cases=[];
+ for(let axis=0;axis<3;axis++)for(const sign of [-1,1]){
+  const t=[0,0,0];t[axis]=sign*.04;cases.push({r:identity,t,s:1});
+  cases.push({r:rotation(axis,sign*.06),t:[0,0,0],s:1});
+ }
+ cases.push(compose({r:rotation(0,.03),t:[.03,-.02,.04],s:1.2},compose({r:rotation(1,-.04),t:[0,0,0],s:1},{r:rotation(2,.02),t:[0,0,0],s:1})));
+ for(const truth of cases){
+  const target=points.map(p=>transform(truth,p)),got=fitSimilarity(points,target);
+  got.t.forEach((v,i)=>close(v,truth.t[i]));got.r.forEach((v,i)=>close(v,truth.r[i]));close(got.s,truth.s);
+ }
+});
+test('diagnostics identify the axis of rotation without Euler-order ambiguity',async()=>{
+ const {poseDiagnostics}=await import('../depth-scan-core.js');
+ const c=Math.cos(.1),s=Math.sin(.1);
+ const d=poseDiagnostics({r:[1,0,0,0,c,-s,0,s,c],t:[.01,.02,.03],s:1.2},2);
+ close(d.rotationVectorDegrees[0],.1*180/Math.PI);close(d.rotationVectorDegrees[1],0);close(d.rotationVectorDegrees[2],0);
+ assert.deepEqual(d.translation,[.01,.02,.03]);close(d.depthScale,1.2);
+});

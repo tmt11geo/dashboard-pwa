@@ -22,7 +22,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    await page.route('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js',r=>r.fulfill({contentType:'text/javascript',body:runtime}));
    await page.goto(url);check('page initializes',report.errors.length===0);
    const result=await page.evaluate(async()=>{
-    const {ScanMap}=await import('./depth-scan-core.js?v=1');const map=new ScanMap(),frames=[],logs=[];
+    const {ScanMap}=await import('./depth-scan-core.js?v=2');const map=new ScanMap(),frames=[],logs=[];
     const worker=new Worker('./depth-tfjs-worker.js?v=2');
     const request=data=>new Promise((resolve,reject)=>{const deadline=setTimeout(()=>reject(Error('worker timeout')),90000);worker.onmessage=e=>{if(e.data.type==='diagnostic')logs.push(e.data);if(['ready','depth'].includes(e.data.type)){clearTimeout(deadline);resolve(e.data);}else if(e.data.type==='error'){clearTimeout(deadline);reject(Error(e.data.message));}};worker.postMessage(data);});
     await request({type:'init',backend:'tfjs-webgl'});
@@ -79,6 +79,10 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    check('movement overlay is shown',await page.locator('#scan-movement').isVisible());
    await page.evaluate(()=>frameIndex=1);await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('2 accepted'),{},{timeout:20000});
    check('moved view extends persistent scene',true);
+   check('alignment log includes motion and depth diagnostics',await page.evaluate(()=>{
+    const log=document.querySelector('#diagnostic-log').value;
+    return log.includes('translationOverDepth')&&log.includes('rotationDegrees')&&log.includes('inverseDepthShift')&&log.includes('reprojectionPx');
+   }));
    await page.click('#scan-pause');const paused=await page.locator('#scan-count').textContent();await page.evaluate(()=>frameIndex=2);await page.waitForTimeout(3000);
    check('pause clears flash',await page.evaluate(()=>!document.querySelector('#scan-workspace').classList.contains('move-flash')));
    check('pause prevents another capture',paused===await page.locator('#scan-count').textContent());
@@ -103,6 +107,6 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    check('no page errors',report.errors.length===0);
   }
   report.status='PASS';
- }catch(e){report.status='FAIL';report.error=e.stack;console.error(e);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(path.join(root,'tools/depth-scan/evidence',real?'real-sequence.json':'browser-ui-v7.json'),JSON.stringify(report,null,2)+'\n');}
+ }catch(e){report.status='FAIL';report.error=e.stack;console.error(e);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(path.join(root,'tools/depth-scan/evidence',real?'real-sequence-v8.json':'browser-ui-v8.json'),JSON.stringify(report,null,2)+'\n');}
  if(report.status!=='PASS')process.exitCode=1;
 })();

@@ -1,4 +1,4 @@
-import {ScanMap} from './depth-scan-core.js?v=1';
+import {ScanMap} from './depth-scan-core.js?v=2';
 const map=new ScanMap();
 self.onmessage=({data})=>{
  try{

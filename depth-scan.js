@@ -1,5 +1,5 @@
 import {estimateMovement} from './depth-scan-motion.js?v=1';
-import {CaptureGate,validateScene} from './depth-scan-core.js?v=1';
+import {CaptureGate,validateScene} from './depth-scan-core.js?v=2';
 export function createScanner(hooks){
  const $=id=>document.getElementById(id);if(!$('scan-start'))return null;
  const gate=new CaptureGate(),canvas=document.createElement('canvas');canvas.width=72;canvas.height=72;
@@ -50,14 +50,14 @@ export function createScanner(hooks){
  }
  function begin(){
   epoch++;active=true;paused=false;busy=false;gate.reset();$('scan-overlay').hidden=false;$('scan-camera-controls').hidden=false;
-  worker=new Worker(new URL('./depth-scan-worker.js?v=1',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./depth-scan-worker.js?v=2',import.meta.url),{type:'module'});
   const mine=epoch;
   worker.onmessage=({data})=>{
    if(mine!==epoch||!active||data.id!==mine)return;clearTimeout(deadline);deadline=null;busy=false;
    if(data.ok){scene=validateScene(data.scene);hooks.show(scene);if(paused){pendingMoveCue=true;tell('✓ VIEW ADDED — scan paused','paused');}else moveCue();}
    else tell('⚠ NOT ADDED — '+data.reason,'lost');
    gate.complete(performance.now(),capturedPreview,data.ok);
-   hooks.log(data.ok?'info':'warn','scan.alignment',{accepted:data.ok,views:scene?.views||0,points:scene?.points.length||0,matches:data.matches,inliers:data.inliers,error:data.error,reprojection:data.reprojection,reason:data.reason});
+   hooks.log(data.ok?'info':'warn','scan.alignment',{accepted:data.ok,views:scene?.views||0,points:scene?.points.length||0,matches:data.matches,inliers:data.inliers,error:data.error,reprojection:data.reprojection,reason:data.reason,code:data.code,diagnostics:data.diagnostics});
    buttons();if(data.full){hooks.stop();tell(data.reason,'hold');}
   };
   worker.onerror=()=>{hooks.stop();tell('Alignment worker failed. The accepted scene is retained. Save it and restart.','lost');};

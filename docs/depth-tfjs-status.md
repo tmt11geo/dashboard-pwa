@@ -1,5 +1,18 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Alignment diagnostics and six-axis review — 2026-10-23
+
+Scope PARTIAL: investigate reported build-7 stitching failures and review X/Y/Z translation plus X/Y/Z rotation. Started on depth-tfjs-webgl df6b65a5bfc311e9c34b06fb65dbab934bacd533; live main was 21523a1e26f1702b807c8842509c81b5e75dd972. Working/outcome branch remains depth-tfjs-webgl.
+
+Finding: the supplied phone log contains one accepted view and five rejections. Four identical messages cannot distinguish an early rotation-like image check (before translation is fitted) from a later small-translation check. The guide is 2D image shift, not six-axis pose. Full review: docs/depth-scan-6dof-review.md. The solver represents six rigid-motion degrees plus nuisance depth scale/offset, but image matching and depth errors remain limiting. Known-geometry tests expose false rejection of translation and false acceptance of some pure rotations.
+
+Build depth-lab-8 preserves the shipped acceptance logic and thresholds. It adds stage-specific rejection codes, translation vector/relative magnitude, total rotation and axis-angle vector, depth scale/offset, consensus and reprojection errors; unavailable estimates remain null. Messages no longer assert the user moved incorrectly. An attempted alignment correction did not generalize and was not shipped.
+
+Evidence: 72 Node tests, 23 browser UI checks and 4 actual-TFJS real-sequence checks PASS. Final replay on five real Redwood images accepts 2 views, unchanged; synthetic rotation sweep exposes 2 false acceptances. See tools/depth-scan/evidence/{node-tests-v8.log,browser-ui-v8.json,real-sequence-v8.json,alignment-review-v8.json,phone-build7-rejections.json}. Passing checks do not establish stitching accuracy. Tests now cover solver recovery for signed six-axis and combined motion, and preserve known failure cases.
+Deployment: implementation awaiting exact Pages receipt.
+Blockers: supplied phone logs contain no images or known camera poses; no controlled six-axis phone accuracy dataset. The available real sequence is mixed motion, not a sideways-only validation. Stitching remains unresolved.
+Exact next action: collect build-8 phone diagnostic logs, identify the failing stage, then implement the calibrated six-axis pose/overlap validation harness specified in docs/depth-scan-6dof-review.md before replacing registration/fusion. Original stage 10 remains PARTIAL. No threshold relaxation or claim of fixed stitching.
+
 ## Movement guidance follow-up — 2026-10-23
 
 User reports additions remain difficult and requested a visible movement amount. Scope: this UX/capture-guidance follow-up only; original stage 10 remains PARTIAL. Starting/outcome branch depth-tfjs-webgl at 8f23c7f80e62f9bcd84bf817fbc0e4dfa3afac87; starting main 1df5e0fb48d13e3a645a17b0a7808e1090ef2cca.
