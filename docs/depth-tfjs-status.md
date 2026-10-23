@@ -9,7 +9,7 @@ Finding: the supplied phone log contains one accepted view and five rejections. 
 Build depth-lab-8 preserves the shipped acceptance logic and thresholds. It adds stage-specific rejection codes, translation vector/relative magnitude, total rotation and axis-angle vector, depth scale/offset, consensus and reprojection errors; unavailable estimates remain null. Messages no longer assert the user moved incorrectly. An attempted alignment correction did not generalize and was not shipped.
 
 Evidence: 72 Node tests, 23 browser UI checks and 4 actual-TFJS real-sequence checks PASS. Final replay on five real Redwood images accepts 2 views, unchanged; synthetic rotation sweep exposes 2 false acceptances. See tools/depth-scan/evidence/{node-tests-v8.log,browser-ui-v8.json,real-sequence-v8.json,alignment-review-v8.json,phone-build7-rejections.json}. Passing checks do not establish stitching accuracy. Tests now cover solver recovery for signed six-axis and combined motion, and preserve known failure cases.
-Deployment: implementation awaiting exact Pages receipt.
+Deployment receipt: main 308686f9d81e1218c866c936b8a24e3a74064fe4, build depth-lab-8; Pages run 40009379745 succeeded for the exact SHA. Documentation receipt on depth-tfjs-webgl; remote checkpoint files and refs verified through GitHub.
 Blockers: supplied phone logs contain no images or known camera poses; no controlled six-axis phone accuracy dataset. The available real sequence is mixed motion, not a sideways-only validation. Stitching remains unresolved.
 Exact next action: collect build-8 phone diagnostic logs, identify the failing stage, then implement the calibrated six-axis pose/overlap validation harness specified in docs/depth-scan-6dof-review.md before replacing registration/fusion. Original stage 10 remains PARTIAL. No threshold relaxation or claim of fixed stitching.
 
@@ -39,7 +39,7 @@ Updated 2026-10-23. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Movement guidance deployed on main 21523a1e26f1702b807c8842509c81b5e75dd972, build depth-lab-7, Pages run 40007740622 success. 68 Node tests and 22 browser checks PASS. Next: OnePlus movement-guidance and addition acceptance. Original stage 10 remains partial; waiting for device logs.
+Working/outcome branch: depth-tfjs-webgl. Diagnostic release main 308686f9d81e1218c866c936b8a24e3a74064fe4, build depth-lab-8, Pages run 40009379745 success. Six-axis solver tests pass; full registration has known false acceptances/rejections. Stitching remains unresolved. Next: build-8 device diagnostics and controlled six-axis pose validation; see depth-scan-6dof-review.md. Original stage 10 remains PARTIAL.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
