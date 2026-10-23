@@ -1,0 +1,103 @@
+{
+  "sourceSha256": {
+    "recovery.py": "72884068578c8bc967b2951114a0d0b4bfc2954ecd17f16152a421c00c230e70",
+    "calibration_evidence.py": "5cc66623d9896f4a58647fd74f30ef61adf9efde3958633cedb7e048d3d7beaf",
+    "calibration_fixtures.py": "aa0c4f698a3dd8dd0a15ff96e9454fe01956aa9fae9cfa9f2985f0cdc6ae675c",
+    "three_view.py": "8e09148700c7eb72f8c7c702bc955a608ee1a852f0ef5e571ced5248982fb4df",
+    "temporal.py": "90414992776bf808e036fd4112eeda7736010b9ef1d140811acc94c86954d256",
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_recovery.py": "8f45dfe778903ac4530edfe388b22496e4e3cf6dbbecc237182d4a8b274c897c",
+    "recovery_spec.json": "6864fb48ab2845ce665211b341b36c5acbe90f1d03169ecd6c1d4f91f3dc94d4"
+  },
+  "spec": {
+    "width": 640,
+    "height": 480,
+    "held_out_seeds": [
+      39517,
+      79431,
+      86243,
+      117293
+    ],
+    "profiles": [
+      "clean",
+      "blur",
+      "noise",
+      "claimed_wrong_calibration",
+      "wrong_calibration_minus"
+    ],
+    "frames_per_sequence": 9,
+    "translation_step_xy": 0.08,
+    "translation_step_z": 0.15,
+    "rotation_step_degrees": 0.75,
+    "blur_sigma": 1.2,
+    "noise_sigma": 8.0,
+    "rotation_error_degrees": 2,
+    "direction_error_degrees": 10,
+    "success": "Every positive sequence has at least one keyframe; every emitted keyframe accurate; no negative sequence emits translation.",
+    "policy": "Freeze candidate before run. Previous 192 scenarios are regressions; seed 117293 and negative calibration offsets are fresh. Invalid calibration must reject before tracking and is not counted as pose recovery."
+  },
+  "summary": {
+    "clean": {
+      "calibrationRejected": 0,
+      "positivePassed": 36,
+      "positiveTotal": 36,
+      "negativePassed": 28,
+      "negativeTotal": 28,
+      "keyframes": 94,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 209,
+      "inaccurateRawPairs": 0
+    },
+    "blur": {
+      "calibrationRejected": 0,
+      "positivePassed": 36,
+      "positiveTotal": 36,
+      "negativePassed": 28,
+      "negativeTotal": 28,
+      "keyframes": 100,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 223,
+      "inaccurateRawPairs": 2
+    },
+    "noise": {
+      "calibrationRejected": 0,
+      "positivePassed": 36,
+      "positiveTotal": 36,
+      "negativePassed": 28,
+      "negativeTotal": 28,
+      "keyframes": 89,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 215,
+      "inaccurateRawPairs": 4
+    },
+    "claimed_wrong_calibration": {
+      "calibrationRejected": 64,
+      "positivePassed": 0,
+      "positiveTotal": 0,
+      "negativePassed": 0,
+      "negativeTotal": 0,
+      "keyframes": 0,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 0,
+      "inaccurateRawPairs": 0
+    },
+    "wrong_calibration_minus": {
+      "calibrationRejected": 64,
+      "positivePassed": 0,
+      "positiveTotal": 0,
+      "negativePassed": 0,
+      "negativeTotal": 0,
+      "keyframes": 0,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 0,
+      "inaccurateRawPairs": 0
+    }
+  },
+  "promotionPass": true
+}

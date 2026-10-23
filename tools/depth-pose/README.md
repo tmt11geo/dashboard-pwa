@@ -103,3 +103,12 @@ paths pass, 84/84 negatives safe, 266/268 emitted poses accurate. On identical
 prior inputs recovery improves 45/64 → 62/64, with one noisy forward regression.
 Two incorrect-calibration curved poses are inaccurately accepted. Promotion FAIL;
 main unchanged. Next: robust seed validation/replacement and calibration policy.
+
+## Seed recovery and independent calibration verification
+
+See [RECOVERY-REVIEW.md](RECOVERY-REVIEW.md). Offline gate PASS: 108/108 movement
+paths, 283/283 accurate poses, 84/84 safe negative paths, 128/128 unsupported-camera
+scenarios rejected before tracking. All four correctly calibrated three-view
+failures are recovered without regressions on identical prior inputs. 24 unit
+tests pass. Main is unchanged. Next: phone calibration-capture/replay bridge;
+synthetic evidence cannot validate the physical phone.

@@ -1,0 +1,3022 @@
+{
+  "sourceSha256": {
+    "recovery.py": "72884068578c8bc967b2951114a0d0b4bfc2954ecd17f16152a421c00c230e70",
+    "calibration_evidence.py": "5cc66623d9896f4a58647fd74f30ef61adf9efde3958633cedb7e048d3d7beaf",
+    "calibration_fixtures.py": "aa0c4f698a3dd8dd0a15ff96e9454fe01956aa9fae9cfa9f2985f0cdc6ae675c",
+    "three_view.py": "8e09148700c7eb72f8c7c702bc955a608ee1a852f0ef5e571ced5248982fb4df",
+    "temporal.py": "90414992776bf808e036fd4112eeda7736010b9ef1d140811acc94c86954d256",
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_recovery.py": "8f45dfe778903ac4530edfe388b22496e4e3cf6dbbecc237182d4a8b274c897c",
+    "recovery_spec.json": "6864fb48ab2845ce665211b341b36c5acbe90f1d03169ecd6c1d4f91f3dc94d4"
+  },
+  "summary": {
+    "calibrationRejected": 0,
+    "positivePassed": 9,
+    "positiveTotal": 9,
+    "negativePassed": 7,
+    "negativeTotal": 7,
+    "keyframes": 23,
+    "inaccurateKeyframes": 0,
+    "falseTranslations": 0,
+    "rawPairs": 55,
+    "inaccurateRawPairs": 1
+  },
+  "sequences": [
+    {
+      "seed": 42,
+      "case": "stationary",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "duplicate-image",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "duplicate-image"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "translate_0_-1",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "46a2df48489772c141313942b99109d806258c5b797f3ef20ace0a8ddb511a68",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.050128232434388145,
+            "directionError": 2.6178787586550936
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 1413
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "3e290a5deb5731cfda842ddc8f1df543489b83875b9c8e71b0cdc1abe86cfa12",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.09571540105544332,
+            "directionError": 1.8995456169922378
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0001117106619632236,
+            "directionError": 0.00362544099270991
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 1251,
+            "pnpInliers": 1240,
+            "reprojectionPx": 0.12618126914244646,
+            "coverage": 9,
+            "pairRotationDifference": 0.09581611261229156,
+            "pairDirectionDifference": 1.9020940277909157,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "d54d3535fc03dc78a2d45472d2ca8630eb79fcd920c68d34e65245b5291b9322",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 2,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 2,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "b0751e2d437439cdefd41169509fe878219c2e5adff1fc006070e26aa7c25628",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 2,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 4.3181031773782334e-05,
+            "directionError": 0.002279848379220959
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 2,
+            "reason": "landmarks-seeded",
+            "landmarks": 1331
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "9acc4b4642b8e546e5ccc958e97bd7d37a7b63ec2e1b8014da7f4cb89a8a19ac",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 2,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0007593979433772498,
+            "directionError": 0.02559060658492707
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.03176216677081644,
+            "directionError": 0.4409660781480272
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 2,
+            "sharedLandmarks": 1249,
+            "pnpInliers": 1249,
+            "reprojectionPx": 0.0044943560876319864,
+            "coverage": 9,
+            "pairRotationDifference": 0.03218671430718299,
+            "pairDirectionDifference": 0.41551475803200716,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "71d1143a5fc4b2cc002905f6941ebf4faa9cb8b97477a33933aacc3880fa1bf4",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "769a9643b13040f2307e28823b01ded7420a70526b5b9999ba664584a371137c",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02629770690822885,
+            "directionError": 0.7508247724288221
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "reason": "landmarks-seeded",
+            "landmarks": 1350
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "a8f56118f8014ce0a725f31558850a6aa7d4f2a643bbe7bb72aa2ce86942a959",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.036214455592746664,
+            "directionError": 0.5593112085323573
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0,
+            "directionError": 0.0
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 5,
+            "sharedLandmarks": 1271,
+            "pnpInliers": 1270,
+            "reprojectionPx": 0.03838136179186068,
+            "coverage": 9,
+            "pairRotationDifference": 0.036214455592746664,
+            "pairDirectionDifference": 0.5593112085336607,
+            "reason": "shared-landmark-consensus"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "rotate_0_-1",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "0e8998a9b348ec152f4d6081581b85ff58d6a23e7b429ed070cc7c73bd479297",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "79bcabc9849ecda88cbdb6ce303d2407d3cd303d81b8d8f798ccb14b9bac1c90",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "e3ddcfa0d260f7be1b5178c668e7df648cb293dfb9d42d2721caa455a7abe08e",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "18f30e722024197c03f463de4fc266173dc5d377400891ec0d47eebd03786e32",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "25dca999c86f5a68cb69d2ecc1f5e2392f958fc6e17f385015fc57ad9a46f894",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "0c77d267a729f570153db2097a08ae27d580b96e71cc4516d1b9ae26968e1324",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "aaab4d631b1824b00515e6f71e37a829b3830e852a21061653f2f73f7a024afa",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "315fcf5eeedbb22d2bc133ef7de09f36ff2e1a5557e21d5bc2c2193573c1688e",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "translate_0_1",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "04ecb7c8e9b21f7017128fc5c88d0d13c839840cf631aee5819a3aa64f523875",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "a58b160b93c8a209fa19d5431dfbcc47cdc1667c418ee3e4ff8cc47093d0919b",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0007608507689461408,
+            "directionError": 0.21738921229806332
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 1310
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "5a48b190d9bbd6faa1d004f5827b228f442a18894c369f0c2664c8ef61549d70",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0014326815316162915,
+            "directionError": 0.13145673672900843
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0990227710168681,
+            "directionError": 0.2415187843374625
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 1231,
+            "pnpInliers": 1230,
+            "reprojectionPx": 0.008899944116188403,
+            "coverage": 9,
+            "pairRotationDifference": 0.10016507628111271,
+            "pairDirectionDifference": 0.29599574578013543,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "23ab56a31a6a82c23fbf7398aa52cb8a9e8055fad108434c52d82fc1bc095e9c",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02570410793590627,
+            "directionError": 0.5667840799072551
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "landmarks-seeded",
+            "landmarks": 1365
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "55fde7a41d2ce5418a075d03edbc8ad88d297071453cf240485f7b2c91f8a199",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.047035699271698594,
+            "directionError": 0.2489480046844258
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0,
+            "directionError": 4.5531036937588745e-05
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 3,
+            "sharedLandmarks": 1224,
+            "pnpInliers": 1223,
+            "reprojectionPx": 0.029736751097037377,
+            "coverage": 9,
+            "pairRotationDifference": 0.04703574500440809,
+            "pairDirectionDifference": 0.24890384358419018,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "e2facb09ba49ee9fe8842cf352e25587f8f488c2590e2a150cfdbc627c11088f",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.002357488732472184,
+            "directionError": 0.1578973624439895
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "reason": "landmarks-seeded",
+            "landmarks": 1461
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "a712008098cf68cc62889724e7a8842171500d5d49555c668e6cacf95568f544",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.003145387860184541,
+            "directionError": 0.03132397776980052
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.005441382046301331,
+            "directionError": 0.23223892649582675
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 5,
+            "sharedLandmarks": 1328,
+            "pnpInliers": 1328,
+            "reprojectionPx": 0.003754998452535318,
+            "coverage": 9,
+            "pairRotationDifference": 0.00485393347605177,
+            "pairDirectionDifference": 0.2474911698485524,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "dbbec8e4f2ed9611a3e210067cb3764d356226dbe5e780f0a4dc4d48f30c25d7",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 7,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.03599041202857711,
+            "directionError": 3.923569990575087
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 7,
+            "reason": "landmarks-seeded",
+            "landmarks": 1442
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "rotate_0_1",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "18d6544119fda4f507d41a06f7203b2af1a2a0c934999fd1d144cfb380bd2881",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "9139881d31c05f48758187156714d0ca2fe6f1a4f9811f327cc519baac8fa570",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "ad99b3f3270a8f79ef19843538897aa5dfec744e23f8fd41ee194be305541bdd",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "d19efcf35f5a0af2792180948a7e92569dffe74e4cb9074a5221e91a09730310",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "2d9513423d85c386dd5e8755ef2d43bfe02608710b5a91b7bd73dd441cb77636",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "e41c8a9c46ba7cbd32427bd07f16f47d083d127584bea59da57f5588e8c9fdbe",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "256be7a15c620c28d9d90423c8c56e18fa850fe94e2cfe212a83f647626b6b14",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "b85bce37607623e79dde589d59076fe00990cfba31c34025f5c645d781a5c975",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "translate_1_-1",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "497c946f5ff2d72aadd01a3abd12a7e720b6b18f541fe72175ca13e76313b833",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "809ae2b5ebb13951c863d22dbe3d0110f4e30316a65283659cc362cb4e5bc74d",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0019824649805157838,
+            "directionError": 0.033303707559185575
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 1352
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "c7307b41ca73cb3d784a9edfb8097a7f8852e027489ddba11e91eb9472d36775",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0031003830441700122,
+            "directionError": 0.008827171476492254
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0358600190636789,
+            "directionError": 1.6454831208768232
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 1274,
+            "pnpInliers": 1269,
+            "reprojectionPx": 0.003179910769679679,
+            "coverage": 9,
+            "pairRotationDifference": 0.034975218057230376,
+            "pairDirectionDifference": 1.6413865685847158,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "e48fd7e08a4157eaa368dd7c4679510994a6795644d235cfae245cb08b3e5410",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.015601748744522664,
+            "directionError": 0.4611473621725826
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "landmarks-seeded",
+            "landmarks": 1405
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "f6132671db8886ca48cd188cc93970a1e0bb5868f2687963c1c0bff6048c4b85",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02815749712641446,
+            "directionError": 0.2032688646480371
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.027119128841125932,
+            "directionError": 0.5685877597323138
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 3,
+            "sharedLandmarks": 1291,
+            "pnpInliers": 1290,
+            "reprojectionPx": 0.0231242881487247,
+            "coverage": 9,
+            "pairRotationDifference": 0.05243801870443933,
+            "pairDirectionDifference": 0.7586324377880336,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "56c75b521183e8cbd45fd328e8bca27803afcb27918b47b50ef0c2015e005898",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.03534304516722702,
+            "directionError": 2.0561715417661577
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "reason": "landmarks-seeded",
+            "landmarks": 1452
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "bae87e693aaab82817efc1707eea02a60e3b93eb13a7aa14b19878dbb2e77631",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.05879575910166389,
+            "directionError": 0.9393852933380733
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0004317951247707771,
+            "directionError": 0.016809566286751076
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 5,
+            "sharedLandmarks": 1307,
+            "pnpInliers": 1307,
+            "reprojectionPx": 0.0419274629472365,
+            "coverage": 9,
+            "pairRotationDifference": 0.05848906942980003,
+            "pairDirectionDifference": 0.9479122498858995,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "93d2f1fecfc728d3d53045e66450238740f59778dbf14efdca9952de79809e7c",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 7,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 7,
+            "reason": "low-parallax"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "rotate_1_-1",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "255bb49cc76fd5e440b5b81b2cf1d9599f229301d6d0f7474cc950dde2401fb7",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "ed46deda21aa76c6ff4f3d9432f3ef1611f7f2efea43bc1b98357f0755a97b80",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "2d04c0e77f9d244aedaef5eb3f213b3a400b997df5263ce1fa2e154d88d5750e",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "1059b279282410d2d5123c3c05d0973922297c798ec9f286460a7c9687879289",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "35f774e86f32c50e32c5ae32fe220631911b039c1bc3584e412d64d93837bf62",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "9e6376e9a2243f8a76d2d9178194e6a425a5da70d64bbc925d2a18536aac84ef",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "f179d71a29994203b733ba4c02a1e261d28474693349fa705076faf711f53c60",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "ebffab48a7cda12178ba639553ad739ee3a9ab378633f97248fe9107fdf45dae",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "translate_1_1",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "ace2bef4d40950526ae2774c15b8ad57609cef46be5b3bc7e7b7c4f744bbe14f",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.024404840820230176,
+            "directionError": 0.6897982052406656
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 1429
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "cfd6bca660b7026a6c0f4f1cf0bf8acb9e0abdf3e2ed9cd2b6ee3aa4e7107ef9",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.04442409822299144,
+            "directionError": 0.37967184425442585
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.01681784355727057,
+            "directionError": 0.2494423268134498
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 1256,
+            "pnpInliers": 1254,
+            "reprojectionPx": 0.036605385973082834,
+            "coverage": 9,
+            "pairRotationDifference": 0.06089468111736693,
+            "pairDirectionDifference": 0.6105276532938356,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "f419c24da441eb4113c819bfd5bfd79105e29a82a411bd1604f42230bc4f9849",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 2,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.015915995467363626,
+            "directionError": 0.48749782735770525
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 2,
+            "reason": "landmarks-seeded",
+            "landmarks": 1425
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "6fe4f776c25532c05f4c63e8986c8a83523c0e2bdc41ca241262055af8a31583",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 2,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.026168043318587103,
+            "directionError": 0.28138793846141447
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 1.624415146845831e-05,
+            "directionError": 0.0007812364766983751
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 2,
+            "sharedLandmarks": 1303,
+            "pnpInliers": 1302,
+            "reprojectionPx": 0.02949360015453619,
+            "coverage": 9,
+            "pairRotationDifference": 0.0261812096295759,
+            "pairDirectionDifference": 0.2821661882693118,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "f96fa8033b4b537cf9675c5c4b43f8c2c75d801ddba7c7b76bf9bab7fc5fdc7e",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 4,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0036738950430184165,
+            "directionError": 0.1249922011942616
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 4,
+            "reason": "landmarks-seeded",
+            "landmarks": 1497
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "3aabfd8a9b72850426696ab78a71689ad7c327930edd3c5c568df8151dd381df",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 4,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.007801877016043019,
+            "directionError": 0.03820999965768809
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0006485960546764751,
+            "directionError": 0.045289283096067515
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 4,
+            "sharedLandmarks": 1358,
+            "pnpInliers": 1358,
+            "reprojectionPx": 0.00795220332056798,
+            "coverage": 9,
+            "pairRotationDifference": 0.008208813709463017,
+            "pairDirectionDifference": 0.05565618039949363,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "49d855532e639a8c45bb262caa264fbe931ebbe6f8857b296c8af239e4eb48a5",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0005843867005390376,
+            "directionError": 0.026166135104920885
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "landmarks-seeded",
+            "landmarks": 1467
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "fc87d1d9f4d497e5e922f940288761f0d1723400971e92e1cf80a1521e40f740",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0013037892343541544,
+            "directionError": 0.009657623973135377
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.00886634827469584,
+            "directionError": 0.17934599128872752
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 6,
+            "sharedLandmarks": 1330,
+            "pnpInliers": 1330,
+            "reprojectionPx": 0.0015289152812887536,
+            "coverage": 9,
+            "pairRotationDifference": 0.008055511855415391,
+            "pairDirectionDifference": 0.1735427966408776,
+            "reason": "shared-landmark-consensus"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "rotate_1_1",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "780add492311d15664a87c31a4f869f21963c0bb2c6a88e9db6024c4e24b4c93",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "3953595c95a99fa8ab473e9776bcb40a0764c6f9a68f0d596b3c07eed0036523",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "1ce6a700908a46e81391c4be4021d8e3dfddec86b7acecb8829c2da7753ad550",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "5ff1b328fa04aa7c0d7aff8691b79829f6ae5b2dd9581b0f12c7e6aa3355c2d9",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "32b481a118b2ad2bbea35199fc56ddc9492e6b5e124ff3de9a02076712ccd4a9",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "a18031381997e51941b9c5a3a556d98223045a4358a0ec5409e1403bbd959766",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "06b1942dc95c29fe7500d19b39d2003820d980cf01d6b2bdd7658b2f24c44fe2",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "9ea7dfff5df4bd8da5c2850358cef185afe8ccb0d78ae93aac923d5ead4a8578",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "translate_2_-1",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "1f0d7f3d1f8cb19bb8aeb859e2a3460c300d9912c9bcf31b84656dd9048fabbc",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "6f50059448865a0d2cbc1238a590df2cdfc752a9900caef87b68c2a80854a6eb",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.08632468620038379,
+            "directionError": 1.3018518918861037
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 936
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "cc4e909ce3eb84206562617595de4fd0740c27aa1f35eb0353ab2f8238666e56",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.08722451143643911,
+            "directionError": 0.9414589061584038
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.014435441344464091,
+            "directionError": 0.051650208888438555
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 703,
+            "pnpInliers": 702,
+            "reprojectionPx": 0.20153783351522114,
+            "coverage": 9,
+            "pairRotationDifference": 0.09786904246637292,
+            "pairDirectionDifference": 0.9926540304442687,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "aadd4364e0cc0762a3cc3951b72204bb573ff0d90f797b3a986ddbf4eee0447e",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "8451592e56874d0cb5f2756dc678220cf7192a4d1b123a1505f5c98bfe8d61b5",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.15094490429141819,
+            "directionError": 3.759774168364493
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "landmarks-seeded",
+            "landmarks": 1012
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "dec730711d8b7d6bda950cc5ac009ccd1d87262faa71a563f2508011a9aacdd9",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.1700489845568043,
+            "directionError": 2.5689759188433197
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.13094440943783928,
+            "directionError": 0.938386655327202
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 3,
+            "sharedLandmarks": 747,
+            "pnpInliers": 699,
+            "reprojectionPx": 0.1667062846257119,
+            "coverage": 9,
+            "pairRotationDifference": 0.2970063165766102,
+            "pairDirectionDifference": 3.500888509971356,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "a6baab1e15d046668ffc691c51d5625ecb9114b549287ce3b8b7ef52ff056fa3",
+          "status": "waiting",
+          "reason": "translation-unobservable",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "translation-unobservable"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "2c15e7d93eed32213e6e8c3df1d35f3fb0b4c1e138caa026baaa7d6746138144",
+          "status": "waiting",
+          "reason": "translation-unobservable",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "translation-unobservable"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "rotate_2_-1",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "c082b88bb5fd0e55abde2d0c875ef3b5c4e9384419569613a6e12571e1d4c498",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "ee16170dad737071751e4eed127f8ce9f5574c332dd0ef738e4cc41af78a22a2",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "f2e0b65c2ff8c7b8753a1d041006445e44d73b522ffea2f8ecce5d02f04388a7",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "6fe441dc3f5d9bd86da967ef00b2884f289a236d8910156c76952ae0cb985c6f",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "2bb79459539d22e718b348b8c6f1b69d9040b8fc8029fb6d0e51d28b1608c601",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "b18418bbe9ae497c90639bbcb3e85e34dc9661b60514914aa3a815f5d9f1b160",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "04594b9d5dd92296b391a1f730c5f90fac1d08f1a10e4159b9849b68b2be90d9",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "7e7d097c98df4f1bf1bf0dfe841df2815e111a01fd0f6dfdd73caccaf62f3ef4",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "translate_2_1",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "7470a8a60a18aef57db75a4aa5b5a2b8011242532946a3dcb4a057a47b833106",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "26414f2bc42ce445694e861043c0908a9ce8e46d2bdd25ba5cf44ff113c7fa5e",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.08005014702588746,
+            "directionError": 0.8314901360441288
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 934
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "9ffb9b52a7d2246190989c62ab22c479374277772a93b6aa885b2e09fe31462b",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.09107363600671721,
+            "directionError": 0.6924514443802978
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.17380928448998312,
+            "directionError": 1.2169484450820403
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 678,
+            "pnpInliers": 678,
+            "reprojectionPx": 0.13369969641472013,
+            "coverage": 9,
+            "pairRotationDifference": 0.2626220730073769,
+            "pairDirectionDifference": 1.8425232728461234,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "4b337244fc5e969d8e17fe4472fc07d81650fb9f14b3024399709ec4812a6933",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0979205202147043,
+            "directionError": 2.326819377517554
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "landmarks-seeded",
+            "landmarks": 965
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "1ae99c95d0c8f0db22e1bcdce87c379595a18427de81c7b4984f6cce00f94bf6",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.15781453244687915,
+            "directionError": 1.3860916501102105
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.07733171502595168,
+            "directionError": 0.7651338199165265
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 3,
+            "sharedLandmarks": 679,
+            "pnpInliers": 656,
+            "reprojectionPx": 0.19581365821551933,
+            "coverage": 9,
+            "pairRotationDifference": 0.23162890116838483,
+            "pairDirectionDifference": 2.1379547274530117,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "ffda36912b8896e1d55346a0204708ed91e20f57e2777ba23b7c26afe857d5e6",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0596163872446554,
+            "directionError": 0.8588765120327448
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "reason": "landmarks-seeded",
+            "landmarks": 980
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "034e2806ca9fefd53d9d670a89e1e64b21c6273af18068ef6bca09818a4d8f5c",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.07947658785862599,
+            "directionError": 0.5593899173435508
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.013793946488401817,
+            "directionError": 0.13035818873144933
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 5,
+            "sharedLandmarks": 645,
+            "pnpInliers": 641,
+            "reprojectionPx": 0.23695923773865843,
+            "coverage": 9,
+            "pairRotationDifference": 0.07591709818362502,
+            "pairDirectionDifference": 0.587162288409133,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "f7b3ef52a37b4f916200c0707bd392fb9bc35065d00cb8ce660ceccadaa94f77",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 7,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.1784341779285947,
+            "directionError": 2.805423289146809
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 7,
+            "reason": "landmarks-seeded",
+            "landmarks": 983
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "rotate_2_1",
+      "kind": "negative",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "da43c986ab27aadf452ff9f45af416b43552addb599f0feed678473ff5c69613",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "b1b62e020215612002473d40fd1551504b0d3c374d47de4736a4dec6f2528047",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "4757cad478e2453e662272bc0883b53164993ae2ca21a61a9aca729e43629ea9",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "58d53be0266d767cb45b34bc064ac8e552e623c24e7b8733d246feaa854340ec",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "72d5306a804140d281a8aef832ffc9b5f7bf2cc8e3117bc0cc431a7ec5b3c91a",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "a692cdc38e32d36ace70b9b6ec69428a3aea321307176c2a82c5b15bf54066c0",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "8743411cefa978b19f63f2bef6a1d3ad2174c3616ebe52fe7570b3791160d1e7",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "7fe6dc90a62ed81193a166997f5b039b243253a9add87be4698de9918ff4074a",
+          "status": "waiting",
+          "reason": "rotation-model-supported",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "rotation-model-supported"
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "combined",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "c469f6b48bd8c7117e6a7e4fa9de9cd0280845ebfd6283dd9327a3ff3022236a",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "d8bf659afecfc5587867d6cade8d3a7be207ecfec14fd47d1610c79f27bbbd08",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.05461504466095077,
+            "directionError": 1.17553784128364
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 941
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "467383f4005e69980f6987e593c880f5a536340eded6a4d3724d2e5baaecd829",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.06438686295851381,
+            "directionError": 0.9654434018441046
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.040608972483994955,
+            "directionError": 0.6983804222680768
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 703,
+            "pnpInliers": 703,
+            "reprojectionPx": 0.13275021902040005,
+            "coverage": 9,
+            "pairRotationDifference": 0.03613255791616855,
+            "pairDirectionDifference": 0.33098388138283774,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "8a9a01352056478d328ea0cc7aff9f0e5912361e57a1f5b858bd31eb918cbcc7",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "da0dd0a364bc3659f8f11d1d572ec66f4683d92f19d037f571834043e4db30fc",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.09414033484033411,
+            "directionError": 0.776790004822582
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "landmarks-seeded",
+            "landmarks": 978
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "490bf3ddcaab44b0623f4832d3b455325ba5f193fca603efba83dd2b4bea87b1",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.12734553076158198,
+            "directionError": 0.32114518285961585
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02500937076343358,
+            "directionError": 0.25486284387709796
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 3,
+            "sharedLandmarks": 724,
+            "pnpInliers": 704,
+            "reprojectionPx": 0.18062991416678853,
+            "coverage": 9,
+            "pairRotationDifference": 0.15056892668503188,
+            "pairDirectionDifference": 0.4873291300022506,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "c4b7ed28f14f67847c6d962ae820dee1fd948f700a1b8d6f70f0449120df2b46",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "f743f08d7ff50e72075cb084e4b8df069719008c1f5ba4cd6f956830f97079d9",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.05069662771115805,
+            "directionError": 1.3049891346747118
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "landmarks-seeded",
+            "landmarks": 985
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "reversal",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "04ecb7c8e9b21f7017128fc5c88d0d13c839840cf631aee5819a3aa64f523875",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "a58b160b93c8a209fa19d5431dfbcc47cdc1667c418ee3e4ff8cc47093d0919b",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0007608507689461408,
+            "directionError": 0.21738921229806332
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 1310
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "5a48b190d9bbd6faa1d004f5827b228f442a18894c369f0c2664c8ef61549d70",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0014326815316162915,
+            "directionError": 0.13145673672900843
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0990227710168681,
+            "directionError": 0.2415187843374625
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 1231,
+            "pnpInliers": 1230,
+            "reprojectionPx": 0.008899944116188403,
+            "coverage": 9,
+            "pairRotationDifference": 0.10016507628111271,
+            "pairDirectionDifference": 0.29599574578013543,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "23ab56a31a6a82c23fbf7398aa52cb8a9e8055fad108434c52d82fc1bc095e9c",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02570410793590627,
+            "directionError": 0.5667840799072551
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "landmarks-seeded",
+            "landmarks": 1365
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "5a48b190d9bbd6faa1d004f5827b228f442a18894c369f0c2664c8ef61549d70",
+          "status": "waiting",
+          "reason": "negligible-image-motion",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 3,
+            "reason": "negligible-image-motion"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "a58b160b93c8a209fa19d5431dfbcc47cdc1667c418ee3e4ff8cc47093d0919b",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 3,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02001505292936968,
+            "directionError": 0.14520937566962366
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.02269762544319196,
+            "directionError": 1.39381625344036
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 3,
+            "sharedLandmarks": 1235,
+            "pnpInliers": 1235,
+            "reprojectionPx": 0.029732542362318634,
+            "coverage": 9,
+            "pairRotationDifference": 0.01732877524618958,
+            "pairDirectionDifference": 1.535389637174015,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "04ecb7c8e9b21f7017128fc5c88d0d13c839840cf631aee5819a3aa64f523875",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 6,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.0,
+            "directionError": 3.110127594806681e-05
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 6,
+            "reason": "landmarks-seeded",
+            "landmarks": 1310
+          }
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "case": "curved",
+      "kind": "positive",
+      "passed": true,
+      "frames": [
+        {
+          "index": 0,
+          "imageHash": "551c440bf6cbdadec72065c38a3a2de7916d4971596dcd595e6485d641f81aa3",
+          "status": "anchor",
+          "reason": null,
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "anchor",
+            "anchor_id": 0
+          }
+        },
+        {
+          "index": 1,
+          "imageHash": "2a96406b345c8c532ac001d6a8509dd5f62b1bf85532875b3085cdff11c6b365",
+          "status": "waiting",
+          "reason": "low-parallax",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": null,
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "low-parallax"
+          }
+        },
+        {
+          "index": 2,
+          "imageHash": "173eea8ac55d6d7c7bf24043e813f600fa39f33612b41ff3db49a91084150f0e",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.140084210813536,
+            "directionError": 7.350767886902407
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "reason": "landmarks-seeded",
+            "landmarks": 1004
+          }
+        },
+        {
+          "index": 3,
+          "imageHash": "2f93fb6e2817cca8fcf2c68ee6e60af7b6646cdd212cb57bbfc9565b71a2308a",
+          "status": "waiting",
+          "reason": "pnp-pair-disagreement",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.008289409645940124,
+            "directionError": 0.4234379713396793
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "sharedLandmarks": 712,
+            "pnpInliers": 691,
+            "reprojectionPx": 0.14324226259616193,
+            "coverage": 9,
+            "pairRotationDifference": 0.19440833204050117,
+            "pairDirectionDifference": 5.351415246522577,
+            "reason": "pnp-pair-disagreement"
+          }
+        },
+        {
+          "index": 4,
+          "imageHash": "90444963a482d4f102d6ba6a7a8f134070c7836df02d5c3212cd2b9bce4bea94",
+          "status": "waiting",
+          "reason": "landmarks-reseeded",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.08908620100299569,
+            "directionError": 1.5369853673772889
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 0,
+            "sharedLandmarks": 661,
+            "pnpInliers": 630,
+            "reprojectionPx": 0.2525745171816313,
+            "coverage": 9,
+            "pairRotationDifference": 0.38027027603682073,
+            "pairDirectionDifference": 6.565394955564758,
+            "reason": "landmarks-reseeded",
+            "previousReason": "pnp-pair-disagreement",
+            "landmarks": 847
+          }
+        },
+        {
+          "index": 5,
+          "imageHash": "968b10592bd2f62d7236b84b34da25629e3634c9f6e064acfb45d624bcbebcaa",
+          "status": "keyframe",
+          "reason": "shared-landmark-consensus",
+          "anchor": 0,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.11203838341496702,
+            "directionError": 1.1739718419600087
+          },
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.15023842624666653,
+            "directionError": 0.6831561166180099
+          },
+          "diagnostics": {
+            "status": "keyframe",
+            "anchor_id": 0,
+            "sharedLandmarks": 626,
+            "pnpInliers": 626,
+            "reprojectionPx": 0.0881901763229199,
+            "coverage": 9,
+            "pairRotationDifference": 0.04385198468161997,
+            "pairDirectionDifference": 0.5344370609324004,
+            "reason": "shared-landmark-consensus"
+          }
+        },
+        {
+          "index": 6,
+          "imageHash": "02e170159fd765012f52c378a677f32acdde342b3075cf1b465fcb0fe4dfc1b7",
+          "status": "waiting",
+          "reason": "landmarks-seeded",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": false,
+            "falseTranslation": false,
+            "rotationError": 0.7189669053804337,
+            "directionError": 10.842965096612193
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "reason": "landmarks-seeded",
+            "landmarks": 1040
+          }
+        },
+        {
+          "index": 7,
+          "imageHash": "adbc16cd5a521263b774c4a3e97e2a3d8f99a442d8f4267a122a5b8c8e154b46",
+          "status": "waiting",
+          "reason": "pnp-pair-disagreement",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.10698795629330027,
+            "directionError": 1.5468840329042481
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "sharedLandmarks": 775,
+            "pnpInliers": 614,
+            "reprojectionPx": 0.3767257950001127,
+            "coverage": 9,
+            "pairRotationDifference": 1.5992828594820983,
+            "pairDirectionDifference": 11.361485578155765,
+            "reason": "pnp-pair-disagreement"
+          }
+        },
+        {
+          "index": 8,
+          "imageHash": "2a426853d184474f589ce55513de2e18506f116aedde193a075c924727c09171",
+          "status": "waiting",
+          "reason": "landmarks-reseeded",
+          "anchor": 5,
+          "confirmations": null,
+          "rotationCycleDegrees": null,
+          "emitted": null,
+          "rawPair": {
+            "accurate": true,
+            "falseTranslation": false,
+            "rotationError": 0.14604057361463674,
+            "directionError": 1.177826530014049
+          },
+          "diagnostics": {
+            "status": "waiting",
+            "anchor_id": 5,
+            "sharedLandmarks": 729,
+            "reason": "landmarks-reseeded",
+            "previousReason": "pnp-consensus",
+            "landmarks": 931
+          }
+        }
+      ]
+    }
+  ]
+}

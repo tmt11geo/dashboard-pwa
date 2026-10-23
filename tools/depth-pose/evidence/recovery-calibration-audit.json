@@ -1,0 +1,176 @@
+{
+  "policy": "Correct calibration must pass; independent target evidence must reject deliberately incorrect intrinsics.",
+  "cases": [
+    {
+      "seed": 42,
+      "profile": "correct",
+      "evidenceHash": "49b47517dc88155b31170464a681f459df2669d5e01c38b0bfa72a67ae0274cc",
+      "accepted": true,
+      "folds": [
+        {
+          "rms": 0.08461306161153333,
+          "focalRelativeError": 0.000348196656030364,
+          "principalPointErrorPx": 0.178728137254069,
+          "heldOutMaxRms": 0.09055032581090927
+        },
+        {
+          "rms": 0.08455837651138011,
+          "focalRelativeError": 0.0008943413140757306,
+          "principalPointErrorPx": 0.09890886844189595,
+          "heldOutMaxRms": 0.09369489550590515
+        }
+      ]
+    },
+    {
+      "seed": 42,
+      "profile": "wrong_plus",
+      "evidenceHash": "49b47517dc88155b31170464a681f459df2669d5e01c38b0bfa72a67ae0274cc",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 42,
+      "profile": "wrong_minus",
+      "evidenceHash": "49b47517dc88155b31170464a681f459df2669d5e01c38b0bfa72a67ae0274cc",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 39517,
+      "profile": "correct",
+      "evidenceHash": "7177dd05dfd6ee006de2875cb0ebd6233b08b78a5b81c709faae059d029d17d4",
+      "accepted": true,
+      "folds": [
+        {
+          "rms": 0.08381487565782071,
+          "focalRelativeError": 0.0006957146370412115,
+          "principalPointErrorPx": 0.1660362197267773,
+          "heldOutMaxRms": 0.09668075293302536
+        },
+        {
+          "rms": 0.08441442027145836,
+          "focalRelativeError": 0.001761640068593806,
+          "principalPointErrorPx": 0.5185172044565718,
+          "heldOutMaxRms": 0.0944182500243187
+        }
+      ]
+    },
+    {
+      "seed": 39517,
+      "profile": "wrong_plus",
+      "evidenceHash": "7177dd05dfd6ee006de2875cb0ebd6233b08b78a5b81c709faae059d029d17d4",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 39517,
+      "profile": "wrong_minus",
+      "evidenceHash": "7177dd05dfd6ee006de2875cb0ebd6233b08b78a5b81c709faae059d029d17d4",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 79431,
+      "profile": "correct",
+      "evidenceHash": "701ca6aca140aab34eda0a78c9a2ebcf766c3c6009ea4a782e429981b957a0fd",
+      "accepted": true,
+      "folds": [
+        {
+          "rms": 0.08498522708697276,
+          "focalRelativeError": 3.949098210109803e-05,
+          "principalPointErrorPx": 0.19979745846910646,
+          "heldOutMaxRms": 0.08820386230945587
+        },
+        {
+          "rms": 0.08423568020899821,
+          "focalRelativeError": 0.00033291329320450647,
+          "principalPointErrorPx": 0.39106011687505315,
+          "heldOutMaxRms": 0.09096138924360275
+        }
+      ]
+    },
+    {
+      "seed": 79431,
+      "profile": "wrong_plus",
+      "evidenceHash": "701ca6aca140aab34eda0a78c9a2ebcf766c3c6009ea4a782e429981b957a0fd",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 79431,
+      "profile": "wrong_minus",
+      "evidenceHash": "701ca6aca140aab34eda0a78c9a2ebcf766c3c6009ea4a782e429981b957a0fd",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 86243,
+      "profile": "correct",
+      "evidenceHash": "a27865f4b5f362132cc5d2920afdf5f1c835889cbdd8514b447114fc02169e97",
+      "accepted": true,
+      "folds": [
+        {
+          "rms": 0.08174890456167094,
+          "focalRelativeError": 0.0006512943155934092,
+          "principalPointErrorPx": 0.36394030493283935,
+          "heldOutMaxRms": 0.08982191234827042
+        },
+        {
+          "rms": 0.07997437008868273,
+          "focalRelativeError": 0.0008007222627024468,
+          "principalPointErrorPx": 0.17635710131719406,
+          "heldOutMaxRms": 0.0934857726097107
+        }
+      ]
+    },
+    {
+      "seed": 86243,
+      "profile": "wrong_plus",
+      "evidenceHash": "a27865f4b5f362132cc5d2920afdf5f1c835889cbdd8514b447114fc02169e97",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 86243,
+      "profile": "wrong_minus",
+      "evidenceHash": "a27865f4b5f362132cc5d2920afdf5f1c835889cbdd8514b447114fc02169e97",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 117293,
+      "profile": "correct",
+      "evidenceHash": "4cbb7e1370fc2dd48abbc926d1ed0b78b37934791272817b627bbefe703f7721",
+      "accepted": true,
+      "folds": [
+        {
+          "rms": 0.07985803430854319,
+          "focalRelativeError": 0.0004638470042248599,
+          "principalPointErrorPx": 0.08236137299149959,
+          "heldOutMaxRms": 0.09318985790014267
+        },
+        {
+          "rms": 0.08720420218242204,
+          "focalRelativeError": 0.0008707709234321293,
+          "principalPointErrorPx": 0.2871142423085189,
+          "heldOutMaxRms": 0.09325191378593445
+        }
+      ]
+    },
+    {
+      "seed": 117293,
+      "profile": "wrong_plus",
+      "evidenceHash": "4cbb7e1370fc2dd48abbc926d1ed0b78b37934791272817b627bbefe703f7721",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    },
+    {
+      "seed": 117293,
+      "profile": "wrong_minus",
+      "evidenceHash": "4cbb7e1370fc2dd48abbc926d1ed0b78b37934791272817b627bbefe703f7721",
+      "accepted": false,
+      "reason": "Independent target observations do not support supplied intrinsics"
+    }
+  ],
+  "passed": true
+}

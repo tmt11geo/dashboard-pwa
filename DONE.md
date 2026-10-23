@@ -1,5 +1,55 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Seed recovery and calibration verification — 2026-10-23
+
+Bounded offline task COMPLETE; offline candidate gate PASS. Browser/real-phone
+promotion remains BLOCKED; scanner/stage 10 remains PARTIAL. Starting commit
+68c6f815b7cb2597b6e7def84335b7955ffce7b0; working/outcome branch depth-tfjs-webgl.
+Main remains 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8), no deployment
+or application changes. Previous implementations/evidence preserved unchanged.
+
+`tools/depth-pose/recovery.py` replaces a failing landmark seed after two failed
+third-view checks, using a newly validated anchor pair. Reseeding retains the
+anchor and emits no pose; a subsequent distinct image must pass the unchanged
+acceptance gates. `calibration_evidence.py` requires independent known-target
+observations, two calibration folds, varied target tilt, focal/centre agreement
+and held-out reprojection checks. Metadata-only calibration is refused. This
+rejects unsupported optics; it does not magically recover motion with wrong
+intrinsics. Synthetic target observations are for fixtures only, never phone proof.
+
+24 unit tests PASS; 15 calibration-audit cases PASS; dependency/whitespace checks
+PASS. Development: 9/9 positive and 7/7 negative paths, 23 accurate emissions.
+Frozen evaluation: 320 scenarios, 192 calibrated sequences / 1,728 RGB frames,
+128 invalid-calibration scenarios rejected before tracking. Correct calibration:
+108/108 movement paths, 84/84 negative paths, 283/283 accurate emitted keyframes
+(<2-degree rotation and <10-degree direction error), zero false translations.
+Clean/blur/noise each pass 36/36 positive and 28/28 negative paths; emit 94/100/89
+accurate poses. Both mismatch profiles reject all 64 scenarios each. Runner exits
+0; unsupported-camera rejection is separate from pose recovery.
+
+All 144 prior correctly calibrated sequence input hashes match. Positive recovery
+improves 77/81 → 81/81, all four prior failures recovered, zero regressions. The
+blurred curve reseeds at frame 3 and accepts at frame 4. Fresh seed 117293 also
+passes. Both earlier inaccurately accepted wrong-calibration curved scenarios
+are now blocked by independent target validation. No held-out tuning occurred.
+
+Evidence/method: tools/depth-pose/RECOVERY-REVIEW.md, recovery_spec.json,
+run_recovery.py, audit_calibration.py, compare_recovery.py, evidence/recovery-*.json
+and recovery-tests.log. Reports preserve source/image hashes, per-frame diagnostics,
+pose errors, calibration evidence hashes and fold residuals. Source hashes verified
+against the final candidate. No physical phone/browser speed or accuracy claim.
+
+Remaining blockers: actual phone calibration, capture-geometry binding,
+undistortion, rolling shutter, real-scene accuracy, browser implementation/runtime
+and fusion. Exact next bounded action: local phone calibration-capture/replay
+bridge. Record target observations with camera identity, dimensions, orientation,
+crop, zoom/focus and distortion/undistortion metadata; export locally, independently
+validate and replay with this tracker. Do not use synthetic evidence for a physical
+camera. Keep main unchanged until browser integration is tested and authorized.
+No further phone log retries needed now; capture instructions follow the bridge.
+Verify remote feature head and all changed-file blobs before stopping.
+
+
 ## Shared-landmark three-view checkpoint — 2026-10-23
 
 Bounded offline task COMPLETE; promotion FAIL; live scanner/stage 10 remains PARTIAL.
@@ -128,9 +178,9 @@ Updated: 2026-10-23. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-8` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
 | Active stage | PARTIAL: alignment/6DoF validation; phone stitching failed |
-| Next stage | Robust landmark seed validation/replacement; promotion FAIL |
-| Current blocker | Bad landmark seeds and inaccurate wrong-calibration poses; no browser promotion |
-| Outcome of this checkpoint | Three-view tracking: recovery improves, calibration errors remain; main unchanged; gate FAIL |
+| Next stage | Phone calibration-capture/replay bridge; offline gate PASS |
+| Current blocker | Actual phone calibration and browser integration remain unverified |
+| Outcome of this checkpoint | Seed recovery/calibration gate PASS offline; main unchanged; phone integration pending |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 

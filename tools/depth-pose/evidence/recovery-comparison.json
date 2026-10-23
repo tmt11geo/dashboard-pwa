@@ -1,0 +1,56 @@
+{
+  "note": "Wrong-calibration cases are now rejected before tracking, not counted as improved recovery. Valid-camera comparisons use identical RGB hashes.",
+  "profiles": {
+    "clean": {
+      "inputsVerified": 48,
+      "beforePositive": 27,
+      "afterPositive": 27,
+      "improvements": [],
+      "regressions": []
+    },
+    "blur": {
+      "inputsVerified": 48,
+      "beforePositive": 26,
+      "afterPositive": 27,
+      "improvements": [
+        {
+          "seed": 86243,
+          "case": "curved",
+          "kind": "positive",
+          "before": false,
+          "after": true
+        }
+      ],
+      "regressions": []
+    },
+    "noise": {
+      "inputsVerified": 48,
+      "beforePositive": 24,
+      "afterPositive": 27,
+      "improvements": [
+        {
+          "seed": 39517,
+          "case": "translate_2_-1",
+          "kind": "positive",
+          "before": false,
+          "after": true
+        },
+        {
+          "seed": 39517,
+          "case": "curved",
+          "kind": "positive",
+          "before": false,
+          "after": true
+        },
+        {
+          "seed": 79431,
+          "case": "translate_2_1",
+          "kind": "positive",
+          "before": false,
+          "after": true
+        }
+      ],
+      "regressions": []
+    }
+  }
+}

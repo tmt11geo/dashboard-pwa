@@ -1,0 +1,603 @@
+{
+  "sourceSha256": {
+    "recovery.py": "72884068578c8bc967b2951114a0d0b4bfc2954ecd17f16152a421c00c230e70",
+    "calibration_evidence.py": "5cc66623d9896f4a58647fd74f30ef61adf9efde3958633cedb7e048d3d7beaf",
+    "calibration_fixtures.py": "aa0c4f698a3dd8dd0a15ff96e9454fe01956aa9fae9cfa9f2985f0cdc6ae675c",
+    "three_view.py": "8e09148700c7eb72f8c7c702bc955a608ee1a852f0ef5e571ced5248982fb4df",
+    "temporal.py": "90414992776bf808e036fd4112eeda7736010b9ef1d140811acc94c86954d256",
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_recovery.py": "8f45dfe778903ac4530edfe388b22496e4e3cf6dbbecc237182d4a8b274c897c",
+    "recovery_spec.json": "6864fb48ab2845ce665211b341b36c5acbe90f1d03169ecd6c1d4f91f3dc94d4"
+  },
+  "summary": {
+    "calibrationRejected": 64,
+    "positivePassed": 0,
+    "positiveTotal": 0,
+    "negativePassed": 0,
+    "negativeTotal": 0,
+    "keyframes": 0,
+    "inaccurateKeyframes": 0,
+    "falseTranslations": 0,
+    "rawPairs": 0,
+    "inaccurateRawPairs": 0
+  },
+  "sequences": [
+    {
+      "seed": 39517,
+      "case": "stationary",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "translate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "rotate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "translate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "rotate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "translate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "rotate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "translate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "rotate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "translate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "rotate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "translate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "rotate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "combined",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "reversal",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 39517,
+      "case": "curved",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "stationary",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "translate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "rotate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "translate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "rotate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "translate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "rotate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "translate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "rotate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "translate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "rotate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "translate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "rotate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "combined",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "reversal",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 79431,
+      "case": "curved",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "stationary",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "translate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "rotate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "translate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "rotate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "translate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "rotate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "translate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "rotate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "translate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "rotate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "translate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "rotate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "combined",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "reversal",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 86243,
+      "case": "curved",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "stationary",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "translate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "rotate_0_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "translate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "rotate_0_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "translate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "rotate_1_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "translate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "rotate_1_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "translate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "rotate_2_-1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "translate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "rotate_2_1",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "combined",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "reversal",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    },
+    {
+      "seed": 117293,
+      "case": "curved",
+      "kind": "invalid_calibration",
+      "passed": true,
+      "calibrationRejected": true,
+      "reason": "Independent target observations do not support supplied intrinsics",
+      "frames": []
+    }
+  ]
+}

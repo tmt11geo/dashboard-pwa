@@ -1,0 +1,27 @@
+{
+  "width": 640,
+  "height": 480,
+  "held_out_seeds": [
+    39517,
+    79431,
+    86243,
+    117293
+  ],
+  "profiles": [
+    "clean",
+    "blur",
+    "noise",
+    "claimed_wrong_calibration",
+    "wrong_calibration_minus"
+  ],
+  "frames_per_sequence": 9,
+  "translation_step_xy": 0.08,
+  "translation_step_z": 0.15,
+  "rotation_step_degrees": 0.75,
+  "blur_sigma": 1.2,
+  "noise_sigma": 8.0,
+  "rotation_error_degrees": 2,
+  "direction_error_degrees": 10,
+  "success": "Every positive sequence has at least one keyframe; every emitted keyframe accurate; no negative sequence emits translation.",
+  "policy": "Freeze candidate before run. Previous 192 scenarios are regressions; seed 117293 and negative calibration offsets are fresh. Invalid calibration must reject before tracking and is not counted as pose recovery."
+}
