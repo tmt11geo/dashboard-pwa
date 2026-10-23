@@ -7,11 +7,11 @@ Build depth-lab-6 places camera and relief together with sticky Start/Pause/Fini
 
 Validation: 64/64 Node tests and 19/19 local Chromium browser checks PASS. Evidence: tools/depth-scan/evidence/browser-ui-v6.json and node-tests-v6.log; harness tools/depth-scan/run_browser.cjs. Phone-sized screenshot visually inspected; side-by-side geometry, adjacent controls, no horizontal overflow, reduced motion, pause/resume, finish, file save/open/reload checked. Browser uses an inference double with real registration. Existing actual-model feasibility evidence is preserved; no phone performance or physical acceptance claim. Model, registration and capture thresholds unchanged.
 
-Deployment: implementation ready for main and existing Pages workflow; exact receipt will be recorded after deployment.
+Deployment receipt: main implementation 1df5e0fb48d13e3a645a17b0a7808e1090ef2cca, build depth-lab-6. Pages run 40006383084 completed successfully for that exact SHA. Working/outcome branch depth-tfjs-webgl adds this documentation receipt. Remote refs and checkpoint files verified through the connected GitHub integration. Protected live-browser validation remains a device action.
 Blocker: physical-device usability acceptance remains pending; automated live requests were previously blocked by Access (403/1010).
 Exact next action: open depth.html?v=6 on OnePlus, confirm depth-lab-6, start a scan, hold until green MOVE NOW, shift slightly sideways, hold for the next addition; repeat 3–5 times, then Pause/Finish/Save/Open. Report cue visibility, responsiveness and alignment with the diagnostic log. Working/outcome branch depth-tfjs-webgl. Original stage 10 remains PARTIAL; no new conversion stage started.
 
-Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
+Updated: 2026-10-23. Repository: tmt11geo/dashboard-pwa.
 
 ## Where the work is
 
@@ -21,13 +21,13 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Branch containing this outcome | `depth-tfjs-webgl` |
 | Starting main commit | `9db5c0345faf7339f3d4cc24142dad362122649e` |
 | Live application branch | `main` |
-| Live application commit last checked | `faf6339373a38345905949b864cd1c651ccc9689` |
-| Live diagnostic build | `depth-lab-5` |
+| Live application commit last checked | `1df5e0fb48d13e3a645a17b0a7808e1090ef2cca` |
+| Live diagnostic build | `depth-lab-6` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
 | Active stage | Guided scan deployed; waiting for OnePlus acceptance |
 | Next stage | OnePlus guided-scan acceptance |
 | Current blocker | Physical guided-scan observations needed; automated live URLs return 403/1010 |
-| Outcome of this checkpoint | Experimental guided scanner deployed; exact Pages success verified |
+| Outcome of this checkpoint | Compact controls and accepted-view move flash deployed; Pages success verified |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 

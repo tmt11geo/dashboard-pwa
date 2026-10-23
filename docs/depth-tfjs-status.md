@@ -7,15 +7,15 @@ Build depth-lab-6 places camera and relief together with sticky Start/Pause/Fini
 
 Validation: 64/64 Node tests and 19/19 local Chromium browser checks PASS. Evidence: tools/depth-scan/evidence/browser-ui-v6.json and node-tests-v6.log; harness tools/depth-scan/run_browser.cjs. Phone-sized screenshot visually inspected; side-by-side geometry, adjacent controls, no horizontal overflow, reduced motion, pause/resume, finish, file save/open/reload checked. Browser uses an inference double with real registration. Existing actual-model feasibility evidence is preserved; no phone performance or physical acceptance claim. Model, registration and capture thresholds unchanged.
 
-Deployment: implementation ready for main and existing Pages workflow; exact receipt will be recorded after deployment.
+Deployment receipt: main implementation 1df5e0fb48d13e3a645a17b0a7808e1090ef2cca, build depth-lab-6. Pages run 40006383084 completed successfully for that exact SHA. Working/outcome branch depth-tfjs-webgl adds this documentation receipt. Remote refs and checkpoint files verified through the connected GitHub integration. Protected live-browser validation remains a device action.
 Blocker: physical-device usability acceptance remains pending; automated live requests were previously blocked by Access (403/1010).
 Exact next action: open depth.html?v=6 on OnePlus, confirm depth-lab-6, start a scan, hold until green MOVE NOW, shift slightly sideways, hold for the next addition; repeat 3–5 times, then Pause/Finish/Save/Open. Report cue visibility, responsiveness and alignment with the diagnostic log. Working/outcome branch depth-tfjs-webgl. Original stage 10 remains PARTIAL; no new conversion stage started.
 
-Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-plan.md), [resume prompt](depth-tfjs-continue-prompt.md).
+Updated 2026-10-23. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-plan.md), [resume prompt](depth-tfjs-continue-prompt.md).
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Guided persistent-relief experiment deployed on main faf6339373a38345905949b864cd1c651ccc9689, build depth-lab-5, Pages run 40004530154 success. 64 Node tests, 13 browser UI checks and actual-model real-sequence feasibility PASS. Next: OnePlus guided-scan acceptance. Approximate arbitrary-scale short scans only; no metric or long-scan accuracy claim. Original stage 10 ordinary TFJS evaluation remains partial.
+Working/outcome branch: depth-tfjs-webgl. Compact guided-scan UX deployed on main 1df5e0fb48d13e3a645a17b0a7808e1090ef2cca, build depth-lab-6, Pages run 40006383084 success. 64 Node tests and 19 browser UI checks PASS. Prior actual-model evidence remains unchanged. Next: OnePlus guided-scan acceptance with green move cue. Original stage 10 remains partial.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
