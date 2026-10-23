@@ -1,5 +1,8 @@
 # Phone calibration test — calibration-1
 
+Deployment pending: implementation 2470240782714686c033364485e94040e5a236aa is
+on depth-tfjs-webgl. The links below become available after approved main deployment.
+
 1. Open https://tmt11.com/dashboard-pwa/calibration-target.html on a device connected
    to a printer. Print A4 landscape, 100% / actual size, without headers/footers.
    Keep the white border. Attach the sheet flat to a rigid board.

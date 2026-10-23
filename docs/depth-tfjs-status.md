@@ -1,5 +1,30 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Phone calibration implemented; deployment review blocked — 2026-10-23
+
+Implementation complete and remote-verified at
+2470240782714686c033364485e94040e5a236aa on depth-tfjs-webgl. 21 browser checks,
+5 engine checks, 72 existing Node tests and independent 16-image replay PASS.
+All 35 changed-file blobs match tested local bytes, including runtime parts and
+screenshots. No rebuild/retest is required for this unchanged commit.
+
+The attempt to advance main was rejected by automatic approval review, which
+stated that explicit permission to promote this commit was missing. The rejected
+action was github_update_ref(main, expected_sha=308686f9d81e1218c866c936b8a24e3a74064fe4,
+sha=2470240782714686c033364485e94040e5a236aa). Main was re-read and remains
+308686f9d81e1218c866c936b8a24e3a74064fe4. The new calibration page is NOT live yet.
+No alternative publishing path or approval bypass was attempted.
+
+Exact next action: get explicit user approval to deploy implementation commit
+2470240782714686c033364485e94040e5a236aa to main. Then perform the leased ref update,
+verify the exact Pages run and remote assets, checkpoint the receipt and provide
+the links/instructions in docs/depth-calibration-phone-test.md. This is the only
+remaining software-delivery step before the user can test calibration capture.
+Actual-phone calibration data then remains necessary before relief integration.
+Evidence: tools/depth-calibration/evidence/deployment.json. Working/outcome branch
+is depth-tfjs-webgl; this documentation-only receipt follows the implementation.
+
+
 ## Phone calibration ready for deployment — 2026-10-23
 
 User explicitly authorized finishing implementation, deployment and phone-test

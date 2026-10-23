@@ -1,0 +1,16 @@
+{
+  "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+  "implementationCommit": "2470240782714686c033364485e94040e5a236aa",
+  "featureBranch": "depth-tfjs-webgl",
+  "mainUnchanged": "308686f9d81e1218c866c936b8a24e3a74064fe4",
+  "action": "github_update_ref main, expected previous main, sha implementation commit",
+  "reason": "This advances the protected/default main branch and may deploy unvalidated calibration changes; the user authorized feature work and checkpointing but did not explicitly authorize promoting this commit to main.",
+  "checks": {
+    "browser": 21,
+    "engine": 5,
+    "nodeRegression": 72,
+    "independentImageReplay": 16,
+    "remoteChangedFilesVerified": 35
+  },
+  "nextAction": "Obtain explicit permission to deploy commit 2470240782714686c033364485e94040e5a236aa to main, then expected-head update, exact Pages verification and final receipt. Do not rebuild or rerun unchanged tests."
+}
