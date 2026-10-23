@@ -1,0 +1,190 @@
+{
+  "mode": "Actual bundled OpenCV worker; rendered checkerboards; simulated camera only",
+  "checks": [
+    {
+      "name": "relative page opens",
+      "pass": true
+    },
+    {
+      "name": "no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "actual worker/runtime ready",
+      "pass": true
+    },
+    {
+      "name": "first board accepted",
+      "pass": true
+    },
+    {
+      "name": "duplicate rejected",
+      "pass": true
+    },
+    {
+      "name": "16 actual boards detected",
+      "pass": true
+    },
+    {
+      "name": "landscape capture controls and whole preview visible",
+      "pass": true
+    },
+    {
+      "name": "independent calibration validation passes",
+      "pass": true
+    },
+    {
+      "name": "export includes raw images/corners and geometry",
+      "pass": true
+    },
+    {
+      "name": "known camera focal recovered",
+      "pass": true
+    },
+    {
+      "name": "undo removes view and invalidates result",
+      "pass": true
+    },
+    {
+      "name": "stop releases camera",
+      "pass": true
+    },
+    {
+      "name": "partial export remains available",
+      "pass": true
+    },
+    {
+      "name": "no external runtime/data requests",
+      "pass": true
+    },
+    {
+      "name": "clear permits a fresh session",
+      "pass": true
+    },
+    {
+      "name": "hidden page stops camera",
+      "pass": true
+    },
+    {
+      "name": "no uncaught page errors",
+      "pass": true
+    },
+    {
+      "name": "permission denial restores start",
+      "pass": true
+    },
+    {
+      "name": "late camera permission result is stopped",
+      "pass": true
+    },
+    {
+      "name": "runtime download failure releases camera",
+      "pass": true
+    },
+    {
+      "name": "changed zoom rejects capture and stops camera",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "browser": "141.0.7390.37",
+  "resultText": "Measurements pass\n\nReprojection RMS: 0.254 px. Focal agreement: 0.39%. Centre agreement: 1.11 px.\n\nSave the session and share the JSON file for independent review. This result has not been applied to the relief scanner.",
+  "calibration": {
+    "passed": true,
+    "reasons": [],
+    "imageSize": {
+      "width": 640,
+      "height": 480
+    },
+    "cameraMatrix": [
+      502.04836791217264,
+      0,
+      319.9566707368279,
+      0,
+      501.79680766778785,
+      237.01511198299715,
+      0,
+      0,
+      1
+    ],
+    "distortion": [
+      -0.09394246916312314,
+      0.07017248574127234,
+      -0.0007791281804857967,
+      -0.000005916109676703583,
+      0
+    ],
+    "rms": 0.2535942449887247,
+    "folds": [
+      {
+        "K": [
+          502.3604955726533,
+          0,
+          319.874636815199,
+          0,
+          502.37762972527366,
+          237.52360137676467,
+          0,
+          0,
+          1
+        ],
+        "distortion": [
+          -0.11071988793329023,
+          0.13241238911596534,
+          -0.00021398917607192032,
+          0.000284086630382316,
+          0
+        ],
+        "rms": 0.26642461999378325,
+        "heldOutErrors": [
+          0.3100817199143538,
+          0.24604951881363787,
+          0.19818639003564686,
+          0.25717885625619546,
+          0.11409046926018279,
+          0.30567572512218816,
+          0.19810247100177558,
+          0.2559768596204671
+        ],
+        "rotationSpread": 0.9104243941854719
+      },
+      {
+        "K": [
+          500.8767316092097,
+          0,
+          320.21037705141333,
+          0,
+          500.4072688054161,
+          236.41207602627478,
+          0,
+          0,
+          1
+        ],
+        "distortion": [
+          -0.07879583002763205,
+          0.016011181878232496,
+          -0.001066563240762135,
+          0.0005104667752133282,
+          0
+        ],
+        "rms": 0.23806674040099257,
+        "heldOutErrors": [
+          0.34165347066333746,
+          0.25580566966097096,
+          0.2510951328767372,
+          0.17520428042977382,
+          0.26807981427826216,
+          0.2726159949831018,
+          0.30138583093982696,
+          0.266386773571162
+        ],
+        "rotationSpread": 0.7691826174759808
+      }
+    ],
+    "focalDisagreement": 0.003937514585991675,
+    "centreDisagreement": 1.1115253504898988,
+    "quadrants": 4,
+    "model": "OpenCV pinhole, k1 k2 p1 p2; k3 fixed",
+    "undistorted": false
+  }
+}

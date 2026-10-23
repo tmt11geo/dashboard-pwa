@@ -1,0 +1,38 @@
+{
+  "build": "calibration-1",
+  "sourceSha256": {
+    "calibration-engine.js": "e114d11d220c5b7477ba008e2465e0b7b90cdd1614ee91366836c67759d2cb46",
+    "calibration-target.html": "bfd5bd16d7626bb419564ac2d75f983620359061466e002a79dfc2a1bea079a2",
+    "calibration-target.svg": "4c6b8b3cd92946987b19c270e36c4adc72ad7dd2eccb31daca63b1c327c12d79",
+    "calibration-worker.js": "8bef11665d00fc71f16e3d74d50dfd88a46e5a06711a7856e676032d47ab73e2",
+    "calibration.css": "2d1cbb381d3ca5017d96c3ba1957dde759af408182af59f14c4bbbc2cb4f530e",
+    "calibration.html": "6a474165a5b2720147674a557e3d6ddbbecf11b3397bf7758c06d5ac26418302",
+    "calibration.js": "db2e288e6332e0505af350be4a9d6f172f46c0c2bcfdb1d9f3481099fece16b6",
+    "depth.html": "228ef04d1f895527e4ffedf8f53ab312f7ba21b8eb23a9825cf25f6823d992fd",
+    "vendor/calibration-opencv/BUILD-LICENSE.txt": "77aed646e90bfbd6d1aacd668c243040ee472eaebcbb6b415692f48070235cdb",
+    "vendor/calibration-opencv/OPENCV-LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "vendor/calibration-opencv/README.md": "0e5d7bd9839f46d54821ed4c0218cbbbbe4c214ab776a48088883e25a927beae",
+    "vendor/calibration-opencv/manifest.json": "c2fdccef961e12f62cbf16e9ce99f5dcdb2b59b5fdd9853b88b2fcd4fdee6143",
+    "vendor/calibration-opencv/part-00.bin": "bc29a0f19048b373a26a027088f79dcb391eb282c0719d91d25d9296d29d6bdc",
+    "vendor/calibration-opencv/part-01.bin": "6220514d7dfdf0708952032eb0aff2876caa40b28f758e4948a7e89d640f55b0",
+    "vendor/calibration-opencv/part-02.bin": "727e6573ca0992e343c4a77c95910dccebe4d2cb2788c3a40fef52f1f1c48178",
+    "vendor/calibration-opencv/part-03.bin": "74aa96c6d431e807d3a57f1b2a1b045447ae8311e434cc132857488a73a13694",
+    "vendor/calibration-opencv/part-04.bin": "85d2f28a74bd9c4662be483d6858cc622ae3df1e0cdbc563b778e9ff2e0b3a4c",
+    "vendor/calibration-opencv/part-05.bin": "42f05e587bb377d5a635fbd4e8cd464434fb341de484bc30672172b879d94940",
+    "vendor/calibration-opencv/part-06.bin": "81e89e1fcda557dcecc7bac8a699546c75c6fefea4bebff193d79f710581f9dd",
+    "vendor/calibration-opencv/part-07.bin": "fd585e2e76dd1ca7450343b1a8b5cf6aac8aed7f7b188b93a9986dde4836cc67"
+  },
+  "startingFeature": "106ffaa9fad456b057fbff39c1e2bb6386fa0aa0",
+  "startingMain": "308686f9d81e1218c866c936b8a24e3a74064fe4",
+  "protectedFilesUnchanged": [
+    "depth.js",
+    "depth-scan-core.js",
+    "depth-worker.js",
+    "depth-tfjs-worker.js",
+    "sw.js",
+    "manifest.webmanifest",
+    "index.html",
+    "camera.js",
+    "map.html"
+  ]
+}

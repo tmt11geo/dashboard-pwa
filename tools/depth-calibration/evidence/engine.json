@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "name": "actual bundled engine calibrates known views",
+      "pass": true
+    },
+    {
+      "name": "insufficient views rejected",
+      "pass": true
+    },
+    {
+      "name": "inconsistent view groups rejected",
+      "pass": true
+    },
+    {
+      "name": "nonfinite observations rejected",
+      "pass": true
+    },
+    {
+      "name": "blank image rejected",
+      "pass": true
+    }
+  ],
+  "runtimeSha256": "947b59ea8b870bfd308af99d62a9a5e598f610f37f82a3f3492a292bb278a259"
+}

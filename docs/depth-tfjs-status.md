@@ -1,5 +1,38 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Phone calibration ready for deployment — 2026-10-23
+
+User explicitly authorized finishing implementation, deployment and phone-test
+handoff without intermediate stage stops. Starting/work branch depth-tfjs-webgl
+106ffaa9fad456b057fbff39c1e2bb6386fa0aa0; starting main
+308686f9d81e1218c866c936b8a24e3a74064fe4 is its ancestor. No intervening app changes.
+
+Implemented calibration-1: printable checkerboard, guided rear-camera capture,
+nearby controls and landscape layout, green saved-view cue, actual OpenCV worker
+board detection and duplicate rejection, 16–24 views, two-fold calibration checks,
+geometry/focus binding, local JSON export and independent Python PNG/corner replay.
+Bundled same-origin runtime has eight hash-verified parts (4.343 MB gzip), licences
+and provenance. No frame uploads. Current relief algorithm, model, ONNX, map,
+Access and PWA policy remain unchanged; Depth Lab gains a calibration link.
+
+21 browser checks PASS using actual WASM/detection/calibration and a simulated
+camera; 5 actual-engine checks PASS; 72 existing Node tests PASS; independent
+16-image replay PASS (RMS 0.253594 px), including the offline VerifiedCalibration
+contract after undistortion. Syntax/diff checks PASS. Screenshots inspected in
+portrait and landscape. No physical OnePlus performance/accuracy result claimed.
+Evidence/reproduction: tools/depth-calibration/README.md and evidence/*.json,
+node-regression.log, capture-mobile.png, capture-landscape.png. Source/asset hashes
+in verification.json. Phone instructions: docs/depth-calibration-phone-test.md.
+
+Implementation COMPLETE; deployment verification is the next action in this run.
+Commit the tested tree, advance main with an expected-head lease, verify exact
+Pages success and remote assets, then write the deployment receipt on the feature
+branch. Do not stop to request routine approval. After deployment the required
+user input is a real phone session JSON, even if numerical validation is provisional
+or fails. Actual camera evidence is necessary before calibrated relief integration;
+this is a testable capture/validation flow, not a claim of fixed live stitching.
+
+
 ## Seed recovery and calibration verification — 2026-10-23
 
 Bounded offline task COMPLETE; offline candidate gate PASS. Browser/real-phone

@@ -1,0 +1,49 @@
+{
+  "source": "https://yeicor.github.io/camera-calibration-utilities/vendor/opencv.js",
+  "buildSource": "https://github.com/yeicor/camera-calibration-utilities/tree/81ea03f66e63d3c2f953badd0f58c993d76721cc/scripts/build-opencv",
+  "downloaded": "2026-10-23",
+  "runtimeSha256": "947b59ea8b870bfd308af99d62a9a5e598f610f37f82a3f3492a292bb278a259",
+  "gzipSha256": "4fb7096edff420520c84722663a8eea8cc8f801fdfacef0e517b6d9cc065547f",
+  "parts": [
+    {
+      "path": "part-00.bin",
+      "bytes": 550000,
+      "sha256": "bc29a0f19048b373a26a027088f79dcb391eb282c0719d91d25d9296d29d6bdc"
+    },
+    {
+      "path": "part-01.bin",
+      "bytes": 550000,
+      "sha256": "6220514d7dfdf0708952032eb0aff2876caa40b28f758e4948a7e89d640f55b0"
+    },
+    {
+      "path": "part-02.bin",
+      "bytes": 550000,
+      "sha256": "727e6573ca0992e343c4a77c95910dccebe4d2cb2788c3a40fef52f1f1c48178"
+    },
+    {
+      "path": "part-03.bin",
+      "bytes": 550000,
+      "sha256": "74aa96c6d431e807d3a57f1b2a1b045447ae8311e434cc132857488a73a13694"
+    },
+    {
+      "path": "part-04.bin",
+      "bytes": 550000,
+      "sha256": "85d2f28a74bd9c4662be483d6858cc622ae3df1e0cdbc563b778e9ff2e0b3a4c"
+    },
+    {
+      "path": "part-05.bin",
+      "bytes": 550000,
+      "sha256": "42f05e587bb377d5a635fbd4e8cd464434fb341de484bc30672172b879d94940"
+    },
+    {
+      "path": "part-06.bin",
+      "bytes": 550000,
+      "sha256": "81e89e1fcda557dcecc7bac8a699546c75c6fefea4bebff193d79f710581f9dd"
+    },
+    {
+      "path": "part-07.bin",
+      "bytes": 492943,
+      "sha256": "fd585e2e76dd1ca7450343b1a8b5cf6aac8aed7f7b188b93a9986dde4836cc67"
+    }
+  ]
+}

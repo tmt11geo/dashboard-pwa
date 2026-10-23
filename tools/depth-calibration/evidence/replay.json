@@ -1,0 +1,157 @@
+{
+  "numericPassed": true,
+  "independentImagesVerified": 16,
+  "maxCornerReplayErrorPx": 1.9224266907258425e-06,
+  "K": [
+    [
+      502.0483656885836,
+      0.0,
+      319.95666802095525
+    ],
+    [
+      0.0,
+      501.7968040828203,
+      237.01510681906362
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "distortion": [
+    -0.09394249704745522,
+    0.0701725878702797,
+    -0.000779131603451881,
+    -5.916011534011875e-06,
+    0.0
+  ],
+  "rms": 0.25359426438604543,
+  "folds": [
+    {
+      "K": [
+        [
+          502.3604955428404,
+          0.0,
+          319.8746392829664
+        ],
+        [
+          0.0,
+          502.3776284600566,
+          237.52360096876683
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "D": [
+        -0.11071990261287247,
+        0.13241241147622781,
+        -0.0002139886848833091,
+        0.00028408890716034087,
+        0.0
+      ],
+      "rms": 0.2664246391947583,
+      "heldOutMax": 0.3100813329219818,
+      "rotationSpread": 0.9104243977230321
+    },
+    {
+      "K": [
+        [
+          500.8767160751507,
+          0.0,
+          320.2103666950538
+        ],
+        [
+          0.0,
+          500.4072503437864,
+          236.41206541589696
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "D": [
+        -0.07879586879361418,
+        0.016011363307064486,
+        -0.0010665688980813607,
+        0.0005104664165663291,
+        0.0
+      ],
+      "rms": 0.23806676080521658,
+      "heldOutMax": 0.3416534960269928,
+      "rotationSpread": 0.7691825911025281
+    }
+  ],
+  "focalDisagreement": 0.003937549096094228,
+  "centreDisagreement": 1.1115355528698672,
+  "quadrants": 4,
+  "undistortedEvidence": {
+    "evidenceHash": "3db3abcd4547f40acd921b3752170c871ce5a5ccce5d16a663c4b623c5897115",
+    "folds": [
+      {
+        "rms": 0.27033401217648595,
+        "focalRelativeError": 0.0007240618381063602,
+        "principalPointErrorPx": 0.24156182654201075,
+        "heldOutMaxRms": 0.3112719655036926
+      },
+      {
+        "rms": 0.24148330335667936,
+        "focalRelativeError": 0.002563202739958359,
+        "principalPointErrorPx": 0.11465852014936218,
+        "heldOutMaxRms": 0.34304308891296387
+      }
+    ]
+  },
+  "verificationError": null,
+  "focusLocked": true,
+  "geometry": {
+    "deviceId": "fixture-camera",
+    "label": "Y+5O74X+muJc6nH74N7hXAs+yaOhva7CyMppfqF7jp/IWFIl8BMmpVa5DChxTKWMQYrTZ667ug5qs3D9bVgsww==",
+    "sourceWidth": 640,
+    "sourceHeight": 480,
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 640,
+      "height": 480
+    },
+    "outputWidth": 640,
+    "outputHeight": 480,
+    "mirrored": false,
+    "rotation": 0,
+    "screenAngle": 0,
+    "facingMode": "environment",
+    "zoom": 1,
+    "focusMode": "manual",
+    "focusDistance": 1,
+    "resizeMode": null,
+    "frameRate": 15
+  },
+  "imageSha256": [
+    "cda4a5d0633664e8f6a0eb50ac87867f25f5a2cc8f798160b4f5b267c702ae85",
+    "22a6922e4b3f8631a0179074f66c1bf710434c2fea1c4ba8033810c550e32f00",
+    "7969e90162f446cfe308d85dda1a8fd3089591771d165256d4c31c585b9ed918",
+    "eda27251ba9a8432d833e1f6f4a7aae5c71e550f1873d64aa7f94e72b7faebb7",
+    "60657d105bcf13fa5ce9923181fd1a626a579803bbc35b7788ed4342541d6b17",
+    "243a9594ea1531cfc5bc8790e639daf65947cda251d94072cd15bc7003cbd527",
+    "07ec1a540f773dd2dd9779538f99e256bdfb9ada3ad06932120201807c7148c0",
+    "3bac1804578096a44d0da5820cf6dbc7318ca4ad0c42500e3b02d0d0c304eecd",
+    "858d0c56a14b528c1547e4284e5310ea02df1a602aef11b286cdf558faf4c6a2",
+    "8232e71733178bd4ae30cccaca4bfdc8b5a9f760f24c1fd0ddcda00f6d8d2244",
+    "4744e72d96937bb322de328cf6faf732d70fcfa1c22a37fe4806f8c2c7baed98",
+    "ccb95baaf87411b111773a4d040e5aea159fde7f7bb30f297e2383cdb9cabda5",
+    "c99b7ee9fa074ca1245b1fa459a3f701ef7bda53d42bf43d9c92e15e0e1dd9a1",
+    "60ead0b6f8ec9d9dda1962ebef5230de2c50db4f7f9cc3e80be2bab84fb7f41e",
+    "418fccab7ba063d8c9363f64641623e1e3c33f57208f40c646c3168632664f4b",
+    "6192ec6f325572e69ac112363672bd18f9a572f9783886f710a52733d995c5c7"
+  ],
+  "readyForControlledTrackerReplay": true,
+  "limitations": "Target consistency only; not scene-pose accuracy, phone performance, authenticity, or safe scanner deployment. Undistort raw tracking images using K and distortion, preserve exact crop/geometry; do not apply raw calibration to a different camera mode.",
+  "inputSha256": "e2c6eab301938446578c441aaf45131f3bb7ba4db17b61d930c9c5899f29337b",
+  "opencv": "4.11.0"
+}
