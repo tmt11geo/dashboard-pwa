@@ -7,7 +7,7 @@ User reports additions remain difficult and requested a visible movement amount.
 Build depth-lab-7 adds local 72px preview translation matching against the last accepted capture. Camera overlay shows direction, progress, approximate image shift and a suggested 6–14% range. Small movement asks for more; sufficient movement asks to hold still; overshoot points back; weak or ambiguous overlap asks to return. Capture requires a first view or a confident shift in range, plus existing stability/cooldown/retry checks. Accepted-view flash, pause, cleanup and saved scenes retained. This is a heuristic image translation, not camera pose, degrees, centimetres, or a guarantee of successful 3D alignment. Rotation, parallax, repetitive texture and moving objects can make it uncertain. Actual-model registration and thresholds unchanged.
 
 Validation: 68 Node tests PASS; 22 local Chromium UI checks PASS, including uncertain-overlap gating, overshoot arrow, three registered additions, pause/resume, stop cleanup and file roundtrip. Evidence: tools/depth-scan/evidence/node-tests-v7.log and browser-ui-v7.json. Synthetic rendered camera + inference double + real registration; no new physical-phone performance or real-model claim. Phone screenshot reviewed. Fixtures use larger sideways steps for the new movement target; old evidence preserved.
-Deployment: pending exact Pages receipt for this implementation.
+Deployment receipt: main 21523a1e26f1702b807c8842509c81b5e75dd972, build depth-lab-7; Pages run 40007740622 succeeded for that exact SHA. This documentation receipt is on depth-tfjs-webgl. Remote refs and checkpoint files verified through GitHub.
 Blocker: OnePlus guidance/registration acceptance is still unverified; live automated requests were previously blocked by Access.
 Exact next action: open depth.html?v=7, confirm depth-lab-7. After the first accepted view, move sideways following the arrow until the bar fills and HOLD STILL appears; keep still until the accepted-view green flash. If overshooting, follow the return arrow. Try 3–5 views and send diagnostic logs plus whether the guidance reaches the target and additions align. Keep phone pointing the same way. Working/outcome branch: depth-tfjs-webgl.
 
@@ -32,13 +32,13 @@ Updated: 2026-10-23. Repository: tmt11geo/dashboard-pwa.
 | Branch containing this outcome | `depth-tfjs-webgl` |
 | Starting main commit | `9db5c0345faf7339f3d4cc24142dad362122649e` |
 | Live application branch | `main` |
-| Live application commit last checked | `1df5e0fb48d13e3a645a17b0a7808e1090ef2cca` |
-| Live diagnostic build | `depth-lab-6` |
+| Live application commit last checked | `21523a1e26f1702b807c8842509c81b5e75dd972` |
+| Live diagnostic build | `depth-lab-7` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
 | Active stage | Guided scan deployed; waiting for OnePlus acceptance |
 | Next stage | OnePlus guided-scan acceptance |
 | Current blocker | Physical guided-scan observations needed; automated live URLs return 403/1010 |
-| Outcome of this checkpoint | Compact controls and accepted-view move flash deployed; Pages success verified |
+| Outcome of this checkpoint | Movement amount, direction and overlap guidance deployed; Pages success verified |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 

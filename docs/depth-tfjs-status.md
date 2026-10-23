@@ -7,7 +7,7 @@ User reports additions remain difficult and requested a visible movement amount.
 Build depth-lab-7 adds local 72px preview translation matching against the last accepted capture. Camera overlay shows direction, progress, approximate image shift and a suggested 6–14% range. Small movement asks for more; sufficient movement asks to hold still; overshoot points back; weak or ambiguous overlap asks to return. Capture requires a first view or a confident shift in range, plus existing stability/cooldown/retry checks. Accepted-view flash, pause, cleanup and saved scenes retained. This is a heuristic image translation, not camera pose, degrees, centimetres, or a guarantee of successful 3D alignment. Rotation, parallax, repetitive texture and moving objects can make it uncertain. Actual-model registration and thresholds unchanged.
 
 Validation: 68 Node tests PASS; 22 local Chromium UI checks PASS, including uncertain-overlap gating, overshoot arrow, three registered additions, pause/resume, stop cleanup and file roundtrip. Evidence: tools/depth-scan/evidence/node-tests-v7.log and browser-ui-v7.json. Synthetic rendered camera + inference double + real registration; no new physical-phone performance or real-model claim. Phone screenshot reviewed. Fixtures use larger sideways steps for the new movement target; old evidence preserved.
-Deployment: pending exact Pages receipt for this implementation.
+Deployment receipt: main 21523a1e26f1702b807c8842509c81b5e75dd972, build depth-lab-7; Pages run 40007740622 succeeded for that exact SHA. This documentation receipt is on depth-tfjs-webgl. Remote refs and checkpoint files verified through GitHub.
 Blocker: OnePlus guidance/registration acceptance is still unverified; live automated requests were previously blocked by Access.
 Exact next action: open depth.html?v=7, confirm depth-lab-7. After the first accepted view, move sideways following the arrow until the bar fills and HOLD STILL appears; keep still until the accepted-view green flash. If overshooting, follow the return arrow. Try 3–5 views and send diagnostic logs plus whether the guidance reaches the target and additions align. Keep phone pointing the same way. Working/outcome branch: depth-tfjs-webgl.
 
@@ -26,7 +26,7 @@ Updated 2026-10-23. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Compact guided-scan UX deployed on main 1df5e0fb48d13e3a645a17b0a7808e1090ef2cca, build depth-lab-6, Pages run 40006383084 success. 64 Node tests and 19 browser UI checks PASS. Prior actual-model evidence remains unchanged. Next: OnePlus guided-scan acceptance with green move cue. Original stage 10 remains partial.
+Working/outcome branch: depth-tfjs-webgl. Movement guidance deployed on main 21523a1e26f1702b807c8842509c81b5e75dd972, build depth-lab-7, Pages run 40007740622 success. 68 Node tests and 22 browser checks PASS. Next: OnePlus movement-guidance and addition acceptance. Original stage 10 remains partial; waiting for device logs.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
