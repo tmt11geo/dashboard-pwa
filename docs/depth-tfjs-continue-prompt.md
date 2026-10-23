@@ -96,3 +96,37 @@ latest deployment receipt before taking action; phone acceptance remains separat
 Do not rerun completed conversion or shard stages. Stage 10's earlier phone log
 covers ordinary TFJS depth, not the new scanner. Request scanner diagnostics if
 none have been supplied; do not claim OnePlus scan success from local tests.
+
+
+## Guided scan deployed — 2026-10-23
+
+Implementation/main commit: faf6339373a38345905949b864cd1c651ccc9689. Build depth-lab-5.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/40004530154
+completed/success for this exact SHA. Main advanced by an expected-head lease;
+all seven source files in the verification manifest match remote main bytes.
+Final documentation receipt is on depth-tfjs-webgl; main stays at the verified
+implementation/deployment SHA.
+
+Experimental guided scanning is now available at
+https://tmt11.com/dashboard-pwa/depth.html?v=5 via the normal Access flow.
+Use Start guided scan, move slightly sideways with overlap, hold still, wait for
+View added, Finish, then Save relief file. Open restores a saved scene for
+inspection; saved files cannot resume tracking. Clear starts a new scene.
+
+Evidence: tools/depth-scan/evidence/. 64 Node tests PASS, 13 browser UI/lifecycle/
+save-open checks PASS, actual model/real-sequence checks PASS (2 accepted views,
+2,065 points from five images; overly similar views rejected). Synthetic 3D
+transform, affine depth and negative cases pass. Physical phone acceptance,
+long-scan drift, heat and responsiveness remain unverified. No metric accuracy
+or general SLAM claim. The R1–R4 implementation and R5 deployment are complete
+for this experimental release; R5 OnePlus acceptance remains open.
+
+Automated custom-domain page/script/core requests returned HTTP 403 with body
+error code 1010. No authentication bypass attempted; Pages success is separate
+from authenticated live-app validation. Access configuration is unchanged.
+Evidence: live-urls.json and deployment.json.
+
+Exact next action: user tests 3–5 views on OnePlus, pauses/finishes, rotates, saves,
+reloads and opens the scene; supply diagnostics and alignment/responsiveness/heat
+observations. Resume from this branch checkpoint and inspect main before fixes.
+This supersedes all earlier R1-only and deployment-pending pointers.

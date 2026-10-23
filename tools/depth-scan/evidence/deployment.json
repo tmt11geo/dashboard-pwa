@@ -1,0 +1,13 @@
+{
+  "id": 40004530154,
+  "sha": "faf6339373a38345905949b864cd1c651ccc9689",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/tmt11geo/dashboard-pwa/actions/runs/40004530154",
+  "build": "depth-lab-5",
+  "main": "faf6339373a38345905949b864cd1c651ccc9689",
+  "checkpoint_branch": "depth-tfjs-webgl",
+  "remote_source_bytes_match": true,
+  "phone_acceptance": "pending",
+  "live_url_validation": "HTTP 403, error code 1010; no authenticated validation"
+}

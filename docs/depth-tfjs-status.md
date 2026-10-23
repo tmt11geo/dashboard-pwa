@@ -4,7 +4,7 @@ Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-p
 
 ## Current scope and branch
 
-Working/outcome branch: depth-tfjs-webgl. Stages 1–9 DONE; next stage 10 OnePlus evaluation. Main deployed at e599a76ad2a48e97650545f64980abf4756de3e8, build depth-lab-4, Pages run 39134967348 success. Final 56 Node tests and package audit PASS. Live automated requests blocked by Cloudflare 403/1010; authenticated device verification pending. No phone performance claim.
+Working/outcome branch: depth-tfjs-webgl. Guided persistent-relief experiment deployed on main faf6339373a38345905949b864cd1c651ccc9689, build depth-lab-5, Pages run 40004530154 success. 64 Node tests, 13 browser UI checks and actual-model real-sequence feasibility PASS. Next: OnePlus guided-scan acceptance. Approximate arbitrary-scale short scans only; no metric or long-scan accuracy claim. Original stage 10 ordinary TFJS evaluation remains partial.
 
 The earlier temporary workspace is absent. Historical scripts, environments, binary fixtures, converted weights and original log files are unavailable. The adjacent evidence JSON was transcribed from actual tool output visible in the conversation; it is not a recovered original log. Stages 2–5 have now been reproduced below; durable scripts and evidence are committed.
 
@@ -972,3 +972,37 @@ deployment pending; physical OnePlus acceptance remains pending. Original stage 
 is still partial. No map/tracker/theme/PWA/Access or ONNX behavior changes intended.
 Exact next action in this run: commit, deploy main, verify exact Pages success,
 then checkpoint the receipt and give the user the new scan URL and steps.
+
+
+## Guided scan deployed — 2026-10-23
+
+Implementation/main commit: faf6339373a38345905949b864cd1c651ccc9689. Build depth-lab-5.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/40004530154
+completed/success for this exact SHA. Main advanced by an expected-head lease;
+all seven source files in the verification manifest match remote main bytes.
+Final documentation receipt is on depth-tfjs-webgl; main stays at the verified
+implementation/deployment SHA.
+
+Experimental guided scanning is now available at
+https://tmt11.com/dashboard-pwa/depth.html?v=5 via the normal Access flow.
+Use Start guided scan, move slightly sideways with overlap, hold still, wait for
+View added, Finish, then Save relief file. Open restores a saved scene for
+inspection; saved files cannot resume tracking. Clear starts a new scene.
+
+Evidence: tools/depth-scan/evidence/. 64 Node tests PASS, 13 browser UI/lifecycle/
+save-open checks PASS, actual model/real-sequence checks PASS (2 accepted views,
+2,065 points from five images; overly similar views rejected). Synthetic 3D
+transform, affine depth and negative cases pass. Physical phone acceptance,
+long-scan drift, heat and responsiveness remain unverified. No metric accuracy
+or general SLAM claim. The R1–R4 implementation and R5 deployment are complete
+for this experimental release; R5 OnePlus acceptance remains open.
+
+Automated custom-domain page/script/core requests returned HTTP 403 with body
+error code 1010. No authentication bypass attempted; Pages success is separate
+from authenticated live-app validation. Access configuration is unchanged.
+Evidence: live-urls.json and deployment.json.
+
+Exact next action: user tests 3–5 views on OnePlus, pauses/finishes, rotates, saves,
+reloads and opens the scene; supply diagnostics and alignment/responsiveness/heat
+observations. Resume from this branch checkpoint and inspect main before fixes.
+This supersedes all earlier R1-only and deployment-pending pointers.

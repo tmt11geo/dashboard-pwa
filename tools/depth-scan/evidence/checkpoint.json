@@ -1,5 +1,5 @@
 {
-  "status": "implementation verified; deployment pending",
+  "status": "experimental implementation deployed; OnePlus acceptance pending",
   "build": "depth-lab-5",
   "starting_branch": "depth-tfjs-webgl",
   "starting_commit": "dd5186ed28609ad85512fb531339e1e46ab53062",
@@ -31,5 +31,7 @@
     "short real-sequence acceptance, not a measured geometry error bound",
     "OnePlus guided scanning not yet tested",
     "file save needed for persistence across closing the page"
-  ]
+  ],
+  "deployed_main": "faf6339373a38345905949b864cd1c651ccc9689",
+  "pages_run": 40004530154
 }
