@@ -60,11 +60,20 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    });
    await page.goto(url);check('page initializes',report.errors.length===0);
    await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('1 accepted'),{},{timeout:20000});
-   check('first view added and shown in relief',(await page.locator('#result-title').textContent()).includes('Persistent'));
+   check('first view added and shown in relief',(await page.locator('#result-title').textContent()).includes('Scan relief'));
+   check('accepted view gives move flash',await page.evaluate(()=>document.querySelector('#scan-workspace').classList.contains('move-flash')&&document.querySelector('#scan-guide').textContent.includes('MOVE NOW')));
+   check('phone views stay beside each other with nearby controls',await page.evaluate(()=>{
+    const cards=[...document.querySelectorAll('.scan-panel .depth-card')].map(e=>e.getBoundingClientRect()), controls=document.querySelector('.scan-command').getBoundingClientRect();
+    return cards.length===2&&Math.abs(cards[0].top-cards[1].top)<2&&cards[0].top-controls.bottom<20&&document.documentElement.scrollWidth<=innerWidth;
+   }));
+   await page.emulateMedia({reducedMotion:'reduce'});
+   check('reduced motion suppresses pulse',await page.locator('.image-frame').first().evaluate(e=>getComputedStyle(e,'::after').animationName==='none'));
+   await page.emulateMedia({reducedMotion:'no-preference'});
    await page.screenshot({path:path.join(fixtures,'scan-phone.png'),fullPage:true});
    await page.evaluate(()=>frameIndex=1);await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('2 accepted'),{},{timeout:20000});
    check('moved view extends persistent scene',true);
    await page.click('#scan-pause');const paused=await page.locator('#scan-count').textContent();await page.evaluate(()=>frameIndex=2);await page.waitForTimeout(3000);
+   check('pause clears flash',await page.evaluate(()=>!document.querySelector('#scan-workspace').classList.contains('move-flash')));
    check('pause prevents another capture',paused===await page.locator('#scan-count').textContent());
    await page.click('#scan-pause');await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('3 accepted'),{},{timeout:20000});
    check('resume adds another view',true);
@@ -77,12 +86,16 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    check('open restores exact saved scene count',count===await page.locator('#scan-count').textContent());
    await page.reload();await page.locator('#scan-file').setInputFiles(saved);await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('3 accepted'));check('file survives page reload',true);
    await page.click('#scan-clear');await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.startsWith('1 accepted'),{},{timeout:20000});
-   await page.evaluate(()=>{frameIndex=1;modelDelay=4000;});await page.waitForFunction(()=>document.querySelector('#scan-guide').textContent.includes('capturing depth'),{},{timeout:15000});
+   await page.evaluate(()=>{frameIndex=1;modelDelay=4000;});await page.waitForFunction(()=>document.querySelector('#scan-guide').textContent.includes('CAPTURING'),{},{timeout:15000});
+   await page.click('#scan-pause');
+   check('paused capture does not invite movement',(await page.locator('#scan-guide').textContent()).includes('PAUSED'));
+   await page.click('#scan-pause');
+   check('resumed pending capture still says wait',(await page.locator('#scan-guide').textContent()).includes('wait for green'));
    await page.click('#scan-finish');await page.waitForTimeout(4500);check('finish ignores late capture',(await page.locator('#scan-count').textContent()).startsWith('1 accepted'));
    check('all browser workers released',page.workers().length===0);
    check('no page errors',report.errors.length===0);
   }
   report.status='PASS';
- }catch(e){report.status='FAIL';report.error=e.stack;console.error(e);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(path.join(root,'tools/depth-scan/evidence',real?'real-sequence.json':'browser-ui.json'),JSON.stringify(report,null,2)+'\n');}
+ }catch(e){report.status='FAIL';report.error=e.stack;console.error(e);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(path.join(root,'tools/depth-scan/evidence',real?'real-sequence.json':'browser-ui-v6.json'),JSON.stringify(report,null,2)+'\n');}
  if(report.status!=='PASS')process.exitCode=1;
 })();

@@ -1,7 +1,7 @@
-import {createScanner} from './depth-scan.js?v=1';
+import {createScanner} from './depth-scan.js?v=2';
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=4';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=5';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
@@ -158,7 +158,7 @@ function drawRelief(){
 function setView(relief){
  showRelief=relief;ui.relief.hidden=!relief;ui['depth-image'].hidden=relief;ui['relief-tools'].hidden=!relief;
  ui['view-depth'].setAttribute('aria-pressed',String(!relief));ui['view-relief'].setAttribute('aria-pressed',String(relief));
- ui['result-title'].textContent=relief?(scanner?.scene?'Persistent 3D relief · experimental':'Single-frame 3D relief'):'Relative depth';queueDraw();
+ ui['result-title'].textContent=relief?(scanner?.scene?'Scan relief':'Single-frame 3D relief'):'Relative depth';queueDraw();
 }
 function turn(dx,dy=0){yaw=yaw+dx;pitch=Math.max(-1,Math.min(1,pitch+dy));queueDraw();}
 function magnify(factor){zoom=Math.max(.4,Math.min(3,zoom*factor));queueDraw();}

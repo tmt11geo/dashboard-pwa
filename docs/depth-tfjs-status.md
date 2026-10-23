@@ -1,5 +1,16 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Compact scan controls and move cue — 2026-10-23
+
+User-requested device UX follow-up only, based on depth-tfjs-webgl ecbf42d357670c31b354e5b6260ca5a6f135a565; main before this change faf6339373a38345905949b864cd1c651ccc9689.
+Build depth-lab-6 places camera and relief together with sticky Start/Pause/Finish controls and guidance immediately above, rotation and file controls below. Compute/single-frame controls are collapsed. Each accepted scene addition gets one soft green pulse across both views and MOVE NOW; capture/alignment say wait for green. Pause clears the pulse, deferred acceptance cues wait until resume, and pending captures never invite movement on resume. Reduced-motion mode uses a static outline.
+
+Validation: 64/64 Node tests and 19/19 local Chromium browser checks PASS. Evidence: tools/depth-scan/evidence/browser-ui-v6.json and node-tests-v6.log; harness tools/depth-scan/run_browser.cjs. Phone-sized screenshot visually inspected; side-by-side geometry, adjacent controls, no horizontal overflow, reduced motion, pause/resume, finish, file save/open/reload checked. Browser uses an inference double with real registration. Existing actual-model feasibility evidence is preserved; no phone performance or physical acceptance claim. Model, registration and capture thresholds unchanged.
+
+Deployment: implementation ready for main and existing Pages workflow; exact receipt will be recorded after deployment.
+Blocker: physical-device usability acceptance remains pending; automated live requests were previously blocked by Access (403/1010).
+Exact next action: open depth.html?v=6 on OnePlus, confirm depth-lab-6, start a scan, hold until green MOVE NOW, shift slightly sideways, hold for the next addition; repeat 3–5 times, then Pause/Finish/Save/Open. Report cue visibility, responsiveness and alignment with the diagnostic log. Working/outcome branch depth-tfjs-webgl. Original stage 10 remains PARTIAL; no new conversion stage started.
+
 Updated 2026-10-18. Navigation: [DONE.md](../DONE.md), [stage plan](depth-tfjs-plan.md), [resume prompt](depth-tfjs-continue-prompt.md).
 
 ## Current scope and branch
