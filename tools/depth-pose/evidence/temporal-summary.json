@@ -1,0 +1,80 @@
+{
+  "sourceSha256": {
+    "temporal.py": "90414992776bf808e036fd4112eeda7736010b9ef1d140811acc94c86954d256",
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_temporal.py": "dd5888f456b1de74c6406ac8eb2f70af20cfc4fadc9aa39ece4e5eb3c51b5463",
+    "temporal_spec.json": "b38d0986bc355ad132bbe2ee0c6dc9cc88001488f1357c8603506d81336f8418"
+  },
+  "spec": {
+    "width": 640,
+    "height": 480,
+    "held_out_seeds": [
+      39517,
+      79431
+    ],
+    "profiles": [
+      "clean",
+      "blur",
+      "noise",
+      "claimed_wrong_calibration"
+    ],
+    "frames_per_sequence": 9,
+    "translation_step_xy": 0.08,
+    "translation_step_z": 0.15,
+    "rotation_step_degrees": 0.75,
+    "blur_sigma": 1.2,
+    "noise_sigma": 8.0,
+    "rotation_error_degrees": 2,
+    "direction_error_degrees": 10,
+    "success": "Every positive sequence has at least one keyframe; every emitted keyframe accurate; no negative sequence emits translation.",
+    "policy": "Freeze temporal implementation before held-out run. Incorrect calibration with claimed-valid metadata is an adversarial limitation test, not proof that metadata validates optics."
+  },
+  "summary": {
+    "clean": {
+      "positivePassed": 13,
+      "positiveTotal": 16,
+      "negativePassed": 14,
+      "negativeTotal": 14,
+      "keyframes": 18,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 113,
+      "inaccurateRawPairs": 0
+    },
+    "blur": {
+      "positivePassed": 14,
+      "positiveTotal": 16,
+      "negativePassed": 14,
+      "negativeTotal": 14,
+      "keyframes": 20,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 110,
+      "inaccurateRawPairs": 0
+    },
+    "noise": {
+      "positivePassed": 11,
+      "positiveTotal": 16,
+      "negativePassed": 14,
+      "negativeTotal": 14,
+      "keyframes": 14,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 111,
+      "inaccurateRawPairs": 2
+    },
+    "claimed_wrong_calibration": {
+      "positivePassed": 7,
+      "positiveTotal": 16,
+      "negativePassed": 14,
+      "negativeTotal": 14,
+      "keyframes": 9,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 109,
+      "inaccurateRawPairs": 0
+    }
+  },
+  "promotionPass": false
+}

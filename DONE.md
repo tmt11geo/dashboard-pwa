@@ -1,5 +1,17 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Temporal/keyframe checkpoint — 2026-10-23
+
+Bounded offline task COMPLETE; promotion remains FAIL and stage 10/scanner remains PARTIAL. Starting branch depth-tfjs-webgl d9ea04e63ae92e4854d0141ed28d57339844e895; working/outcome branch depth-tfjs-webgl. Main unchanged at 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8), no deployment.
+
+Added offline temporal.py: retain anchor while baseline accumulates, require three compatible distinct frames, compare translation directions in anchor coordinates, enforce rotation-cycle consistency, then promote a local keyframe. Missing/assumed or incompatible calibration is refused; valid-looking metadata cannot prove true optical calibration. Only local unit translation direction is returned; no global path, scale recovery, depth alignment, fusion or browser port.
+
+Seventeen unit tests PASS; dependency check PASS. Development: 6/8 translated paths completed, 9 accurate keyframes. Frozen held-out test: 120 sequences / 1,080 frames over fresh textures/layouts with clean, blur, noise and claimed-wrong-calibration profiles. 45/64 positive paths completed; 56/56 stationary/rotation-only paths emitted no translation. All 61 emitted keyframes met <2-degree rotation and <10-degree direction error. Clean profile recovers all 12 signed X/Y/Z translations; combined motions and one reversal are withheld. Two inaccurate noisy raw pair estimates were not promoted. Gate correctly exits 1 because coverage/recovery is incomplete; no claim of a fixed phone scanner.
+
+Per profile positive completion: clean 13/16, blur 14/16, noise 11/16, claimed wrong calibration 7/16. Each has 14/14 safe negative paths and zero inaccurate emitted keyframes. Evidence/source hashes: tools/depth-pose/evidence/temporal-summary.json, temporal-{clean,blur,noise,claimed_wrong_calibration}.json, temporal-development-{clean,summary}.json, temporal-unit-tests.log and temporal-runtime.json. Method/conventions/commands: tools/depth-pose/TEMPORAL-REVIEW.md and README.md.
+
+Blockers: withheld valid combined/reversal paths; pairwise cycle estimates can be ambiguous at short baselines; calibration metadata is not verification; no real-device/global/fused-map accuracy evidence. Exact next bounded action: shared-landmark three-view tracking with triangulation/PnP or equivalent multi-view consistency; evaluate on fresh curved/reversal trajectories and retain current failures as regressions before browser integration. Main remains unchanged; no further phone log retries needed for offline work. Verify remote branch/checkpoint files before stopping.
+
 ## Rotation competition and held-out stress checkpoint — 2026-10-23
 
 Bounded offline task COMPLETE, promotion gate FAIL; scanner/stage 10 remains PARTIAL. Starting branch depth-tfjs-webgl b8b1ff4f43dd1748fa7cd13ec59cc9eb83977d2d. Working/outcome branch depth-tfjs-webgl. Main remains 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8); no deployment or app/depth changes.
@@ -71,9 +83,9 @@ Updated: 2026-10-23. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-8` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
 | Active stage | PARTIAL: alignment/6DoF validation; phone stitching failed |
-| Next stage | Offline temporal/keyframe pose tracking with calibration checks; promotion FAIL |
+| Next stage | Shared-landmark three-view pose consistency; promotion FAIL |
 | Current blocker | Physical guided-scan observations needed; automated live URLs return 403/1010 |
-| Outcome of this checkpoint | Rotation competition and 520 held-out comparisons committed; main unchanged; quality gate FAIL |
+| Outcome of this checkpoint | Temporal keyframes: 61 accurate emissions, incomplete recovery; main unchanged; gate FAIL |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
 

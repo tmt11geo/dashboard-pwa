@@ -74,3 +74,24 @@ The candidate was frozen before held-out evaluation. 456 cases cover new texture
 Promotion gate remains **FAIL**. The candidate emits no false translation across 268 negative controls, and recovers their required orientations. However, it still accepts 13 inaccurate poses across positive translation cases, and valid pose recovery falls at 224. Across all held-out sets, 640 recovery is unchanged at 91/126; 224 recovery falls from 67/126 to 44/126. Do not summarize the conservative rotation check as an overall accuracy improvement. Blur improves some 224 cases; higher resolution is not universally superior, although these tests favour 640 for reliable accepted directions with correct calibration.
 
 Main remains unchanged. Next: temporal/keyframe tracking at 640 with calibration checks and fresh held-out sequences, retaining these failures as regressions; no fusion/browser integration or additional phone-log retry yet.
+
+## Temporal/keyframe stage — 2026-10-23
+
+New offline module: temporal.py. It retains an anchor to accumulate baseline and requires three compatible pose observations, with direction and rotation-cycle consistency. It enforces an explicit calibration contract. Full method, caveats and commands: [TEMPORAL-REVIEW.md](TEMPORAL-REVIEW.md).
+
+Seventeen unit tests PASS. Development completed 6/8 translated sequences with 9 accurate keyframes. Frozen held-out evaluation used two new texture/layout seeds, 15 nine-frame paths and four profiles: 120 sequences / 1,080 frames. All emitted relative poses met <2-degree rotation and <10-degree translation-direction errors. The score is local keyframe pose, not global trajectory or fused-surface accuracy.
+
+| Profile | Translated paths completed | Negative paths safe | Keyframes | Inaccurate keyframes |
+| --- | --- | --- | --- | --- |
+| clean | 13/16 | 14/14 | 18 | 0 |
+| blur | 14/16 | 14/14 | 20 | 0 |
+| noise | 11/16 | 14/14 | 14 | 0 |
+| claimed_wrong_calibration | 7/16 | 14/14 | 9 | 0 |
+
+Totals: 45/64 translated sequences completed; 56/56 negative sequences emitted no translation; 61 emitted keyframes, zero inaccurate/false translations. In the clean profile all 12 signed X/Y/Z translation sequences succeeded; both combined-motion sequences and one reversal were withheld. Two inaccurate raw anchor-pair estimates in the noisy profile were not promoted. Raw-pair counts are diagnostics on tracker-selected anchors, not a separate full-pipeline baseline.
+
+Promotion gate remains **FAIL** because valid paths are still withheld. The wrong-calibration profile supplies incorrect intrinsics with claimed-valid metadata; passing metadata checks does not establish optical correctness. There were no inaccurate emitted poses in this test, but only 7/16 translated paths completed under that profile. No real-phone, rolling-shutter, metric-scale, global trajectory or fused-map accuracy claim is made.
+
+Evidence: temporal-{clean,blur,noise,claimed_wrong_calibration}.json, temporal-summary.json, temporal-development-{clean,summary}.json, temporal-unit-tests.log, temporal-runtime.json. Each evaluation command deliberately returns 1 on quality-gate failure. Main and the live app are unchanged.
+
+Next bounded action: track shared landmarks across three views and test triangulation/PnP or equivalent multi-view consistency, replacing ambiguous pairwise rotation-cycle evidence. Retain these failures as regressions and add fresh curved/reversal trajectories. Require accurate recovery as well as safe refusal before a browser port or depth fusion. No extra phone-log retries needed.
