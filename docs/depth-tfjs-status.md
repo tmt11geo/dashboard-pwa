@@ -914,3 +914,26 @@ confirm diagnostics show depth-lab-4. See docs/depth-tfjs-phone-test.md for the
 short baseline/WebGL/timing/lifecycle sequence and requested copied logs.
 Stage 10 NOT STARTED; no phone performance or hardware acceleration result claimed.
 This pointer supersedes all historical deployment-preparation/next-action text.
+
+
+## Guided persistent relief design checkpoint — 2026-10-23
+
+User approved persistent 3D relief and measured move–hold–capture guidance.
+R0 design/source audit complete; see docs/depth-relief-scan-plan.md. No scanner
+implementation or deployment in this checkpoint. Starting/outcome branch
+ depth-tfjs-webgl at 838eebbcb36b2f7eccc2d991fddd065516d8a52a.
+Main remains e599a76ad2a48e97650545f64980abf4756de3e8; deployment not rechecked.
+Phone log supplied in this conversation confirms Adreno 740 WebGL with CPU
+forwarding disabled, 8.392 s loading, 5.034 s first inference and 1.837–1.873 s
+warm inferences. Stable live counters across 11 completed frames; user reports
+poor browser responsiveness at requested 1/s. Evidence summary:
+tools/depth-tfjs/evidence/stage10-phone-summary.json (not a full raw-log archive).
+Stage 10 is PARTIAL, not “no phone evidence”; lifecycle/baseline/heat remain pending.
+Fresh source audit: relief is replaced each frame; worker discards raw depth range
+via normalization; assumed camera FOV and arbitrary geometry cannot establish a
+consistent map. No AGENTS.md in either inspected tree. Documentation-only change;
+source inspection performed, no new runtime tests claimed.
+Exact next implementation action for the newly approved feature: R1 only in the
+scan plan, preserve raw capture data and build bounded guided scheduling. Pose,
+scale alignment and fusion remain R2/R3 feasibility work. No mapping claim yet.
+This additive project pointer supersedes “no phone results” wording above.

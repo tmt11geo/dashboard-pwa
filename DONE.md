@@ -14,8 +14,8 @@ Updated: 2026-10-18. Repository: tmt11geo/dashboard-pwa.
 | Live diagnostic build | `depth-lab-4` |
 | New TFJS backend deployed? | Yes; Pages success verified, authenticated device check pending |
 | Active stage | None; stage 9 complete |
-| Next stage | **10 — OnePlus device evaluation** |
-| Current blocker | Phone logs needed for stage 10; live automated requests receive Cloudflare 403/1010 |
+| Next stage | Guided relief R1; existing stage 10 evaluation remains partial |
+| Current blocker | Reconstruction needs validated pose/scale alignment; remaining phone lifecycle/baseline evidence pending |
 | Outcome of this checkpoint | Stage 9 complete; merged and Pages deployment verified |
 
 Resolve the current checkpoint SHA from the branch head or the commit that last changed this file. Do not put a guessed/self-referential commit SHA here. Record completed implementation commits in the history below on subsequent checkpoints.
@@ -35,7 +35,7 @@ DONE means the stage's acceptance criteria and durable deliverables are availabl
 | 7. Camera integration | **DONE** | Explicit TFJS WebGL worker, fixed-224 letterboxing/crop, backpressure and diagnostics; actual app/model smoke PASS. |
 | 8. Lifecycle/regressions | **DONE** | 56 Node tests, 23 actual-browser lifecycle checks and 8 deployment-prefix checks PASS; phone evaluation remains stage 10. |
 | 9. Merge/deploy | **DONE** | Exact merged SHA deployed successfully; live automated requests blocked by Cloudflare. |
-| 10. OnePlus device evaluation | **NOT STARTED — NEXT** | Test instructions ready; no phone TFJS performance evidence. |
+| 10. OnePlus device evaluation | **PARTIAL** | Hardware WebGL phone log received; responsiveness issue; lifecycle/baseline/heat pending. |
 
 ## Stage 6 substage ledger
 
@@ -618,3 +618,26 @@ confirm diagnostics show depth-lab-4. See docs/depth-tfjs-phone-test.md for the
 short baseline/WebGL/timing/lifecycle sequence and requested copied logs.
 Stage 10 NOT STARTED; no phone performance or hardware acceleration result claimed.
 This pointer supersedes all historical deployment-preparation/next-action text.
+
+
+## Guided persistent relief design checkpoint — 2026-10-23
+
+User approved persistent 3D relief and measured move–hold–capture guidance.
+R0 design/source audit complete; see docs/depth-relief-scan-plan.md. No scanner
+implementation or deployment in this checkpoint. Starting/outcome branch
+ depth-tfjs-webgl at 838eebbcb36b2f7eccc2d991fddd065516d8a52a.
+Main remains e599a76ad2a48e97650545f64980abf4756de3e8; deployment not rechecked.
+Phone log supplied in this conversation confirms Adreno 740 WebGL with CPU
+forwarding disabled, 8.392 s loading, 5.034 s first inference and 1.837–1.873 s
+warm inferences. Stable live counters across 11 completed frames; user reports
+poor browser responsiveness at requested 1/s. Evidence summary:
+tools/depth-tfjs/evidence/stage10-phone-summary.json (not a full raw-log archive).
+Stage 10 is PARTIAL, not “no phone evidence”; lifecycle/baseline/heat remain pending.
+Fresh source audit: relief is replaced each frame; worker discards raw depth range
+via normalization; assumed camera FOV and arbitrary geometry cannot establish a
+consistent map. No AGENTS.md in either inspected tree. Documentation-only change;
+source inspection performed, no new runtime tests claimed.
+Exact next implementation action for the newly approved feature: R1 only in the
+scan plan, preserve raw capture data and build bounded guided scheduling. Pose,
+scale alignment and fusion remain R2/R3 feasibility work. No mapping claim yet.
+This additive project pointer supersedes “no phone results” wording above.

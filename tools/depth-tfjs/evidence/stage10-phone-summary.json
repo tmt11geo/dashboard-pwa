@@ -1,0 +1,37 @@
+{
+  "recorded": "2026-10-23",
+  "source": "User-pasted log in this conversation, 2026-10-18T14:16:01.845Z–14:16:59.344Z; extracted summary, not a full raw-log archive",
+  "build": "depth-lab-4",
+  "tfjs": "4.22.0",
+  "backend": "webgl",
+  "cpuForward": false,
+  "renderer": "ANGLE (Qualcomm, Adreno (TM) 740, OpenGL ES 3.2)",
+  "standalone": true,
+  "loadMs": 8391.9,
+  "firstInferenceMs": 5033.8,
+  "warmInferenceMs": [
+    1873.4,
+    1837.8,
+    1839.2,
+    1844.9,
+    1860.3,
+    1844.6,
+    1848.8,
+    1836.8,
+    1856.9,
+    1841.6
+  ],
+  "completedFrames": 11,
+  "twelfthFrame": "in progress at snapshot",
+  "liveGpuBytes": 97392336,
+  "allocatedGpuPoolBytesAfterSecondFrame": 674886468,
+  "stableModelTensors": 562,
+  "userObservation": "Seems working, though phone browser not very responsive with 1/s interval",
+  "limitations": [
+    "No WASM baseline supplied",
+    "No stop/restart or background-return evidence",
+    "No prolonged heat test",
+    "No reconstruction evidence"
+  ],
+  "status": "Stage 10 PARTIAL"
+}
