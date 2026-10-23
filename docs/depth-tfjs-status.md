@@ -1,5 +1,50 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Shared-landmark three-view checkpoint — 2026-10-23
+
+Bounded offline task COMPLETE; promotion FAIL; live scanner/stage 10 remains PARTIAL.
+Starting commit 0efa8c3ff65527aa9083a4764cf3485b3eec8dc1; working/outcome branch
+`depth-tfjs-webgl`. Main unchanged at 308686f9d81e1218c866c936b8a24e3a74064fe4
+(depth-lab-8). No application changes or deployment.
+
+Added `tools/depth-pose/three_view.py`: seed triangulated landmarks from a validated
+pair, match the same anchor landmarks in a third image, estimate/refine PnP pose,
+check positive depth, coverage, reprojection and pair agreement, then promote a
+local keyframe. No straight-line direction requirement or incremental rotation
+cycle. Translation remains a local unit direction; no global/metric map or fusion.
+Previous pair/temporal implementations and evidence are preserved unchanged.
+
+20 unit tests PASS; dependency and whitespace checks PASS. Frozen 192-sequence /
+1,728-frame evaluation: 102/108 positive paths pass; 84/84 negative paths emit no
+translation. 268 keyframes emitted, 266 accurate. Clean 27/27, blur 26/27, noise
+24/27, claimed-wrong-calibration 25/27 positive paths. Two wrong-calibration curved
+emissions have 11.37/11.76-degree direction errors and fail the 10-degree limit.
+No other emitted pose exceeds limits. Development 8/9 positive, 7/7 negative,
+22 accurate emissions, curved path withheld. Quality runner correctly exits 1.
+
+Comparison verifies identical image hashes for all 120 prior sequences: positive
+recovery 45/64 → 62/64 (18 improvements, one regression). All prior clean combined
+and reversal failures now pass. One noisy forward-Z path regresses to withholding;
+its initial seed has 11.26-degree direction error. A fresh blurred curve similarly
+stalls behind a bad seed. The new accepted wrong-calibration errors are explicit
+blockers; improved recovery does not establish safe deployment or phone accuracy.
+
+Evidence and reproduction: tools/depth-pose/THREE-VIEW-REVIEW.md,
+three_view_spec.json, run_three_view.py, compare_three_view.py,
+evidence/three-view-{clean,blur,noise,claimed_wrong_calibration,summary,comparison}.json,
+three-view-development-{clean,summary}.json, three-view-tests.log and
+three-view-runtime.json. Source/input hashes and per-frame diagnostics recorded.
+
+Exact next bounded action: robust seed validation/replacement after repeated
+three-view disagreement, with joint reprojection refinement or equivalent robust
+initialization. Preserve all current failures, especially both inaccurately
+accepted wrong-calibration curves and the noisy forward regression; freeze and
+evaluate on fresh curved/reversal/noisy scenes and calibration offsets. Define
+independently verified camera-calibration requirements before browser integration.
+Keep main unchanged until quality gates pass. No phone input needed for this offline
+step. Verify the feature head and changed-file blobs remotely before stopping.
+
+
 ## Temporal/keyframe checkpoint — 2026-10-23
 
 Bounded offline task COMPLETE; promotion remains FAIL and stage 10/scanner remains PARTIAL. Starting branch depth-tfjs-webgl d9ea04e63ae92e4854d0141ed28d57339844e895; working/outcome branch depth-tfjs-webgl. Main unchanged at 308686f9d81e1218c866c936b8a24e3a74064fe4 (depth-lab-8), no deployment.

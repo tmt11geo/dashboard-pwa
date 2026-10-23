@@ -95,3 +95,11 @@ Promotion gate remains **FAIL** because valid paths are still withheld. The wron
 Evidence: temporal-{clean,blur,noise,claimed_wrong_calibration}.json, temporal-summary.json, temporal-development-{clean,summary}.json, temporal-unit-tests.log, temporal-runtime.json. Each evaluation command deliberately returns 1 on quality-gate failure. Main and the live app are unchanged.
 
 Next bounded action: track shared landmarks across three views and test triangulation/PnP or equivalent multi-view consistency, replacing ambiguous pairwise rotation-cycle evidence. Retain these failures as regressions and add fresh curved/reversal trajectories. Require accurate recovery as well as safe refusal before a browser port or depth fusion. No extra phone-log retries needed.
+
+## Shared-landmark three-view experiment
+
+See [THREE-VIEW-REVIEW.md](THREE-VIEW-REVIEW.md). 192 sequences: 102/108 positive
+paths pass, 84/84 negatives safe, 266/268 emitted poses accurate. On identical
+prior inputs recovery improves 45/64 → 62/64, with one noisy forward regression.
+Two incorrect-calibration curved poses are inaccurately accepted. Promotion FAIL;
+main unchanged. Next: robust seed validation/replacement and calibration policy.

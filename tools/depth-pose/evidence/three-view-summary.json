@@ -1,0 +1,82 @@
+{
+  "sourceSha256": {
+    "three_view.py": "8e09148700c7eb72f8c7c702bc955a608ee1a852f0ef5e571ced5248982fb4df",
+    "temporal.py": "90414992776bf808e036fd4112eeda7736010b9ef1d140811acc94c86954d256",
+    "prototype.py": "af5430faf53a9c0d23cd294bba6cb56d7eda0e4b3de1151bdd174ea9a1a1f7ed",
+    "fixtures.py": "64b11c2c6626d6772764cd46c12accefff96f76efc2dd8752978298eddb15d69",
+    "run_three_view.py": "e8ace7a5110514d3acdd1fd8b19d450c4e044d8ec007f746015cc56b8dfd716a",
+    "three_view_spec.json": "cc8686d1496b23d10fdff3e9120751933300502291370687c44d7cf3ab63aa60"
+  },
+  "spec": {
+    "width": 640,
+    "height": 480,
+    "held_out_seeds": [
+      39517,
+      79431,
+      86243
+    ],
+    "profiles": [
+      "clean",
+      "blur",
+      "noise",
+      "claimed_wrong_calibration"
+    ],
+    "frames_per_sequence": 9,
+    "translation_step_xy": 0.08,
+    "translation_step_z": 0.15,
+    "rotation_step_degrees": 0.75,
+    "blur_sigma": 1.2,
+    "noise_sigma": 8.0,
+    "rotation_error_degrees": 2,
+    "direction_error_degrees": 10,
+    "success": "Every positive sequence has at least one keyframe; every emitted keyframe accurate; no negative sequence emits translation.",
+    "policy": "Freeze before evaluation. Prior seeds are regressions; seed 86243 and curved path are fresh. No held-out tuning."
+  },
+  "summary": {
+    "clean": {
+      "positivePassed": 27,
+      "positiveTotal": 27,
+      "negativePassed": 21,
+      "negativeTotal": 21,
+      "keyframes": 72,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 160,
+      "inaccurateRawPairs": 0
+    },
+    "blur": {
+      "positivePassed": 26,
+      "positiveTotal": 27,
+      "negativePassed": 21,
+      "negativeTotal": 21,
+      "keyframes": 74,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 174,
+      "inaccurateRawPairs": 2
+    },
+    "noise": {
+      "positivePassed": 24,
+      "positiveTotal": 27,
+      "negativePassed": 21,
+      "negativeTotal": 21,
+      "keyframes": 61,
+      "inaccurateKeyframes": 0,
+      "falseTranslations": 0,
+      "rawPairs": 168,
+      "inaccurateRawPairs": 4
+    },
+    "claimed_wrong_calibration": {
+      "positivePassed": 25,
+      "positiveTotal": 27,
+      "negativePassed": 21,
+      "negativeTotal": 21,
+      "keyframes": 61,
+      "inaccurateKeyframes": 2,
+      "falseTranslations": 0,
+      "rawPairs": 141,
+      "inaccurateRawPairs": 5
+    }
+  },
+  "promotionPass": false
+}

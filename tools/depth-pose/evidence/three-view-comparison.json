@@ -1,0 +1,608 @@
+{
+  "clean": {
+    "sharedSequenceInputsVerified": 30,
+    "improvements": [
+      {
+        "seed": 39517,
+        "case": "combined",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "combined",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "reversal",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      }
+    ],
+    "regressions": [],
+    "beforePositive": 13,
+    "afterPositive": 16,
+    "fresh": [
+      {
+        "seed": 39517,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 79431,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "stationary",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "combined",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "reversal",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      }
+    ]
+  },
+  "blur": {
+    "sharedSequenceInputsVerified": 30,
+    "improvements": [
+      {
+        "seed": 79431,
+        "case": "translate_2_-1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "combined",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      }
+    ],
+    "regressions": [],
+    "beforePositive": 14,
+    "afterPositive": 16,
+    "fresh": [
+      {
+        "seed": 39517,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 79431,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "stationary",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "combined",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "reversal",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "curved",
+        "kind": "positive",
+        "passed": false
+      }
+    ]
+  },
+  "noise": {
+    "sharedSequenceInputsVerified": 30,
+    "improvements": [
+      {
+        "seed": 39517,
+        "case": "reversal",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "translate_1_-1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "combined",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "reversal",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      }
+    ],
+    "regressions": [
+      {
+        "seed": 79431,
+        "case": "translate_2_1",
+        "kind": "positive",
+        "before": true,
+        "after": false
+      }
+    ],
+    "beforePositive": 11,
+    "afterPositive": 14,
+    "fresh": [
+      {
+        "seed": 39517,
+        "case": "curved",
+        "kind": "positive",
+        "passed": false
+      },
+      {
+        "seed": 79431,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "stationary",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "combined",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "reversal",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      }
+    ]
+  },
+  "claimed_wrong_calibration": {
+    "sharedSequenceInputsVerified": 30,
+    "improvements": [
+      {
+        "seed": 39517,
+        "case": "translate_0_1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 39517,
+        "case": "translate_1_1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 39517,
+        "case": "combined",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 39517,
+        "case": "reversal",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "translate_0_-1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "translate_0_1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "translate_1_1",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "combined",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      },
+      {
+        "seed": 79431,
+        "case": "reversal",
+        "kind": "positive",
+        "before": false,
+        "after": true
+      }
+    ],
+    "regressions": [],
+    "beforePositive": 7,
+    "afterPositive": 16,
+    "fresh": [
+      {
+        "seed": 39517,
+        "case": "curved",
+        "kind": "positive",
+        "passed": false
+      },
+      {
+        "seed": 79431,
+        "case": "curved",
+        "kind": "positive",
+        "passed": false
+      },
+      {
+        "seed": 86243,
+        "case": "stationary",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_0_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_0_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_1_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_1_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_-1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_-1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "translate_2_1",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "rotate_2_1",
+        "kind": "negative",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "combined",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "reversal",
+        "kind": "positive",
+        "passed": true
+      },
+      {
+        "seed": 86243,
+        "case": "curved",
+        "kind": "positive",
+        "passed": true
+      }
+    ]
+  }
+}
