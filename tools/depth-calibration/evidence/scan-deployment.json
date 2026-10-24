@@ -1,0 +1,23 @@
+{
+  "build": "depth-lab-9",
+  "implementationCommit": "3a1eab49ebe713b5250de1a98eb3573fe5a94dda",
+  "implementationTree": "c9849351e72c1b7f9d74d254b11e088f8dadfa2d",
+  "branch": "depth-tfjs-webgl",
+  "main": "3a1eab49ebe713b5250de1a98eb3573fe5a94dda",
+  "changedFilesVerified": 28,
+  "pages": {
+    "id": 40083811949,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "3a1eab49ebe713b5250de1a98eb3573fe5a94dda",
+    "url": "https://github.com/tmt11geo/dashboard-pwa/actions/runs/40083811949"
+  },
+  "live": {
+    "url": "https://tmt11.com/dashboard-pwa/depth.html?v=10",
+    "status": 403,
+    "body": "error code: 1010",
+    "note": "Environment access restriction; no bypass. User uses existing Access login."
+  },
+  "nextAction": "Physical three-view Android scan with existing calibration; privately share scan replay. No repeat checkerboard needed.",
+  "limitations": "Approximate short-scan relative-depth fusion, not metric SLAM or established real-phone accuracy."
+}

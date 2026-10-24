@@ -1,5 +1,46 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Calibrated scan deployed — 2026-10-24
+
+Implementation/live main: 3a1eab49ebe713b5250de1a98eb3573fe5a94dda,
+build depth-lab-9. GitHub Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/40083811949
+completed SUCCESS for this exact commit. All 28 changed remote file blobs match
+the tested local bytes. Main advanced with an expected-head lease from
+2470240782714686c033364485e94040e5a236aa. Working/checkpoint branch:
+depth-tfjs-webgl; this documentation-only receipt follows the implementation.
+
+79 Node tests, 14 actual-model browser checks, 15 controlled-inference browser
+checks PASS. Actual calibration PNG verification, TFJS WebGL with CPU forwarding
+disabled, calibrated K delivery, relief rendering, replay export, camera mismatch
+cleanup and landscape viewport tested. Chromium 141/SwiftShader and simulated
+camera, not phone performance. Final bounded synthetic evaluation: 30/30
+translations within the 0.005 initial-depth-unit position limit and 90/90 yaw-only
+rotations withheld. Initial false-rotation evidence retained separately.
+
+Live unauthenticated request to depth.html?v=10 returned HTTP 403 / Cloudflare
+1010 from this environment. No Access configuration, bypass or alternate public
+host was used. Exact Pages success is independently verified. No PWA policy change.
+Evidence: tools/depth-calibration/evidence/scan-deployment.json.
+
+Exact next action requires the user's physical Android camera: open
+https://tmt11.com/dashboard-pwa/depth.html?v=10, keep the same landscape direction,
+Load calibration JSON (the existing 16-view file), wait for Calibration ready,
+Start scan on a textured stationary scene with depth variation, hold for the green
+MOVE NOW cue, take small sideways steps (3–8% image shift), and collect three
+accepted views. Finish, Save relief file and Save scan replay; share replay
+privately even if views are rejected. Full steps: docs/depth-calibrated-scan-test.md.
+Do not request another checkerboard session unless new evidence requires it.
+
+Software delivery for this calibration-to-scan test COMPLETE; physical scene
+accuracy remains WAITING FOR DEVICE TEST. After receiving a replay, independently
+validate its calibration binding, undistort RGB and run replay_scan.py; inspect
+actual alignment/depth failures before further tuning. Calibration is genuinely
+used in live geometry, but no reliable full orbit, metric map, general six-axis
+reconstruction or completed offline-tracker browser port is claimed.
+This receipt supersedes earlier deployment-pending text.
+
+
 ## Calibrated scan integration ready — 2026-10-24
 
 User authorized consecutive implementation, testing and deployment through a
