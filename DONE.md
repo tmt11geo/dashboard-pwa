@@ -1,5 +1,29 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Gather page deployed — 2026-10-24
+
+Live main: 75ba53fb9706a68fdda029d4afe25bbd7071f4f2; workflow gather-1 (shared depth-lab-11 engine).
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/40096104137
+completed SUCCESS for this exact SHA. All 19 changed remote blobs matched local
+verified bytes before leased main promotion. Checkpoint branch depth-tfjs-webgl;
+this documentation receipt follows implementation. 90 Node tests, 15 Gather browser
+checks and 22 existing Depth browser checks PASS. Source/evidence/test procedure
+recorded below and in docs/gather-stitch-test.md. No private images committed.
+Unauthenticated scan.html?v=1 returned HTTP 302; Cloudflare Access configuration and
+network-only navigation policy remain unchanged. No authenticated phone claim.
+
+Exact next action: user opens https://tmt11.com/dashboard-pwa/scan.html?v=1 or taps
+Gather in Tactical navigation. Load existing calibration, keep original landscape,
+Start gathering, hold still/Capture view/wait for SAVED, repeat for 3–6 overlapping
+views, Finish gathering, Save capture session, 2 · Stitch, 3 · Build relief. Share the
+saved capture session privately if views are unplaced or misaligned. Existing camera
+compatibility checks still apply; supply their exact message if startup is refused.
+Physical multi-view phone performance/quality is the remaining blocker. The page
+implements separate stages with pairwise registration and retry, not global pose
+optimization. Captures can be reopened and reprocessed without another camera run.
+This supersedes deployment-pending text below.
+
+
 ## Separate Gather → Stitch → Relief page — 2026-10-24
 
 Resumed depth-tfjs-webgl 169ed85c48478cd2ca2935d97f9e8153981f9bd1;
