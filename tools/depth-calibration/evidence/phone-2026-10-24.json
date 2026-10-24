@@ -1,0 +1,143 @@
+{
+  "numericPassed": true,
+  "independentImagesVerified": 16,
+  "maxCornerReplayErrorPx": 0.0075124455615878105,
+  "K": [
+    [
+      429.31944882438154,
+      0.0,
+      320.1919101134741
+    ],
+    [
+      0.0,
+      422.8879727608977,
+      245.67702154450907
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "distortion": [
+    0.023344539489924536,
+    -0.08694183611213263,
+    -0.0020829463976729553,
+    -0.00024166942078509158,
+    0.0
+  ],
+  "rms": 0.25063115688129756,
+  "folds": [
+    {
+      "K": [
+        [
+          431.65849836391556,
+          0.0,
+          322.19834234696157
+        ],
+        [
+          0.0,
+          425.2836726080732,
+          244.89192794715024
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "D": [
+        0.02606885434088151,
+        -0.0896535806224191,
+        -0.0019258746157186763,
+        -0.00035982058097049497,
+        0.0
+      ],
+      "rms": 0.25149318580196445,
+      "heldOutMax": 0.38956302404403687,
+      "rotationSpread": 0.42447224883487894
+    },
+    {
+      "K": [
+        [
+          432.6417585965097,
+          0.0,
+          320.31408302015717
+        ],
+        [
+          0.0,
+          426.22784150985456,
+          246.50238580247844
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "D": [
+        0.02828913965109848,
+        -0.1244968727859769,
+        -0.002100835317394895,
+        0.00031360227359709974,
+        0.0
+      ],
+      "rms": 0.2444391571302443,
+      "heldOutMax": 0.3634701669216156,
+      "rotationSpread": 0.4206867639615318
+    }
+  ],
+  "focalDisagreement": 0.002272689154611096,
+  "centreDisagreement": 1.884259326804397,
+  "quadrants": 4,
+  "undistortedEvidence": {
+    "evidenceHash": "9c060a20bbb9ff1ee0e707701c33086a867a8daa65de4ea1e469a9ed71101c4a",
+    "folds": [
+      {
+        "rms": 0.25200131572873014,
+        "focalRelativeError": 0.005296182847339903,
+        "principalPointErrorPx": 1.7289217252323397,
+        "heldOutMaxRms": 0.3637448847293854
+      },
+      {
+        "rms": 0.2455297924234016,
+        "focalRelativeError": 0.005838983667020514,
+        "principalPointErrorPx": 0.9472171553841235,
+        "heldOutMaxRms": 0.33193960785865784
+      }
+    ]
+  },
+  "verificationError": null,
+  "focusLocked": true,
+  "geometry": {
+    "label": "camera 3, facing back",
+    "sourceWidth": 640,
+    "sourceHeight": 480,
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 640,
+      "height": 480
+    },
+    "outputWidth": 640,
+    "outputHeight": 480,
+    "mirrored": false,
+    "rotation": 0,
+    "screenAngle": 90,
+    "facingMode": "environment",
+    "zoom": 1,
+    "focusMode": "manual",
+    "focusDistance": 3.4482760429382324,
+    "resizeMode": "none",
+    "frameRate": 15
+  },
+  "readyForControlledTrackerReplay": true,
+  "limitations": "Target consistency only; not scene-pose accuracy, phone performance, authenticity, or safe scanner deployment. Undistort raw tracking images using K and distortion, preserve exact crop/geometry; do not apply raw calibration to a different camera mode.",
+  "inputSha256": "59b932656e1b4926f1b72c330fb981136602e3d857969283360cc4e8490e534e",
+  "opencv": "4.11.0",
+  "review": {
+    "visual": "All 16 images inspected: varied position, size and tilt; complete checkerboard visible. No repeat requested.",
+    "focusCaveat": "Browser reports manual fixed focus consistently, but focusDistance 3.448276 exceeds advertised capability maximum 0.572727. Do not blindly reapply that value; verify camera settings and calibration consistency on tracker start. Physical focus lock is not independently proved.",
+    "scope": "Independent calibration replay complete. No app changes or scanner accuracy claim. Raw phone JSON and images remain private."
+  }
+}

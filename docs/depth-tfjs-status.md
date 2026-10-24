@@ -1,5 +1,44 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Real phone calibration independently verified — 2026-10-24
+
+Completed the next eligible step: replay of the user's actual 16-image calibration
+session. Starting/work branch depth-tfjs-webgl at
+0d1f3d54bc6a024d4cb4c15d217db0230c4f6a5f; main remains
+2470240782714686c033364485e94040e5a236aa (calibration-1).
+No application changes or deployment in this checkpoint.
+
+Pinned numpy 2.2.6 / OpenCV 4.11.0.86; ran validate_session.py on the private
+uploaded JSON. Exit 0: all 16 PNGs independently re-detected, numericPassed and
+readyForControlledTrackerReplay true, VerifiedCalibration after undistortion
+passed. RMS 0.250631 px; maximum recorded/replayed corner difference 0.007513 px;
+fold focal disagreement 0.2273%, principal-point disagreement 1.88426 px
+(limit 2 px), held-out maxima 0.38956 / 0.36347 px. All four quadrants covered.
+Visual inspection of all 16 views confirms varied position, size and tilt.
+No repeat calibration requested; the user's movement was sufficient for these gates.
+
+Evidence: tools/depth-calibration/evidence/phone-2026-10-24.json, containing
+input hash and sanitized numerical results. Raw session/PNGs, device identifier
+and per-image hashes are not committed. Reproduce privately with:
+python tools/depth-calibration/validate_session.py SESSION.json REPORT.json
+
+Caveat: browser reports manual focus and stable geometry, but focusDistance
+3.448276 is outside advertised capability maximum 0.572727. This is inconsistent
+camera metadata, not proof of optical movement. Do not blindly reapply the value;
+verify settings and calibration consistency when opening a tracking stream.
+Results apply only to this rear camera, unmirrored landscape 640x480, uncropped,
+zoom 1 and observed focus state. Target flatness/physical dimensions are not
+independently certified. Existing scanner remains depth-lab-8; no stitching fix
+or real-scene pose accuracy is claimed.
+
+Exact next action: implement a private calibration-session import and controlled
+RGB sequence capture/replay bridge bound to the same camera/crop/orientation/zoom/
+focus, with undistortion using the verified K/D. Validate actual scene sequences
+against the existing calibrated tracker before fusion or scanner promotion.
+No additional phone capture is needed until that bridge is testable.
+This supersedes the prior waiting-for-calibration pointer.
+
+
 ## Phone calibration deployed — 2026-10-24
 
 User explicitly approved deployment. Main now points to tested implementation
