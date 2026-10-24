@@ -1,0 +1,19 @@
+{
+  "build": "depth-lab-10",
+  "main": "c2b4c976697fc46452b14e9d0f8660cd0a450bc7",
+  "tree": "9cfa31795f751f35ec206e42f3e657367077d08f",
+  "verifiedChangedFiles": 15,
+  "pages": {
+    "id": 40090321380,
+    "conclusion": "success",
+    "headSha": "c2b4c976697fc46452b14e9d0f8660cd0a450bc7"
+  },
+  "http": {
+    "url": "https://tmt11.com/dashboard-pwa/depth.html?v=11",
+    "status": 403,
+    "error": 1010
+  },
+  "nodeTests": 80,
+  "browserChecks": 19,
+  "nextAction": "Physical phone retry in original landscape direction using the same calibration; capture named constraint if refused."
+}

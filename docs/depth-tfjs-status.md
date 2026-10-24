@@ -1,5 +1,34 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Android startup fix deployed — 2026-10-24
+
+Live main: c2b4c976697fc46452b14e9d0f8660cd0a450bc7, build depth-lab-10.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/40090321380
+completed SUCCESS for this exact SHA. All 15 changed remote file blobs matched
+tested local bytes before main promotion. Main advanced by expected-head lease.
+Working/checkpoint branch depth-tfjs-webgl; this receipt follows the implementation.
+
+80 Node tests and 19 browser checks PASS. Existing phone JSON verifies successfully;
+portrait preflight, Android-style exact-size rejection, preferred-size startup,
+unchanged camera read-back checks, stale guidance cleanup and named constraint
+diagnostics tested. Camera/inference are simulated in this startup regression test;
+calibration PNG verification and registration workers are real. No physical phone
+startup success claimed. Geometry/tracking/model unchanged from build 9.
+
+Unauthenticated depth.html?v=11 request returned HTTP 403 / Cloudflare 1010 from
+this environment; no Access alteration or bypass. Exact Pages success verified.
+Evidence: tools/depth-calibration/evidence/startup-deployment.json.
+
+Exact next action: user opens https://tmt11.com/dashboard-pwa/depth.html?v=11
+through normal Access, confirms depth-lab-10, loads the SAME calibration JSON,
+rotates to the original landscape direction, then Start scan. Expect camera/model
+startup and a first green view cue. If refused again, copy the new diagnostics
+with the named constraint. No new calibration requested. The old phone log did
+not identify the rejected constraint; do not claim dimensions or deviceId proven
+as its cause. Physical scene stitching quality remains waiting for device test.
+This supersedes deployment-pending text below.
+
+
 ## Android camera-startup correction — 2026-10-24
 
 Resumed depth-tfjs-webgl at 96b377a74e22994fbc140a63ec296338db58f9cd;
