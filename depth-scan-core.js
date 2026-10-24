@@ -1,3 +1,4 @@
+import {trackMatches} from './depth-scan-flow.js?v=1';
 // Experimental RGB/relative-depth registration. Arbitrary units; no metric SLAM.
 // Rigid orientation: Horn (1987), doi:10.1364/JOSAA.4.000629.
 export const MAX_POINTS=32000, MAX_VIEWS=40;
@@ -36,20 +37,22 @@ export function fitSimilarity(a,b,rotationOnly=false){
 export function validateFrame(f){
  if(!f||!Number.isInteger(f.width)||!Number.isInteger(f.height)||f.width<32||f.height<32||f.width>224||f.height>224)throw Error('Invalid scan frame dimensions');
  if(f.raw.length!==f.width*f.height||f.pixels.length!==f.width*f.height*4)throw Error('Invalid scan buffers');
+ if(f.K&&(!Array.isArray(f.K)||f.K.length!==9||!f.K.every(Number.isFinite)||f.K[0]<=0||f.K[4]<=0||f.K[2]<0||f.K[2]>=f.width||f.K[5]<0||f.K[5]>=f.height||f.K[8]!==1))throw Error('Invalid scan calibration');
  if(!Array.from(f.raw).every(Number.isFinite))throw Error('Nonfinite scan depth');
 }
 export function features(f){
+ if(f.tracking){if(f.tracking.length!==640*480*4)throw Error('Invalid tracking image');return features({width:640,height:480,pixels:f.tracking,descriptorRadius:16,descriptorStep:4,cellSize:80,cellLimit:4,minScore:.008}).map(p=>({...p,x:(p.x+.5)*f.width/640-.5,y:(p.y+.5)*f.height/480-.5}));}
  const {width:w,height:h,pixels}=f,g=new Float32Array(w*h);
  for(let i=0;i<g.length;i++)g[i]=(pixels[4*i]*.299+pixels[4*i+1]*.587+pixels[4*i+2]*.114)/255;
- const candidates=[];
- for(let y=6;y<h-6;y+=2)for(let x=6;x<w-6;x+=2){
+ const candidates=[],radius=f.descriptorRadius||4,step=f.descriptorStep||2,margin=Math.max(6,radius+2);
+ for(let y=margin;y<h-margin;y+=2)for(let x=margin;x<w-margin;x+=2){
   let xx=0,yy=0,xy=0;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const i=(y+dy)*w+x+dx,gx=g[i+1]-g[i-1],gy=g[i+w]-g[i-w];xx+=gx*gx;yy+=gy*gy;xy+=gx*gy;}
-  const score=(xx+yy-Math.hypot(xx-yy,2*xy))/2;if(score>.025)candidates.push({x,y,score});
+  const score=(xx+yy-Math.hypot(xx-yy,2*xy))/2;if(score>(f.minScore||.025))candidates.push({x,y,score});
  }
  candidates.sort((a,b)=>b.score-a.score);const out=[],cells=new Map();
  for(const p of candidates){
-  const key=Math.floor(p.x/28)+','+Math.floor(p.y/28);if((cells.get(key)||0)>=6||out.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<6))continue;
-  const d=[];for(let y=-4;y<=4;y+=2)for(let x=-4;x<=4;x+=2)d.push(g[(p.y+y)*w+p.x+x]);
+  const key=Math.floor(p.x/(f.cellSize||28))+','+Math.floor(p.y/(f.cellSize||28));if((cells.get(key)||0)>=(f.cellLimit||6)||out.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<6))continue;
+  const d=[];for(let y=-radius;y<=radius;y+=step)for(let x=-radius;x<=radius;x+=step)d.push(g[(p.y+y)*w+p.x+x]);
   const mean=d.reduce((a,b)=>a+b)/d.length,sd=Math.sqrt(d.reduce((s,v)=>s+(v-mean)**2,0)/d.length);
   if(sd<.03)continue;p.d=d.map(v=>(v-mean)/sd);out.push(p);cells.set(key,(cells.get(key)||0)+1);if(out.length===240)break;
  }
@@ -61,10 +64,13 @@ export function matchFeatures(a,b){
  const ab=nearest(a,b),ba=nearest(b,a);return ab.flatMap((j,i)=>j>=0&&ba[j]===i?[{a:a[i],b:b[j]}]:[]);
 }
 function range(raw){let lo=Infinity,hi=-Infinity;for(const v of raw){lo=Math.min(lo,v);hi=Math.max(hi,v);}if(hi-lo<1e-6)throw Error('Depth has no variation');const scale=median(Array.from(raw).filter(v=>v>0));if(!(scale>0))throw Error('Depth has no positive values');return {lo,span:hi-lo,scale};}
-function point(f,p,shift=0){
- const q=f.raw[p.y*f.width+p.x]/f.range.scale+shift;
- if(q<.08)return null;const z=1/q,focal=Math.max(f.width,f.height)/(2*Math.tan(55*Math.PI/360));
- return [(p.x-(f.width-1)/2)*z/focal,-(p.y-(f.height-1)/2)*z/focal,z];
+export function cameraIntrinsics(f){const focal=Math.max(f.width,f.height)/(2*Math.tan(55*Math.PI/360));return f.K||[focal,0,(f.width-1)/2,0,focal,(f.height-1)/2,0,0,1];}
+export function point(f,p,shift=0){
+ const x=Math.max(0,Math.min(f.width-1,p.x)),y=Math.max(0,Math.min(f.height-1,p.y)),ix=Math.floor(x),iy=Math.floor(y),jx=Math.min(ix+1,f.width-1),jy=Math.min(iy+1,f.height-1),dx=x-ix,dy=y-iy;
+ const value=(f.raw[iy*f.width+ix]*(1-dx)+f.raw[iy*f.width+jx]*dx)*(1-dy)+(f.raw[jy*f.width+ix]*(1-dx)+f.raw[jy*f.width+jx]*dx)*dy;
+ const q=value/f.range.scale+shift;
+ if(q<.08)return null;const z=1/q;
+ const k=cameraIntrinsics(f);return [(p.x-k[2])*z/k[0],-(p.y-k[5])*z/k[4],z];
 }
 function coverage(matches,w,h){const cells=new Set(matches.map(m=>Math.min(2,Math.floor(m.b.x/w*3))+','+Math.min(2,Math.floor(m.b.y/h*3))));const xs=matches.map(m=>m.b.x),ys=matches.map(m=>m.b.y);return cells.size>=4&&Math.max(...xs)-Math.min(...xs)>w*.35&&Math.max(...ys)-Math.min(...ys)>h*.35;}
 export function poseDiagnostics(pose,depth){
@@ -72,22 +78,34 @@ export function poseDiagnostics(pose,depth){
  const factor=angle<1e-8?0:angle/(2*Math.sin(angle))*180/Math.PI;
  return {rotationDegrees:angle*180/Math.PI,rotationVectorDegrees:angle>Math.PI-1e-5?null:[r[7]-r[5],r[2]-r[6],r[3]-r[1]].map(v=>v*factor),translation:pose.t.slice(),translationOverDepth:norm(pose.t)/depth,depthScale:pose.s};
 }
+// Independent calibrated rotation competitor, robust to mismatched RGB features.
+export function rotationCompetition(matches,current,reference){
+ const ck=cameraIntrinsics(current),rk=cameraIntrinsics(reference),ray=(p,k)=>{const v=[(p.x-k[2])/k[0],-(p.y-k[5])/k[4],1],n=norm(v);return v.map(x=>x/n);};
+ const a=matches.map(m=>ray(m.b,ck)),b=matches.map(m=>ray(m.a,rk));let seed=719,best=null;
+ const random=n=>{seed=(1664525*seed+1013904223)>>>0;return seed%n;};
+ for(let trial=0;trial<96;trial++){
+  const ids=new Set();while(ids.size<3)ids.add(random(matches.length));const indices=[...ids],fit=fitSimilarity(indices.map(i=>a[i]),indices.map(i=>b[i]),true);if(!fit)continue;
+  const errors=a.map((v,i)=>{const p=rotate(fit.r,v);return p[2]>0?Math.hypot(p[0]*rk[0]/p[2]+rk[2]-matches[i].a.x,-p[1]*rk[4]/p[2]+rk[5]-matches[i].a.y):Infinity;});
+  const count=errors.filter(e=>e<.7).length,med=median(errors);if(!best||count>best.count||(count===best.count&&med<best.error))best={count,error:med,ratio:count/matches.length};
+ }return best;
+}
 export function register(reference,current){
  const diagnostics={stage:'features',displacementPx:null,rotationOnlyErrorPx:null,rotationDegrees:null,rotationVectorDegrees:null,translationOverDepth:null,translation:null,depthScale:null,inverseDepthShift:null,inlierRatio:null,normalizedError:null,reprojectionPx:null,coverage:null};
  const reject=(code,reason,extra={})=>({ok:false,code,reason,diagnostics:{...diagnostics},...extra});
- const matches=matchFeatures(reference.features,current.features).filter(m=>point(reference,m.a,reference.shift));
+ const matches=(reference.tracking&&current.tracking?trackMatches(reference,current):matchFeatures(reference.features,current.features)).filter(m=>point(reference,m.a,reference.shift));
  if(matches.length<16||!coverage(matches,current.width,current.height))return reject('shared-detail','Not enough shared detail. Return towards the last accepted view.',{matches:matches.length});
  const displacement=median(matches.map(m=>Math.hypot(m.a.x-m.b.x,m.a.y-m.b.y)));
  diagnostics.displacementPx=displacement;
+ if(current.K&&current.tracking){const competition=rotationCompetition(matches,current,reference);diagnostics.rotationSupport=competition?.ratio??0;diagnostics.robustRotationErrorPx=competition?.error??null;}
  if(displacement<2.5)return reject('duplicate','Image change is too small to align another view.',{matches:matches.length});
- const focalR=Math.max(current.width,current.height)/(2*Math.tan(55*Math.PI/360));
- const ray=p=>{const v=[(p.x-(current.width-1)/2)/focalR,-(p.y-(current.height-1)/2)/focalR,1];const n=norm(v);return v.map(x=>x/n);};
- const raysA=matches.map(m=>ray(m.b)),raysB=matches.map(m=>ray(m.a));
+ const ck=cameraIntrinsics(current),rk=cameraIntrinsics(reference),focalR=Math.sqrt(ck[0]*ck[4]);
+ const ray=(p,k)=>{const v=[(p.x-k[2])/k[0],-(p.y-k[5])/k[4],1];const n=norm(v);return v.map(x=>x/n);};
+ const raysA=matches.map(m=>ray(m.b,ck)),raysB=matches.map(m=>ray(m.a,rk));
  const rotation=fitSimilarity(raysA,raysB,true);
  if(!rotation)return reject('rotation-fit','Motion estimate is degenerate. Try more shared detail.',{matches:matches.length});
  const rotationError=median(raysA.map((p,i)=>norm(sub(rotate(rotation.r,p),raysB[i]))*focalR));
  diagnostics.rotationOnlyErrorPx=rotationError;diagnostics.stage='rotation-prefilter';
- if(rotationError<1.5)return reject('rotation-prefilter','Image motion is rotation-like or ambiguous; 3D translation has not been evaluated.',{matches:matches.length});
+ if(!current.K&&rotationError<1.5)return reject('rotation-prefilter','Image motion is rotation-like or ambiguous; 3D translation has not been evaluated.',{matches:matches.length});
  diagnostics.stage='depth-fit';
  const target=matches.map(m=>point(reference,m.a,reference.shift));
  const depth=median(target.filter(Boolean).map(p=>p[2])),threshold=depth*.035;
@@ -116,11 +134,11 @@ export function register(reference,current){
  const angle=Math.acos(Math.max(-1,Math.min(1,(pose.r[0]+pose.r[4]+pose.r[8]-1)/2)));
  const translation=norm(pose.t)/depth;
  const errors=best.inliers.map(i=>norm(sub(transform(pose,best.source[i]),target[i]))/depth);
- const focal=Math.max(current.width,current.height)/(2*Math.tan(55*Math.PI/360));
- const reprojection=best.inliers.map(i=>{const p=transform(pose,best.source[i]),m=matches[i].a;return Math.hypot(p[0]*focal/p[2]+(current.width-1)/2-m.x,-p[1]*focal/p[2]+(current.height-1)/2-m.y);});
+ const reprojection=best.inliers.map(i=>{const p=transform(pose,best.source[i]),m=matches[i].a;return Math.hypot(p[0]*rk[0]/p[2]+rk[2]-m.x,-p[1]*rk[4]/p[2]+rk[5]-m.y);});
  Object.assign(diagnostics,poseDiagnostics(pose,depth),{stage:'geometry',inverseDepthShift:best.shift,normalizedError:median(errors),reprojectionPx:median(reprojection),coverage:coverage(accepted,current.width,current.height)});
  const detail={matches:matches.length,inliers:best.inliers.length};
  if(!diagnostics.coverage||median(errors)>.022||median(reprojection)>1.8||angle>.22||translation>.18||pose.s<.3||pose.s>3)return reject('geometry-limits','Depth alignment is inconsistent; return toward the last accepted view.',detail);
+ if(current.K&&((diagnostics.rotationSupport>.9&&diagnostics.robustRotationErrorPx<.5)||(diagnostics.rotationSupport>.6&&diagnostics.robustRotationErrorPx<Math.min(.5,median(reprojection)*.5))))return reject('rotation-ambiguous','Rotation alone explains this view. Take a small sideways step while keeping overlap.',detail);
  if(translation<.008)return reject('translation-small','Estimated translation is too small; sideways motion could not be resolved.',detail);
  diagnostics.stage='accepted';
  return {ok:true,pose,shift:best.shift,...detail,error:median(errors),reprojection:median(reprojection),diagnostics};
@@ -131,6 +149,7 @@ export class ScanMap{
  clear(){this.voxels=new Map();this.reference=null;this.views=0;this.orientation=null;}
  add(f){
   validateFrame(f);if(this.views>=MAX_VIEWS||this.voxels.size>=MAX_POINTS)return {ok:false,full:true,reason:'Scan limit reached. Finish and save this scene.'};
+  if(this.reference&&JSON.stringify(f.K||null)!==JSON.stringify(this.reference.K||null))return {ok:false,reason:'Calibration changed. Start a new scan.'};
   if(this.reference&&(f.width!==this.reference.width||f.height!==this.reference.height||f.orientation!==this.orientation))return {ok:false,reason:'Keep the phone in its original orientation, or finish and start a new scan.'};
   f.range=range(f.raw);f.features=features(f);
   if(f.features.length<24)return {ok:false,reason:'Aim at a stationary surface with more detail.'};

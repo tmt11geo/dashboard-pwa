@@ -1,0 +1,38 @@
+{
+  "baseBranch": "depth-tfjs-webgl",
+  "baseCommit": "1d2c42e8e575031b3108a819ac36070235ce6ac4",
+  "build": "depth-lab-9",
+  "sourceSha256": {
+    "calibration-worker.js": "9ee7f4defe1c075a1ff493b8666663c3699733187ffee7b97c9d7f7adeb2d443",
+    "depth-diagnostics.js": "ba8f0170960345984f036e2ee1570344da9b29365f0824b3eb79ff9198db9150",
+    "depth-scan-core.js": "adabf819198fcc5dca25bcd3a0d0b22686a998c7107c3ab1093598b7a1ad7047",
+    "depth-scan-motion.js": "d0c247c46be988eace21ae1ad20caecbe2ae42d8d7f8a581d5f434d0c1bb74d6",
+    "depth-scan-worker.js": "14b0416e4259b14a41c2ac9482f2dc01d5ec16bb3a0d0ec7ba7ef8ceebce6914",
+    "depth-scan.js": "24b04b24fe7cfd1bfed9cdbda8521f9d7bc082cc020bc299d6c496770d28ccde",
+    "depth.css": "1f7e67c28d0c74534c3aca1e2dc7b8c155277a875ad82f3549e6bb0ef2572340",
+    "depth.html": "1557645190af88a01c5be2fc795513e1c84325e0775739912734107c63e9ee88",
+    "depth.js": "a185a01894026967d822710cb40314bad2c3be26b2549286fbf954e2e9b34d61",
+    "tests/depth-lifecycle.test.mjs": "a2eae3cd13a4f831100b87f9775a515f8e93957da2938c1e4f4063cb0dbe6c22",
+    "tests/fixtures/scan-render.mjs": "e89d56e04f3b21cc506be271ffa126e21f9ff736c052cf498321a804a6a7fd47",
+    "tools/depth-calibration/README.md": "1444c74ddad10c7ea199c097568d58cc9521f797215f8b0dfd0404c1f662bd5a",
+    "depth-calibration-core.js": "dd7e0cbf0509950bc2302391b1d188a3fee35eb03ba9c0e09ea1f6ff086c3db9",
+    "depth-calibration.js": "c5249ca7ac08b2ca7c926bdb88d833b9ead5456057b3d0fdca79959cef7ac1e4",
+    "depth-scan-flow.js": "eaba8030e623ad9490cfc1e97db52efb8f7a398ed4af771dcc132c1032574b28",
+    "tests/depth-calibration.test.mjs": "3b73440014b232368c48e020aa019e3b5e142590704ccb8a374203fa25c89a5d",
+    "tools/depth-calibration/evaluate_scan.mjs": "c9d32af7cf98c51b4023e5c18286dcf3e42549e30958258105dce4b0f70f95bc",
+    "tools/depth-calibration/replay_scan.py": "946a85a4b2e7e31f22a831ed51a3c2fc534234138eabcd9e70960a7eeee344f4",
+    "tools/depth-calibration/test_scan_browser.cjs": "7a6cd06f7088daf0e4636cb2860b0bcc461129736e9b7c84aa8872a51f232950"
+  },
+  "nodeTests": 79,
+  "browserChecks": 15,
+  "actualTFJSChecks": 14,
+  "replayReader": {
+    "passed": true,
+    "frames": 1,
+    "result": "anchor",
+    "opencv": "4.11.0",
+    "numpy": "2.2.6"
+  },
+  "protected": "No Access, map, theme, ONNX worker, TFJS model/runtime, manifest or service-worker changes.",
+  "limitations": "No new physical scene scan. Browser camera simulated; actual model on Chromium 141 SwiftShader, not phone speed."
+}

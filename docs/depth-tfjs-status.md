@@ -1,5 +1,59 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Calibrated scan integration ready — 2026-10-24
+
+User authorized consecutive implementation, testing and deployment through a
+phone-testable build. Started from depth-tfjs-webgl
+1d2c42e8e575031b3108a819ac36070235ce6ac4; inspected main at
+2470240782714686c033364485e94040e5a236aa. No AGENTS.md found. Resumed unfinished
+local integration; no intervening remote changes. Working branch depth-tfjs-webgl.
+
+Implemented depth-lab-9: private calibration JSON import, actual PNG/corner replay
+and fold recalibration, camera identity/geometry/zoom/focus checks at startup and
+throughout scanning, distortion correction before depth inference, calibrated K
+in projection/reprojection and relative-depth fusion. Scanning requires calibration;
+no silent assumed-camera fallback. Ordinary depth still works independently.
+
+640x480 RGB pyramidal optical flow with forward/backward consistency replaces
+small-image descriptor matching in calibrated scans. A robust rotation competitor
+rejects ambiguous rotation; relative-depth offset/scale fit, coverage/consensus,
+pose limits and retained-map rejection remain. Depth inference stays 224. Guidance
+requests approximately 3–8% image shift; landscape controls and both views fit the
+viewport. Save scan replay keeps the first 12 completed RGB/depth/decision records
+locally; independent Python replay binds the original calibration and runs the
+offline calibrated tracker. The latter is not the live fusion algorithm.
+
+79 Node tests PASS. Actual browser calibration re-verifies the user's 16 saved
+PNGs; simulated-camera integration and actual TFJS WebGL/no CPU-forwarding smoke
+PASS. Landscape screenshot visually checked (kept private). One-frame exported
+replay passes the independent reader and initializes its anchor; no motion accuracy
+claim from that single frame. JS syntax/whitespace checks PASS.
+
+Initial motion evaluation exposed false rotation fusion, retained in
+scan-heldout-initial.json; that candidate was not deployed. Final suite:
+30/30 translated views accepted within 0.005 initial arbitrary-depth units;
+90/90 yaw-only rotation views withheld. Of these, 18 translations/54 rotations use
+fresh seeds after the rotation-competition fix; 12/36 are regression cases.
+No false rotation or inaccurate accepted translation in this bounded suite.
+Evidence, reproduction and source hashes: tools/depth-calibration/README.md and
+its evidence/scan-* files. Raw phone images, camera identifiers and screenshots
+are not committed. Access, maps, PWA policy and ONNX behavior remain unchanged.
+
+Implementation and local validation COMPLETE; deployment verification is next in
+this run. Commit this tree, advance main with an expected-head lease, verify the
+exact Pages run, and checkpoint the receipt. Then physical Android scene testing
+is required: docs/depth-calibrated-scan-test.md. Existing calibration is sufficient;
+no repeat checkerboard capture requested. Begin with three textured, overlapping
+views; save relief and private scan replay, including rejection cases.
+
+Limitations: short-scan experiment, arbitrary depth scale, no loop closure, no full
+six-axis/real-scene accuracy or phone performance proof. The submitted camera's
+focus-distance metadata exceeds its capability range; no out-of-range constraint
+is applied, matching read-back is required. More general calibrated multi-view pose
+and fusion promotion require actual scene replay evidence. This supersedes the
+prior waiting-for-implementation pointer; user phone testing follows deployment.
+
+
 ## Real phone calibration independently verified — 2026-10-24
 
 Completed the next eligible step: replay of the user's actual 16-image calibration

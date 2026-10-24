@@ -14,3 +14,17 @@ nav{flex-wrap:wrap;gap:10px 16px}.intro{color:var(--muted);margin:0 0 20px;font-
 #scan-movement small{display:block;font-size:10px}#scan-movement[data-state=ready]{color:#bfffe1}
 #scan-movement[data-state=lost],#scan-movement[data-state=back]{color:#ffb69f}
 .scan-panel:has(#scan-movement:not([hidden])) #scan-overlay{display:none}
+/* Keep capture guidance and both views together in the calibrated landscape mode. */
+@media (orientation:landscape) and (max-height:600px){
+ body.scanning>header,body.scanning .heading,body.scanning #scan-workspace>h2,body.scanning #scan-workspace>.scan-cycle,body.scanning #scan-workspace>.calibration-controls,body.scanning #scan-workspace>.help:not(#scan-count){display:none}
+ body.scanning main{padding:4px;margin:0 auto}
+ body.scanning #scan-workspace{padding:4px}
+ body.scanning .scan-command{padding:2px 0}
+ body.scanning .scan-primary button{min-height:38px;padding:4px;font-size:13px}
+ body.scanning #scan-guide{min-height:36px;margin:4px 0;padding:4px 8px;font-size:14px}
+ body.scanning .scan-panel .depth-card .section-title{min-height:36px;padding:3px 8px;flex-wrap:nowrap}
+ body.scanning .scan-panel .image-frame{height:calc(100dvh - 145px);min-height:140px;max-height:400px}
+ body.scanning .scan-panel .depth-legend{display:none}
+ body.scanning #scan-movement{right:auto;max-width:70%;font-size:11px;padding:4px}
+ body.scanning #scan-movement-arrow{display:inline;font-size:18px;margin-right:5px}
+}

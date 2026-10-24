@@ -1,0 +1,63 @@
+{
+  "checks": [
+    {
+      "name": "scan requires calibration without assumed-camera fallback",
+      "pass": true
+    },
+    {
+      "name": "real phone PNGs independently verified by browser",
+      "pass": true
+    },
+    {
+      "name": "actual WebGL backend and CPU forwarding disabled",
+      "pass": true
+    },
+    {
+      "name": "calibrated first relief is rendered",
+      "pass": true
+    },
+    {
+      "name": "corrected image letterboxes to 224x168 and calibrated K reaches registration",
+      "pass": true
+    },
+    {
+      "name": "camera requested by exact calibrated identity",
+      "pass": true
+    },
+    {
+      "name": "out-of-range Android focus distance is not blindly reapplied",
+      "pass": true
+    },
+    {
+      "name": "landscape controls and both complete views fit viewport",
+      "pass": true
+    },
+    {
+      "name": "finish releases camera",
+      "pass": true
+    },
+    {
+      "name": "replay becomes saveable",
+      "pass": true
+    },
+    {
+      "name": "replay contains bound calibration, raw RGB, relative depth and decision",
+      "pass": true
+    },
+    {
+      "name": "zoom mismatch blocks scan and releases camera",
+      "pass": true
+    },
+    {
+      "name": "no horizontal page overflow",
+      "pass": true
+    },
+    {
+      "name": "no uncaught errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "mode": "Actual calibration WASM + TFJS WebGL + registration, simulated camera",
+  "browser": "141.0.7390.0"
+}

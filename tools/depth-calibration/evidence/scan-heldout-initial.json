@@ -1,0 +1,582 @@
+{
+  "mode": "Frozen candidate, independently ray-rendered new texture seeds; not phone accuracy",
+  "cases": [
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "translation",
+      "x": 0.1,
+      "accepted": true,
+      "error": 0.0016343797764065272,
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "translation",
+      "x": 0.2,
+      "accepted": true,
+      "error": 0.0030179370700173153,
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": -0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": -0.04,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": -0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": 0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": 0.04,
+      "accepted": false,
+      "code": "translation-small",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": 0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "translation",
+      "x": 0.1,
+      "accepted": true,
+      "error": 0.00183228944471695,
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "translation",
+      "x": 0.2,
+      "accepted": true,
+      "error": 0.003045778882080939,
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": -0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": -0.04,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": -0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": 0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": 0.04,
+      "accepted": false,
+      "code": "translation-small",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": 0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "translation",
+      "x": 0.1,
+      "accepted": true,
+      "error": 0.0016343807326624528,
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "translation",
+      "x": 0.2,
+      "accepted": true,
+      "error": 0.0030179368893855064,
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": -0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": -0.04,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": -0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": 0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": 0.04,
+      "accepted": false,
+      "code": "translation-small",
+      "accurate": true
+    },
+    {
+      "seed": 902,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": 0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "translation",
+      "x": 0.1,
+      "accepted": true,
+      "error": 0.001084733824614161,
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "translation",
+      "x": 0.2,
+      "accepted": true,
+      "error": 0.0010866459610942916,
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": -0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": -0.04,
+      "accepted": true,
+      "accurate": false
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": -0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": 0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": 0.04,
+      "accepted": false,
+      "code": "translation-small",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1,
+        0
+      ],
+      "type": "rotation",
+      "a": 0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "translation",
+      "x": 0.1,
+      "accepted": true,
+      "error": 0.0012313629899211058,
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "translation",
+      "x": 0.2,
+      "accepted": true,
+      "error": 0.0012191065314089385,
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": -0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": -0.04,
+      "accepted": true,
+      "accurate": false
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": -0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": 0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": 0.04,
+      "accepted": false,
+      "code": "translation-small",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        1.4,
+        0.3
+      ],
+      "type": "rotation",
+      "a": 0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "translation",
+      "x": 0.1,
+      "accepted": true,
+      "error": 0.0010847334971569686,
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "translation",
+      "x": 0.2,
+      "accepted": true,
+      "error": 0.001086645508000707,
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": -0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": -0.04,
+      "accepted": true,
+      "accurate": false
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": -0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": 0.02,
+      "accepted": false,
+      "code": "rotation-ambiguous",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": 0.04,
+      "accepted": false,
+      "code": "translation-small",
+      "accurate": true
+    },
+    {
+      "seed": 2061,
+      "affine": [
+        0.8,
+        -0.1
+      ],
+      "type": "rotation",
+      "a": 0.08,
+      "accepted": false,
+      "code": "shared-detail",
+      "accurate": true
+    }
+  ],
+  "acceptedTranslations": 12,
+  "translationCases": 12,
+  "falseRotations": 3,
+  "inaccurateAcceptedTranslations": 0
+}

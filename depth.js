@@ -1,7 +1,8 @@
-import {createScanner} from './depth-scan.js?v=4';
+import {createCalibration} from './depth-calibration.js?v=1';
+import {createScanner} from './depth-scan.js?v=5';
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=7';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=8';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
@@ -12,10 +13,12 @@ window.addEventListener('unhandledrejection',event=>emit('error','unhandledrejec
 const ui=Object.fromEntries('start stop pause step status capability backend resolution facing frequency video standby depth-image relief empty view-depth view-relief result-title relief-tools rotate-left rotate-right relief-out relief-in reset-view inference average rate age engine'.split(' ').map(id=>[id,$(id)]));
 const capture=document.createElement('canvas'),ctx=capture.getContext('2d',{willReadFrequently:true});
 let generation=0,worker=null,stream=null,running=false,starting=false,ready=false,paused=false,inFlight=false;
-let timer=null,watchdog=null,ageTimer=null,request=0,sentAt=0,lastVideoTime=-1,lastFresh=0;
+let timer=null,watchdog=null,ageTimer=null,cameraGuard=null,request=0,sentAt=0,lastVideoTime=-1,lastFresh=0;
 let frames=0,samples=[],delivered=[],lastResult=0,points=[],showRelief=false,yaw=0,pitch=0,zoom=1,drag=null,drawPending=false;
 let lastProgressLog=0;
+const calibration=createCalibration({idle:()=>!running&&!starting,log:emit});
 const scanner=createScanner({
+ calibration:()=>calibration,
  state:()=>({running:running||starting,ready,inFlight,video:ui.video}),
  start:()=>start(true),stop:()=>stop(),capture:()=>sendFrame(true),
  log:emit,
@@ -36,9 +39,9 @@ function controls(){
  ui.pause.textContent=paused?'Resume depth':'Pause depth';
  ui.frequency.disabled=!!scanner?.active;
  if(scanner?.active){ui.pause.disabled=true;ui.step.disabled=true;}
- scanner?.buttons();
+ scanner?.buttons();calibration.buttons();
 }
-function clearTimers(){clearTimeout(timer);clearTimeout(watchdog);clearInterval(ageTimer);timer=watchdog=ageTimer=null;}
+function clearTimers(){clearTimeout(timer);clearTimeout(watchdog);clearInterval(ageTimer);clearInterval(cameraGuard);timer=watchdog=ageTimer=cameraGuard=null;}
 function stop(message='Stopped. Camera and model released; the last depth result remains available.'){
  if(running||starting||worker||stream)emit('info','stop',{reason:message||'restart/navigation',running,starting,inFlight,frames});
  generation++;running=starting=ready=inFlight=false;paused=false;clearTimers();scanner?.stop();
@@ -64,10 +67,12 @@ function sendFrame(single=false){
  }
  try{
   const tfjs=ui.backend.value==='tfjs-webgl';
-  const content=tfjs?letterbox(ui.video.videoWidth,ui.video.videoHeight):null;
+  const source=scanner?.active&&calibration.profile?calibration.frame(ui.video,stream.getVideoTracks()[0]):ui.video;
+  const sourceWidth=source.videoWidth||source.width,sourceHeight=source.videoHeight||source.height;
+  const content=tfjs?letterbox(sourceWidth,sourceHeight):null;
   const size=tfjs?{width:224,height:224}:frameSize(ui.video.videoWidth,ui.video.videoHeight,Number(ui.resolution.value));
   capture.width=size.width;capture.height=size.height;
-  if(content)ctx.drawImage(ui.video,content.x,content.y,content.width,content.height);
+  if(content)ctx.drawImage(source,content.x,content.y,content.width,content.height);
   else ctx.drawImage(ui.video,0,0,size.width,size.height);
   const pixels=ctx.getImageData(0,0,size.width,size.height).data;
   lastVideoTime=ui.video.currentTime;lastFresh=sentAt=performance.now();inFlight=true;request++;controls();
@@ -90,6 +95,7 @@ function displayResult(data){
  ui.age.textContent='0.0 s';queueDraw();
 }
 async function start(scanMode=false){
+ if(calibration.loading){status('Wait for calibration verification to finish.');return;}
  stop(null);if(scanMode){ui.backend.value='tfjs-webgl';ui.resolution.value='224';scanner?.begin();}const mine=++generation;starting=true;controls();
  emit('info','start',{...environment(),settings:{backend:ui.backend.value,resolution:ui.resolution.value,facing:ui.facing.value,frequency:ui.frequency.value}});
  if(ui.backend.value==='auto'||ui.backend.value==='webgpu'){
@@ -105,7 +111,7 @@ async function start(scanMode=false){
   if(!window.isSecureContext)throw new Error('Camera access requires HTTPS.');
   if(!navigator.mediaDevices?.getUserMedia)throw new Error('Camera access is unavailable in this browser.');
   emit('info','camera.permission.begin');
-  const media=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:ui.facing.value},width:{ideal:640},height:{ideal:480}}});
+  const media=await navigator.mediaDevices.getUserMedia({audio:false,video:(scanMode&&calibration.constraints())||{facingMode:{ideal:ui.facing.value},width:{ideal:640},height:{ideal:480}}});
   if(mine!==generation){emit('info','camera.lateStream.released');media.getTracks().forEach(track=>track.stop());return;}
   stream=media;ui.video.srcObject=media;
   for(const track of media.getVideoTracks()){
@@ -115,6 +121,7 @@ async function start(scanMode=false){
    for(const type of ['mute','unmute'])track.addEventListener(type,()=>{if(mine===generation)emit('warn','camera.track.'+type);});
   }
   await ui.video.play();if(mine!==generation)return;
+  if(scanMode&&calibration.profile){await calibration.bind(media.getVideoTracks()[0],ui.video);if(mine!==generation)return;cameraGuard=setInterval(()=>{try{calibration.assert(media.getVideoTracks()[0],ui.video);}catch(e){fail(e.message);}},250);}
   emit('info','camera.playing',{width:ui.video.videoWidth,height:ui.video.videoHeight,readyState:ui.video.readyState});
   if(document.hidden){stop('Paused because this page is hidden. Tap Start to resume.');return;}
   ui.standby.hidden=true;running=true;starting=false;lastFresh=performance.now();controls();

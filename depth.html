@@ -3,8 +3,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Depth Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
-<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=5">
-<script type="module" src="./depth.js?v=9"></script><script defer src="./pwa-register.js?v=35"></script>
+<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=6">
+<script type="module" src="./depth.js?v=10"></script><script defer src="./pwa-register.js?v=35"></script>
 </head><body>
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
 <header><strong>TACTICAL <span>DEPTH LAB</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html" aria-current="page">Depth</a></nav></header>
@@ -15,6 +15,7 @@
 <h2>Guided 3D scan <span class="small-tag">EXPERIMENTAL</span></h2>
 <p class="help"><a href="./calibration.html?v=1">Camera calibration: print target &amp; capture views →</a></p>
 <p class="scan-cycle">Move a little → hold still → wait for the green <strong>MOVE NOW</strong> flash.</p>
+<div class="controls calibration-controls"><button id="scan-calibration" type="button">Load calibration JSON</button><input id="scan-calibration-file" type="file" accept="application/json,.json" hidden><button id="scan-replay-save" type="button" disabled>Save scan replay</button></div><p id="scan-calibration-status" class="help" role="status">Load your saved calibration for corrected camera geometry. Files stay on this device. Calibration is required for stitching; ordinary single-frame depth still works without it.</p>
 <div class="scan-command"><div class="controls scan-primary"><button id="scan-start" type="button">Start scan</button><button id="scan-pause" type="button" disabled>Pause scan</button><button id="scan-finish" type="button" disabled>Finish scan</button></div>
 <p id="scan-guide" role="status" aria-live="polite">Ready. Start a guided scan to accumulate accepted views.</p></div><div class="depth-grid">
 <section class="depth-card"><div class="section-title"><h2>Live camera</h2><span class="small-tag">UNMIRRORED</span></div><div class="image-frame"><video id="video" autoplay playsinline muted></video><p id="standby">CAMERA STANDBY</p><div id="scan-overlay" class="scan-overlay" hidden aria-hidden="true"></div><div id="scan-movement" hidden><strong id="scan-movement-arrow">↔</strong><span id="scan-movement-text"></span><progress id="scan-movement-progress" max="100" value="0" aria-label="Movement toward next capture"></progress><small id="scan-movement-detail"></small></div><div id="scan-camera-controls" hidden><button id="scan-camera-pause" type="button">Pause scan</button><button id="scan-camera-finish" type="button">Finish scan</button></div></div></section>

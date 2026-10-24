@@ -20,7 +20,26 @@ self.onmessage=async({data})=>{
  if(busy){postMessage({id:data.id,type:'error',message:'Calibration worker is busy.'});return;}busy=true;
  try{
   if(data.type==='init'){const runtime=await load();views=[];postMessage({id:data.id,type:'ready',...runtime});}
-  else if(data.type==='detect'){
+  else if(data.type==='verify-session'){
+   if(!cv)throw Error('Calibration runtime not ready.');
+   const verified=[];
+   if(!Array.isArray(data.views)||data.views.length<16||data.views.length>24)throw Error('Invalid calibration views.');
+   for(const view of data.views){
+    const blob=await (await fetch(view.image)).blob();const bitmap=await createImageBitmap(blob);
+    try{
+     if(bitmap.width!==640||bitmap.height!==480)throw Error('Invalid calibration image size.');
+     const canvas=new OffscreenCanvas(640,480),ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0);
+     const result=CalibrationEngine.detect(cv,ctx.getImageData(0,0,640,480).data,verified);
+     if(!result.accepted)throw Error('Saved board could not be verified: '+result.reason);
+     const error=reverse=>Math.sqrt(result.points.reduce((sum,x,i)=>sum+(x-view.points[reverse?(62-Math.floor(i/2))*2+i%2:i])**2,0)/63);
+     if(Math.min(error(false),error(true))>1)throw Error('Saved corners disagree with image.');
+     verified.push(result);
+    }finally{bitmap.close();}
+   }
+   const result=CalibrationEngine.calibrate(cv,verified);
+   if(!result.passed)throw Error(result.reasons.join(' '));
+   postMessage({id:data.id,type:'verified',result});
+  }else if(data.type==='detect'){
    if(!cv)throw Error('Calibration runtime not ready.');
    const result=CalibrationEngine.detect(cv,new Uint8Array(data.pixels),views);
    if(result.accepted){if(views.length>=24)throw Error('Maximum 24 captures reached.');views.push(result);}

@@ -1,5 +1,5 @@
-import {estimateMovement} from './depth-scan-motion.js?v=1';
-import {CaptureGate,validateScene} from './depth-scan-core.js?v=2';
+import {estimateMovement} from './depth-scan-motion.js?v=2';
+import {CaptureGate,validateScene} from './depth-scan-core.js?v=3';
 export function createScanner(hooks){
  const $=id=>document.getElementById(id);if(!$('scan-start'))return null;
  const gate=new CaptureGate(),canvas=document.createElement('canvas');canvas.width=72;canvas.height=72;
@@ -14,6 +14,7 @@ export function createScanner(hooks){
   flashTimer=setTimeout(clearFlash,1400);hooks.log('info','scan.moveCue',{views:scene.views});
  }
  function buttons(){
+  document.body.classList.toggle('scanning',active);
   $('scan-start').disabled=active||!!scene||hooks.state().running;
   for(const id of ['scan-pause','scan-camera-pause']){$(id).disabled=!active;$(id).textContent=paused?'Resume scan':'Pause scan';}
   $('scan-finish').disabled=!active;$('scan-save').disabled=!scene;
@@ -30,14 +31,14 @@ export function createScanner(hooks){
   $('scan-movement-arrow').textContent=hint.arrow;
   $('scan-movement-text').textContent=hint.message;
   $('scan-movement-progress').value=hint.progress;
-  $('scan-movement-detail').textContent=hint.shift===undefined?'Small sideways steps; keep the phone pointing the same way':`Image shift ${hint.shift}% · aim for 6–14% · approximate`;
+  $('scan-movement-detail').textContent=hint.shift===undefined?'Small sideways steps; keep the phone pointing the same way':`Image shift ${hint.shift}% · aim for ${hooks.calibration?.().profile?'3–8%':'6–14%'} · approximate`;
  }
  function sample(){
   const s=hooks.state();if(!active||paused||busy||!s.ready||s.inFlight||document.hidden||s.video.readyState<2)return;
   ctx.drawImage(s.video,0,0,72,72);const rgba=ctx.getImageData(0,0,72,72).data;
   const image=new Float32Array(72*72);for(let i=0;i<image.length;i++)image[i]=(rgba[i*4]+rgba[i*4+1]+rgba[i*4+2])/765;
   preview=image;const signal=gate.sample(image,performance.now());
-  const hint=estimateMovement(gate.anchor,image);movementHint(hint);
+  const hint=estimateMovement(gate.anchor,image,72,hooks.calibration?.().profile?{minimum:2,maximum:6}:{});movementHint(hint);
   const positioned=hint.state==='first'||hint.state==='ready';
   if(signal.capture&&positioned){busy=true;capturedPreview=preview.slice();movementHint({state:'capture',arrow:'Ⅱ',progress:100,message:'Hold still — capturing'});tell('◷ CAPTURING — wait for green','capture');if(!hooks.capture()){busy=false;gate.complete(performance.now(),preview,false);}}
   else if(performance.now()>=gate.nextAt||hint.state==='back'||hint.state==='lost'){
@@ -50,10 +51,11 @@ export function createScanner(hooks){
  }
  function begin(){
   epoch++;active=true;paused=false;busy=false;gate.reset();$('scan-overlay').hidden=false;$('scan-camera-controls').hidden=false;
-  worker=new Worker(new URL('./depth-scan-worker.js?v=2',import.meta.url),{type:'module'});
+  worker=new Worker(new URL('./depth-scan-worker.js?v=3',import.meta.url),{type:'module'});
   const mine=epoch;
   worker.onmessage=({data})=>{
    if(mine!==epoch||!active||data.id!==mine)return;clearTimeout(deadline);deadline=null;busy=false;
+   hooks.calibration?.().record({ok:data.ok,code:data.code,diagnostics:data.diagnostics,reason:data.reason});
    if(data.ok){scene=validateScene(data.scene);hooks.show(scene);if(paused){pendingMoveCue=true;tell('✓ VIEW ADDED — scan paused','paused');}else moveCue();}
    else tell('⚠ NOT ADDED — '+data.reason,'lost');
    gate.complete(performance.now(),capturedPreview,data.ok);
@@ -66,11 +68,13 @@ export function createScanner(hooks){
  function result(data){
   if(!active)return;
   if(!data.rawDepth){hooks.stop();tell('Raw depth is unavailable. Use TFJS WebGL for scanning.','lost');return;}
+  hooks.calibration?.().depth?.(data);
   busy=true;tell(paused?'Ⅱ PAUSED — current capture may finish':'◷ ALIGNING — wait for green',paused?'paused':'capture');
   deadline=setTimeout(()=>{hooks.stop();tell('Alignment timed out. The accepted scene is retained.','lost');},15000);
-  worker.postMessage({type:'frame',id:epoch,frame:{width:data.width,height:data.height,raw:data.rawDepth,pixels:data.pixels,orientation:data.capture?.orientation??0,capturedAt:data.capture?.timestamp}},[data.rawDepth,data.pixels]);
+  const tracking=hooks.calibration?.().takeTracking?.();
+  worker.postMessage({type:'frame',id:epoch,frame:{tracking:tracking?.buffer,K:hooks.calibration?.().intrinsics(data.width,data.height),width:data.width,height:data.height,raw:data.rawDepth,pixels:data.pixels,orientation:data.capture?.orientation??0,capturedAt:data.capture?.timestamp}},[data.rawDepth,data.pixels,...(tracking?[tracking.buffer]:[])]);
  }
- $('scan-start').addEventListener('click',()=>{if(active||scene)return;hooks.start();});
+ $('scan-start').addEventListener('click',()=>{if(active||scene)return;if(hooks.calibration&&!hooks.calibration().profile){tell('Load your calibration JSON before starting a scan.','hold');return;}hooks.start();});
  $('scan-pause').addEventListener('click',()=>{if(!active)return;paused=!paused;gate.previous=null;gate.stillSince=null;buttons();clearFlash();if(paused){$('scan-movement').hidden=true;tell('Ⅱ PAUSED — current capture may finish','paused');}else if(pendingMoveCue){pendingMoveCue=false;moveCue();}else if(busy)tell('◷ CAPTURING — wait for green','capture');else tell(scene?'→ MOVE NOW — slightly sideways':'Ⅱ HOLD STILL — steady the phone',scene?'move':'hold');});
  $('scan-finish').addEventListener('click',()=>hooks.stop());
  $('scan-camera-finish').addEventListener('click',()=>hooks.stop());

@@ -84,3 +84,55 @@ and camera behavior before integrating calibrated pose tracking with depth fusio
 Raw frames require undistortion with that exact K/distortion and unchanged crop.
 Calibration consistency alone is not a reconstruction-quality gate. Keep Cloudflare
 Access and existing PWA/navigation/ONNX choices intact.
+
+## Calibration-to-scan integration (depth-lab-9)
+
+See `docs/depth-calibrated-scan-test.md` for the phone workflow. `depth-calibration.js`
+imports the original local session, verifies all PNG/corner observations using the
+bundled actual OpenCV worker, recalibrates the interleaved folds, and binds the
+result to the actual camera stream. The file's passed flag and saved K are not trusted.
+No raw phone images or identifiers are committed to this repository.
+
+`depth-calibration-core.js` maps undistorted output pixels back into the distorted
+640x480 crop using Brown–Conrady coefficients and bilinear interpolation. K is
+rescaled to the cropped model output using pixel-centre coordinates. Both model
+RGB and tracking RGB come from this same corrected capture. The original distorted
+640x480 crop is kept in the private bounded replay for independent processing.
+
+`depth-scan-flow.js` tracks spatially distributed corners at 640x480 with pyramidal
+Lucas–Kanade and a one-pixel forward/backward consistency bound. It supplies image
+correspondences, not pose. The existing robust relative-depth similarity/offset
+registration estimates pose/scale, now using calibrated projection and reprojection.
+A robust rotation-only competitor prevents fusion when rotation explains the RGB
+matches substantially better, or almost all matches with very small error. Existing
+consensus, spatial coverage, pose, scale, duplicate and map memory gates remain.
+The old 55-degree path remains solely for legacy core tests; the live scan requires
+calibration and supplies K and 640x480 tracking images. Ordinary depth is unchanged.
+
+Reproduce (private session path is an argument, never a repository fixture):
+
+```
+node --test tests/*.test.mjs
+node tools/depth-calibration/evaluate_scan.mjs
+DEPTH_CHROMIUM=/path/to/chromium node tools/depth-calibration/test_scan_browser.cjs SESSION.json
+DEPTH_CHROMIUM=/path/to/chromium node tools/depth-calibration/test_scan_browser.cjs SESSION.json --real
+python tools/depth-calibration/replay_scan.py SESSION.json SCAN_REPLAY.json REPORT.json
+```
+
+The actual-model test uses the pinned TFJS 4.22.0 runtime at `/tmp/tf.min.js` and checks
+its SHA256 before routing the unchanged CDN URL locally. Browser tests simulate the
+camera from one private saved image; they do not establish physical scan performance.
+`replay_scan.py` independently validates the calibration again, binds its input hash
+and geometry, undistorts RGB, and runs the existing `RecoveryTracker`. Its diagnostics
+have no real-scene ground-truth pose. A one-frame test establishes only the anchor.
+
+Evidence: `scan-node.log`, `scan-browser.json`, `scan-actual-tfjs.json`,
+`scan-heldout.json`, `scan-heldout-initial.json`, `scan-verification.json`.
+The initial evaluation recorded three false rotation acceptances (one scene under
+three depth profiles). That failed candidate was not deployed. The subsequent
+comparison of rotation residual against depth-pose reprojection error fixed these
+regressions. Seeds 902/2061 are now regression data; 18771/98211/31009 were fresh after
+that change. All final 30 translated views were accepted with <0.005 error in initial
+arbitrary depth units; all 90 yaw-only rotations withheld. This is a bounded synthetic
+suite, not general reconstruction accuracy. Development repetitive-texture failures
+were retained as rejected observations, not counted as successful recovery.
