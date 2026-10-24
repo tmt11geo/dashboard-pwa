@@ -12,7 +12,7 @@ const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),htt
   if(real){const runtime=fs.readFileSync('/tmp/tf.min.js');if(require('crypto').createHash('sha256').update(runtime).digest('hex')!=='300dfae273d20b4046f46a06d735688f03675a807561e9bcb5f664eb2f3d2831')throw Error('Wrong TFJS runtime');await page.route('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js',r=>r.fulfill({contentType:'text/javascript',body:runtime}));}
   await page.addInitScript(({g,real})=>{
    window.streams=[];window.sent=[];window.zoomOverride=null;window.requests=[];
-   Object.defineProperty(screen.orientation,'angle',{get:()=>g.screenAngle});
+   Object.defineProperty(screen.orientation,'angle',{get:()=>window.phoneAngle??g.screenAngle});
    const NativeWorker=Worker;
    window.Worker=class{
     constructor(url,opts){if(real||!String(url).includes('depth-tfjs-worker')){const w=new NativeWorker(url,opts);if(String(url).includes('depth-tfjs-worker')){const post=w.postMessage.bind(w);w.postMessage=(data,transfer)=>{if(data.type==='frame')window.sent.push({content:data.content,width:data.width,height:data.height});return post(data,transfer);};}
@@ -26,18 +26,23 @@ const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),htt
     terminate(){this.ended=true;}
    };
    navigator.mediaDevices.getUserMedia=async options=>{
-    window.requests.push(options);const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;const image=new Image();image.src='/private-image';await image.decode();canvas.getContext('2d').drawImage(image,0,0);const stream=canvas.captureStream(15),track=stream.getVideoTracks()[0];
+    window.requests.push(options);if(options.video.width?.exact||options.video.height?.exact||options.video.resizeMode?.exact||window.rejectCamera){const e=new Error('');e.name='OverconstrainedError';e.constraint=window.rejectCamera||'width';throw e;}const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;const image=new Image();image.src='/private-image';await image.decode();canvas.getContext('2d').drawImage(image,0,0);const stream=canvas.captureStream(15),track=stream.getVideoTracks()[0];
     track.getSettings=()=>({deviceId:g.deviceId,width:640,height:480,facingMode:g.facingMode,focusMode:g.focusMode,focusDistance:g.focusDistance,zoom:window.zoomOverride??g.zoom,resizeMode:g.resizeMode});track.getCapabilities=()=>({focusMode:['manual'],focusDistance:{min:0,max:.57},zoom:{min:1,max:10}});track.applyConstraints=async options=>{window.constraints=options;};window.streams.push(stream);return stream;
    };
   },{g:session.metadata.geometry,real});
-  const url=`http://127.0.0.1:${server.address().port}/dashboard-pwa/depth.html?v=10`;await page.goto(url);
+  const url=`http://127.0.0.1:${server.address().port}/dashboard-pwa/depth.html?v=11`;await page.goto(url);
   await page.click('#scan-start');check('scan requires calibration without assumed-camera fallback',(await page.locator('#scan-guide').innerText()).includes('Load your calibration'));
   await page.setInputFiles('#scan-calibration-file',sessionPath);await page.waitForFunction(()=>!document.querySelector('#scan-calibration').disabled,{},{timeout:180000});
   const message=await page.locator('#scan-calibration-status').innerText();console.log(message);check('real phone PNGs independently verified by browser',message.includes('Calibration ready'));
+  check('successful import clears the stale load-calibration guide',(await page.locator('#scan-guide').innerText()).includes('Calibration ready'));
+  await page.evaluate(()=>window.phoneAngle=0);await page.click('#scan-start');
+  check('portrait start is blocked before camera permission',await page.evaluate(()=>requests.length===0&&document.querySelector('#scan-guide').textContent.includes('same landscape direction')));
+  await page.evaluate(()=>window.phoneAngle=undefined);
   await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.includes('1 accepted'),{},{timeout:180000});
   if(real)check('actual WebGL backend and CPU forwarding disabled',(await page.locator('#diagnostic-log').inputValue()).includes('\"cpuForward\":false'));
   check('calibrated first relief is rendered',await page.locator('#relief').isVisible());
   check('corrected image letterboxes to 224x168 and calibrated K reaches registration',await page.evaluate(()=>sent[0].content.width===224&&sent[0].content.height===168&&scanK.length===9&&Math.abs(scanK[0]-150.26)<1));
+  check('Android exact size rejection avoided with preferred dimensions',await page.evaluate(()=>requests[0].video.width.ideal===640&&requests[0].video.height.ideal===480&&requests[0].video.resizeMode.ideal==='none'));
   check('camera requested by exact calibrated identity',await page.evaluate(()=>!!requests[0].video.deviceId.exact));
   check('out-of-range Android focus distance is not blindly reapplied',await page.evaluate(()=>constraints.advanced[0].focusDistance===undefined));
   await page.evaluate(()=>scrollTo(0,0));
@@ -53,11 +58,14 @@ const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),htt
    await page.evaluate(()=>window.zoomOverride=null);await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.includes('1 accepted'),{},{timeout:30000});
    await page.evaluate(()=>window.zoomOverride=2);await page.waitForFunction(()=>document.querySelector('#status').textContent.includes('Camera differs'));
    check('live settings change stops before more captures',await page.evaluate(()=>streams.every(s=>s.getTracks().every(t=>t.readyState==='ended'))));
+   await page.click('#scan-clear');await page.evaluate(()=>{window.zoomOverride=null;window.rejectCamera='deviceId';});await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-guide').textContent.includes('Camera request rejected (deviceId)'));
+   check('rejected constraint appears in guide and diagnostics',(await page.locator('#diagnostic-log').inputValue()).includes('"constraint":"deviceId"'));
+   await page.evaluate(()=>window.rejectCamera=null);
    const bad=structuredClone(session);bad.observations[0].points=bad.observations[0].points.map(x=>x+20);
    await page.setInputFiles('#scan-calibration-file',{name:'invalid.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(bad))});await page.waitForFunction(()=>!document.querySelector('#scan-calibration').disabled,{},{timeout:180000});
    check('tampered corners rejected without trusting passed flag',(await page.locator('#scan-calibration-status').innerText()).includes('Saved corners disagree'));
   }
   check('no horizontal page overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   check('no uncaught errors',report.errors.length===0);
- }finally{if(browser)await browser.close();server.close();fs.writeFileSync(path.join(root,'tools/depth-calibration/evidence/'+(real?'scan-actual-tfjs.json':'scan-browser.json')),JSON.stringify(report,null,2)+'\n');}
+ }finally{if(browser)await browser.close();server.close();fs.writeFileSync(path.join(root,'tools/depth-calibration/evidence/'+(real?'scan-actual-tfjs.json':'scan-startup-browser.json')),JSON.stringify(report,null,2)+'\n');}
 })().catch(e=>{console.error(e);process.exitCode=1;});

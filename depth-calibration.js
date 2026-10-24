@@ -1,7 +1,8 @@
-import {validateCalibrationSession,checkCamera,undistortionMap,remapRGBA,scaledIntrinsics} from './depth-calibration-core.js?v=1';
-export function createCalibration({idle,log}){
+import {validateCalibrationSession,calibratedCameraRequest,checkCamera,undistortionMap,remapRGBA,scaledIntrinsics} from './depth-calibration-core.js?v=2';
+export function createCalibration({idle,log,onStatus=()=>{}}){
  const $=id=>document.getElementById(id),input=$('scan-calibration-file'),status=$('scan-calibration-status');
  if(!input)return {buttons(){},loading:false,profile:null,record(){},intrinsics(){return null;},constraints(){return null;}};
+ const message=text=>{status.textContent=text;onStatus(text);};
  let profile=null,loading=false,worker=null,serial=0,map=null,records=[],captureRecord=null,cancelPending=null,tracking=null;
  const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;const ctx=canvas.getContext('2d',{willReadFrequently:true});
  const corrected=document.createElement('canvas');corrected.width=640;corrected.height=480;const out=corrected.getContext('2d');
@@ -10,16 +11,16 @@ export function createCalibration({idle,log}){
  $('scan-calibration').onclick=()=>input.click();
  input.onchange=async()=>{
   const file=input.files?.[0];input.value='';if(!file||!idle())return;
-  loading=true;profile=null;records=[];map=null;buttons();status.textContent='Checking calibration images locally…';
+  loading=true;profile=null;records=[];map=null;buttons();message('Checking calibration images locally…');
   try{
    if(file.size>50000000)throw Error('Calibration file exceeds 50 MB.');const text=await file.text(),session=JSON.parse(text),geometry=validateCalibrationSession(session);
    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text))),x=>x.toString(16).padStart(2,'0')).join('');
    worker=new Worker(new URL('./calibration-worker.js?v=2',import.meta.url));await rpc('init');const {result}=await rpc('verify-session',{views:session.observations},120000);
    profile={geometry:structuredClone(geometry),cameraMatrix:result.cameraMatrix,distortion:result.distortion,rms:result.rms,inputSha256:hash};
    map=undistortionMap(profile.cameraMatrix,profile.distortion,640,480);
-   status.textContent=`Calibration ready · ${result.rms.toFixed(2)} px error. Keep the phone landscape as during calibration. Start scan.`;
+   message(`Calibration ready · ${result.rms.toFixed(2)} px error. Keep the phone landscape as during calibration. Start scan.`);
    log('info','calibration.ready',{rms:result.rms,views:session.observations.length});
-  }catch(e){profile=null;map=null;status.textContent='Calibration not loaded: '+e.message;log('warn','calibration.error',{message:e.message});}
+  }catch(e){profile=null;map=null;message('Calibration not loaded: '+e.message);log('warn','calibration.error',{message:e.message});}
   finally{worker?.terminate();worker=null;cancelPending=null;loading=false;buttons();}
  };
  function assert(track,video){if(!profile)return;checkCamera(profile.geometry,track.getSettings(),video.videoWidth,video.videoHeight,screen.orientation?.angle??window.orientation??0);}
@@ -31,7 +32,7 @@ export function createCalibration({idle,log}){
   // Never send that invalid constraint. Accept only if read-back already agrees.
   if(s.focusDistance!==g.focusDistance&&cap.focusDistance&&g.focusDistance>=cap.focusDistance.min&&g.focusDistance<=cap.focusDistance.max)advanced.focusDistance=g.focusDistance;
   await track.applyConstraints({advanced:[advanced]});assert(track,video);records=[];captureRecord=null;
-  status.textContent='Calibrated camera matched · distortion corrected · experimental stitching';buttons();
+  message('Calibrated camera matched · distortion corrected · experimental stitching');buttons();
  }
  function frame(video,track){
   assert(track,video);const c=profile.geometry.crop;ctx.drawImage(video,c.x,c.y,c.width,c.height,0,0,640,480);
@@ -49,5 +50,5 @@ export function createCalibration({idle,log}){
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&loading){cancelPending?.();worker?.terminate();}});
  window.addEventListener('pagehide',()=>{cancelPending?.();worker?.terminate();});
  buttons();return {buttons,bind,assert,frame,record,depth,takeTracking(){const t=tracking;tracking=null;return t;},get profile(){return profile;},get loading(){return loading;},intrinsics:(w,h)=>profile?scaledIntrinsics(profile.cameraMatrix,w,h):null,
- constraints:()=>profile?{deviceId:{exact:profile.geometry.deviceId},width:{exact:profile.geometry.sourceWidth},height:{exact:profile.geometry.sourceHeight},frameRate:{ideal:15},resizeMode:profile.geometry.resizeMode?{exact:profile.geometry.resizeMode}:undefined}:null};
+ constraints:()=>profile?calibratedCameraRequest(profile.geometry,screen.orientation?.angle??window.orientation??0):null};
 }

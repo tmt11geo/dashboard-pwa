@@ -1,0 +1,19 @@
+{
+  "build": "depth-lab-10",
+  "base": "96b377a74e22994fbc140a63ec296338db58f9cd",
+  "nodeTests": 80,
+  "browserChecks": 19,
+  "sourceSha256": {
+    "depth-calibration-core.js": "0c020490f43d8d996e27d66e7c7594edcad03ad920d956871c245520a8d0fb68",
+    "depth-calibration.js": "bfcaaf45235458d27fc89112e589f4adcb6c9230eb0f759316dffca3b21a00c7",
+    "depth-diagnostics.js": "0ea07636d7201395f02f63f2cf06575ed6358f432c0d1648e8047a20ff9281a8",
+    "depth-scan.js": "b1fc6d8f1b3c82ae476483c4df918dc1be36e9bae6b41dd5a32add96c135a016",
+    "depth.html": "9fbcbfdb62bd397831af7cd61b9cb55a829c0ebee21cc5346ecbbf2dc8952911",
+    "depth.js": "ea16dc6983b758e155aa3c9965b924c6fca5db8f00bc395bd5e7fabec0d2f031",
+    "tests/depth-calibration.test.mjs": "433a386243038d2fa3cdc7cbe0f9a2b987483783d57cd9ff912316ea305f483e",
+    "tests/depth-lifecycle.test.mjs": "787d1b7c470ef58988bb6c1f0a73dbc56828ebed162571cb873b17e0a97396da",
+    "tools/depth-calibration/test_scan_browser.cjs": "fdbd6f156ac72b105f1f5dba9622f3c1661600ab24ae48c2716d375a84b68b7d"
+  },
+  "phoneEvidence": "Build 9 calibration ready, then four getUserMedia OverconstrainedError failures. Exact constraint omitted by old logger; portrait screenshot.",
+  "limitations": "Simulated camera constraints, actual calibration verification; physical phone retry required."
+}

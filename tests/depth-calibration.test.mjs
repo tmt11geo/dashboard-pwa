@@ -58,3 +58,12 @@ test('repetitive-texture cases that produced false low-resolution motion remain 
  const K=[429.3,0,320.2,0,422.9,245.7,0,0,1],k=scaledIntrinsics(K,224,168),frame=(x,a)=>({...render(x,a,[1,0],{width:224,height:168,K:k}),K:k,tracking:render(x,a,[1,0],{width:640,height:480,K}).pixels});
  for(const [x,a] of [[.025,0],[.05,0],[.075,0],[0,-.04],[0,-.02],[0,.02]]){const map=new ScanMap();map.add(frame(0,0));const before=JSON.stringify(map.snapshot());assert.equal(map.add(frame(x,a)).ok,false);assert.equal(JSON.stringify(map.snapshot()),before);}
 });
+import {calibratedCameraRequest} from '../depth-calibration-core.js';
+import {errorInfo} from '../depth-diagnostics.js';
+test('camera negotiation uses size preferences while retaining identity and read-back requirements',()=>{
+ const g={deviceId:'camera-a',sourceWidth:640,sourceHeight:480,screenAngle:90,resizeMode:'none',facingMode:'environment',focusMode:'manual',focusDistance:3.4,zoom:1};
+ assert.throws(()=>calibratedCameraRequest(g,0),/same landscape direction/);
+ const c=calibratedCameraRequest(g,90);assert.deepEqual(c.deviceId,{exact:'camera-a'});assert.deepEqual(c.width,{ideal:640});assert.deepEqual(c.height,{ideal:480});assert.deepEqual(c.resizeMode,{ideal:'none'});
+ assert.throws(()=>checkCamera(g,{...g},1280,720,90),/image size/);assert.throws(()=>checkCamera(g,{...g,deviceId:'camera-b'},640,480,90),/deviceId/);
+ assert.equal(errorInfo({name:'OverconstrainedError',message:'',constraint:'width'}).constraint,'width');
+});

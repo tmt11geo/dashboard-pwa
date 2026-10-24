@@ -1,7 +1,7 @@
-# Calibrated relief scan — depth-lab-9
+# Calibrated relief scan — depth-lab-10
 
-Open https://tmt11.com/dashboard-pwa/depth.html?v=10 through your usual Access login.
-The diagnostic build is **depth-lab-9**. No Access or PWA installation change is needed.
+Open https://tmt11.com/dashboard-pwa/depth.html?v=11 through your usual Access login.
+The diagnostic build is **depth-lab-10**. No Access or PWA installation change is needed.
 
 1. Turn the phone landscape in the same direction as during calibration.
 2. Choose **Load calibration JSON** and select the original saved Tactical calibration
@@ -38,3 +38,9 @@ observation. Synthetic pose checks and a real-model browser smoke test do not pr
 physical accuracy, full six-axis coverage, loop closure, metric scale or long-scan
 stability. The offline multi-view RGB tracker is available for replay diagnosis;
 it is not the live browser fusion algorithm.
+
+Build 10 checks landscape orientation before opening the camera. It requests the
+calibrated size/resize mode as preferences and verifies actual settings afterward;
+the calibrated camera identity is still mandatory. A successful import also clears
+the old Load calibration warning. If startup is rejected, the scan guide and logs
+show the rejected constraint when Android supplies it. The same JSON remains valid.

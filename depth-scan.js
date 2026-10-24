@@ -90,5 +90,5 @@ export function createScanner(hooks){
   try{if(file.size>8*1024*1024)throw Error('Relief file is too large');const loaded=validateScene(JSON.parse(await file.text()));if(active||hooks.state().running||mine!==epoch)return;scene=loaded;hooks.show(scene);buttons();tell('Saved scene opened for inspection. Clear it before starting a new scan.');}
   catch(e){tell('Unable to open scene: '+e.message,'lost');}finally{$('scan-file').value='';}
  });
- buttons();return {begin,stop,result,buttons,get active(){return active;},get scene(){return scene;}};
+ buttons();return {begin,stop,result,buttons,calibrationStatus:message=>{if(!active&&!scene)tell(message);},error:message=>tell(message,'lost'),get active(){return active;},get scene(){return scene;}};
 }

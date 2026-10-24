@@ -1,5 +1,42 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Android camera-startup correction — 2026-10-24
+
+Resumed depth-tfjs-webgl at 96b377a74e22994fbc140a63ec296338db58f9cd;
+main inspected at 3a1eab49ebe713b5250de1a98eb3573fe5a94dda. No AGENTS.md.
+Phone build-9 logs prove calibration import passed repeatedly (16 views,
+RMS 0.250362 px), then getUserMedia rejected four starts with OverconstrainedError
+before camera frames/model startup. The old logger omitted error.constraint, so
+its exact cause is unknown. Screenshot is portrait despite landscape calibration,
+and shows stale Load calibration guidance next to Calibration ready.
+
+Implemented depth-lab-10: preflight orientation before camera permission; use
+ideal source dimensions/resize mode while retaining exact calibrated deviceId;
+unchanged mandatory actual geometry/identity/focus/zoom checks before inference
+and during scanning. No guessed camera or relaxed calibration application. Import
+status now refreshes scan guidance; startup failures appear next to Start scan.
+Diagnostics include rejected constraint and sanitized request size/orientation,
+without exposing device IDs. Generic reduce-detail advice removed for startup errors.
+
+80 Node tests PASS; 19 actual-browser checks PASS with the real private calibration
+images, real verification/registration workers and controlled inference/camera.
+Simulated Android rejects old exact size/resize requests: new preferences succeed.
+Portrait start makes no camera request; stale guidance clears; injected deviceId
+rejection is visible in guidance/logs; camera mismatch/cleanup/replay gates pass.
+No new physical startup or actual-TFJS performance claim. Existing model, geometry,
+tracking/fusion, Access, maps, ONNX and PWA policy are unchanged.
+Evidence: tools/depth-calibration/evidence/startup-node.log,
+scan-startup-browser.json and startup-verification.json. Private images/logs not
+uploaded to GitHub. This correction addresses startup negotiation and diagnosis,
+not the still-unmeasured physical scene stitching quality.
+
+Next action in this run: commit, deploy via leased main update, verify exact Pages
+success and checkpoint receipt. Then user retries the same calibration file at
+depth.html?v=11, in the original landscape direction, expecting camera/model startup
+and first green view cue. If Android still refuses, send the newly named constraint;
+exact device identity is intentionally not bypassed. No recalibration requested.
+
+
 ## Calibrated scan deployed — 2026-10-24
 
 Implementation/live main: 3a1eab49ebe713b5250de1a98eb3573fe5a94dda,

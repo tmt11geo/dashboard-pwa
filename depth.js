@@ -1,8 +1,8 @@
-import {createCalibration} from './depth-calibration.js?v=1';
-import {createScanner} from './depth-scan.js?v=5';
+import {createCalibration} from './depth-calibration.js?v=2';
+import {createScanner} from './depth-scan.js?v=6';
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=8';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=9';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
@@ -16,7 +16,7 @@ let generation=0,worker=null,stream=null,running=false,starting=false,ready=fals
 let timer=null,watchdog=null,ageTimer=null,cameraGuard=null,request=0,sentAt=0,lastVideoTime=-1,lastFresh=0;
 let frames=0,samples=[],delivered=[],lastResult=0,points=[],showRelief=false,yaw=0,pitch=0,zoom=1,drag=null,drawPending=false;
 let lastProgressLog=0;
-const calibration=createCalibration({idle:()=>!running&&!starting,log:emit});
+const calibration=createCalibration({idle:()=>!running&&!starting,log:emit,onStatus:message=>scanner?.calibrationStatus(message)});
 const scanner=createScanner({
  calibration:()=>calibration,
  state:()=>({running:running||starting,ready,inFlight,video:ui.video}),
@@ -51,7 +51,7 @@ function stop(message='Stopped. Camera and model released; the last depth result
  ui.video.srcObject=null;ui.standby.hidden=false;controls();
  ui.age.textContent=lastResult?'Frozen':'—';if(message)status(message);
 }
-function fail(message){emit('error','failure',{message});$('diagnostics-panel').open=true;stop(`${message} Stop/retry, reduce detail, or select another compute option.`);}
+function fail(message){emit('error','failure',{message});$('diagnostics-panel').open=true;stop(message);scanner?.error(message);}
 function guard(ms,message){clearTimeout(watchdog);watchdog=setTimeout(()=>fail(message),ms);}
 function schedule(){
  clearTimeout(timer);
@@ -110,8 +110,9 @@ async function start(scanMode=false){
  try{
   if(!window.isSecureContext)throw new Error('Camera access requires HTTPS.');
   if(!navigator.mediaDevices?.getUserMedia)throw new Error('Camera access is unavailable in this browser.');
-  emit('info','camera.permission.begin');
-  const media=await navigator.mediaDevices.getUserMedia({audio:false,video:(scanMode&&calibration.constraints())||{facingMode:{ideal:ui.facing.value},width:{ideal:640},height:{ideal:480}}});
+  const videoRequest=(scanMode&&calibration.constraints())||{facingMode:{ideal:ui.facing.value},width:{ideal:640},height:{ideal:480}};
+  emit('info','camera.permission.begin',{calibrated:!!(scanMode&&calibration.profile),width:videoRequest.width,height:videoRequest.height,resizeMode:videoRequest.resizeMode,screenAngle:globalThis.screen?.orientation?.angle??0,exactDevice:!!videoRequest.deviceId?.exact});
+  const media=await navigator.mediaDevices.getUserMedia({audio:false,video:videoRequest});
   if(mine!==generation){emit('info','camera.lateStream.released');media.getTracks().forEach(track=>track.stop());return;}
   stream=media;ui.video.srcObject=media;
   for(const track of media.getVideoTracks()){
@@ -149,7 +150,7 @@ async function start(scanMode=false){
   active.onerror=event=>{if(mine===generation){emit('error','worker.crash',{...errorInfo(event.error||event.message),source:event.filename,line:event.lineno,column:event.colno});fail('The depth worker could not start or crashed. Check the connection and browser support.');}};
   active.onmessageerror=()=>{if(mine===generation)fail('Unable to receive depth data.');};
   guard(240000,'Model loading timed out.');active.postMessage({type:'init',backend:ui.backend.value});
- }catch(error){if(mine===generation){emit('error','startup.error',errorInfo(error));fail(error.name==='NotAllowedError'?'Camera permission was denied.':error.message||'Camera startup failed.');}}
+ }catch(error){if(mine===generation){emit('error','startup.error',errorInfo(error));fail(error.name==='NotAllowedError'?'Camera permission was denied.':error.name==='OverconstrainedError'?`Camera request rejected (${error.constraint||'constraint not supplied by browser'}). ${scanMode&&calibration.profile?'Calibration remains loaded. ':''}Keep the same landscape direction and copy diagnostics if retry fails.`:error.message||'Camera startup failed.');}}
 }
 function queueDraw(){if(drawPending)return;drawPending=true;requestAnimationFrame(()=>{drawPending=false;drawRelief();});}
 function drawRelief(){

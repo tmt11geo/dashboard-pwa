@@ -1,10 +1,10 @@
-export const BUILD='depth-lab-9';
+export const BUILD='depth-lab-10';
 // Deliberately exclude camera frames, camera IDs, credentials and page query strings.
 export function cleanText(value){
  return String(value).replace(/https?:\/\/[^\s)"']+/g,url=>url.split(/[?#]/)[0]).slice(0,3000);
 }
 export function errorInfo(error){
- return {name:cleanText(error?.name||'Error'),message:cleanText(error?.message||error||'Unknown error'),...(error?.stack?{stack:cleanText(error.stack)}:{})};
+ return {name:cleanText(error?.name||'Error'),message:cleanText(error?.message||error||'Unknown error'),...(error?.constraint?{constraint:cleanText(error.constraint)}:{}),...(error?.stack?{stack:cleanText(error.stack)}:{})};
 }
 export function createLog(output,limit=300){
  let lines=[];

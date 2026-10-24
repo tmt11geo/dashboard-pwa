@@ -33,3 +33,11 @@ export function remapRGBA(src,map,w,h){
   for(let c=0;c<3;c++)out[i*4+c]=(src[(b*w+a)*4+c]*(1-dx)+src[(b*w+a+1)*4+c]*dx)*(1-dy)+(src[((b+1)*w+a)*4+c]*(1-dx)+src[((b+1)*w+a+1)*4+c]*dx)*dy;out[i*4+3]=255;
  }return out;
 }
+
+export function calibratedCameraRequest(g,angle){
+ if(angle!==g.screenAngle)throw Error('Turn the phone to the same landscape direction used for calibration, then tap Start scan.');
+ // Android negotiation may reject an exact size/resize tuple even when read-back
+ // from the calibration session reported it. Request preferences, then verify
+ // actual geometry in checkCamera before model startup or any capture.
+ return {deviceId:{exact:g.deviceId},width:{ideal:g.sourceWidth},height:{ideal:g.sourceHeight},frameRate:{ideal:15},...(g.resizeMode?{resizeMode:{ideal:g.resizeMode}}:{})};
+}
