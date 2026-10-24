@@ -1,5 +1,28 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Camera ID recovery deployed — 2026-10-24
+
+Live main: 895322f5f4d5f2febb671d5887bb5ec3d3fda06b, build depth-lab-11.
+GitHub Pages run 40094278074 completed SUCCESS for this exact commit.
+Both remote heads verified at the implementation SHA before this documentation
+receipt on depth-tfjs-webgl. All 14 changed remote blobs matched tested bytes.
+86 Node tests and 22 browser checks pass. Evidence: binding-node.log,
+scan-binding-browser.json, binding-verification.json and binding-deployment.json
+under tools/depth-calibration/evidence/.
+
+Unauthenticated live depth.html?v=12 returns HTTP 302 to Cloudflare Access login;
+Access remains intact. No authenticated physical phone result claimed.
+Next action: open https://tmt11.com/dashboard-pwa/depth.html?v=12, load the same
+calibration JSON, keep original landscape direction, tap Start scan, allow camera
+permission, and confirm reconnection ONLY on the same physical phone and camera.
+If no unique camera match, the app stops with instructions rather than guessing.
+If settings still differ, supply the exact new message/log; do not bypass checks.
+After first view, move slightly sideways/hold for successive green cues, Finish,
+and save replay for stitching diagnosis. Physical camera startup and reconstruction
+quality remain the blockers requiring user interaction. This receipt supersedes
+deployment-pending text below.
+
+
 ## Camera ID recovery — 2026-10-24
 
 Resumed depth-tfjs-webgl at aa4ed72e83e5d43aa4cf0f5fea03d9ce38808549;
