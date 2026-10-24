@@ -25,12 +25,14 @@ const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),htt
     }
     terminate(){this.ended=true;}
    };
+   navigator.mediaDevices.enumerateDevices=async()=>[{kind:'videoinput',deviceId:'renewed-id',label:g.label}];
    navigator.mediaDevices.getUserMedia=async options=>{
+    if(window.staleId&&options.video.deviceId?.exact===g.deviceId){const e=new Error('');e.name='OverconstrainedError';e.constraint='deviceId';throw e;}
     window.requests.push(options);if(options.video.width?.exact||options.video.height?.exact||options.video.resizeMode?.exact||window.rejectCamera){const e=new Error('');e.name='OverconstrainedError';e.constraint=window.rejectCamera||'width';throw e;}const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;const image=new Image();image.src='/private-image';await image.decode();canvas.getContext('2d').drawImage(image,0,0);const stream=canvas.captureStream(15),track=stream.getVideoTracks()[0];
-    track.getSettings=()=>({deviceId:g.deviceId,width:640,height:480,facingMode:g.facingMode,focusMode:g.focusMode,focusDistance:g.focusDistance,zoom:window.zoomOverride??g.zoom,resizeMode:g.resizeMode});track.getCapabilities=()=>({focusMode:['manual'],focusDistance:{min:0,max:.57},zoom:{min:1,max:10}});track.applyConstraints=async options=>{window.constraints=options;};window.streams.push(stream);return stream;
+    Object.defineProperty(track,'label',{value:g.label});track.getSettings=()=>({deviceId:window.staleId?'renewed-id':g.deviceId,width:640,height:480,facingMode:g.facingMode,focusMode:g.focusMode,focusDistance:g.focusDistance,zoom:window.zoomOverride??g.zoom,resizeMode:g.resizeMode});track.getCapabilities=()=>({focusMode:['manual'],focusDistance:{min:0,max:.57},zoom:{min:1,max:10}});track.applyConstraints=async options=>{window.constraints=options;};window.streams.push(stream);return stream;
    };
   },{g:session.metadata.geometry,real});
-  const url=`http://127.0.0.1:${server.address().port}/dashboard-pwa/depth.html?v=11`;await page.goto(url);
+  const url=`http://127.0.0.1:${server.address().port}/dashboard-pwa/depth.html?v=12`;await page.goto(url);
   await page.click('#scan-start');check('scan requires calibration without assumed-camera fallback',(await page.locator('#scan-guide').innerText()).includes('Load your calibration'));
   await page.setInputFiles('#scan-calibration-file',sessionPath);await page.waitForFunction(()=>!document.querySelector('#scan-calibration').disabled,{},{timeout:180000});
   const message=await page.locator('#scan-calibration-status').innerText();console.log(message);check('real phone PNGs independently verified by browser',message.includes('Calibration ready'));
@@ -60,12 +62,20 @@ const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),htt
    check('live settings change stops before more captures',await page.evaluate(()=>streams.every(s=>s.getTracks().every(t=>t.readyState==='ended'))));
    await page.click('#scan-clear');await page.evaluate(()=>{window.zoomOverride=null;window.rejectCamera='deviceId';});await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-guide').textContent.includes('Camera request rejected (deviceId)'));
    check('rejected constraint appears in guide and diagnostics',(await page.locator('#diagnostic-log').inputValue()).includes('"constraint":"deviceId"'));
-   await page.evaluate(()=>window.rejectCamera=null);
+   await page.evaluate(()=>{window.rejectCamera=null;window.staleId=true;});
+   page.once('dialog',d=>d.accept());await page.click('#scan-start');
+   await page.waitForFunction(()=>document.querySelector('#scan-count').textContent.includes('1 accepted'),{},{timeout:30000});
+   check('renewed ID with explicit same-phone confirmation reaches calibrated first view',await page.evaluate(()=>requests.at(-1).video.deviceId.exact==='renewed-id'));
+   check('permission probe stopped before calibrated camera',await page.evaluate(()=>streams.slice(0,-1).every(s=>s.getTracks().every(t=>t.readyState==='ended'))));
+   await page.click('#scan-finish');
+   await page.click('#scan-clear');
+   page.once('dialog',d=>d.dismiss());await page.click('#scan-start');await page.waitForFunction(()=>document.querySelector('#scan-guide').textContent.includes('reconnection cancelled'));
+   check('declining identity confirmation leaves all cameras stopped',await page.evaluate(()=>streams.every(s=>s.getTracks().every(t=>t.readyState==='ended'))));
    const bad=structuredClone(session);bad.observations[0].points=bad.observations[0].points.map(x=>x+20);
    await page.setInputFiles('#scan-calibration-file',{name:'invalid.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(bad))});await page.waitForFunction(()=>!document.querySelector('#scan-calibration').disabled,{},{timeout:180000});
    check('tampered corners rejected without trusting passed flag',(await page.locator('#scan-calibration-status').innerText()).includes('Saved corners disagree'));
   }
   check('no horizontal page overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   check('no uncaught errors',report.errors.length===0);
- }finally{if(browser)await browser.close();server.close();fs.writeFileSync(path.join(root,'tools/depth-calibration/evidence/'+(real?'scan-actual-tfjs.json':'scan-startup-browser.json')),JSON.stringify(report,null,2)+'\n');}
+ }finally{if(browser)await browser.close();server.close();fs.writeFileSync(path.join(root,'tools/depth-calibration/evidence/'+(real?'scan-actual-tfjs.json':'scan-binding-browser.json')),JSON.stringify(report,null,2)+'\n');}
 })().catch(e=>{console.error(e);process.exitCode=1;});

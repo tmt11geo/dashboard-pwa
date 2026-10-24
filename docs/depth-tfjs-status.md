@@ -1,5 +1,41 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Camera ID recovery — 2026-10-24
+
+Resumed depth-tfjs-webgl at aa4ed72e83e5d43aa4cf0f5fea03d9ce38808549;
+main verified c2b4c976697fc46452b14e9d0f8660cd0a450bc7. No AGENTS.md.
+User build-10 screenshot identifies rejected deviceId, after successful calibration.
+The saved handle is unavailable; whether permissions or browser ID renewal caused
+it is not proven. This supersedes the previous unknown-constraint diagnosis.
+
+Build depth-lab-11 refreshes permission only after a deviceId rejection, stops the
+probe stream, enumerates cameras and retries the original ID if available. Otherwise
+it requires exactly one nonempty exact camera-label match AND explicit user
+confirmation that this is the same physical phone/camera. No arbitrary rear-camera
+fallback. An ID/label read-back check precedes unchanged focus/zoom/size/orientation
+checks; original calibration geometry/K/D/hash remain intact. Replay records the
+binding method. A matching label plus user assertion is not optical identity proof;
+use Cancel on another phone or if unsure, and recalibrate in that environment.
+Permission-probe frames never reach inference. Cancellation releases streams.
+
+Validation: 86 Node tests PASS; 22 real-browser checks PASS using the private phone
+calibration PNGs and real calibration/registration workers, simulated camera/depth.
+Tests cover original-ID refresh, unique-label confirmation, refusal/ambiguity,
+wrong returned identity, cancellation, first calibrated relief after ID renewal,
+probe cleanup, setting drift and replay. No physical startup/stitching success claim.
+Evidence: tools/depth-calibration/evidence/binding-node.log, scan-binding-browser.json,
+binding-verification.json. Private phone JSON/images are not committed.
+
+Outcome branch: depth-tfjs-webgl. Deployment pending in this implementation commit;
+next action is leased main promotion and exact Pages verification, followed by a
+checkpoint receipt. User then opens depth.html?v=12, loads the SAME JSON, rotates
+to calibration landscape and taps Start scan. Allow camera access; if prompted,
+confirm only on the same phone/camera. Wait still for first green cue, then shift
+slightly sideways and hold. Finish and save replay for any alignment failure.
+Physical camera-setting compatibility and scene reconstruction remain unverified.
+Cloudflare Access and unrelated application features are unchanged.
+
+
 ## Android startup fix deployed — 2026-10-24
 
 Live main: c2b4c976697fc46452b14e9d0f8660cd0a450bc7, build depth-lab-10.

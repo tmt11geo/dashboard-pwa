@@ -1,0 +1,15 @@
+{
+  "build": "depth-lab-11",
+  "nodeTests": 86,
+  "browserChecks": 22,
+  "physicalPhoneTest": "pending",
+  "sha256": {
+    "depth-camera-binding.js": "5a104ee188ce9825f9027516c784184158db4806bbaf5ae3c367e2ac67b5e7c6",
+    "depth-calibration.js": "f48dc2d2688578f126eef2d8f6f2b45748fe71db10ae2058498038db4030c540",
+    "depth.js": "832736d2cd0422ad5ec5b32e79aa7c43337b353b347abd7bf7dc9c3cf896b257",
+    "depth.html": "3e5c50575a39082ab004d4a1f8e1a13f11f47bae8f13e31b16b0e506e64c5aa8",
+    "depth-diagnostics.js": "ad7633b6f3f80a7ad4d78fc6591276d9baf743df9815764832b80c64b4c38a26",
+    "tests/depth-camera-binding.test.mjs": "c2cd6b25e99134977bec5bfc6525b0e6d3567e3344d652848440a1ea3654bfcc",
+    "tools/depth-calibration/test_scan_browser.cjs": "dd5c97b463d689d67788d632848a2e2ee459c948a16519bcc0f4419f415d366d"
+  }
+}

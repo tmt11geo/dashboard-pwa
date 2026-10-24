@@ -1,9 +1,10 @@
-import {validateCalibrationSession,calibratedCameraRequest,checkCamera,undistortionMap,remapRGBA,scaledIntrinsics} from './depth-calibration-core.js?v=2';
+import {openCalibratedCamera} from './depth-camera-binding.js?v=1';
+import {validateCalibrationSession,calibratedCameraRequest,checkCamera,undistortionMap,remapRGBA,scaledIntrinsics} from './depth-calibration-core.js?v=3';
 export function createCalibration({idle,log,onStatus=()=>{}}){
  const $=id=>document.getElementById(id),input=$('scan-calibration-file'),status=$('scan-calibration-status');
  if(!input)return {buttons(){},loading:false,profile:null,record(){},intrinsics(){return null;},constraints(){return null;}};
  const message=text=>{status.textContent=text;onStatus(text);};
- let profile=null,loading=false,worker=null,serial=0,map=null,records=[],captureRecord=null,cancelPending=null,tracking=null;
+ let boundDeviceId=null,profile=null,loading=false,worker=null,serial=0,map=null,records=[],captureRecord=null,cancelPending=null,tracking=null;
  const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;const ctx=canvas.getContext('2d',{willReadFrequently:true});
  const corrected=document.createElement('canvas');corrected.width=640;corrected.height=480;const out=corrected.getContext('2d');
  function buttons(){if(!input)return;$('scan-calibration').disabled=!idle()||loading;$('scan-replay-save').disabled=!records.length||!idle();}
@@ -11,7 +12,7 @@ export function createCalibration({idle,log,onStatus=()=>{}}){
  $('scan-calibration').onclick=()=>input.click();
  input.onchange=async()=>{
   const file=input.files?.[0];input.value='';if(!file||!idle())return;
-  loading=true;profile=null;records=[];map=null;buttons();message('Checking calibration images locally…');
+  loading=true;profile=null;boundDeviceId=null;records=[];map=null;buttons();message('Checking calibration images locally…');
   try{
    if(file.size>50000000)throw Error('Calibration file exceeds 50 MB.');const text=await file.text(),session=JSON.parse(text),geometry=validateCalibrationSession(session);
    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text))),x=>x.toString(16).padStart(2,'0')).join('');
@@ -23,7 +24,7 @@ export function createCalibration({idle,log,onStatus=()=>{}}){
   }catch(e){profile=null;map=null;message('Calibration not loaded: '+e.message);log('warn','calibration.error',{message:e.message});}
   finally{worker?.terminate();worker=null;cancelPending=null;loading=false;buttons();}
  };
- function assert(track,video){if(!profile)return;checkCamera(profile.geometry,track.getSettings(),video.videoWidth,video.videoHeight,screen.orientation?.angle??window.orientation??0);}
+ function assert(track,video){if(!profile)return;checkCamera({...profile.geometry,deviceId:boundDeviceId??profile.geometry.deviceId},track.getSettings(),video.videoWidth,video.videoHeight,screen.orientation?.angle??window.orientation??0);}
  async function bind(track,video){
   if(!profile)return;const g=profile.geometry,s=track.getSettings(),cap=track.getCapabilities?.()||{};
   const advanced={focusMode:'manual'};
@@ -49,6 +50,13 @@ export function createCalibration({idle,log,onStatus=()=>{}}){
  };
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&loading){cancelPending?.();worker?.terminate();}});
  window.addEventListener('pagehide',()=>{cancelPending?.();worker?.terminate();});
- buttons();return {buttons,bind,assert,frame,record,depth,takeTracking(){const t=tracking;tracking=null;return t;},get profile(){return profile;},get loading(){return loading;},intrinsics:(w,h)=>profile?scaledIntrinsics(profile.cameraMatrix,w,h):null,
+ buttons();return {buttons,async open(request,isCurrent){
+  boundDeviceId=null;
+  const result=await openCalibratedCamera({mediaDevices:navigator.mediaDevices,request,geometry:profile.geometry,isCurrent,log,
+   confirmCamera:label=>window.confirm(`The saved camera ID is no longer available. Found “${label}”. Is this the SAME PHONE and camera used to capture this calibration? Choose Cancel if unsure. Camera settings will still be checked.`)});
+  boundDeviceId=result.deviceId;
+  profile.cameraBinding={method:result.rebound?'unique-label-and-user-confirmation':'original-id',confirmedSamePhone:result.rebound};
+  return result.stream;
+ },bind,assert,frame,record,depth,takeTracking(){const t=tracking;tracking=null;return t;},get profile(){return profile;},get loading(){return loading;},intrinsics:(w,h)=>profile?scaledIntrinsics(profile.cameraMatrix,w,h):null,
  constraints:()=>profile?calibratedCameraRequest(profile.geometry,screen.orientation?.angle??window.orientation??0):null};
 }

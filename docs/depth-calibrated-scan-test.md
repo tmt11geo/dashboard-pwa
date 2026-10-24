@@ -1,7 +1,7 @@
-# Calibrated relief scan — depth-lab-10
+# Calibrated relief scan — depth-lab-11
 
-Open https://tmt11.com/dashboard-pwa/depth.html?v=11 through your usual Access login.
-The diagnostic build is **depth-lab-10**. No Access or PWA installation change is needed.
+Open https://tmt11.com/dashboard-pwa/depth.html?v=12 through your usual Access login.
+The diagnostic build is **depth-lab-11**. No Access or PWA installation change is needed.
 
 1. Turn the phone landscape in the same direction as during calibration.
 2. Choose **Load calibration JSON** and select the original saved Tactical calibration
@@ -44,3 +44,5 @@ calibrated size/resize mode as preferences and verifies actual settings afterwar
 the calibrated camera identity is still mandatory. A successful import also clears
 the old Load calibration warning. If startup is rejected, the scan guide and logs
 show the rejected constraint when Android supplies it. The same JSON remains valid.
+
+If the saved camera ID has changed, allow camera permission. Confirm the camera reconnection dialog only on the same physical phone and calibrated camera. Cancel if unsure. Ambiguous or missing camera labels stop scanning; use the original browser/app or calibrate there. This does not change your calibration JSON.

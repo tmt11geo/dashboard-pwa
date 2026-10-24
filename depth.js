@@ -1,8 +1,8 @@
-import {createCalibration} from './depth-calibration.js?v=2';
+import {createCalibration} from './depth-calibration.js?v=3';
 import {createScanner} from './depth-scan.js?v=6';
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
-import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=9';
+import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=10';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
@@ -112,7 +112,7 @@ async function start(scanMode=false){
   if(!navigator.mediaDevices?.getUserMedia)throw new Error('Camera access is unavailable in this browser.');
   const videoRequest=(scanMode&&calibration.constraints())||{facingMode:{ideal:ui.facing.value},width:{ideal:640},height:{ideal:480}};
   emit('info','camera.permission.begin',{calibrated:!!(scanMode&&calibration.profile),width:videoRequest.width,height:videoRequest.height,resizeMode:videoRequest.resizeMode,screenAngle:globalThis.screen?.orientation?.angle??0,exactDevice:!!videoRequest.deviceId?.exact});
-  const media=await navigator.mediaDevices.getUserMedia({audio:false,video:videoRequest});
+  const media=scanMode&&calibration.profile?await calibration.open(videoRequest,()=>mine===generation&&!document.hidden):await navigator.mediaDevices.getUserMedia({audio:false,video:videoRequest});
   if(mine!==generation){emit('info','camera.lateStream.released');media.getTracks().forEach(track=>track.stop());return;}
   stream=media;ui.video.srcObject=media;
   for(const track of media.getVideoTracks()){
