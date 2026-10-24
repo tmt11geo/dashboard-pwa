@@ -1,5 +1,36 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Phone calibration deployed — 2026-10-24
+
+User explicitly approved deployment. Main now points to tested implementation
+2470240782714686c033364485e94040e5a236aa (calibration-1). GitHub Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/40059532812 completed
+successfully for this exact SHA. The earlier automatic approval block is resolved.
+Working/outcome checkpoint branch: depth-tfjs-webgl, starting at
+1ae645158a2c7176ea12e640fbe56f4e5242ca22. Main was advanced with an expected-head
+lease from 308686f9d81e1218c866c936b8a24e3a74064fe4; no rebuild or code changes.
+
+The deployed commit resolves to the previously verified tree
+dff2d47f0725edb4846f869a60587b2845588856. Calibration page, printable target,
+worker, engine and all eight runtime parts are present. Existing evidence remains:
+21 browser checks, 5 engine checks, 72 regression tests, independent 16-image replay
+PASS. Existing relief solver, Access and PWA policy unchanged. No phone result claimed.
+
+Unauthenticated custom-domain checks of page, target and runtime manifest returned
+403 / Cloudflare 1010 from this environment. No bypass attempted. Exact Pages
+success is verified separately; user tests through normal Access authentication.
+Evidence: tools/depth-calibration/evidence/deployment.json.
+
+Next required action is the user's real-camera test, not another implementation
+step: print calibration-target.html at 100% landscape, open calibration.html?v=1,
+capture 16 accepted guided views, Validate, Save session and share the JSON file.
+Save even a failed/provisional result for review. Full instructions are in
+docs/depth-calibration-phone-test.md. Upon receipt, independently validate the
+actual PNG/corner observations with validate_session.py before tracker integration.
+Calibration capture is ready to try; calibrated relief integration still depends
+on real camera evidence. This receipt supersedes earlier deployment-blocked text.
+
+
 ## Phone calibration implemented; deployment review blocked — 2026-10-23
 
 Implementation complete and remote-verified at

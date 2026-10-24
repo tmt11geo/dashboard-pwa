@@ -1,7 +1,7 @@
 # Phone calibration test — calibration-1
 
-Deployment pending: implementation 2470240782714686c033364485e94040e5a236aa is
-on depth-tfjs-webgl. The links below become available after approved main deployment.
+Deployed on main: 2470240782714686c033364485e94040e5a236aa. GitHub Pages run
+40059532812 succeeded for this exact commit on 2026-10-24.
 
 1. Open https://tmt11.com/dashboard-pwa/calibration-target.html on a device connected
    to a printer. Print A4 landscape, 100% / actual size, without headers/footers.
