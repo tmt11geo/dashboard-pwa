@@ -1,5 +1,52 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Separate Gather → Stitch → Relief page — 2026-10-24
+
+Resumed depth-tfjs-webgl 169ed85c48478cd2ca2935d97f9e8153981f9bd1;
+main verified 895322f5f4d5f2febb671d5887bb5ec3d3fda06b. No AGENTS.md.
+Added scan.html (gather-1 workflow) and Gather navigation on Map, Dashboard,
+Camera and Depth. Existing Depth workflow remains the default. Shared depth host
+selects the new controller only for data-workflow=gather; engine/calibration checks
+are reused without assumed parameters or relaxed camera geometry.
+
+Gather is manual: Start gathering, Capture view, wait for SAVED, move/hold, repeat.
+No motion threshold or alignment gates gathering. At most 12 calibrated corrected
+640x480 RGB + 224x168 relative-depth frames remain in memory. Finish releases camera
+and model. Save/Open capture session retain all image/depth bytes, original verified
+calibration and latest stitch decisions; files remain local, capped at 35 MB on import.
+Save before closing; mobile beforeunload cannot guarantee recovery. Imported sessions
+can be processed without camera access. Raw distorted images are not in this format;
+corrected images plus calibration are preserved. Existing replay format is unchanged.
+
+Stitch runs in a worker: prepare features, select a textured anchor, try up to three
+nearby placed references, retry unplaced frames in a second pass. Existing calibrated
+RGB/depth registration, rotation/scale/reprojection checks remain. This is pairwise
+registration with composed poses, NOT global bundle adjustment, loop closure, robust
+full orbit recovery or metric SLAM. Small motion can still be marked duplicate at
+stitch time, but capture remains saved. Build relief separately fuses placed views
+into up to 32,000 voxel points. Single-anchor results explicitly say no stitched
+extension. Cancel/worker failure/visibility changes retain captures for retry.
+
+Validation: 90 Node tests PASS; 15 Gather browser checks PASS; existing Depth 22
+browser regression checks PASS. Real private calibration PNG verification and actual
+registration workers; simulated camera/depth in browser. Synthetic tests recover
+three translated views, revisit the anchor, reject mixed intrinsics and roundtrip
+all image/depth bytes. Browser tests cover no automatic capture, three stationary
+captures, finish cleanup, export/import, explicit unplaced frames, separate relief,
+retry/cancel and no uncaught errors/overflow. Landscape screenshot inspected locally;
+private images not committed. Physical multi-view reconstruction is not yet validated.
+Evidence under tools/depth-calibration/evidence/: gather-node.log,
+gather-browser.json, gather-regression.json, gather-verification.json.
+
+Outcome branch depth-tfjs-webgl; next in this run: commit, leased main deployment,
+verify exact Pages success and record receipt. User next opens scan.html?v=1 through
+normal Access, loads existing calibration in original landscape, captures 3–6 nearby
+overlapping views, Finish gathering, Save capture session, Stitch, Build relief.
+Send the saved session if alignment is poor; no recapture is needed to retry processing.
+Cloudflare Access and service worker policy unchanged. Phone camera-setting blockers
+from previous checkpoints are not bypassed by this new workflow.
+
+
 ## Camera ID recovery deployed — 2026-10-24
 
 Live main: 895322f5f4d5f2febb671d5887bb5ec3d3fda06b, build depth-lab-11.

@@ -1,0 +1,4 @@
+body[data-workflow="gather"] #scan-replay-save,body[data-workflow="gather"] #view-relief,body[data-workflow="gather"] #scan-open{display:none}
+.session-steps{margin-top:14px}.session-steps button{border-width:2px}#session-results{font-size:.9rem;line-height:1.5}#scan-guide{overflow-wrap:anywhere}
+body.scanning .session-steps,body.scanning #session-results{display:none}
+nav{flex-wrap:wrap}

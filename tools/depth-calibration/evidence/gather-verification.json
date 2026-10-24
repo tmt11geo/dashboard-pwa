@@ -1,0 +1,17 @@
+{
+  "workflow": "gather-1",
+  "nodeTests": 90,
+  "gatherBrowserChecks": 15,
+  "depthRegressionChecks": 22,
+  "physicalPhone": "pending",
+  "sha256": {
+    "scan.html": "e6e41c1643457a0ef4c79befae0a47e63494738ef6f5cd64c46bfe20ca02a04d",
+    "scan-session.js": "88d3df18d2534a9fa593df7148e23835e8dabd58b6907a103fd1bdcbe35dc932",
+    "scan-session-core.js": "180a6d85d538fd715cc3c5468b26b0c9c97a974a1e1cb90d063d31d654133434",
+    "scan-session-worker.js": "70dad07106285cf190dc0d36b26477663fb21b9db7d4eed40f776313ef4d2807",
+    "scan-session.css": "96b078fadca62e57aa96edd40e881dc4d0cbbaa47923e607381b8f106817e877",
+    "depth.js": "6f82121a9fbaad537a4364d4e38f6f70ed650b8bd763b62a6ad26388869b2d66",
+    "tests/scan-session.test.mjs": "6807a6ab6a80fdac85bd125f1e0de1b5b3ad74a75d1f41b060cbb21817e36a5b",
+    "tools/depth-calibration/test_gather_browser.cjs": "f9aeb6290fbf2b5d4e95ab0071165f87f1001224d79dd0aa99fa05462c88c1c0"
+  }
+}

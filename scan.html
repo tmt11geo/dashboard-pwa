@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07100b"><title>Gather & Stitch · Tactical</title>
+<link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
+<link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=6">
+<script type="module" src="./depth.js?v=13"></script><script defer src="./pwa-register.js?v=35"></script>
+<link rel="stylesheet" href="./scan-session.css?v=1"></head><body data-workflow="gather">
+<script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
+<header><strong>TACTICAL <span>GATHER & STITCH</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html">Depth</a><a href="./scan.html?v=1" aria-current="page">Gather</a></nav></header>
+<main>
+<div class="heading"><div><p class="eyebrow">CAPTURE FIRST · PROCESS AFTERWARDS</p><h1>Gather → Stitch → 3D relief.</h1></div><span class="badge">V2 SMALL</span></div>
+
+<section id="scan-workspace" class="panel scan-panel" aria-label="Guided persistent relief">
+<h2>A saved capture session <span class="small-tag">EXPERIMENTAL</span></h2>
+<p class="help"><a href="./calibration.html?v=1">Camera calibration: print target &amp; capture views →</a></p>
+<p class="scan-cycle">1 · Gather overlapping views → 2 · Stitch saved captures → 3 · Build relief. Capture failures in alignment never block gathering.</p>
+<div class="controls calibration-controls"><button id="scan-calibration" type="button">Load calibration JSON</button><input id="scan-calibration-file" type="file" accept="application/json,.json" hidden><button hidden id="scan-replay-save" type="button" disabled>Save scan replay</button></div><p id="scan-calibration-status" class="help" role="status">Load your saved calibration for corrected camera geometry. Files stay on this device. Calibration is required for gathering. A saved capture session can be reopened without starting the camera.</p>
+<div class="scan-command"><div class="controls scan-primary"><button id="scan-start" type="button">1 · Start gathering</button><button id="gather-capture" type="button" disabled>Capture view</button><button id="scan-finish" type="button" disabled>Finish gathering</button></div>
+<p id="scan-guide" role="status" aria-live="polite">Load calibration, start gathering, then hold still and tap Capture view. You control each capture.</p><div class="controls session-steps"><button id="session-stitch" disabled>2 · Stitch</button><button id="session-relief" disabled>3 · Build relief</button><button id="session-cancel" disabled>Cancel processing</button></div></div><div class="depth-grid">
+<section class="depth-card"><div class="section-title"><h2>Live camera</h2><span class="small-tag">UNMIRRORED</span></div><div class="image-frame"><video id="video" autoplay playsinline muted></video><p id="standby">CAMERA STANDBY</p><div id="scan-overlay" class="scan-overlay" hidden aria-hidden="true"></div><div id="scan-movement" hidden><strong id="scan-movement-arrow">↔</strong><span id="scan-movement-text"></span><progress id="scan-movement-progress" max="100" value="0" aria-label="Movement toward next capture"></progress><small id="scan-movement-detail"></small></div><div id="scan-camera-controls" hidden><button id="scan-camera-pause" type="button">Pause scan</button><button id="scan-camera-finish" type="button">Finish gathering</button></div></div></section>
+<section class="depth-card"><div class="section-title"><h2 id="result-title">Relative depth</h2><div class="view-switch" role="group" aria-label="Depth view"><button id="view-depth" aria-pressed="true" type="button">Depth</button><button id="view-relief" aria-pressed="false" type="button">3D relief</button></div></div><div class="image-frame"><canvas id="depth-image" aria-label="Relative inverse depth image; brighter colours indicate nearer surfaces"></canvas><canvas id="relief" hidden tabindex="0" aria-label="Estimated 3D relief. Drag to rotate or use arrow keys; plus and minus zoom."></canvas><p id="empty">DEPTH STANDBY</p></div><div class="depth-legend"><span>Farther</span><span class="ramp"></span><span>Nearer</span></div></section>
+</div>
+<div id="relief-tools" class="relief-tools" hidden><button id="rotate-left" type="button" aria-label="Rotate relief left">←</button><button id="rotate-right" type="button" aria-label="Rotate relief right">→</button><button id="relief-out" type="button" aria-label="Zoom relief out">−</button><button id="relief-in" type="button" aria-label="Zoom relief in">+</button><button id="reset-view" type="button">Reset view</button><span>Drag to rotate. Guided scans retain accepted views. Shape and scale are approximate.</span></div>
+
+<div class="controls"><button id="session-save" disabled>Save capture session</button><button id="session-open">Open capture session</button><input id="session-file" type="file" accept=".json,application/json" hidden></div><ol id="session-results" aria-label="Stitch results"></ol>
+<p id="scan-count" class="help">No captures yet</p>
+<div class="controls"><button id="scan-save" type="button" disabled>Save relief file</button><button hidden id="scan-open" type="button">Open relief file</button><button id="scan-clear" type="button" disabled>Clear session</button><input id="scan-file" type="file" accept="application/json,.json" hidden></div>
+<details class="scan-help"><summary>Capture and processing tips</summary><p>Use a textured, stationary subject in good light. Hold still for Capture view; wait for SAVED, then move a small step sideways with most of the previous view still visible. No movement threshold blocks the next capture. Depth takes time; up to 12 views per session.</p><p>Save capture session before closing the page. It includes corrected camera images, relative depth and calibration, stays local, and can be reopened for another stitching attempt. Unplaced views are retained. Stitch tries nearby placed views in two passes; it does not perform global bundle adjustment or guarantee a complete object reconstruction. Build relief fuses only placed views, in arbitrary units.</p></details>
+</section>
+<details hidden id="depth-settings" class="panel"><summary>Compute settings &amp; single-frame depth controls</summary><div class="settings panel">
+<label>Compute <select id="backend"><option value="auto">Auto · prefer WebGPU</option><option value="webgpu">WebGPU only</option><option value="tfjs-webgl">TFJS WebGL · experimental · 224 px</option><option value="wasm">CPU / WASM · slower</option></select></label>
+<label>Detail <select id="resolution"><option value="224">224 px · fast test</option><option value="336">336 px · balanced</option><option value="518">518 px · detailed</option></select></label>
+<label>Camera <select id="facing"><option value="environment">Rear</option><option value="user">Front</option></select></label>
+<label>Update limit <select id="frequency"><option value="1">1 / second</option><option value="2" selected>2 / second</option><option value="5">5 / second</option></select></label>
+</div>
+<div class="controls"><button id="start" type="button">Start depth camera</button><button id="pause" type="button" disabled>Pause depth</button><button id="step" type="button" disabled>One depth frame</button><button id="stop" type="button" disabled>Stop &amp; release</button></div>
+<p id="status" role="status">Ready. Starting downloads public model weights (~27–99 MB). Camera frames stay on this device.</p>
+<p id="capability" class="help">Checking browser capabilities…</p>
+</details>
+<details id="diagnostics-panel" class="panel diagnostics"><summary>Diagnostic log</summary>
+<p class="help">Reproduce the problem, then tap Copy log and paste it into our chat. Logs stay on this page and include browser capabilities, camera state, GPU checks, processing stages and errors. No camera images or account information are included.</p>
+<div class="controls"><button id="copy-log" type="button">Copy log</button><button id="clear-log" type="button">Clear log</button></div>
+<p id="log-status" class="help" role="status"></p><label class="help" for="diagnostic-log">Latest 300 diagnostic entries · gather-1</label>
+<textarea id="diagnostic-log" readonly spellcheck="false" rows="10" aria-label="Diagnostic log, selectable for copying"></textarea>
+</details>
+<section class="metrics-grid" aria-label="Depth performance"><div><span>Inference</span><strong id="inference">—</strong></div><div><span>Mean · last 20 warm frames</span><strong id="average">—</strong></div><div><span>Delivered depth updates</span><strong id="rate">—</strong></div><div><span>Result age</span><strong id="age">—</strong></div></section>
+<p id="engine" class="engine">Engine idle · no YOLO running on this page</p><p id="timing-note" class="help">Inference includes model execution (and complete output readback for TFJS); delivered rate also reflects processing and your update limit. TFJS rests at least one second after each result; Gather waits for your Capture view button. The first frame warms up the model and is excluded from the mean.</p>
+<noscript>Enable JavaScript to use the camera depth experiment.</noscript>
+</main></body></html>
