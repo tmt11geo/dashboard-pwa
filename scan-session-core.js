@@ -10,7 +10,7 @@ export function prepareSavedFrame(f){
 export function stitchFrames(input,progress=()=>{},recoveryAnchor=null){
  if(!input.length||input.length>LIMIT)throw Error('Gather 1–12 frames first');
  const pairs=new Map();
- const frames=input.map(f=>prepareSavedFrame({...f})),placed=[],results=frames.map((_,index)=>({index,ok:false,reason:'Not connected to the anchor'}));
+ const frames=input.map((f,index)=>{progress({stage:"prepare",index,total:input.length,placed:0});return prepareSavedFrame({...f});}),placed=[],results=frames.map((_,index)=>({index,ok:false,reason:'Not connected to the anchor'}));
  if(frames.some(f=>JSON.stringify(f.K)!==JSON.stringify(frames[0].K)||f.width!==frames[0].width||f.height!==frames[0].height||f.orientation!==frames[0].orientation))throw Error('Mixed camera geometry in session');
  const anchor=recoveryAnchor??frames.findIndex(f=>f.features.length>=24);if(anchor<0)throw Error('No textured anchor found. Capture a surface with visible detail.');
  frames[anchor].pose={r:[1,0,0,0,1,0,0,0,1],s:1,t:[0,0,0]};frames[anchor].shift=0;placed.push(anchor);results[anchor]={index:anchor,ok:true,anchor:true};
@@ -18,7 +18,7 @@ export function stitchFrames(input,progress=()=>{},recoveryAnchor=null){
  for(let pass=0;pass<2;pass++)for(let i=0;i<frames.length;i++){
   if(results[i].ok)continue;
   const refs=placed.slice().sort((a,b)=>Math.abs(a-i)-Math.abs(b-i)).slice(0,3);
-  for(const j of refs){const key=j+':'+i;let r=pairs.get(key);if(!r){r=register(frames[j],frames[i],savedMatches);pairs.set(key,r);}results[i]={index:i,reference:j,ok:false,reason:r.reason,code:r.code,diagnostics:r.diagnostics};
+  for(const j of refs){const key=j+':'+i;let r=pairs.get(key);if(!r){progress({stage:'pair',pass:pass+1,index:i,reference:j,placed:placed.length,total:frames.length});r=register(frames[j],frames[i],savedMatches);pairs.set(key,r);}results[i]={index:i,reference:j,ok:false,reason:r.reason,code:r.code,diagnostics:r.diagnostics};
    if(!r.ok)continue;const pose=compose(frames[j].pose,r.pose);if(pose.s<.15||pose.s>6){results[i].reason='Excessive accumulated scale drift';continue;}
    frames[i].pose=pose;frames[i].shift=r.shift;placed.push(i);results[i]={...results[i],ok:true,reason:undefined};break;
   }
@@ -26,7 +26,7 @@ export function stitchFrames(input,progress=()=>{},recoveryAnchor=null){
  }
  // Diagnose adjacent saved views even when neither has a connected global pose.
  for(let i=1;i<frames.length;i++)if(!results[i].ok){
-  const key=(i-1)+':'+i;let r=pairs.get(key);if(!r)r=register(frames[i-1],frames[i],savedMatches);
+  const key=(i-1)+':'+i;let r=pairs.get(key);if(!r){progress({stage:'neighbour',pass:3,index:i,reference:i-1,placed:placed.length,total:frames.length});r=register(frames[i-1],frames[i],savedMatches);}
   const d=r.diagnostics;results[i].neighbour={index:i-1,ok:r.ok,code:r.code,diagnostics:d};
   if(d?.matches>=16&&d.coverage){
    results[i].reason=d.rotationSupport>.8&&d.robustRotationErrorPx<.5

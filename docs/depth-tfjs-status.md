@@ -1,5 +1,44 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Twelve-view timeout investigation — 2026-10-25
+
+Resumed depth-tfjs-webgl 37d5a2121e0b8ed78d8464288527dd33b361a70e;
+main verified f37232a7c0fb65950aa4db90282e8f4073bd58cc. No AGENTS.md.
+Private supplied 12-frame capture SHA256:
+848cfda5e585aaf53ea7516eb192b8ec9adde85aafc4567ba837f7eee2cc678b.
+First five image/depth buffers exactly match the previous lamp capture; seven more
+views were appended after about 23 minutes. File contains no saved stitch decisions
+or worker timing, so the phone timeout's exact location cannot be reconstructed.
+Baseline local replay completes in 6.57s, 2/12 placed (views 4/5), 3,846 points.
+Actual browser replay completes in 6.71s with the same result. Desktop timing is
+NOT an Android performance claim. Remaining views fail matching/depth/geometry
+checks; this change does not improve their placement or establish metric accuracy.
+
+Found a fixed 180-second total processing deadline, regardless of worker progress.
+Gather-4 resets the 180-second inactivity watchdog only on actual work progress;
+preparation and individual reference/neighbour comparisons emit progress. UI names
+view pairs and elapsed time, logs progress, and session export retains processing
+status/elapsed time/last progress to diagnose any further timeout. Silent workers
+still terminate; cancel/hidden-page cleanup and captures remain intact. No heartbeat
+that could conceal stalled computation, no relaxed registration/calibration gates.
+
+95 Node tests PASS; 28 existing full-screen/browser regression checks PASS
+(gather-timeout-fullscreen.json). 10 focused browser checks PASS: actual private 12-view import,
+real worker/relief; accelerated watchdog test lets a progressing job survive 3x
+its deadline, stops a silent worker, exports timeout evidence/all 12 captures,
+allows retry, and rejects late completion after cancellation. No uncaught errors.
+Evidence: tools/depth-calibration/evidence/gather-timeout-{browser,replay}.json,
+gather-timeout-node.log; harness test_gather_timeout_browser.cjs. Private captures
+and screenshots remain local and are not committed.
+
+Outcome branch depth-tfjs-webgl. Next: commit tested changes, leased main promotion,
+verify exact Pages run and receipt. User next opens scan.html?v=5, Open capture
+session with the SAME 12-view file, Stitch, keep page visible, Build relief. Expect
+2/12 placed, not all twelve. No recapture/calibration/camera needed for replay. If
+it still stalls, save the new session containing processing metadata. Physical
+Android runtime is the remaining timeout-validation blocker. Access unchanged.
+
+
 ## Full-screen relief deployed — 2026-10-25
 
 Live main: f37232a7c0fb65950aa4db90282e8f4073bd58cc. Pages run

@@ -1,0 +1,574 @@
+{
+  "inputSha256": "848cfda5e585aaf53ea7516eb192b8ec9adde85aafc4567ba837f7eee2cc678b",
+  "frames": 12,
+  "placed": 2,
+  "anchorRecovery": {
+    "original": 0,
+    "selected": 3
+  },
+  "points": 3846,
+  "elapsedMs": 6683.345520000001,
+  "results": [
+    {
+      "index": 0,
+      "reference": 4,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 211,
+        "currentFeatures": 211,
+        "matches": 16
+      }
+    },
+    {
+      "index": 1,
+      "reference": 4,
+      "ok": false,
+      "reason": "Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 211,
+        "currentFeatures": 204,
+        "matches": 24
+      },
+      "neighbour": {
+        "index": 0,
+        "ok": false,
+        "code": "depth-consensus",
+        "diagnostics": {
+          "stage": "depth-fit",
+          "displacementPx": 8.38201503941157,
+          "rotationOnlyErrorPx": 1.5445097055430368,
+          "rotationDegrees": 2.034578691093146,
+          "rotationVectorDegrees": [
+            -0.919704738776822,
+            1.8088543184424315,
+            0.14730817483687617
+          ],
+          "translationOverDepth": 0.019462750693754298,
+          "translation": [
+            0.012010860434373629,
+            0.006535449969458804,
+            0.013880511799058248
+          ],
+          "depthScale": 1.138407846597888,
+          "inverseDepthShift": 0.15000000000000002,
+          "inlierRatio": 0.5222222222222223,
+          "normalizedError": 0.021440290876667524,
+          "reprojectionPx": null,
+          "coverage": true,
+          "referenceFeatures": 211,
+          "currentFeatures": 204,
+          "matches": 90,
+          "rotationSupport": 0.3,
+          "robustRotationErrorPx": 1.8451552068691839
+        }
+      }
+    },
+    {
+      "index": 2,
+      "reference": 4,
+      "ok": false,
+      "reason": "Previous view is nearly unchanged; no additional 3D pose established.",
+      "code": "depth-consensus",
+      "diagnostics": {
+        "stage": "depth-fit",
+        "displacementPx": 24.017039139625165,
+        "rotationOnlyErrorPx": 1.7466347920608885,
+        "rotationDegrees": 2.4735125590097233,
+        "rotationVectorDegrees": [
+          -0.3191451804662569,
+          -2.4299838081024556,
+          0.3340500347631373
+        ],
+        "translationOverDepth": 0.12915958241995165,
+        "translation": [
+          -0.1552174018065181,
+          -0.009443561520802946,
+          0.05350804745597193
+        ],
+        "depthScale": 1.8574511117293195,
+        "inverseDepthShift": 0.375,
+        "inlierRatio": 0.5897435897435898,
+        "normalizedError": 0.010911288060489945,
+        "reprojectionPx": null,
+        "coverage": true,
+        "referenceFeatures": 211,
+        "currentFeatures": 189,
+        "matches": 39,
+        "rotationSupport": 0.28205128205128205,
+        "robustRotationErrorPx": 1.7135938326567584
+      },
+      "neighbour": {
+        "index": 1,
+        "ok": false,
+        "code": "duplicate",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": 2.4746588232916076,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": true,
+          "referenceFeatures": 204,
+          "currentFeatures": 189,
+          "matches": 96,
+          "rotationSupport": 0.3333333333333333,
+          "robustRotationErrorPx": 1.0191694822484334
+        }
+      }
+    },
+    {
+      "index": 3,
+      "ok": true,
+      "anchor": true
+    },
+    {
+      "index": 4,
+      "reference": 3,
+      "ok": true,
+      "diagnostics": {
+        "stage": "accepted",
+        "displacementPx": 9.359323450818168,
+        "rotationOnlyErrorPx": 1.6337771518415967,
+        "rotationDegrees": 2.8727634155724404,
+        "rotationVectorDegrees": [
+          1.6863622757029446,
+          0.02920699894810414,
+          -2.3255319538011308
+        ],
+        "translationOverDepth": 0.07820310953493845,
+        "translation": [
+          0.08567906367367972,
+          0.03652498409529123,
+          -0.03504668643787312
+        ],
+        "depthScale": 1.0637221737873384,
+        "inverseDepthShift": -0.025,
+        "inlierRatio": 0.6666666666666666,
+        "normalizedError": 0.011120247506783603,
+        "reprojectionPx": 0.4296603660099069,
+        "coverage": true,
+        "referenceFeatures": 208,
+        "currentFeatures": 211,
+        "matches": 84,
+        "rotationSupport": 0.3333333333333333,
+        "robustRotationErrorPx": 1.2926497567123207
+      }
+    },
+    {
+      "index": 5,
+      "reference": 3,
+      "ok": false,
+      "reason": "Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.",
+      "code": "geometry-limits",
+      "diagnostics": {
+        "stage": "geometry",
+        "displacementPx": 19.355702459541707,
+        "rotationOnlyErrorPx": 5.828010888676998,
+        "rotationDegrees": 7.304107464055571,
+        "rotationVectorDegrees": [
+          5.4422303659645,
+          -4.871527652016181,
+          0.01824351632053734
+        ],
+        "translationOverDepth": 0.2173485942643462,
+        "translation": [
+          -0.10992601968673027,
+          0.020327848455408457,
+          0.23422848154928444
+        ],
+        "depthScale": 0.9473316595233691,
+        "inverseDepthShift": 0,
+        "inlierRatio": 0.7333333333333333,
+        "normalizedError": 0.011273146819122755,
+        "reprojectionPx": 0.5054097230281969,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 240,
+        "matches": 30,
+        "rotationSupport": 0.1,
+        "robustRotationErrorPx": 6.304998228648505
+      },
+      "neighbour": {
+        "index": 4,
+        "ok": false,
+        "code": "depth-consensus",
+        "diagnostics": {
+          "stage": "depth-fit",
+          "displacementPx": 32.0888255229287,
+          "rotationOnlyErrorPx": 6.920386715199759,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": 0,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": true,
+          "referenceFeatures": 211,
+          "currentFeatures": 240,
+          "matches": 19,
+          "rotationSupport": 0.10526315789473684,
+          "robustRotationErrorPx": 7.42927186698645
+        }
+      }
+    },
+    {
+      "index": 6,
+      "reference": 3,
+      "ok": false,
+      "reason": "Previous view: 4 matches; too few reliable matches. No connected 3D pose.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 204,
+        "matches": 10
+      },
+      "neighbour": {
+        "index": 5,
+        "ok": false,
+        "code": "shared-detail",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": null,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": false,
+          "referenceFeatures": 240,
+          "currentFeatures": 204,
+          "matches": 4
+        }
+      }
+    },
+    {
+      "index": 7,
+      "reference": 3,
+      "ok": false,
+      "reason": "Previous view: 0 matches; too few reliable matches. No connected 3D pose.",
+      "code": "geometry-limits",
+      "diagnostics": {
+        "stage": "geometry",
+        "displacementPx": 36.298659842020584,
+        "rotationOnlyErrorPx": 4.501857321866825,
+        "rotationDegrees": 13.479900947873992,
+        "rotationVectorDegrees": [
+          -10.481291557328339,
+          -8.47610640369281,
+          -0.07666216830650151
+        ],
+        "translationOverDepth": 0.12875809209248618,
+        "translation": [
+          0.03389722280131263,
+          0.06836148550145377,
+          0.15167973575215776
+        ],
+        "depthScale": 1.7724616659817198,
+        "inverseDepthShift": 0.6,
+        "inlierRatio": 0.8181818181818182,
+        "normalizedError": 0.016052057038805762,
+        "reprojectionPx": 1.2927526431528285,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 240,
+        "matches": 33,
+        "rotationSupport": 0.15151515151515152,
+        "robustRotationErrorPx": 4.220511674763526
+      },
+      "neighbour": {
+        "index": 6,
+        "ok": false,
+        "code": "shared-detail",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": null,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": false,
+          "referenceFeatures": 204,
+          "currentFeatures": 240,
+          "matches": 0
+        }
+      }
+    },
+    {
+      "index": 8,
+      "reference": 3,
+      "ok": false,
+      "reason": "Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 224,
+        "matches": 12
+      },
+      "neighbour": {
+        "index": 7,
+        "ok": false,
+        "code": "depth-consensus",
+        "diagnostics": {
+          "stage": "depth-fit",
+          "displacementPx": 41.515077283071165,
+          "rotationOnlyErrorPx": 0.6392742924838021,
+          "rotationDegrees": 22.608158673779545,
+          "rotationVectorDegrees": [
+            -8.30894982996142,
+            20.965259490721458,
+            1.5962724794631467
+          ],
+          "translationOverDepth": 0.19329204306023728,
+          "translation": [
+            -0.19107782913236304,
+            -0.18240927189656703,
+            0.12765550174291262
+          ],
+          "depthScale": 2.094971990147138,
+          "inverseDepthShift": 0.6,
+          "inlierRatio": 0.3424657534246575,
+          "normalizedError": 0.025209357824300428,
+          "reprojectionPx": null,
+          "coverage": true,
+          "referenceFeatures": 240,
+          "currentFeatures": 224,
+          "matches": 73,
+          "rotationSupport": 0.547945205479452,
+          "robustRotationErrorPx": 0.6370710512887657
+        }
+      }
+    },
+    {
+      "index": 9,
+      "reference": 3,
+      "ok": false,
+      "reason": "Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 214,
+        "matches": 23
+      },
+      "neighbour": {
+        "index": 8,
+        "ok": false,
+        "code": "depth-consensus",
+        "diagnostics": {
+          "stage": "depth-fit",
+          "displacementPx": 51.97470840862019,
+          "rotationOnlyErrorPx": 0.7276605361154013,
+          "rotationDegrees": 24.613211046016207,
+          "rotationVectorDegrees": [
+            24.54981259823637,
+            -1.6953464421084457,
+            -0.4926051445513419
+          ],
+          "translationOverDepth": 0.12347784655782562,
+          "translation": [
+            0.031845917884215647,
+            0.12805587603670468,
+            0.05038513251413468
+          ],
+          "depthScale": 1.8753049891870748,
+          "inverseDepthShift": 0.6,
+          "inlierRatio": 0.28378378378378377,
+          "normalizedError": 0.02016743044817609,
+          "reprojectionPx": null,
+          "coverage": true,
+          "referenceFeatures": 224,
+          "currentFeatures": 214,
+          "matches": 74,
+          "rotationSupport": 0.5675675675675675,
+          "robustRotationErrorPx": 0.6405530555376452
+        }
+      }
+    },
+    {
+      "index": 10,
+      "reference": 3,
+      "ok": false,
+      "reason": "Previous view: 0 matches; too few reliable matches. No connected 3D pose.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 205,
+        "matches": 6
+      },
+      "neighbour": {
+        "index": 9,
+        "ok": false,
+        "code": "shared-detail",
+        "diagnostics": {
+          "stage": "features",
+          "displacementPx": null,
+          "rotationOnlyErrorPx": null,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": null,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": false,
+          "referenceFeatures": 214,
+          "currentFeatures": 205,
+          "matches": 0
+        }
+      }
+    },
+    {
+      "index": 11,
+      "reference": 3,
+      "ok": false,
+      "reason": "Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": false,
+        "referenceFeatures": 208,
+        "currentFeatures": 240,
+        "matches": 0
+      },
+      "neighbour": {
+        "index": 10,
+        "ok": false,
+        "code": "depth-consensus",
+        "diagnostics": {
+          "stage": "depth-fit",
+          "displacementPx": 30.79301277859358,
+          "rotationOnlyErrorPx": 4.828012838266478,
+          "rotationDegrees": null,
+          "rotationVectorDegrees": null,
+          "translationOverDepth": null,
+          "translation": null,
+          "depthScale": null,
+          "inverseDepthShift": null,
+          "inlierRatio": 0,
+          "normalizedError": null,
+          "reprojectionPx": null,
+          "coverage": true,
+          "referenceFeatures": 205,
+          "currentFeatures": 240,
+          "matches": 19,
+          "rotationSupport": 0.15789473684210525,
+          "robustRotationErrorPx": 4.456546915309347
+        }
+      }
+    }
+  ]
+}

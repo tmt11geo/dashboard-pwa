@@ -1,6 +1,6 @@
-import {LIMIT,saveSession,loadSession} from './scan-session-core.js?v=3';
+import {LIMIT,saveSession,loadSession} from './scan-session-core.js?v=4';
 export function createScanner(hooks){
- const $=id=>document.getElementById(id);let active=false,busy=false,working=false,frames=[],profile=null,scene=null,worker=null,tick=null,deadline=null,stitched=false,lastResults=[],epoch=0,cueUntil=0;
+ const $=id=>document.getElementById(id);let active=false,busy=false,working=false,frames=[],profile=null,scene=null,worker=null,tick=null,deadline=null,stitched=false,lastResults=[],epoch=0,cueUntil=0,processing=null;
  const focusViews=()=>requestAnimationFrame(()=>{const grid=document.querySelector('.depth-grid'),bar=document.querySelector('.scan-command');window.scrollTo(0,grid.getBoundingClientRect().top+scrollY-bar.offsetHeight-8);});
  const tell=s=>{$('scan-guide').textContent=s;};
  function buttons(){
@@ -13,7 +13,7 @@ export function createScanner(hooks){
   $('scan-save').disabled=!scene||working;$('session-cancel').disabled=!working;
   $('scan-count').textContent=`${frames.length} / ${LIMIT} captures saved${scene?' · '+scene.points.length+' relief points':''}`;
  }
- function cancel(){epoch++;worker?.terminate();worker=null;clearTimeout(deadline);working=false;stitched=false;buttons();}
+ function cancel(){if(processing?.status==='running'){processing.status='cancelled';processing.elapsedMs=Date.now()-processing.startedAt;}epoch++;worker?.terminate();worker=null;clearTimeout(deadline);working=false;stitched=false;buttons();}
  function stop(){active=false;busy=false;clearInterval(tick);buttons();if(frames.length)tell('Gathering stopped. Save the session, then choose 2 · Stitch.');}
  function begin(){lastResults=[];focusViews();epoch++;active=true;busy=false;scene=null;stitched=false;profile=structuredClone(hooks.calibration().profile);tell('Loading camera and depth model…');tick=setInterval(()=>{buttons();if(!busy&&hooks.state().ready&&performance.now()>cueUntil)tell('Hold still and tap Capture view. Keep most of the previous view visible.');},500);buttons();}
  function result(data){if(!active)return;busy=false;const c=hooks.calibration(),tracking=c.takeTracking();
@@ -28,18 +28,27 @@ export function createScanner(hooks){
  $('gather-capture').onclick=()=>{if(!active||busy)return;busy=true;tell('Hold still — capturing depth…');if(!hooks.capture())busy=false;buttons();};
  $('scan-finish').onclick=()=>hooks.stop();
  $('session-cancel').onclick=()=>{cancel();tell('Processing cancelled. Captures retained; Stitch can be retried.');};
- function work(type){working=true;buttons();clearTimeout(deadline);deadline=setTimeout(()=>{cancel();tell('Processing timed out. Captures retained. Save the session for diagnosis.');},180000);worker.postMessage(type==='stitch'?{type,frames}:{type});}
- $('session-stitch').onclick=()=>{cancel();lastResults=[];scene=null;hooks.show(null);$('session-results').textContent='';worker=new Worker(new URL('./scan-session-worker.js?v=3',import.meta.url),{type:'module'});const mine=epoch;
-  worker.onmessage=({data})=>{if(mine!==epoch)return;if(data.type==='progress'){tell(`Stitch pass ${data.pass}: ${data.placed}/${data.total} placed…`);return;}clearTimeout(deadline);working=false;
+ // Watch completed work, not total job duration. A stalled pair still expires.
+ function armDeadline(){clearTimeout(deadline);deadline=setTimeout(()=>{
+  if(processing){processing.status='stalled';processing.elapsedMs=Date.now()-processing.startedAt;hooks.log('warn','session.timeout',processing);}
+  cancel();tell('No stitching progress for 3 minutes. Captures retained. Save the session for diagnosis.');
+ },180000);}
+ function work(type){working=true;processing={type,status:'running',startedAt:Date.now(),elapsedMs:0,lastProgress:null};buttons();armDeadline();worker.postMessage(type==='stitch'?{type,frames}:{type});}
+ $('session-stitch').onclick=()=>{cancel();lastResults=[];scene=null;hooks.show(null);$('session-results').textContent='';worker=new Worker(new URL('./scan-session-worker.js?v=4',import.meta.url),{type:'module'});const mine=epoch;
+  worker.onmessage=({data})=>{if(mine!==epoch)return;if(data.type==='progress'){
+    processing.lastProgress=data;processing.elapsedMs=Date.now()-processing.startedAt;armDeadline();
+    const action=data.stage==='prepare'?`Preparing view ${data.index+1}/${data.total}`:data.reference!==undefined?`Comparing views ${data.reference+1} and ${data.index+1}`:`Stitch pass ${data.pass}: ${data.placed}/${data.total} placed`;
+    tell(`${action} · ${Math.round(processing.elapsedMs/1000)}s elapsed. Keep this page visible; Cancel retains captures.`);hooks.log('info','session.progress',{...data,elapsedMs:processing.elapsedMs});return;
+   }clearTimeout(deadline);working=false;if(processing){processing.status=data.type==='error'?'error':'complete';processing.elapsedMs=Date.now()-processing.startedAt;}
    if(data.type==='stitched'){stitched=true;lastResults=data.results;hooks.log('info','session.stitched',{placed:data.placed,total:frames.length,anchorRecovery:data.anchorRecovery,results:data.results.map(r=>({index:r.index,ok:r.ok,code:r.code,matches:r.diagnostics?.matches,neighbourMatches:r.neighbour?.diagnostics?.matches,rotationSupport:r.neighbour?.diagnostics?.rotationSupport}))});tell(`${data.anchorRecovery?'Recovered a connected group starting at view '+(data.anchorRecovery.selected+1)+'. ':''}${data.placed}/${frames.length} views placed. Choose 3 · Build relief. Unplaced captures remain saved.`);$('session-results').replaceChildren(...data.results.map(r=>{const li=document.createElement('li');li.textContent=`View ${r.index+1}: ${r.ok?(r.anchor?'anchor':'placed'):'unplaced — '+(r.reason||'uncertain alignment')}`;return li;}));}
    else if(data.type==='relief'){scene=data.scene;hooks.show(scene);focusViews();tell(`${scene.views} views in relief${scene.views===1?' — single view only, no stitched extension':''}. Drag to rotate; save the relief or session.`);}
    else {stitched=false;tell(data.message||'Processing failed. Captures retained.');}buttons();};
   worker.onerror=()=>{cancel();tell('Stitch worker failed. Captures retained.');};tell('Matching saved views…');work('stitch');};
  $('session-relief').onclick=()=>{if(!stitched)return;tell('Building 3D relief from placed views…');work('relief');};
  function download(data,name){const u=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=name+'-'+Date.now()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
- $('session-save').onclick=()=>download({...saveSession(frames,profile),stitchResults:lastResults},'tactical-gather');$('scan-save').onclick=()=>{if(scene)download(scene,'tactical-relief');};
- $('session-open').onclick=()=>$('session-file').click();$('session-file').onchange=async()=>{const f=$('session-file').files[0];$('session-file').value='';if(!f)return;try{if(f.size>35000000)throw Error('Session exceeds 35 MB');const mine=epoch,s=loadSession(JSON.parse(await f.text()));if(mine!==epoch||active||working)return;cancel();frames=s.frames;lastResults=[];profile=s.calibration;scene=null;hooks.show(null);$('session-results').textContent='';tell('Saved session opened. Choose 2 · Stitch; camera and calibration import are not needed for reprocessing.');buttons();}catch(e){tell(e.message);}};
- $('scan-clear').onclick=()=>{cancel();frames=[];lastResults=[];profile=null;scene=null;hooks.show(null);$('session-results').textContent='';tell('Session cleared. Load calibration and gather a new scene.');buttons();};
+ $('session-save').onclick=()=>download({...saveSession(frames,profile),stitchResults:lastResults,processing},'tactical-gather');$('scan-save').onclick=()=>{if(scene)download(scene,'tactical-relief');};
+ $('session-open').onclick=()=>$('session-file').click();$('session-file').onchange=async()=>{const f=$('session-file').files[0];$('session-file').value='';if(!f)return;try{if(f.size>35000000)throw Error('Session exceeds 35 MB');const mine=epoch,s=loadSession(JSON.parse(await f.text()));if(mine!==epoch||active||working)return;cancel();frames=s.frames;lastResults=[];processing=null;profile=s.calibration;scene=null;hooks.show(null);$('session-results').textContent='';tell('Saved session opened. Choose 2 · Stitch; camera and calibration import are not needed for reprocessing.');buttons();}catch(e){tell(e.message);}};
+ $('scan-clear').onclick=()=>{cancel();frames=[];lastResults=[];processing=null;profile=null;scene=null;hooks.show(null);$('session-results').textContent='';tell('Session cleared. Load calibration and gather a new scene.');buttons();};
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&working){cancel();tell('Processing paused when hidden. Captures retained; retry Stitch.');}});
  window.addEventListener('pagehide',cancel);window.addEventListener('beforeunload',e=>{if(frames.length){e.preventDefault();e.returnValue='';}});
  return {begin,stop,result,buttons,calibrationStatus:message=>tell(message.replaceAll('Start scan','Start gathering')),error:tell,get active(){return active;},get scene(){return scene;}};

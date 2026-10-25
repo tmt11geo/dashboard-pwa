@@ -1,0 +1,46 @@
+{
+  "checks": [
+    {
+      "name": "actual twelve-view replay completes",
+      "pass": true
+    },
+    {
+      "name": "actual replay preserves accepted views 4 and 5",
+      "pass": true
+    },
+    {
+      "name": "pair progress is logged",
+      "pass": true
+    },
+    {
+      "name": "actual replay builds two-view relief",
+      "pass": true
+    },
+    {
+      "name": "progressing job survives three total timeout intervals",
+      "pass": true
+    },
+    {
+      "name": "silent worker terminates and retains 12 captures",
+      "pass": true
+    },
+    {
+      "name": "timeout export contains processing diagnostics and all frames",
+      "pass": true
+    },
+    {
+      "name": "stitch retry enabled after idle timeout",
+      "pass": true
+    },
+    {
+      "name": "cancel prevents late worker completion",
+      "pass": true
+    },
+    {
+      "name": "no uncaught browser errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "replayMs": 6712
+}
