@@ -1,3 +1,4 @@
+import {setupReliefFullscreen} from './depth-fullscreen.js?v=1';
 import {createCalibration} from './depth-calibration.js?v=3';
 import {createScanner as createLiveScanner} from './depth-scan.js?v=6';
 import {createScanner as createSessionScanner} from './scan-session.js?v=3';
@@ -205,3 +206,5 @@ $('copy-log').addEventListener('click',async()=>{
 });
 $('clear-log').addEventListener('click',()=>{log.clear();emit('info','environment',environment());$('log-status').textContent='Log cleared. Reproduce the problem, then copy the log.';});
 controls();
+
+setupReliefFullscreen(queueDraw);

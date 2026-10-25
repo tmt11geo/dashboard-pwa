@@ -1,0 +1,12 @@
+{
+  "nodeTests": 95,
+  "browserChecks": 28,
+  "sha256": {
+    "depth-fullscreen.js": "a366f255f876adaa87b325b2ec54a4aeeab0fd885330b30199091aa3e2a788a0",
+    "depth-fullscreen.css": "3def3c10171a0dd28111bb76c655e09783e87464e8a3d0e6e427758db73cf507",
+    "depth.js": "7054dea4d5e559402213200ff1bb3c23a18c503c153f874241983338877bbd1a",
+    "depth.html": "7cddde79d841ae92ce99bea21e3066a05d9739bf0e334910afd18d5510c07291",
+    "scan.html": "0fea8b8e0c7efd513394ae929378d7bd029b7ba1eb0b21accd7b665b853a16c3",
+    "tools/depth-calibration/test_relief_fullscreen_browser.cjs": "1b27ad0069c4defda73435ad863126f24abe6f2f6a09936d0e459e7f99a2a378"
+  }
+}

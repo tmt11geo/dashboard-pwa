@@ -1,5 +1,34 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Full-screen relief viewer — 2026-10-25
+
+Resumed depth-tfjs-webgl 51b26a7c02af35609774208b25171ebf8311ace6;
+main verified 5eec56a74e763037058a3782d5a120b0028bc728. No AGENTS.md.
+Added Full screen to relief tools on both Depth and Gather. The viewer moves the
+existing canvas and controls into a modal, requests native fullscreen on its content
+container, and retains a full-viewport modal if the browser refuses the request.
+Return to page, Escape and browser fullscreen exit restore the same canvas/controls,
+original page scroll and focus. No navigation, scan reset, model restart or copy of
+scene state. Rotation/zoom handlers stay attached; canvas redraws for the new size.
+Native fullscreen on dialog itself is prohibited, so the request targets its div.
+
+95 Node tests PASS; 28 browser checks PASS using the actual five-view saved lamp
+session and real registration. Tests cover native fullscreen, Return, browser-driven
+exit, rejected fullscreen fallback, Escape, same canvas/control identity, retained
+2-view result, restored scroll, no overflow/uncaught errors. Layout screenshot checked
+locally; private image not committed. Browser simulated camera/inference only for
+capture lifecycle; saved-session stitching and viewer are real. Evidence:
+tools/depth-calibration/evidence/relief-fullscreen-browser.json and
+relief-fullscreen-node.log. Capture/stitch geometry and Access policy unchanged.
+
+Outcome branch depth-tfjs-webgl. Next in this run: commit, leased main promotion,
+verify Pages success, checkpoint. User test: scan.html?v=4, Open capture session,
+Stitch, Build relief, Full screen, rotate/zoom, Return to page. Or depth.html?v=16,
+select 3D relief then Full screen. Expect same page/session/view after return; no
+new file or capture required. Phone-specific fullscreen handling remains a manual
+check; browsers that deny native mode still get a full-window viewer.
+
+
 ## Lamp-pair recovery deployed — 2026-10-25
 
 Live main: 5eec56a74e763037058a3782d5a120b0028bc728, workflow gather-3.
