@@ -1,0 +1,230 @@
+[
+  {
+    "pair": [
+      1,
+      2
+    ],
+    "ok": false,
+    "code": "depth-consensus",
+    "stage": "depth-fit",
+    "displacementPx": 20.586504886147832,
+    "rotationOnlyErrorPx": 0.15241436238293526,
+    "rotationDegrees": 6.983564936052564,
+    "rotationVectorDegrees": [
+      -1.8242100744431153,
+      6.697993898140875,
+      -0.7611271646915294
+    ],
+    "translationOverDepth": 0.026244386795107898,
+    "translation": [
+      0.02248321407254411,
+      -0.026890616168224885,
+      -0.0030444541564855765
+    ],
+    "depthScale": 1.4396274479237274,
+    "inverseDepthShift": 0.35000000000000003,
+    "inlierRatio": 0.5963302752293578,
+    "normalizedError": 0.01578274299493729,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 240,
+    "currentFeatures": 240,
+    "matches": 109,
+    "rotationSupport": 0.926605504587156,
+    "robustRotationErrorPx": 0.17623360988433967
+  },
+  {
+    "pair": [
+      2,
+      3
+    ],
+    "ok": false,
+    "code": "depth-consensus",
+    "stage": "depth-fit",
+    "displacementPx": 19.683671777588064,
+    "rotationOnlyErrorPx": 0.1487674968961906,
+    "rotationDegrees": 6.956143772636637,
+    "rotationVectorDegrees": [
+      0.7046218701923528,
+      6.870557731239816,
+      -0.8287826417940912
+    ],
+    "translationOverDepth": 0.021675148107094037,
+    "translation": [
+      0.01655546606807752,
+      0.006291274825887608,
+      -0.023664631746308284
+    ],
+    "depthScale": 0.9008858887209178,
+    "inverseDepthShift": -0.15000000000000002,
+    "inlierRatio": 0.5752212389380531,
+    "normalizedError": 0.016844740960416892,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 240,
+    "currentFeatures": 224,
+    "matches": 113,
+    "rotationSupport": 0.8938053097345132,
+    "robustRotationErrorPx": 0.15025886924465026
+  },
+  {
+    "pair": [
+      3,
+      4
+    ],
+    "ok": false,
+    "code": "depth-consensus",
+    "stage": "depth-fit",
+    "displacementPx": 20.049828934829772,
+    "rotationOnlyErrorPx": 0.4303573483777338,
+    "rotationDegrees": 7.868570679853618,
+    "rotationVectorDegrees": [
+      -0.4653906330683049,
+      7.843362431047457,
+      -0.42365301573149494
+    ],
+    "translationOverDepth": 0.018476241626688702,
+    "translation": [
+      -0.00803078832414996,
+      -0.0016504425278033585,
+      0.024803411138929032
+    ],
+    "depthScale": 2.080312220171442,
+    "inverseDepthShift": 0.6749999999999999,
+    "inlierRatio": 0.4158415841584158,
+    "normalizedError": 0.017232678392218554,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 224,
+    "currentFeatures": 238,
+    "matches": 101,
+    "rotationSupport": 0.8316831683168316,
+    "robustRotationErrorPx": 0.13670781537600185
+  },
+  {
+    "pair": [
+      4,
+      5
+    ],
+    "ok": false,
+    "code": "depth-consensus",
+    "stage": "depth-fit",
+    "displacementPx": 17.502865994401848,
+    "rotationOnlyErrorPx": 0.17491964285343242,
+    "rotationDegrees": 10.040011775379355,
+    "rotationVectorDegrees": [
+      -1.0859863154340454,
+      9.765263293016838,
+      2.0644861323108215
+    ],
+    "translationOverDepth": 0.06764402152650871,
+    "translation": [
+      -0.07957672870467332,
+      -0.01579904313116444,
+      0.04107587125292933
+    ],
+    "depthScale": 0.7852041361113088,
+    "inverseDepthShift": -0.225,
+    "inlierRatio": 0.5528455284552846,
+    "normalizedError": 0.018163750922885347,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 238,
+    "currentFeatures": 225,
+    "matches": 123,
+    "rotationSupport": 0.8943089430894309,
+    "robustRotationErrorPx": 0.2042106750156779
+  },
+  {
+    "pair": [
+      5,
+      6
+    ],
+    "ok": false,
+    "code": "depth-consensus",
+    "stage": "depth-fit",
+    "displacementPx": 34.71261623157597,
+    "rotationOnlyErrorPx": 0.3445443212359404,
+    "rotationDegrees": 9.797805612676612,
+    "rotationVectorDegrees": [
+      -0.983084018015299,
+      9.672679978053436,
+      -1.2123541889583096
+    ],
+    "translationOverDepth": 0.04450581322966834,
+    "translation": [
+      0.052338498570456915,
+      0.004057973111106811,
+      0.011773068685251742
+    ],
+    "depthScale": 1.5451136201651605,
+    "inverseDepthShift": 0.45,
+    "inlierRatio": 0.5903614457831325,
+    "normalizedError": 0.014308245191156707,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 225,
+    "currentFeatures": 240,
+    "matches": 83,
+    "rotationSupport": 0.7228915662650602,
+    "robustRotationErrorPx": 0.33694378702295513
+  },
+  {
+    "pair": [
+      6,
+      7
+    ],
+    "ok": false,
+    "code": "depth-consensus",
+    "stage": "depth-fit",
+    "displacementPx": 19.73652198956106,
+    "rotationOnlyErrorPx": 0.6219328786631675,
+    "rotationDegrees": 6.865101919870565,
+    "rotationVectorDegrees": [
+      0.6528211957905452,
+      6.755462060615106,
+      1.0330446283326093
+    ],
+    "translationOverDepth": 0.021339475145908674,
+    "translation": [
+      -0.0095153514201885,
+      0.01565261152823344,
+      -0.01615020031905301
+    ],
+    "depthScale": 1.1867946982572075,
+    "inverseDepthShift": -0.05,
+    "inlierRatio": 0.44776119402985076,
+    "normalizedError": 0.022587346244068177,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 240,
+    "currentFeatures": 240,
+    "matches": 67,
+    "rotationSupport": 0.5522388059701493,
+    "robustRotationErrorPx": 0.6308946166589017
+  },
+  {
+    "pair": [
+      7,
+      8
+    ],
+    "ok": false,
+    "code": "shared-detail",
+    "stage": "features",
+    "displacementPx": null,
+    "rotationOnlyErrorPx": null,
+    "rotationDegrees": null,
+    "rotationVectorDegrees": null,
+    "translationOverDepth": null,
+    "translation": null,
+    "depthScale": null,
+    "inverseDepthShift": null,
+    "inlierRatio": null,
+    "normalizedError": null,
+    "reprojectionPx": null,
+    "coverage": true,
+    "referenceFeatures": 240,
+    "currentFeatures": 240,
+    "matches": 12
+  }
+]

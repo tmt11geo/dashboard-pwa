@@ -4,10 +4,10 @@
 <meta name="theme-color" content="#07100b"><title>Gather & Stitch · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
 <link rel="stylesheet" href="./camera.css?v=3"><link rel="stylesheet" href="./depth.css?v=6">
-<script type="module" src="./depth.js?v=13"></script><script defer src="./pwa-register.js?v=35"></script>
+<script type="module" src="./depth.js?v=14"></script><script defer src="./pwa-register.js?v=35"></script>
 <link rel="stylesheet" href="./scan-session.css?v=1"></head><body data-workflow="gather">
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
-<header><strong>TACTICAL <span>GATHER & STITCH</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html">Depth</a><a href="./scan.html?v=1" aria-current="page">Gather</a></nav></header>
+<header><strong>TACTICAL <span>GATHER & STITCH</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html">Depth</a><a href="./scan.html?v=2" aria-current="page">Gather</a></nav></header>
 <main>
 <div class="heading"><div><p class="eyebrow">CAPTURE FIRST · PROCESS AFTERWARDS</p><h1>Gather → Stitch → 3D relief.</h1></div><span class="badge">V2 SMALL</span></div>
 
@@ -26,7 +26,7 @@
 <div class="controls"><button id="session-save" disabled>Save capture session</button><button id="session-open">Open capture session</button><input id="session-file" type="file" accept=".json,application/json" hidden></div><ol id="session-results" aria-label="Stitch results"></ol>
 <p id="scan-count" class="help">No captures yet</p>
 <div class="controls"><button id="scan-save" type="button" disabled>Save relief file</button><button hidden id="scan-open" type="button">Open relief file</button><button id="scan-clear" type="button" disabled>Clear session</button><input id="scan-file" type="file" accept="application/json,.json" hidden></div>
-<details class="scan-help"><summary>Capture and processing tips</summary><p>Use a textured, stationary subject in good light. Hold still for Capture view; wait for SAVED, then move a small step sideways with most of the previous view still visible. No movement threshold blocks the next capture. Depth takes time; up to 12 views per session.</p><p>Save capture session before closing the page. It includes corrected camera images, relative depth and calibration, stays local, and can be reopened for another stitching attempt. Unplaced views are retained. Stitch tries nearby placed views in two passes; it does not perform global bundle adjustment or guarantee a complete object reconstruction. Build relief fuses only placed views, in arbitrary units.</p></details>
+<details class="scan-help"><summary>Capture and processing tips</summary><p>Use a textured, stationary subject in good light. Move the phone itself a little sideways, rather than only turning it. Hold still for Capture view; wait for SAVED, then move a small step sideways with most of the previous view still visible. No movement threshold blocks the next capture. Depth takes time; up to 12 views per session.</p><p>Save capture session before closing the page. It includes corrected camera images, relative depth and calibration, stays local, and can be reopened for another stitching attempt. Unplaced views are retained. Stitch tries nearby placed views in two passes; it does not perform global bundle adjustment or guarantee a complete object reconstruction. Build relief fuses only placed views, in arbitrary units.</p></details>
 </section>
 <details hidden id="depth-settings" class="panel"><summary>Compute settings &amp; single-frame depth controls</summary><div class="settings panel">
 <label>Compute <select id="backend"><option value="auto">Auto · prefer WebGPU</option><option value="webgpu">WebGPU only</option><option value="tfjs-webgl">TFJS WebGL · experimental · 224 px</option><option value="wasm">CPU / WASM · slower</option></select></label>
@@ -41,7 +41,7 @@
 <details id="diagnostics-panel" class="panel diagnostics"><summary>Diagnostic log</summary>
 <p class="help">Reproduce the problem, then tap Copy log and paste it into our chat. Logs stay on this page and include browser capabilities, camera state, GPU checks, processing stages and errors. No camera images or account information are included.</p>
 <div class="controls"><button id="copy-log" type="button">Copy log</button><button id="clear-log" type="button">Clear log</button></div>
-<p id="log-status" class="help" role="status"></p><label class="help" for="diagnostic-log">Latest 300 diagnostic entries · gather-1</label>
+<p id="log-status" class="help" role="status"></p><label class="help" for="diagnostic-log">Latest 300 diagnostic entries · gather-2</label>
 <textarea id="diagnostic-log" readonly spellcheck="false" rows="10" aria-label="Diagnostic log, selectable for copying"></textarea>
 </details>
 <section class="metrics-grid" aria-label="Depth performance"><div><span>Inference</span><strong id="inference">—</strong></div><div><span>Mean · last 20 warm frames</span><strong id="average">—</strong></div><div><span>Delivered depth updates</span><strong id="rate">—</strong></div><div><span>Result age</span><strong id="age">—</strong></div></section>

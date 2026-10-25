@@ -1,0 +1,17 @@
+{
+  "workflow": "gather-2",
+  "nodeTests": 94,
+  "gatherBrowserChecks": 19,
+  "liveDepthBrowserChecks": 22,
+  "phoneSessionPlaced": 1,
+  "phoneSessionFrames": 8,
+  "sha256": {
+    "depth-scan-core.js": "f9a76c15cb54c42cb8f225e8d6654c0c5c591482887f38d4d8e3711a223cb21c",
+    "scan-session-core.js": "d57b75c254bc6a7418230bbe152a125e52af59b78cac89ebb39841e10fb8addf",
+    "scan-session-flow.js": "e05e4c409edd4dad20e56ac4ce9e71ff9304a81e7e7b110ac5bdbcc2031bf986",
+    "scan-session.js": "95516301730433935cc2f15f3b3697b25d99b86252200585d829dda48dc70e9b",
+    "scan-session-worker.js": "b2e8235d0dbdcfc092e2c3c4c2ea4c9a44a3d074abc181c96b0978f7d9e82645",
+    "depth.js": "5c9577b462a669f1fb3ad846d45e5af7d48f8607711046c02621dcdb6301c95a",
+    "scan.html": "fd2513b51150d25f9373808a95e61568b456e5537cb228dc7a8d91a2848a3faa"
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "frames": 8,
+  "placed": 1,
+  "neighbourMatches": [
+    9,
+    11,
+    11,
+    15,
+    0,
+    7,
+    0
+  ],
+  "results": [
+    {
+      "index": 0,
+      "ok": true,
+      "anchor": true
+    },
+    {
+      "index": 1,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    },
+    {
+      "index": 2,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    },
+    {
+      "index": 3,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    },
+    {
+      "index": 4,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    },
+    {
+      "index": 5,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    },
+    {
+      "index": 6,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    },
+    {
+      "index": 7,
+      "reference": 0,
+      "ok": false,
+      "reason": "Not enough shared detail. Return towards the last accepted view.",
+      "code": "shared-detail",
+      "diagnostics": {
+        "stage": "features",
+        "displacementPx": null,
+        "rotationOnlyErrorPx": null,
+        "rotationDegrees": null,
+        "rotationVectorDegrees": null,
+        "translationOverDepth": null,
+        "translation": null,
+        "depthScale": null,
+        "inverseDepthShift": null,
+        "inlierRatio": null,
+        "normalizedError": null,
+        "reprojectionPx": null,
+        "coverage": null
+      }
+    }
+  ]
+}

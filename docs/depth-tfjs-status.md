@@ -1,5 +1,53 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Actual phone capture replay and matching correction — 2026-10-25
+
+Resumed depth-tfjs-webgl a1ae7194153b72ae3fa0b1332da9822a03499311;
+main verified 75ba53fb9706a68fdda029d4afe25bbd7071f4f2. No AGENTS.md.
+User supplied an eight-frame private Gather session. SHA256:
+1b90d01b301a8be6a3002fbadf3ef05e8f508816cdb6f23d36ff01dcdafa3305.
+Images visibly overlap. Baseline reproduced 1/8 placed, all remaining shared-detail;
+adjacent consistent matches were 9,11,11,15,0,7,0. Feature selection was sparse on
+the dim stationary surfaces; bright moving content occupied many detected features.
+The zero-initialized live optical-flow search is unsuitable for larger saved-view
+motions. Do not blame the user for insufficient overlap from the old message.
+
+Gather-2 uses denser distributed corners plus normalized 80x60 coarse patch search,
+uniqueness check, seeded fine optical flow and forward/backward consistency. Only
+saved-session matching changes; live scanner defaults and all depth/pose acceptance
+thresholds are unchanged. Cache repeated reference pairs. Diagnostics distinguish
+match count from coverage, retain nearest-neighbour diagnostics even without a
+connected global pose, and compact log summaries avoid truncating the final frames.
+Session exports retain detailed decisions; stale decisions clear on new capture/import.
+
+On the supplied session, adjacent matches become 109,113,101,123,83,67,12.
+First-pair rotation support is 0.9266 with 0.1762px median rotation residual at depth
+resolution. Several neighbouring pairs are strongly rotation-like. All first six
+neighbouring pairs still fail depth-consensus, last pair lacks sufficient matches.
+The connected reconstruction remains ONE anchor, not a successful 3D stitch. Neither
+metric camera motion nor true geometry is known, so this is rotation ambiguity and
+relative-depth inconsistency evidence, not proof of zero translation. Do not relax
+acceptance thresholds to force these images into a misleading reconstruction.
+
+94 Node tests PASS, including affine-depth translation, pure rotations and unrelated
+textures; 22 existing live-Depth browser checks PASS. 19 Gather browser checks PASS: actual uploaded session imported/replayed, actual
+calibration/registration workers; simulated camera/inference for capture lifecycle.
+Reconstruction remains one view in the actual-session browser test. Numeric evidence
+only in tools/depth-calibration/evidence/gather-phone-{baseline,replay,neighbours}.json,
+gather-replay-node.log, gather-replay-browser.json. Private images/JSON are NOT in Git.
+Replay tool: node tools/depth-calibration/replay_gather.mjs PRIVATE.json REPORT.json.
+
+Working/outcome branch depth-tfjs-webgl. Next: final existing-Depth regression, commit,
+leased main deployment, verify exact Pages run and receipt. User can reopen the same
+saved session at scan.html?v=2 without camera/calibration import to see the improved
+diagnostics. It will still show one placed anchor. A new small translation capture
+is needed to test actual reconstruction: move the phone sideways while keeping its
+direction approximately fixed, retain overlap, use static textured surfaces. Global
+optimization, handling moving objects and a rotation-only panoramic-relief mode are
+not implemented. Cloudflare Access remains unchanged. Physical stitched success is
+still blocked; startup/calibration/gathering succeeded in the supplied phone logs.
+
+
 ## Gather page deployed — 2026-10-24
 
 Live main: 75ba53fb9706a68fdda029d4afe25bbd7071f4f2; workflow gather-1 (shared depth-lab-11 engine).

@@ -1,6 +1,6 @@
 import {createCalibration} from './depth-calibration.js?v=3';
 import {createScanner as createLiveScanner} from './depth-scan.js?v=6';
-import {createScanner as createSessionScanner} from './scan-session.js?v=1';
+import {createScanner as createSessionScanner} from './scan-session.js?v=2';
 const createScanner=document.body?.dataset?.workflow==='gather'?createSessionScanner:createLiveScanner;
 import {letterbox} from './depth-tfjs-core.js?v=1';
 import {frameSize,colorizeDepth,makeRelief,rotatePoint} from './depth-core.js?v=1';
@@ -8,7 +8,7 @@ import {BUILD,createLog,errorInfo,probeGPU} from './depth-diagnostics.js?v=10';
 const $=id=>document.getElementById(id);
 const log=createLog($('diagnostic-log'));
 const emit=(level,event,details)=>log.write(level,'main.'+event,details);
-function environment(){return {build:BUILD,workflow:document.body?.dataset?.workflow==='gather'?'gather-1':'live-depth',userAgent:navigator.userAgent,secureContext:window.isSecureContext,crossOriginIsolated:window.crossOriginIsolated===true,hardwareConcurrency:navigator.hardwareConcurrency,deviceMemory:navigator.deviceMemory,webgpuAPI:!!navigator.gpu,cameraAPI:!!navigator.mediaDevices?.getUserMedia,visibility:document.visibilityState,standalone:window.matchMedia?.('(display-mode: standalone)').matches===true};}
+function environment(){return {build:BUILD,workflow:document.body?.dataset?.workflow==='gather'?'gather-2':'live-depth',userAgent:navigator.userAgent,secureContext:window.isSecureContext,crossOriginIsolated:window.crossOriginIsolated===true,hardwareConcurrency:navigator.hardwareConcurrency,deviceMemory:navigator.deviceMemory,webgpuAPI:!!navigator.gpu,cameraAPI:!!navigator.mediaDevices?.getUserMedia,visibility:document.visibilityState,standalone:window.matchMedia?.('(display-mode: standalone)').matches===true};}
 emit('info','environment',environment());
 window.addEventListener('error',event=>emit('error','uncaught',{...errorInfo(event.error||event.message),source:event.filename,line:event.lineno,column:event.colno}));
 window.addEventListener('unhandledrejection',event=>emit('error','unhandledrejection',errorInfo(event.reason)));

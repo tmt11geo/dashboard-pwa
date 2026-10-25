@@ -89,11 +89,12 @@ export function rotationCompetition(matches,current,reference){
   const count=errors.filter(e=>e<.7).length,med=median(errors);if(!best||count>best.count||(count===best.count&&med<best.error))best={count,error:med,ratio:count/matches.length};
  }return best;
 }
-export function register(reference,current){
- const diagnostics={stage:'features',displacementPx:null,rotationOnlyErrorPx:null,rotationDegrees:null,rotationVectorDegrees:null,translationOverDepth:null,translation:null,depthScale:null,inverseDepthShift:null,inlierRatio:null,normalizedError:null,reprojectionPx:null,coverage:null};
+export function register(reference,current,matcher=trackMatches){
+ const diagnostics={stage:'features',displacementPx:null,rotationOnlyErrorPx:null,rotationDegrees:null,rotationVectorDegrees:null,translationOverDepth:null,translation:null,depthScale:null,inverseDepthShift:null,inlierRatio:null,normalizedError:null,reprojectionPx:null,coverage:null,referenceFeatures:reference.features.length,currentFeatures:current.features.length,matches:0};
  const reject=(code,reason,extra={})=>({ok:false,code,reason,diagnostics:{...diagnostics},...extra});
- const matches=(reference.tracking&&current.tracking?trackMatches(reference,current):matchFeatures(reference.features,current.features)).filter(m=>point(reference,m.a,reference.shift));
- if(matches.length<16||!coverage(matches,current.width,current.height))return reject('shared-detail','Not enough shared detail. Return towards the last accepted view.',{matches:matches.length});
+ const matches=(reference.tracking&&current.tracking?matcher(reference,current):matchFeatures(reference.features,current.features)).filter(m=>point(reference,m.a,reference.shift));
+ diagnostics.matches=matches.length;diagnostics.coverage=matches.length>0&&coverage(matches,current.width,current.height);
+ if(matches.length<16||!diagnostics.coverage)return reject('shared-detail','Not enough shared detail. Return towards the last accepted view.',{matches:matches.length});
  const displacement=median(matches.map(m=>Math.hypot(m.a.x-m.b.x,m.a.y-m.b.y)));
  diagnostics.displacementPx=displacement;
  if(current.K&&current.tracking){const competition=rotationCompetition(matches,current,reference);diagnostics.rotationSupport=competition?.ratio??0;diagnostics.robustRotationErrorPx=competition?.error??null;}

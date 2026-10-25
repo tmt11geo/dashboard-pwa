@@ -1,6 +1,6 @@
 # Gather, Stitch and 3D relief phone test
 
-Open https://tmt11.com/dashboard-pwa/scan.html?v=1 (Gather in navigation).
+Open https://tmt11.com/dashboard-pwa/scan.html?v=2 (Gather in navigation).
 
 1. Load the existing calibration JSON, rotate to its original landscape direction.
 2. Start gathering. Allow camera permission and confirm reconnection only on the same calibrated phone/camera if requested.
@@ -12,3 +12,5 @@ Open https://tmt11.com/dashboard-pwa/scan.html?v=1 (Gather in navigation).
 8. Open capture session to retry processing without the camera or another calibration import. Clear session before switching scenes/calibration.
 
 Capture and depth computation still take time on the phone. Stitching remains experimental pairwise RGB/depth alignment; it does not globally refine poses, recover arbitrary camera motion, or guarantee a complete object scan. Calibration camera-setting checks remain enforced. Keep the page visible while processing; Cancel retains captures. Capture sessions stay in memory until saved and may be lost on reload or OS eviction. Share the saved capture session privately for diagnosis if stitching fails.
+
+Gather-2 widens matching for saved captures and reports adjacent-view match/rotation ambiguity. A large overlap does not itself prove a reliable 3D pose. The October 25 eight-frame phone session still produces only its anchor; see numeric replay evidence. Shift the phone sideways with approximately fixed direction for a controlled translation test; avoid moving screens and largely featureless surfaces. Existing sessions can be reopened without recapture for matcher diagnosis.

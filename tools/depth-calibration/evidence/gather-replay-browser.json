@@ -1,0 +1,83 @@
+{
+  "checks": [
+    {
+      "name": "gather requires calibration",
+      "pass": true
+    },
+    {
+      "name": "gather starts without automatic inference",
+      "pass": true
+    },
+    {
+      "name": "three unchanged views gathered without motion or alignment gate",
+      "pass": true
+    },
+    {
+      "name": "finish releases camera",
+      "pass": true
+    },
+    {
+      "name": "session contains all three calibrated image/depth captures",
+      "pass": true
+    },
+    {
+      "name": "stitch reports every saved view",
+      "pass": true
+    },
+    {
+      "name": "unplaced duplicates are explicit",
+      "pass": true
+    },
+    {
+      "name": "relief is a separate stage",
+      "pass": true
+    },
+    {
+      "name": "single-view limitation is clear",
+      "pass": true
+    },
+    {
+      "name": "relief canvas is visible",
+      "pass": true
+    },
+    {
+      "name": "saved session opens for offline retry",
+      "pass": true
+    },
+    {
+      "name": "cancel preserves all captures",
+      "pass": true
+    },
+    {
+      "name": "stitch retry enabled after cancel",
+      "pass": true
+    },
+    {
+      "name": "real saved session exposes rotation/depth ambiguity instead of only missing detail",
+      "pass": true
+    },
+    {
+      "name": "real saved session retains all eight decisions",
+      "pass": true
+    },
+    {
+      "name": "compact diagnostics retain final view",
+      "pass": true
+    },
+    {
+      "name": "real session does not falsely claim a stitched reconstruction",
+      "pass": true
+    },
+    {
+      "name": "no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "no uncaught errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "mode": "Actual calibration WASM + scan worker, simulated camera and depth inference",
+  "browser": "141.0.7390.0"
+}
