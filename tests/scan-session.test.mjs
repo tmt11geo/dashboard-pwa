@@ -15,3 +15,9 @@ test('independently textured scenes are not fused by the wider search',()=>{
  const options={width:224,height:168,K:k,texture:'noise',seed:98213};const b={...render(0,0,[1,0],options),K:k,orientation:90,tracking:render(0,0,[1,0],{...options,width:640,height:480,K}).pixels};assert.equal(stitchFrames([frame(0),b]).placed.length,1);
 });
 test('wide saved-view matcher preserves translation across affine inverse depth changes',()=>{for(const [scale,shift] of [[1.4,.3],[.8,-.1]]){const b=frame(.1);b.raw=b.raw.map(x=>x*scale+shift);const r=stitchFrames([frame(0),b]);assert.equal(r.placed.length,2);assert.ok(Math.hypot(r.frames[1].pose.t[0]-.025,r.frames[1].pose.t[1],r.frames[1].pose.t[2])<.005);}});
+test('isolated first anchor recovers a later connected group without joining unrelated geometry',()=>{
+ const options={width:224,height:168,K:k,texture:'noise',seed:98213};const isolated={...render(0,0,[1,0],options),K:k,orientation:90,tracking:render(0,0,[1,0],{...options,width:640,height:480,K}).pixels};
+ const input=[isolated,frame(0),frame(.1)],r=stitchFrames(input);
+ assert.equal(r.placed.length,2);assert.equal(r.results[0].ok,false);assert.equal(r.results[1].ok,true);assert.equal(r.results[2].ok,true);assert.deepEqual(r.anchorRecovery,{original:0,selected:1});assert.equal(input[0].pose,undefined);
+ assert.ok(Math.hypot(r.frames[2].pose.t[0]-.025,r.frames[2].pose.t[1],r.frames[2].pose.t[2])<.005);
+});

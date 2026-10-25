@@ -1,0 +1,23 @@
+{
+  "workflow": "gather-3",
+  "nodeTests": 95,
+  "browserChecks": 19,
+  "frames": 5,
+  "placed": 2,
+  "placedViewNumbers": [
+    4,
+    5
+  ],
+  "points": 3846,
+  "oldEightFrameSessionPlaced": 1,
+  "groundTruth": "unavailable; accepted relative alignment, not metric accuracy proof",
+  "sha256": {
+    "scan-session-core.js": "44ac86236802f7f7c431826ec39f96b12d298f07b02a750749160915a4fd395b",
+    "scan-session-worker.js": "b1d1e098f0ab2e8ae1f7028cef149cffde5b82ca8c33e941b8c167c148769b44",
+    "scan-session.js": "caeb6b067c4f9926ce015ea7db9799e87eb4ee10bfa98b67ace16b94c1e16ebe",
+    "depth.js": "e8e3e0eaccfc3e7fdbf16a294efdb2a9910161702cec7b73d26bbab65bc12573",
+    "scan.html": "7b555666023f01d0c1867a813a9458af76c6b9ee9a99b9a9f2a6c82641f5a788",
+    "tests/scan-session.test.mjs": "00264b1762894bf4aef106f9278d838d8cabac8321df97cfb15bb7f152e057b5",
+    "tools/depth-calibration/test_gather_lamp_browser.cjs": "db6f2c3c3e4d1dc954e995e96fdeb0a6c565a5d328f1dc05c4a4c0defec95961"
+  }
+}

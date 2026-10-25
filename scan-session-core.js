@@ -7,12 +7,12 @@ export function prepareSavedFrame(f){
  if(!values.length||Math.max(...f.raw)-Math.min(...f.raw)<1e-6)throw Error('Depth has no variation');
  f.range={scale:values[Math.floor(values.length/2)]};f.features=features({width:640,height:480,pixels:f.tracking,descriptorRadius:8,descriptorStep:2,cellSize:40,cellLimit:3,minScore:.002}).map(p=>({...p,x:(p.x+.5)*f.width/640-.5,y:(p.y+.5)*f.height/480-.5}));return f;
 }
-export function stitchFrames(input,progress=()=>{}){
+export function stitchFrames(input,progress=()=>{},recoveryAnchor=null){
  if(!input.length||input.length>LIMIT)throw Error('Gather 1–12 frames first');
  const pairs=new Map();
  const frames=input.map(f=>prepareSavedFrame({...f})),placed=[],results=frames.map((_,index)=>({index,ok:false,reason:'Not connected to the anchor'}));
  if(frames.some(f=>JSON.stringify(f.K)!==JSON.stringify(frames[0].K)||f.width!==frames[0].width||f.height!==frames[0].height||f.orientation!==frames[0].orientation))throw Error('Mixed camera geometry in session');
- const anchor=frames.findIndex(f=>f.features.length>=24);if(anchor<0)throw Error('No textured anchor found. Capture a surface with visible detail.');
+ const anchor=recoveryAnchor??frames.findIndex(f=>f.features.length>=24);if(anchor<0)throw Error('No textured anchor found. Capture a surface with visible detail.');
  frames[anchor].pose={r:[1,0,0,0,1,0,0,0,1],s:1,t:[0,0,0]};frames[anchor].shift=0;placed.push(anchor);results[anchor]={index:anchor,ok:true,anchor:true};
  // Retry unplaced views against up to three nearby placed views. No live capture gate.
  for(let pass=0;pass<2;pass++)for(let i=0;i<frames.length;i++){
@@ -31,9 +31,19 @@ export function stitchFrames(input,progress=()=>{}){
   if(d?.matches>=16&&d.coverage){
    results[i].reason=d.rotationSupport>.8&&d.robustRotationErrorPx<.5
     ?'Shared detail found with previous view, but turning explains most motion; reliable 3D translation was not established.'
-    :r.ok?'Matches previous view, but that view has no connected pose.':'Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.';
+    :r.code==='duplicate'?'Previous view is nearly unchanged; no additional 3D pose established.':r.ok?'Matches previous view, but that view has no connected pose.':'Shared detail found with previous view, but relative depths did not establish a reliable connected 3D pose.';
   }else if(d)results[i].reason=`Previous view: ${d.matches} matches; ${d.matches<16?'too few reliable matches':'matches cover too little of the image'}. No connected 3D pose.`;
   progress({pass:3,index:i,placed:placed.length,total:frames.length});
+ }
+ // An isolated first anchor must not discard a validated later component.
+ // One bounded restart, with the same pose/depth gates and fresh per-pair cache.
+ if(placed.length===1&&recoveryAnchor===null){
+  const links=results.filter(r=>r.neighbour?.ok).sort((a,b)=>(b.neighbour.diagnostics?.inlierRatio||0)-(a.neighbour.diagnostics?.inlierRatio||0));
+  if(links.length){const selected=links[0].neighbour.index;
+   progress({pass:4,index:selected,placed:1,total:frames.length});
+   const recovered=stitchFrames(input,progress,selected);
+   if(recovered.placed.length>placed.length)return {...recovered,anchorRecovery:{original:anchor,selected}};
+  }
  }
  return {frames,results,placed};
 }

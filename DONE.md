@@ -1,5 +1,43 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Lamp capture: recover a valid later component — 2026-10-25
+
+Resumed depth-tfjs-webgl d0a4900509b305d3c90edca3a13dd508c46d04ee;
+main verified 6bf7c0f66fa690b6cd3f69a41b04db927a3a7e33. No AGENTS.md.
+New private five-view lamp session replays as one placed anchor in Gather-2.
+Unlike the earlier room sweep, first-pair rotation support is only 0.30; do NOT
+characterize this capture as pure rotation or blame user movement. It has 90 first-pair
+matches but only 47/90 depth inliers. Views 2/3 are near-duplicates. Views 4/5 PASS
+registration: 84 matches, 2/3 inlier ratio, median reprojection 0.42966px, normalized
+3D residual 0.01112. They were excluded because neither connected to the first anchor.
+
+Gather-3 performs one bounded restart when the original anchor stays isolated and
+a neighbouring pair independently passes the unchanged pose/depth gates. Select
+that pair's reference as the new anchor, clear pair cache, recompute poses/scale,
+and use it only if more views are placed. Disconnected geometry is never merged.
+This is not largest-component search or global optimization. Recovery start view is
+shown in UI/logs; duplicate diagnostics now name the duplicate rather than depth.
+
+Actual-file result: views 4 and 5 placed, 3,846 fused points; views 1–3 still unplaced.
+Actual browser import/Stitch/Build relief reproduces this and the rendering was
+inspected privately. Ground-truth shape/poses are unavailable: acceptance and visible
+relief are not a metric-accuracy or full five-view reconstruction claim. Earlier
+8-view rotation/depth-ambiguous file remains 1/8, preserving previous rejection.
+95 Node tests PASS; 19 browser checks PASS (private calibration verification,
+actual new session replay; simulated camera/inference for lifecycle tests). Synthetic
+isolated-anchor recovery checks correct later-group translation and exclusion of
+unrelated first geometry. Evidence: tools/depth-calibration/evidence/gather-lamp-*
+and tools/depth-calibration/test_gather_lamp_browser.cjs. Private images are not in Git.
+
+Outcome branch depth-tfjs-webgl; next in this run: leased commit/main promotion,
+verify exact Pages success and checkpoint. Then user opens scan.html?v=3, Open capture
+session with SAME five-view Gather JSON, Stitch, expects recovered group from view 4
+and 2/5 placed, Build relief. No camera/calibration import/recapture required for this
+replay. Remaining blocker: align views 1–3 and validate actual shape quality; user
+can inspect recovered pair first. Existing calibration, model, live Depth pose gates,
+Cloudflare Access and service worker policy unchanged.
+
+
 ## Actual-session matcher correction deployed — 2026-10-25
 
 Live main: 6bf7c0f66fa690b6cd3f69a41b04db927a3a7e33, Gather workflow gather-2.
