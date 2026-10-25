@@ -1,0 +1,18 @@
+{
+  "commit": "5eec56a74e763037058a3782d5a120b0028bc728",
+  "branch": "main",
+  "checkpointBranch": "depth-tfjs-webgl",
+  "workflow": "gather-3",
+  "pagesRun": 40224102001,
+  "conclusion": "success",
+  "verifiedBlobs": 21,
+  "nodeTests": 95,
+  "browserChecks": 19,
+  "lampPlacedViews": [
+    4,
+    5
+  ],
+  "lampTotalViews": 5,
+  "points": 3846,
+  "liveUnauthenticated": "HTTP 302"
+}

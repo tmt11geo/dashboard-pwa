@@ -1,5 +1,25 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Lamp-pair recovery deployed — 2026-10-25
+
+Live main: 5eec56a74e763037058a3782d5a120b0028bc728, workflow gather-3.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/40224102001
+completed SUCCESS for this exact SHA. All 21 changed remote blobs matched local
+bytes before leased main promotion. Working/checkpoint branch depth-tfjs-webgl;
+this receipt follows implementation. 95 Node and 19 browser checks PASS. New lamp
+session recovers views 4/5 into 3,846 points; earlier 8-view session remains 1/8.
+Evidence: tools/depth-calibration/evidence/gather-lamp-*. No private images committed.
+Unauthenticated scan.html?v=3 returned HTTP 302; Access unchanged.
+
+Exact next action: open https://tmt11.com/dashboard-pwa/scan.html?v=3, Open capture
+session with tactical-gather-1792954648479.json, then Stitch. Expect recovered group
+starting at view 4 and 2/5 placed. Build relief shows the two-view reconstruction.
+No calibration import, camera access or new capture needed for this replay. Views
+1–3 still fail placement; ground-truth geometric accuracy is not known. User should
+inspect the recovered pair before further capture. Do not claim all five views or
+metric/full-object scanning solved. This supersedes deployment-pending text below.
+
+
 ## Lamp capture: recover a valid later component — 2026-10-25
 
 Resumed depth-tfjs-webgl d0a4900509b305d3c90edca3a13dd508c46d04ee;
