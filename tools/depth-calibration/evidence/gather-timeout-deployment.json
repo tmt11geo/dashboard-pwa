@@ -1,0 +1,11 @@
+{
+  "commit": "01107843915c49461a9032d0105734f41e10802b",
+  "pagesRun": 40226500300,
+  "conclusion": "success",
+  "verifiedBlobs": 14,
+  "nodeTests": 95,
+  "focusedBrowserChecks": 10,
+  "regressionBrowserChecks": 28,
+  "unauthenticatedHttp": 302,
+  "physicalPhoneVerified": false
+}

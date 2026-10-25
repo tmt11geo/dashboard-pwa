@@ -1,5 +1,26 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Progress-aware timeout fix deployed — 2026-10-25
+
+Live main: 01107843915c49461a9032d0105734f41e10802b, workflow gather-4. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/40226500300 completed SUCCESS
+for this exact SHA. All 14 changed blobs verified before leased main promotion.
+Checkpoint branch depth-tfjs-webgl; this receipt follows implementation. 95 Node,
+10 focused timeout/replay browser and 28 existing full-screen checks PASS.
+Evidence: tools/depth-calibration/evidence/gather-timeout-*. Private input retained
+locally only. Unauthenticated scan.html?v=5 returns HTTP 302; Access unchanged.
+
+Exact next action: open https://tmt11.com/dashboard-pwa/scan.html?v=5, Open capture
+session tactical-gather-1792956186322.json, Stitch, keep page visible, Build relief.
+No calibration import/camera/recapture needed. Expected local result: views 4/5
+placed, 2/12 total, 3,846 points. Processing no longer expires merely because total
+time exceeds three minutes; a three-minute absence of progress still terminates.
+If phone timeout repeats, Save capture session and supply the new file (contains
+processing status/last progress/elapsed time). Physical Android runtime validation
+remains open. Other ten views still fail registration; no general 3D accuracy claim.
+This supersedes deployment-pending text below.
+
+
 ## Twelve-view timeout investigation — 2026-10-25
 
 Resumed depth-tfjs-webgl 37d5a2121e0b8ed78d8464288527dd33b361a70e;
