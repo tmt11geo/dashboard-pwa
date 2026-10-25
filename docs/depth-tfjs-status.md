@@ -1,5 +1,26 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Full-screen relief deployed — 2026-10-25
+
+Live main: f37232a7c0fb65950aa4db90282e8f4073bd58cc. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/40224910371 completed SUCCESS
+for this exact SHA. All 11 changed remote blobs matched verified local bytes before
+leased main promotion. Checkpoint branch depth-tfjs-webgl; this receipt follows code.
+95 Node and 28 browser checks PASS, including native fullscreen, browser exit, return
+button, Escape, denied-native fallback, same canvas/session and original page scroll.
+Private layout screenshots not committed. Unauthenticated scan.html?v=4 returns
+HTTP 302; Cloudflare Access and service worker policy unchanged.
+Evidence: tools/depth-calibration/evidence/relief-fullscreen-*.json and node log.
+
+Exact next action: open https://tmt11.com/dashboard-pwa/scan.html?v=4 (or
+https://tmt11.com/dashboard-pwa/depth.html?v=16), display a 3D relief, tap Full screen
+in the relief controls, rotate/zoom, then Return to page. Expect the same session,
+rotation/zoom and page scroll, without navigation or recapture. Native fullscreen
+on the physical Android/PWA remains a manual check; full-window modal is available
+if native mode is refused. Stitching limitations from earlier checkpoints remain.
+This supersedes deployment-pending text below.
+
+
 ## Full-screen relief viewer — 2026-10-25
 
 Resumed depth-tfjs-webgl 51b26a7c02af35609774208b25171ebf8311ace6;
