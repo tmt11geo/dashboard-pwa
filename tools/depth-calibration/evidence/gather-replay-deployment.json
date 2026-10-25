@@ -1,0 +1,16 @@
+{
+  "commit": "6bf7c0f66fa690b6cd3f69a41b04db927a3a7e33",
+  "branch": "main",
+  "checkpointBranch": "depth-tfjs-webgl",
+  "workflow": "gather-2",
+  "pagesRun": 40223295249,
+  "conclusion": "success",
+  "verifiedBlobs": 24,
+  "nodeTests": 94,
+  "gatherBrowserChecks": 19,
+  "depthBrowserChecks": 22,
+  "privateSessionPlaced": 1,
+  "privateSessionFrames": 8,
+  "physicalStitching": "unresolved",
+  "liveUnauthenticated": "HTTP 302"
+}

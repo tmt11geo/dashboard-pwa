@@ -1,5 +1,34 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Actual-session matcher correction deployed — 2026-10-25
+
+Live main: 6bf7c0f66fa690b6cd3f69a41b04db927a3a7e33, Gather workflow gather-2.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/40223295249
+completed SUCCESS for this exact SHA. All 24 changed remote blobs matched local
+bytes before leased main promotion. Checkpoint branch depth-tfjs-webgl; this receipt
+follows implementation. 94 Node, 19 Gather browser and 22 live-Depth browser checks
+PASS. Numeric replay and source verification evidence are in
+ tools/depth-calibration/evidence/gather-replay-*.json and gather-phone-*.json.
+Private capture images/JSON were not uploaded to GitHub. Unauthenticated scan.html?v=2
+returned HTTP 302. Cloudflare Access and navigation policy are unchanged.
+
+IMPORTANT: this is a matching/diagnostic improvement, NOT successful reconstruction
+of the user's eight-frame capture. It still places only the anchor. Wider matching
+finds 67–123 neighbouring matches in the first six pairs; depth consensus remains
+insufficient, with several rotation-like pairs. Final pair has 12 matches. Ground
+truth motion is unknown. No acceptance thresholds were relaxed. Existing calibrated
+Gather startup/inference is confirmed working in the user's phone logs.
+
+Exact next action: user opens https://tmt11.com/dashboard-pwa/scan.html?v=2 and Open
+capture session with the same saved Gather JSON (no calibration/camera needed), then
+Stitch to inspect the improved explanations. For a controlled 3D test, load calibration,
+Clear session, gather 3–4 views while translating the phone sideways and keeping its
+pointing direction approximately fixed, on a stationary textured subject with overlap.
+Save that session before processing; it is needed to test physical stitched quality.
+Global refinement and rotation-only panoramic relief remain unimplemented. This
+supersedes deployment-pending text below. Stop here pending physical translation data.
+
+
 ## Actual phone capture replay and matching correction — 2026-10-25
 
 Resumed depth-tfjs-webgl a1ae7194153b72ae3fa0b1332da9822a03499311;
