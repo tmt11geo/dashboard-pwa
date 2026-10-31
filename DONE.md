@@ -1,5 +1,15 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Short-loop text removal deployed — 2026-10-31
+
+Approved removal deployed on main e1860f268f838d3c39f2730435e80fd6bb0cfb8b.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41207744869
+completed SUCCESS for this exact SHA. All three changed files verified before
+promotion. Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=11
+Try a short loop heading and four steps removed; other disclosures retained.
+Includes the already deployed lower-left XYZ indicator. Receipt checkpoint-only.
+Next: save capture before refreshing; check the compact page on phone.
+
 ## Remove short-loop instructions — 2026-10-31
 
 User requested removal and deployment. Removed only the Try a short loop heading
