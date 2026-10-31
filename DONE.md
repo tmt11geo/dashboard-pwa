@@ -1,5 +1,27 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Replay and navigation deployed — 2026-10-31
+
+User explicitly approved live publication. Main advanced with an expected-head
+lease to 42ae89705aca10149dfc3e8af6711173846ffbda. PR #3 is merged.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41202668208
+completed SUCCESS for this exact commit. Previous deployment blocker is resolved.
+
+Live entry: https://tmt11.com/dashboard-pwa/?v=20
+Motion Lab/replay: https://tmt11.com/dashboard-pwa/motion.html?v=3
+Primary order: Map → Motion Lab → Camera → Depth → Experimental.
+Dashboard is under Experimental tools:
+https://tmt11.com/dashboard-pwa/depth-experimental.html?v=2
+
+20 motion/replay tests and eight navigation checks passed, desktop/390px browser
+checks completed; all 12 changed navigation/checkpoint files verified remotely.
+No physical phone accuracy claim. Access/service-worker/sensor/model logic unchanged.
+Exact next action: save any open capture before refreshing. Open Motion Lab, Stop
+recording and Use current recording, or Load trajectory JSON; Play/scrub to inspect
+cube rotation and velocity. Open Experimental to find Dashboard. Provide diagnostics
+and optionally saved JSON for phone issues. Checkpoint branch depth-tfjs-webgl;
+main remains the exact verified deployment commit.
+
 ## Navigation reorganization and replay approved — 2026-10-31
 
 User requested Motion Lab immediately after Map, Dashboard under Experimental,
