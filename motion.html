@@ -8,7 +8,7 @@
 <header class="tactical-header"><strong>TACTICAL <span>MOTION LAB</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./?v=20">Map</a><a href="./motion.html?v=3" aria-current="page">Motion Lab</a><a href="./camera.html?v=9">Camera</a><a href="./depth.html?v=19">Depth</a><a href="./depth-experimental.html?v=2">Experimental</a></nav></header>
 <main>
 <p class="eyebrow">CAMERA + INERTIAL TRACKING · EXPERIMENTAL</p><h1>See how you move.</h1>
-<p>Track the phone’s position and rotation with WebXR. On supported Android Chrome devices, ARCore combines camera features and motion sensors. No Depth Anything model or calibration file is needed.</p>
+<p>Track the phone’s position and rotation with WebXR.</p>
 <p id="capability" role="status">Checking AR support…</p>
 <section id="overlay" aria-label="Motion tracking controls">
 <div class="panel">
@@ -42,13 +42,17 @@
 <div class="controls"><button id="replay-play" disabled>Play</button><button id="replay-rewind" disabled>Back to start</button><label>Playback <select id="replay-rate"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
 <p id="replay-view-status" class="hint">View zoom 1.00× · drag to orbit</p>
 <details class="replay-help"><summary>View controls</summary><p id="replay-view-help" class="hint">Drag to orbit · Pinch to zoom · Two-finger drag to pan. Mouse: wheel to zoom, Shift-drag or right-drag to pan. Keyboard: arrows orbit, Shift+arrows pan, +/− zoom, R resets. Scroll the page outside the view.</p></details>
+<details class="replay-help"><summary>Guide</summary>
 <p class="hint">The cube moves along the 3D trajectory and follows recorded viewer rotation: right (+X), up (+Y), view (−Z). The view initially fits the full recording. Orbit, zoom and pan while playing or paused; Reset view restores the overview. Bright green is the travelled path; dim green is the remaining path. Gaps stay disconnected. The corner axes show world directions. The amber arrow shows movement direction; its length grows with speed up to 2 m/s, with a minimum visible length for slow motion. The numeric speed is uncapped. The cube is a fixed-size orientation marker, not a scale model of the phone.</p>
 <p class="hint">Path length adds the recorded 3D movement between connected samples; straight-line distance is from the first retained sample. Gaps are excluded from path length. Tracking noise can inflate these estimates. Speed is an estimate from adjacent positions, not a separate sensor measurement. Pose noise and tracking jumps can produce spikes. Playback speed does not change the displayed physical speed. Gaps over 0.5 seconds or between tracking segments are left blank. The displayed path is simplified to about 2,000 segments for responsiveness; playback, speed, distance and exported files use all retained samples. JSON imports are limited to 20 MiB. Files are checked and processed locally.</p>
+</details>
 </section>
 <section class="notes"><h2>Try a short loop</h2><ol><li>Open this page in Android Chrome and tap Start AR tracking.</li><li>Allow AR access. Move gently until tracking begins.</li><li>Move sideways about one metre, then return to the starting point. Rotate the phone to compare rotation with translation.</li><li>Tap Stop, then Save trajectory to keep the pose data.</li></ol>
+<details class="replay-help"><summary>Explanation</summary>
 <p>Coordinates are relative to the first tracked position, with Y pointing up. Axes retain the runtime’s local orientation, not north. The trail keeps the latest 36,000 samples at the selected recording rate: about 60 minutes at 10 Hz, 30 minutes at 20 Hz, or 20 minutes at the default 30 Hz. Maximum saves every available pose frame (about 10 minutes at 60 Hz). Actual rates depend on the device; the recorded-rate indicator uses recent saved poses, not camera frames. After that, the oldest samples are discarded; save before closing or starting another recording. Reset origin clears it. Tracking gaps break the line; a reference-space reset clears it to avoid mixing coordinate systems.</p>
 <p>This is a local motion demo, not GPS, a room mesh, or survey-grade measurement. Drift and relocalization jumps are possible. A missing or emulated position is never recorded as real tracking. The app does not upload camera images or pose data; Save downloads positions and orientations only. Your browser and AR service handle camera access.</p>
 <p>Requires HTTPS, immersive AR and DOM overlay support. On Android, use an ARCore-supported device with Google Play Services for AR enabled. If installed-PWA or Brave support fails, open the same address in Chrome. Unsupported devices show an explanation, not a simulated trajectory.</p>
+</details>
 <details><summary>Diagnostics</summary><pre id="diagnostics"></pre></details>
 <p><a href="https://developers.google.com/ar/develop/webxr">ARCore / WebXR</a> · <a href="https://github.com/immersive-web/webxr-samples">WebXR reference samples</a></p></section>
 <noscript>Enable JavaScript to check motion tracking support.</noscript>

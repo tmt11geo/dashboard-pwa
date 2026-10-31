@@ -1,5 +1,19 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Collapsible Motion Lab help — 2026-10-31
+
+Removed the two requested introductory sentences. Wrapped both long replay
+paragraphs in a collapsed Guide disclosure and the three coordinate/privacy/
+requirements paragraphs in a collapsed Explanation disclosure. Reuses existing
+View controls styling and native details/summary interaction. The short-loop
+instructions remain visible. Retained current selector-aware recording durations
+instead of reintroducing the old fixed-10Hz wording from the quoted live text.
+HTML-only edit; source checks confirm both disclosures default closed and all
+existing element IDs remain intact. No runtime logic or new tests needed.
+Based on a6e67960b4d7dec3c83e1e1cb364540096852761 on depth-tfjs-webgl.
+Pending deployment together with the default-30Hz selector. Next: deploy after
+approval, verify Pages, then check Guide/Explanation expansion on phone.
+
 ## Selectable recording rate, default 30 Hz — 2026-10-31
 
 Based on checkpoint 2e0562a8abde356ad604657036f30048b50952ba; main inspected
