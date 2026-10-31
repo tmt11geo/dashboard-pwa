@@ -1,5 +1,24 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## 36,000-sample Motion Lab implemented — 2026-10-31
+
+User accepted 36k samples. Based on checkpoint 7a6420243f2b11e157636dcea4cb09a51387d73f;
+main inspected dbf820367ec9d2abfad17c0dede26b2e3a54ea0f. No AGENTS.md.
+Raised recording and replay to 36,000 (about one hour at 10Hz), import to 20 MiB.
+Shared limits, ring buffer with discarded-sample count, cached prefix distances,
+bounded gap-safe display decimation and batched path strokes. Full poses/speed/
+distances/export retained; visual path is simplified. No original JSON incompatibility.
+Removed large spread calls from runtime camera fitting/live bounds.
+
+39 Node checks PASS, including full 36k UI JSON import and exact end distance,
+ring rollover, old-file loading and gap handling. Real browser synthetic 36k load,
+scrub near end, playback/pause and zoom passed. No physical phone performance,
+thermal, accuracy or hour-long sensor reliability claim.
+Docs: docs/motion-long-recordings.md. Evidence: tools/motion-lab/evidence/long-tests.log.
+Build motion-lab-5; entry motion.html?v=6. Main remains previous deployed version
+until publication is verified. Next: commit verified changes, publish if approved,
+verify Pages and receipt, then phone performance check with larger recordings.
+
 ## Movable replay viewpoint deployed — 2026-10-31
 
 User explicitly requested implementation and deployment. Main advanced with an

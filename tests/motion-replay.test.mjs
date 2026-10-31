@@ -9,7 +9,7 @@ test('validates, normalizes time/quaternion and copies without altering source',
  source.samples[0].x=99;assert.equal(r.samples[0].x,0);
 });
 test('rejects wrong schema, empty/excessive samples, bad times, coordinates, rotations and segments',()=>{
- for(const bad of [{}, {...data([p(0)]),units:'feet'},data([]),data(Array.from({length:3001},(_,i)=>p(i))),data([p(1),p(1)]),data([p(0,NaN)]),data([p(0,Infinity)]),data([p(0,1e7)]),data([p(0,[1])]),data([p(0,0,[0,0,0,0])]),data([p(0,0,[0,0,0,9])]),data([p(0,0,[0,0,0,1],-1)]),data([p(0,0,undefined,2),p(100,0,undefined,1)])])assert.throws(()=>validateRecording(bad));
+ for(const bad of [{}, {...data([p(0)]),units:'feet'},data([]),data(Array.from({length:36001},(_,i)=>p(i))),data([p(1),p(1)]),data([p(0,NaN)]),data([p(0,Infinity)]),data([p(0,1e7)]),data([p(0,[1])]),data([p(0,0,[0,0,0,0])]),data([p(0,0,[0,0,0,9])]),data([p(0,0,[0,0,0,1],-1)]),data([p(0,0,undefined,2),p(100,0,undefined,1)])])assert.throws(()=>validateRecording(bad));
 });
 test('interpolates pose and computes physical metres/second from milliseconds',()=>{
  const r=validateRecording(data([p(0),p(100,0.1,[0,1,0,0])]));const s=poseAt(r,50);

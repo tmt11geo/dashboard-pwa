@@ -1,10 +1,12 @@
-import {OrbitView,bindOrbit} from './motion-replay-orbit.mjs?v=1';
-import {trajectoryLines,xyz,pathDistances} from './motion-replay-view.mjs?v=1';
-import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=1';
+import {indexPath,indexedDistances,indexedLines} from './motion-path.mjs?v=1';
+import {OrbitView,bindOrbit} from './motion-replay-orbit.mjs?v=2';
+import {xyz} from './motion-replay-view.mjs?v=2';
+import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=2';
 export function createMotionReplay({getSamples,isBusy}) {
   const $=id=>document.getElementById(id), canvas=$('replay-scene'),ctx=canvas.getContext('2d');
   let recording=null,time=0,playing=false,raf=0,last=null,loadToken=0;
   let view=new OrbitView();
+  let pathIndex=null;
   const colours=['#ff9b8c','#a5ffbf','#84c9ff'];
 
   function line(a,b,colour,width=2){ctx.strokeStyle=colour;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();}
@@ -28,10 +30,15 @@ export function createMotionReplay({getSamples,isBusy}) {
     [[1,0,0],[0,1,0],[0,0,1]].forEach((v,i)=>{const d=view.vector(v),end=[legend[0]+d[0]*25,legend[1]+d[1]*25];arrow(legend,end,colours[i],1);label(['+X','+Y','+Z'][i],[end[0]+3,end[1]],colours[i]);});
     if(!recording){label('Load a recording or use your current capture.',[125,365]);return;}
     const state=poseAt(recording,time),p=state.pose;
-    const distances=pathDistances(recording.samples,time,p);
+    const distances=indexedDistances(pathIndex,time,p);
     $('replay-travelled').textContent=`${distances.travelled.toFixed(2)} / ${distances.total.toFixed(2)} m`;
     $('replay-displacement').textContent=distances.displacement===null?'Unavailable':`${distances.displacement.toFixed(2)} m`;
-    for(const edge of trajectoryLines(recording.samples,time,p))line(view.project(xyz(edge.a)),view.project(xyz(edge.b)),edge.played?'#a5ffbf':'#42654e',edge.played?3:2);
+    const edges=indexedLines(pathIndex,time,p);
+    for(const played of [false,true]){
+      ctx.strokeStyle=played?'#a5ffbf':'#42654e';ctx.lineWidth=played?3:2;ctx.beginPath();
+      for(const edge of edges)if(edge.played===played){ctx.moveTo(...view.project(xyz(edge.a)));ctx.lineTo(...view.project(xyz(edge.b)));}
+      ctx.stroke();
+    }
     const first=view.project(xyz(recording.samples[0])),end=view.project(xyz(recording.samples.at(-1)));
     ctx.fillStyle='#a5ffbf';ctx.beginPath();ctx.arc(...first,4,0,Math.PI*2);ctx.fill();label('Start',[first[0]+7,first[1]+17]);
     ctx.strokeStyle='#a5ffbf';ctx.lineWidth=2;ctx.beginPath();ctx.arc(...end,5,0,Math.PI*2);ctx.stroke();label('End',[end[0]+7,end[1]-9]);
@@ -72,9 +79,9 @@ export function createMotionReplay({getSamples,isBusy}) {
   }
   function load(data,name){
     // Validate before replacing a usable previous replay.
-    const next=validateRecording(data);pause();orbitControls.cancel();recording=next;view=new OrbitView(next.samples);time=0;
+    const next=validateRecording(data);pause();orbitControls.cancel();recording=next;pathIndex=indexPath(next.samples);view=new OrbitView(next.samples);time=0;
     $('replay-time').max=String(recording.duration);
-    $('replay-status').textContent=`${name} · ${next.samples.length} samples · ${(next.duration/1000).toFixed(1)} s`;
+    $('replay-status').textContent=`${name} · ${next.samples.length.toLocaleString()} samples · ${(next.duration/1000).toFixed(1)} s`;
     render();update();
   }
   $('replay-current').addEventListener('click',()=>{
@@ -87,7 +94,7 @@ export function createMotionReplay({getSamples,isBusy}) {
     const file=$('replay-file').files[0],token=++loadToken;$('replay-file').value='';
     if(!file || isBusy())return;
     try{
-      if(file.size>MAX_BYTES)throw Error('File is too large. Maximum 5 MB.');
+      if(file.size>MAX_BYTES)throw Error('File is too large. Maximum 20 MiB.');
       const text=await file.text();
       if(token!==loadToken || isBusy())return;
       load(JSON.parse(text),file.name);

@@ -4,11 +4,12 @@ const VERTICAL=Math.hypot(80/65,.4*Math.SQRT2);
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export class OrbitView {
   constructor(samples=[]){
-    const points=samples.length?samples.map(p=>[p.x,p.y,p.z]):[[0,0,0]];
-    this.pivot=[0,1,2].map(i=>(Math.min(...points.map(p=>p[i]))+Math.max(...points.map(p=>p[i])))/2);
-    this.reset();
-    const projected=points.map(p=>this.vector(p.map((v,i)=>v-this.pivot[i])));
-    this.scale=Math.min(130,240/Math.max(.001,...projected.map(p=>Math.abs(p[0]))),100/Math.max(.001,...projected.map(p=>Math.abs(p[1]))));
+    const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];
+    for(const p of samples)for(const [i,k] of ['x','y','z'].entries()){min[i]=Math.min(min[i],p[k]);max[i]=Math.max(max[i],p[k]);}
+    this.pivot=samples.length?min.map((n,i)=>(n+max[i])/2):[0,0,0];
+    this.reset();let extentX=.001,extentY=.001;
+    for(const p of samples){const v=this.vector([p.x-this.pivot[0],p.y-this.pivot[1],p.z-this.pivot[2]]);extentX=Math.max(extentX,Math.abs(v[0]));extentY=Math.max(extentY,Math.abs(v[1]));}
+    this.scale=Math.min(130,240/extentX,100/extentY);
   }
   reset(){this.yaw=DEFAULT_YAW;this.pitch=DEFAULT_PITCH;this.zoom=1;this.pan=[0,0];}
   vector([x,y,z]){

@@ -1,8 +1,9 @@
-export const MAX_BYTES = 5 * 1024 * 1024;
+import {MAX_BYTES,MAX_SAMPLES,connected} from './motion-path.mjs?v=1';
+export {MAX_BYTES,connected};
 const finite = n => typeof n === 'number' && Number.isFinite(n);
 export function validateRecording(data) {
   if (data?.format !== 'tactical-motion-1' || data.units !== 'metres' || data.referenceSpace !== 'local') throw Error('Choose a Tactical Motion Lab trajectory JSON (tactical-motion-1, metres, local).');
-  if (!Array.isArray(data.samples) || !data.samples.length || data.samples.length > 3000) throw Error('Recording must contain 1–3,000 samples.');
+  if (!Array.isArray(data.samples) || !data.samples.length || data.samples.length > MAX_SAMPLES) throw Error('Recording must contain 1–36,000 samples.');
   let previous = -Infinity, segment = -1;
   const samples = data.samples.map((p,i) => {
     if (!p || ![p.t,p.x,p.y,p.z].every(finite) || p.t<0 || p.t<=previous || Math.max(Math.abs(p.x),Math.abs(p.y),Math.abs(p.z))>1e6 || !Number.isSafeInteger(p.segment) || p.segment<segment || p.segment<0 || !Array.isArray(p.q) || p.q.length!==4 || !p.q.every(finite)) throw Error(`Invalid position, time, segment or rotation at sample ${i+1}.`);
@@ -27,7 +28,6 @@ export function rotate(q,[x,y,z]) {
   const tx=2*(qy*z-qz*y),ty=2*(qz*x-qx*z),tz=2*(qx*y-qy*x);
   return [x+qw*tx+qy*tz-qz*ty,y+qw*ty+qz*tx-qx*tz,z+qw*tz+qx*ty-qy*tx];
 }
-export function connected(a,b){return !!a && !!b && a.segment===b.segment && b.t>a.t && b.t-a.t<=500;}
 export function poseAt(recording,time) {
   const s=recording.samples,t=Math.max(0,Math.min(time,recording.duration));
   let low=0,high=s.length;

@@ -11,9 +11,10 @@ async function setup(){
  const frames=new Map(),document=new Events();document.hidden=false;document.getElementById=id=>{if(!nodes.has(id)){const n=new Events();n.value=id==='replay-rate'?'1':'0';n.getContext=()=>canvas;n.click=()=>{};nodes.set(id,n);}return nodes.get(id);};
  const context=vm.createContext({document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
  const core=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});
+ const pathModule=new vm.SourceTextModule(await readFile(new URL('../motion-path.mjs',import.meta.url),'utf8'),{context});await core.link(()=>pathModule);
  const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});const view=new vm.SourceTextModule(await readFile(new URL('../motion-replay-view.mjs',import.meta.url),'utf8'),{context});
  await view.link(()=>core);const orbit=new vm.SourceTextModule(await readFile(new URL('../motion-replay-orbit.mjs',import.meta.url),'utf8'),{context});
- await ui.link(spec=>spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:core);await ui.evaluate();
+ await ui.link(spec=>spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:spec.includes('motion-path')?pathModule:core);await ui.evaluate();
  const api=ui.namespace.createMotionReplay({getSamples:()=>samples,isBusy:()=>busy});
  return{nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
  load:async(text,size=100)=>{nodes.get('replay-file').files=[{name:'capture.json',size,text:async()=>text}];await nodes.get('replay-file').emit('change');}};
@@ -30,7 +31,7 @@ test('current recording, play/pause, scrub, speed, rewind and end',async()=>{
 test('JSON loading rejects malformed/oversize files without replacing valid replay',async()=>{
  const h=await setup();await h.load(JSON.stringify(fileData([sample(2000),sample(2100,.3)])));assert.equal(h.nodes.get('replay-speed-value').textContent,'3.00 m/s');assert.match(h.nodes.get('replay-vector').textContent,/capped/);
  await h.load('bad JSON');assert.match(h.nodes.get('replay-status').textContent,/Could not load/);assert.equal(h.nodes.get('replay-play').disabled,false);
- await h.load('{}',6*1024*1024);assert.match(h.nodes.get('replay-status').textContent,/too large/);
+ await h.load('{}',21*1024*1024);assert.match(h.nodes.get('replay-status').textContent,/too large/);
 });
 test('camera activity and hidden page stop playback; replay is independent of live samples',async()=>{
  const h=await setup();await h.click('replay-current');h.samples([]);h.api.update();assert.equal(h.nodes.get('replay-current').disabled,true);
@@ -48,4 +49,13 @@ test('camera zoom/reset during playback keeps time, physical speed and distances
  await h.click('replay-view-in');assert.match(h.nodes.get('replay-view-status').textContent,/1.20/);assert.equal(h.nodes.get('replay-play').textContent,'Pause');assert.equal(h.nodes.get('replay-time').value,'50');
  assert.equal(h.nodes.get('replay-speed-value').textContent,speed);assert.equal(h.nodes.get('replay-travelled').textContent,distance);
  await h.click('replay-view-reset');assert.match(h.nodes.get('replay-view-status').textContent,/1.00/);h.tick(100);assert.equal(h.nodes.get('replay-time').value,'100');
+});
+
+test('imports full 36k JSON and preserves final timestamp and exact travelled distance',async()=>{
+ const h=await setup(),samples=Array.from({length:36000},(_,i)=>sample(i*100,i*.01));
+ await h.load(JSON.stringify(fileData(samples)),8*1024*1024);
+ assert.equal(h.nodes.get('replay-time').max,'3599900');
+ h.nodes.get('replay-time').value='3599900';await h.nodes.get('replay-time').emit('input');
+ assert.equal(h.nodes.get('replay-travelled').textContent,'359.99 / 359.99 m');
+ assert.equal(h.nodes.get('replay-position').textContent,'X 359.99 · Y 0.00 · Z 0.00 m');
 });

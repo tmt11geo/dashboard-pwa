@@ -22,9 +22,11 @@ async function setup({supported=true,request,glOK=true}={}){
   let saved;
   const context=vm.createContext({document,window:new Events(),navigator:{userAgent:'controlled-test',xr:{isSessionSupported:async()=>supported,requestSession:request|| (async()=>fakeSession())}},isSecureContext:true,localStorage:{getItem:()=>null},Date,Blob,URL:{createObjectURL:b=>{saved=b;return 'blob:test';},revokeObjectURL(){}},setTimeout:()=>0,XRWebGLLayer:class{framebuffer={};}});
   const core=new vm.SourceTextModule(await readFile(new URL('../motion-core.mjs',import.meta.url),'utf8'),{context});
+  const pathModule=new vm.SourceTextModule(await readFile(new URL('../motion-path.mjs',import.meta.url),'utf8'),{context});
+  await core.link(()=>pathModule);
   const controller=new vm.SourceTextModule(await readFile(new URL('../motion.js',import.meta.url),'utf8'),{context});
   const replay=new vm.SyntheticModule(['createMotionReplay'],function(){this.setExport('createMotionReplay',()=>({update(){},stop(){}}));},{context});
-  await controller.link(spec=>spec.includes('motion-replay.js')?replay:core);await controller.evaluate();
+  await controller.link(spec=>spec.includes('motion-replay.js')?replay:spec.includes('motion-path')?pathModule:core);await controller.evaluate();
   return {nodes,click:id=>nodes.get(id).emit('click'),saved:()=>saved,context};
 }
 const pose=x=>({transform:{position:{x,y:0,z:0},orientation:{x:0,y:0,z:0,w:1}}});

@@ -1,7 +1,12 @@
+import {MAX_SAMPLES} from './motion-path.mjs?v=1';
 // WebXR local-space poses, in metres. No accelerometer integration or fake poses.
 export class MotionTrail {
-  constructor(limit = 3000) { this.limit = limit; this.reset(); }
-  reset() { this.origin = null; this.latest = null; this.samples = []; this.segment = 0; this.lastTime = -Infinity; this.lost = true; }
+  constructor(limit = MAX_SAMPLES) { this.limit = limit; this.reset(); }
+  reset() { this.origin = null; this.latest = null; this.buffer = new Array(this.limit); this.count = 0; this.offset = 0; this.snapshot = null; this.dropped = 0; this.segment = 0; this.lastTime = -Infinity; this.lost = true; }
+  get samples() {
+    if(!this.snapshot)this.snapshot=Array.from({length:this.count},(_,i)=>this.buffer[(this.offset+i)%this.limit]);
+    return this.snapshot;
+  }
   gap() { if (!this.lost) this.segment++; this.lost = true; this.latest = null; }
   add(time, pose) {
     const p = pose?.transform?.position, q = pose?.transform?.orientation;
@@ -13,8 +18,9 @@ export class MotionTrail {
       q:[q.x,q.y,q.z,q.w], segment:this.segment};
     this.lost = false;
     if (time-this.lastTime >= 100) {
-      this.samples.push(this.latest); this.lastTime=time;
-      if (this.samples.length > this.limit) this.samples.shift();
+      this.buffer[(this.offset+this.count)%this.limit]=this.latest;
+      if(this.count<this.limit)this.count++;else{this.offset=(this.offset+1)%this.limit;this.dropped++;}
+      this.snapshot=null;this.lastTime=time;
     }
     return this.latest;
   }

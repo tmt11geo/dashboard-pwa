@@ -1,5 +1,6 @@
-import { createMotionReplay } from './motion-replay.js?v=3';
-import { MotionTrail } from './motion-core.mjs?v=1';
+import {displayEdges} from './motion-path.mjs?v=1';
+import { createMotionReplay } from './motion-replay.js?v=4';
+import { MotionTrail } from './motion-core.mjs?v=2';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();
 let session = null, space = null, gl = null, pending = false, generation = 0, supported = false;
@@ -23,7 +24,7 @@ function controls() {
 function draw() {
   const ctx = $('trail').getContext('2d');
   const points = trail.samples;
-  const extent = Math.max(1, ...points.map(p => Math.max(Math.abs(p.x),Math.abs(p.z))));
+  let extent=1;for(const p of points)extent=Math.max(extent,Math.abs(p.x),Math.abs(p.z));
   const scale = 125 / extent;
   ctx.clearRect(0,0,600,300);
   ctx.strokeStyle = '#41604c'; ctx.lineWidth = 1;
@@ -31,16 +32,13 @@ function draw() {
   ctx.fillStyle = '#c7d9cb'; ctx.font='14px system-ui';
   ctx.fillText('−Z',308,18); ctx.fillText('+X',570,143); ctx.fillText('Origin',308,170);
   ctx.strokeStyle = '#a5ffbf'; ctx.lineWidth=3; ctx.beginPath();
-  let previous = null;
-  for (const p of points) {
-    const x=300+p.x*scale, y=150+p.z*scale;
-    if (!previous || previous.segment !== p.segment) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    previous=p;
+  for (const {a,b} of displayEdges(points)) {
+    ctx.moveTo(300+a.x*scale,150+a.z*scale);ctx.lineTo(300+b.x*scale,150+b.z*scale);
   }
   ctx.stroke();
   const p=trail.latest;
   if(p) { ctx.beginPath(); ctx.arc(300+p.x*scale,150+p.z*scale,5,0,Math.PI*2); ctx.fillStyle='#ffce75'; ctx.fill(); }
-  $('scale').textContent = `Top-down X / Z · centre to top guide ≈ ${extent.toFixed(1)} m · ${points.length}/3000 samples`;
+  $('scale').textContent = `Top-down X / Z · centre to top guide ≈ ${extent.toFixed(1)} m · ${points.length.toLocaleString()} / ${trail.limit.toLocaleString()} samples${trail.dropped ? ` · ${trail.dropped.toLocaleString()} oldest samples discarded` : ''}`;
   $('position').textContent = p ? `X ${p.x.toFixed(2)} · Y ${p.y.toFixed(2)} · Z ${p.z.toFixed(2)}` : 'No current tracked position';
   $('distance').textContent = p ? `${Math.hypot(p.x,p.y,p.z).toFixed(2)} m` : '—';
   $('orientation').textContent = p ? `Orientation quaternion (x, y, z, w): ${p.q.map(v=>v.toFixed(3)).join(', ')}` : 'Orientation quaternion: —';
@@ -130,7 +128,7 @@ $('save').addEventListener('click',()=>{
   if(!trail.samples.length) return;
   const data={format:'tactical-motion-1',created:new Date().toISOString(),units:'metres',referenceSpace:'local',
     axes:'right-handed; +Y up; X/Z runtime-local, not compass; position relative to origin; quaternion in runtime-local axes',
-    timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,
+    timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,droppedSamples:trail.dropped,
     note:'Latest samples only. Segment changes indicate tracking gaps. Drift/jumps possible; no accuracy guarantee.',samples:trail.samples};
   const url=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=`tactical-motion-${Date.now()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
@@ -139,7 +137,7 @@ $('overlay').addEventListener('beforexrselect',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>void stop());
 // XR runtimes manage visibility separately; don't terminate AR on document.hidden.
 replay = createMotionReplay({getSamples:()=>trail.samples,isBusy:()=>pending || !!session});
-diagnostic(`motion-lab-4; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
+diagnostic(`motion-lab-5; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
 draw();
 try {
   supported=!!(isSecureContext && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));

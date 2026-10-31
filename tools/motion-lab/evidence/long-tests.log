@@ -1,0 +1,51 @@
+(node:13) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ unsupported device disables start and never requests a session (32.931711ms)
+✔ denied permission allows retry with actionable error (7.277248ms)
+✔ track, gap, reset, export, end and restart with fresh origin (17.628662ms)
+✔ stop while permission pending closes late session without starting frames (4.7657ms)
+✔ failed graphics initialization ends acquired session and restores controls (7.05222ms)
+✔ emulated poses are not saved; visibility interruption breaks the trail (3.916693ms)
+✔ 36k recording round-trips all samples within raised file limit; excess rejected (87.078591ms)
+✔ ring buffer retains every sample through capacity, then evicts only oldest in order (28.58365ms)
+✔ bounded display path preserves all original data; exact playback uses full samples (41.669302ms)
+✔ display decimation never bridges a segment boundary or long time gap (0.636628ms)
+✔ display-only simplification never changes curved path length (0.320392ms)
+✔ 36k camera fitting is finite without spread-argument limits (22.626366ms)
+✔ default orbit basis matches previous overview; depth basis is perpendicular (1.590442ms)
+✔ orbit changes projection, pan/zoom are bounded, reset restores overview exactly (1.360146ms)
+✔ zoom preserves anchor point and camera changes cannot mutate distance samples (0.659222ms)
+✔ pointer orbit, pinch zoom, two-finger pan, pointer cancellation and disabled state (1.387147ms)
+✔ mouse pan, wheel zoom, keyboard and reset controls (0.571971ms)
+(node:21) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ current recording, play/pause, scrub, speed, rewind and end (91.290012ms)
+✔ JSON loading rejects malformed/oversize files without replacing valid replay (9.655818ms)
+✔ camera activity and hidden page stop playback; replay is independent of live samples (5.992585ms)
+✔ gap shows unavailable pose and velocity; a single frame is inspectable without play (6.312838ms)
+✔ camera zoom/reset during playback keeps time, physical speed and distances intact (10.302421ms)
+✔ imports full 36k JSON and preserves final timestamp and exact travelled distance (304.160154ms)
+✔ fits complete three-dimensional recording with room for cube and arrows (2.87185ms)
+✔ stationary and one-point captures have finite projection (0.294663ms)
+✔ played and remaining path meet exactly at the interpolated cube position (0.390448ms)
+✔ path never connects separate segments or long missing intervals (0.195144ms)
+✔ travelled distance follows bends and includes interpolated partial interval (0.294833ms)
+✔ distance excludes tracking jumps and is unavailable for displacement during gap (0.228734ms)
+✔ validates, normalizes time/quaternion and copies without altering source (1.591464ms)
+✔ rejects wrong schema, empty/excessive samples, bad times, coordinates, rotations and segments (8.3118ms)
+✔ interpolates pose and computes physical metres/second from milliseconds (0.539182ms)
+✔ opposite quaternion signs interpolate as the same rotation (0.249415ms)
+✔ never interpolates velocity or pose across tracking segments or long gaps (0.267923ms)
+✔ stationary data has zero speed; one sample has unavailable velocity (0.179129ms)
+✔ metre translation relative to first pose; rotation does not imply translation (2.065036ms)
+✔ missing, emulated and nonfinite poses are rejected and break the line (0.579472ms)
+✔ sampling is bounded at 10Hz and retains latest window (0.344008ms)
+✔ reference reset clears prior coordinate frame and re-establishes zero (0.542075ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 563.733231
