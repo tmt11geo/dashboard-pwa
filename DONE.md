@@ -1,5 +1,16 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Playback XYZ indicator moved — 2026-10-31
+
+Moved the world-axis orientation indicator from canvas anchor (58,52) to
+(58,348), the lower-left corner of the 700x400 playback drawing. Axis directions
+still follow the current orbit view. Retains margins for arrow tips and labels;
+readout HUD stays above and view buttons remain at lower-right.
+Replay module cache query v5; page controller query v7. Source checked; small
+layout-only anchor change, no new tests. Not deployed. Based on checkpoint
+952123d089f7b0dd85fac8ec21b17fd8a620b9ff. Next: deploy after approval,
+verify Pages and check lower-left indicator on phone.
+
 ## Recording-rate selector and collapsible help deployed — 2026-10-31
 
 User explicitly approved deployment. Main advanced by expected-head lease to

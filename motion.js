@@ -1,5 +1,5 @@
 import {displayEdges} from './motion-path.mjs?v=1';
-import { createMotionReplay } from './motion-replay.js?v=4';
+import { createMotionReplay } from './motion-replay.js?v=5';
 import { MotionTrail } from './motion-core.mjs?v=3';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();

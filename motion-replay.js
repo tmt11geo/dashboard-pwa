@@ -26,7 +26,7 @@ export function createMotionReplay({getSamples,isBusy}) {
   function render(){
     ctx.clearRect(0,0,700,400);
     $('replay-view-status').textContent=`View zoom ${view.zoom.toFixed(2)}× · drag to orbit`;
-    const legend=[58,52];
+    const legend=[58,348];
     [[1,0,0],[0,1,0],[0,0,1]].forEach((v,i)=>{const d=view.vector(v),end=[legend[0]+d[0]*25,legend[1]+d[1]*25];arrow(legend,end,colours[i],1);label(['+X','+Y','+Z'][i],[end[0]+3,end[1]],colours[i]);});
     if(!recording){label('Load a recording or use your current capture.',[125,365]);return;}
     const state=poseAt(recording,time),p=state.pose;
