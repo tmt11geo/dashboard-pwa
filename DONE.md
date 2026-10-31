@@ -1,5 +1,31 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Motion-based gap translation — 2026-10-31
+
+Based on checkpoint f0077394727b1922e2868159f275dd86f51aa3f9.
+Main remains 2480004a22fed193790a60332de7b335bad31b18. Not deployed.
+
+Gap correction now offers Continue previous motion independently of heading.
+It translates the whole later trajectory to the predicted position using
+pre-gap average velocity and the gap duration. Velocity uses contiguous
+history spanning roughly 200 ms (at least 100 ms), gaps must be <=1000 ms,
+and speed must be <=10 m/s. A sample interval may extend the averaging window.
+No crossing earlier gaps; no prediction from the apparent jump displacement.
+Multiple corrections compose in the corrected pre-gap frame.
+Undo selected gap removes both transforms; original/corrected comparison and
+loading reset work for translation alone or combined with heading.
+
+Missing intervals remain blank and excluded from distance/speed totals. This is
+a constant-velocity assumption, not recovered measurement or loop closure.
+Capture and Save remain original; preview corrections are not exported.
+Build motion-lab-9, controller v11, replay v9, heading v2.
+60 tests pass: tools/motion-lab/evidence/gap-motion-tests.log.
+New tests cover translation, rotation composition, multiple gaps, insufficient
+history/long-gap rejection, UI apply/compare/undo/reset and camera lock.
+No new physical-device or browser rendering verification this checkpoint.
+User-specific corrected JSON delivered separately, never stored in the repo.
+Next: deploy when requested, then validate the controls on Android.
+
 ## Optional replay heading correction — 2026-10-31
 
 Based on checkpoint c0af14f60770b74e77124e5d8d2bd13a550857c5.

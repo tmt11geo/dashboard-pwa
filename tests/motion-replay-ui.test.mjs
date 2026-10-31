@@ -86,3 +86,16 @@ test('heading controls disable while camera is active and when heading is vertic
  h.busy(false);assert.equal(h.nodes.get('replay-align').disabled,false);
  await h.load(JSON.stringify(fileData([sample(0),{...sample(100,.1),segment:1,q:[Math.SQRT1_2,0,0,Math.SQRT1_2]}])));assert.equal(h.nodes.get('replay-align').disabled,true);assert.match(h.nodes.get('replay-gap').options[0].textContent,/unavailable/);
 });
+
+test('motion correction can stand alone, toggle, combine with heading, undo and reset',async()=>{
+ const h=await setup();const raw=[sample(0),sample(100,.1),sample(200,.2),{...sample(500,2),segment:1},{...sample(600,2.1),segment:1}];
+ h.samples(raw);await h.click('replay-current');h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');
+ h.busy(true);assert.equal(h.nodes.get('replay-motion').disabled,true);await h.click('replay-motion');h.busy(false);
+ await h.click('replay-motion');assert.match(h.nodes.get('replay-position').textContent,/X 0.60/);assert.match(h.nodes.get('replay-alignment-status').textContent,/1 motion/);
+ assert.equal(h.nodes.get('replay-motion').disabled,true);assert.equal(h.nodes.get('replay-travelled').textContent,'0.30 / 0.30 m');
+ await h.click('replay-align-toggle');assert.match(h.nodes.get('replay-position').textContent,/X 2.10/);
+ await h.click('replay-align');assert.match(h.nodes.get('replay-position').textContent,/X 0.60/);
+ await h.click('replay-align-undo');assert.match(h.nodes.get('replay-position').textContent,/X 2.10/);assert.equal(h.nodes.get('replay-align-toggle').disabled,true);
+ await h.click('replay-motion');await h.click('replay-current');assert.match(h.nodes.get('replay-alignment-status').textContent,/0 motion/);
+ await h.load(JSON.stringify(fileData([sample(0),{...sample(100,1),segment:1}])));assert.equal(h.nodes.get('replay-motion').disabled,true);
+});

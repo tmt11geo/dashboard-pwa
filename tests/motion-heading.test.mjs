@@ -40,3 +40,21 @@ test('suspected position jumps are not offered as heading gaps; endpoint is not 
  const raw=samples();raw[2].breakReason='position-jump';assert.equal(headingGaps(raw).length,0);assert.deepEqual(alignHeadings(raw,new Set([2])),raw);
  const out=alignHeadings(samples(),new Set([2]));assert.ok(indexedDistances(indexPath(out),600,out.at(-1)).displacement>.1);
 });
+
+test('motion prediction uses contiguous average velocity and retains the missing interval',()=>{
+ const raw=[p(0,0,0),p(100,0,-.1),p(200,0,-.2),p(500,2,1,Math.PI/2,1),p(600,1.9,1,Math.PI/2,1)];
+ const original=JSON.stringify(raw),out=alignHeadings(raw,new Set([3]),new Set([3]));
+ close(out[3].x,0);close(out[3].z,-.5);close(out[4].z,-.6);
+ close(indexPath(out).total,indexPath(raw).total);assert.equal(connected(out[2],out[3]),false);
+ assert.equal(JSON.stringify(raw),original);assert.deepEqual(out.slice(0,3),raw.slice(0,3));
+});
+test('motion cannot extrapolate long gaps or insufficient contiguous history',()=>{
+ const raw=[p(0,0,0),p(50,0,-.05),p(350,2,1,0,1)];
+ assert.deepEqual(alignHeadings(raw,new Set(),new Set([2])),raw);
+ raw[1].t=200;raw[2].t=1300;assert.deepEqual(alignHeadings(raw,new Set(),new Set([2])),raw);
+});
+test('multiple motion corrections use the already rotated pre-gap velocity frame',()=>{
+ const raw=[p(0,0,0),p(100,0,-.1),p(200,0,-.2),p(500,2,1,Math.PI/2,1),p(600,1.9,1,Math.PI/2,1),p(700,1.8,1,Math.PI/2,1),p(1000,5,6,Math.PI,2),p(1100,5,6.1,Math.PI,2)];
+ const out=alignHeadings(raw,new Set([3,6]),new Set([3,6]));
+ close(out[6].x,0);close(out[6].z,-1);close(out[7].z,-1.1);close(indexPath(out).total,indexPath(raw).total);
+});
