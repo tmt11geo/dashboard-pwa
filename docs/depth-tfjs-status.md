@@ -1,5 +1,21 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Tracking-quality checks and translucent cube deployed — 2026-10-31
+
+User approved deployment. Main advanced with expected-head lease to
+2480004a22fed193790a60332de7b335bad31b18. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/41209294936
+completed SUCCESS for the exact SHA; build, deploy and report jobs succeeded.
+Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=12
+Build motion-lab-7, controller v9/replay v7. Includes live jump/gap warnings,
+legacy JSON checks, segmented replay with amber jump markers, and translucent
+cube faces. Original coordinates remain; no drift correction or anchor tracking.
+49 tests passed for quality work, browser synthetic warning/break check passed;
+cube alpha source checked. Physical phone acceptance remains pending.
+Files verified remotely before promotion. This supersedes pending-deployment
+notes above; receipt is checkpoint-only. Next: save current capture, refresh via
+direct link, load previous recording and inspect warnings, markers and cube.
+
 ## Translucent replay cube — 2026-10-31
 
 Set each cube face fill to 40% opacity (hex alpha 66). Overlapping front/back
