@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-31",
+  "primaryOrder": [
+    "Map",
+    "Motion Lab",
+    "Camera",
+    "Depth",
+    "Experimental"
+  ],
+  "pagesChecked": 8,
+  "dashboardLocation": "Experimental tools",
+  "motionTests": {
+    "passed": 20,
+    "failed": 0
+  },
+  "browserLayout": "390px iframe inspected; wraps correctly",
+  "physicalPhoneValidated": false
+}

@@ -5,10 +5,10 @@
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
 <link rel="stylesheet" href="./camera.css?v=4"><link rel="stylesheet" href="./depth.css?v=6">
 <script type="module" src="./depth-experimental.js?v=1"></script><script defer src="./pwa-register.js?v=35"></script>
-<link rel="stylesheet" href="./scan-session.css?v=1"><link rel="stylesheet" href="./depth-fullscreen.css?v=1"></head><body data-workflow="gather">
+<link rel="stylesheet" href="./scan-session.css?v=1"><link rel="stylesheet" href="./depth-fullscreen.css?v=1"><link rel="stylesheet" href="./navigation.css?v=1"></head><body data-workflow="gather">
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
-<header><strong>TACTICAL <span>EXPERIMENTAL GATHER</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html?v=18">Depth</a><a href="./depth-experimental.html?v=1">Experimental</a><a href="./scan.html?v=3" aria-current="page">Gather</a></nav></header>
-<main>
+<header class="tactical-header"><strong>TACTICAL <span>EXPERIMENTAL GATHER</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./?v=20">Map</a><a href="./motion.html?v=3">Motion Lab</a><a href="./camera.html?v=9">Camera</a><a href="./depth.html?v=19">Depth</a><a href="./depth-experimental.html?v=2">Experimental</a></nav></header>
+<main><p class="help"><a href="./depth-experimental.html?v=2">← Experimental tools</a> · Gather</p>
 <div class="heading"><div><p class="eyebrow">CAPTURE FIRST · PROCESS AFTERWARDS</p><h1>Experimental Gather &amp; Stitch.</h1></div><span class="badge">V2 SMALL</span></div>
 
 <section id="scan-workspace" class="panel scan-panel" aria-label="Guided persistent relief">

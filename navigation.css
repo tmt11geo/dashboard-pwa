@@ -1,0 +1,7 @@
+/* Shared primary order; experimental tools live on their own page. */
+.tactical-header{flex-wrap:wrap}
+.tactical-nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;min-width:0}
+.tactical-nav a{display:inline-flex;align-items:center;min-height:44px;padding:6px 0;color:var(--accent,#a8d8b5);text-decoration:none;white-space:nowrap}
+.tactical-nav a[aria-current="page"]{border-bottom:2px solid currentColor}
+.tactical-nav a:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+@media(max-width:650px){.tactical-header>.tactical-nav{flex-basis:100%}.tactical-nav{gap:4px 14px}}

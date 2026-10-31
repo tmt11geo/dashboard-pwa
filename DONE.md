@@ -1,5 +1,24 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Navigation reorganization and replay approved — 2026-10-31
+
+User requested Motion Lab immediately after Map, Dashboard under Experimental,
+and explicitly approved the combined update for the live app. This resolves the
+replay deployment approval blocker below. Starting checkpoint cec4216d7685b8135b35125a726157a01c12c098;
+main verified e956b57b10f31093ca5e868d6422c02f307377dc. No AGENTS.md.
+
+Primary navigation on eight app pages: Map, Motion Lab, Camera, Depth, Experimental.
+Experimental page now contains Dashboard, Gather and Calibration links. Dashboard
+remains functional at its original URL. Shared scoped navigation CSS wraps on phones.
+Motion Lab includes the approved current-recording/JSON replay, rotating cube and
+velocity visualization from the preceding checkpoint. Entry URL motion.html?v=3.
+
+Eight HTML navigation checks PASS; 20 existing motion/replay tests PASS. 390px
+browser layout inspected. No sensor/model, map logic, Access or service-worker
+changes. Next: publish tested tree to main with expected-head lease, verify exact
+Pages success, record deployed SHA and checkpoint. Actual phone AR/accuracy
+remains a manual test; replay synthetic/browser validation is documented separately.
+
 ## Motion replay: deployment approval blocked — 2026-10-31
 
 Tested implementation checkpoint: 8c22e5a2a7ed95560d1c762dd667b6742c26282e

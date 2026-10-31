@@ -5,13 +5,14 @@
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
 <link rel="stylesheet" href="./camera.css?v=4"><link rel="stylesheet" href="./depth.css?v=6">
 <script type="module" src="./depth-experimental.js?v=1"></script><script defer src="./pwa-register.js?v=35"></script>
-<link rel="stylesheet" href="./depth-fullscreen.css?v=1"></head><body>
+<link rel="stylesheet" href="./depth-fullscreen.css?v=1"><link rel="stylesheet" href="./navigation.css?v=1"></head><body>
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
-<header><strong>TACTICAL <span>DEPTH EXPERIMENTAL</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html?v=8">Camera</a><a href="./depth.html?v=18">Depth</a><a href="./depth-experimental.html?v=1" aria-current="page">Experimental</a> <a href="./scan.html?v=3">Gather</a> <a href="./motion.html?v=2">Motion Lab</a></nav></header>
+<header class="tactical-header"><strong>TACTICAL <span>DEPTH EXPERIMENTAL</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./?v=20">Map</a><a href="./motion.html?v=3">Motion Lab</a><a href="./camera.html?v=9">Camera</a><a href="./depth.html?v=19">Depth</a><a href="./depth-experimental.html?v=2" aria-current="page">Experimental</a></nav></header>
 <main>
 <div class="heading"><div><p class="eyebrow">ON-DEVICE DEPTH EXPERIMENT</p><h1>Depth Experimental.</h1></div><span class="badge">V2 SMALL</span></div>
 
 <p class="intro">Experimental calibration and multi-view scanning. For simple camera depth and single-frame relief, <a href="./depth.html?v=18">open Depth</a>.</p>
+<section class="panel" aria-labelledby="experimental-tools-title"><h2 id="experimental-tools-title">Experimental tools</h2><nav class="tactical-nav" aria-label="Experimental tools"><a href="./dashboard.html?v=21">Dashboard</a><a href="./scan.html?v=6">Gather</a><a href="./calibration.html?v=1">Calibration</a></nav></section>
 <section id="scan-workspace" class="panel scan-panel" aria-label="Guided persistent relief">
 <h2>Guided 3D scan <span class="small-tag">EXPERIMENTAL</span></h2>
 <p class="help"><a href="./calibration.html?v=1">Camera calibration: print target &amp; capture views →</a></p>
