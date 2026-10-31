@@ -1,5 +1,21 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## More transparent AR overlay — 2026-10-31
+
+Based on checkpoint cac9b16c8e4c384cbf4b25c3a87686145c77801d.
+Active WebXR overlay panel background reduced from 85% to 35% opacity;
+trail background reduced from 85% to 20%. Text remains fully opaque with a
+shadow for readability; buttons remain opaque. Selectors apply only during
+WebXR DOM overlay presentation, so the normal page and replay retain their styling.
+CSS cache query bumped to v4. Source checks confirm scoped selectors and asset
+reference. Actual phone AR visual acceptance remains pending; no new runtime
+tests needed for this CSS-only change.
+
+Included with the pending 36k-sample work in PR #5. Production deployment
+remains blocked by the prior automatic approval review until explicit user
+approval for these pending changes. Next: deploy after approval, verify Pages,
+then check camera visibility and text readability on the phone.
+
 ## 36,000-sample Motion Lab implemented — 2026-10-31
 
 User accepted 36k samples. Based on checkpoint 7a6420243f2b11e157636dcea4cb09a51387d73f;
