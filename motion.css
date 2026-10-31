@@ -3,3 +3,16 @@
 .replay-panel{margin-top:24px}.replay-panel h2{margin-top:0}.replay-metrics{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-top:14px}#replay-time{display:block;width:100%;min-height:44px;accent-color:var(--accent)}#replay-clock{display:inline;font-size:14px;float:right}#replay-vector{font-size:14px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.replay-panel select{font:inherit;padding:10px;color:var(--accent);background:var(--bg);border:1px solid #46644f;border-radius:8px}.replay-panel .controls{align-items:center}#replay-scene{margin-top:16px;aspect-ratio:7/4}@media(max-width:480px){.replay-metrics{grid-template-columns:1fr}.replay-panel output{font-size:17px}}
 
 #replay-scene{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}#replay-scene:active{cursor:grabbing}#replay-scene:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.replay-view-controls{margin-top:12px}
+
+/* Measurements stay within the replay picture; gestures reach the canvas. */
+.replay-picture{position:relative;margin-top:16px;border-radius:10px;overflow:hidden;background:#08130d}
+.replay-picture #replay-scene{margin-top:0;min-height:330px;object-fit:contain}
+.replay-hud{position:absolute;top:0;left:0;right:0;padding:10px 12px;background:linear-gradient(#07100be6,#07100b80,transparent);pointer-events:none;text-shadow:0 1px 3px #000}
+.replay-hud .replay-metrics{grid-template-columns:1fr 1.5fr;gap:6px 12px;margin:0 0 6px}
+.replay-hud small{display:block;font-size:10px;letter-spacing:.04em;line-height:1.3}
+.replay-panel .replay-hud output{font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.replay-hud #replay-vector{font-size:12px;line-height:1.35;margin:0}
+.replay-picture+label{display:block;margin-top:10px}
+.replay-help{margin:8px 0 16px;font-size:13px}
+.replay-help summary{cursor:pointer;color:var(--accent)}
+@media(max-width:380px){.replay-hud{padding:8px}.replay-hud .replay-metrics{gap:5px 8px}.replay-panel .replay-hud output{font-size:12px}}

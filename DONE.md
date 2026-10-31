@@ -1,5 +1,21 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Replay measurements inside picture — 2026-10-31
+
+Based on checkpoint 30cd4a4eb8e0f25446d746696a3f01412c60841a.
+Moved existing speed, XYZ position, path travelled/total, displacement and velocity
+readouts into a compact translucent HUD within the replay picture. HUD ignores
+pointer events, preserving canvas gestures. Timeline and playback controls now
+follow the picture directly; view controls follow them and gesture help collapses.
+Canvas keeps its image proportions with object-fit:contain and a minimum picture
+height for readable phone overlays. Existing IDs and replay logic unchanged.
+CSS v5. Browser QA with 390px content width and 36k synthetic samples: values
+visible inside picture, Play updates values, controls directly below. Unique IDs
+checked. No new tests for this HTML/CSS-only change; physical phone check pending.
+Not deployed in this checkpoint. Main last verified deployment remains
+7ba1217bb2d1c7121f6d8882c76c2d33b4f93f60. Next: publish when approved,
+verify exact Pages run and check phone layout/gestures.
+
 ## 36k samples and transparent AR overlay deployed — 2026-10-31
 
 User explicitly approved deployment of both changes. Main is
