@@ -1,5 +1,20 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Motion replay: deployment approval blocked — 2026-10-31
+
+Tested implementation checkpoint: 8c22e5a2a7ed95560d1c762dd667b6742c26282e
+on depth-tfjs-webgl. 20 tests passed; browser rendering/playback and 390px layout
+checked with synthetic data. Source blobs match local tested bytes.
+Automatic approval review rejected the leased main update: the new replay request
+was treated as code-change authorization, not approval for this exact production
+deployment. No workaround or retry attempted. Main rechecked unchanged at
+e956b57b10f31093ca5e868d6422c02f307377dc. Replay is not live.
+Exact next action: obtain user approval to deploy this replay update, recheck
+branch heads, promote tested feature tree via leased main update, verify exact
+Pages success and record receipt. Then test motion.html?v=2 by loading a v1
+trajectory or stopping a new recording and selecting Use current recording.
+This supersedes the earlier immediate-publication pointer.
+
 ## Motion replay implemented — 2026-10-31
 
 Based on depth-tfjs-webgl 32e02db4c803c123002d0dcae5d3f4837f81bc37;
