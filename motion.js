@@ -1,8 +1,10 @@
+import { createMotionReplay } from './motion-replay.js?v=1';
 import { MotionTrail } from './motion-core.mjs?v=1';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();
 let session = null, space = null, gl = null, pending = false, generation = 0, supported = false;
 let lastUI = -Infinity;
+let replay = null;
 const log = [];
 try { document.body.dataset.theme = localStorage.getItem('tactical-theme') === 'red' ? 'red' : 'green'; } catch {}
 function diagnostic(message) {
@@ -16,6 +18,7 @@ function controls() {
   $('stop').disabled = !session && !pending;
   $('zero').disabled = !session;
   $('save').disabled = !trail.samples.length;
+  replay?.update();
 }
 function draw() {
   const ctx = $('trail').getContext('2d');
@@ -57,6 +60,7 @@ async function stop() {
 }
 async function start() {
   if(pending || session) return;
+  replay?.stop();
   const token=++generation; pending=true; controls(); status('Requesting AR access…');
   let requested=null;
   try {
@@ -134,7 +138,8 @@ $('save').addEventListener('click',()=>{
 $('overlay').addEventListener('beforexrselect',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>void stop());
 // XR runtimes manage visibility separately; don't terminate AR on document.hidden.
-diagnostic(`motion-lab-1; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
+replay = createMotionReplay({getSamples:()=>trail.samples,isBusy:()=>pending || !!session});
+diagnostic(`motion-lab-2; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
 draw();
 try {
   supported=!!(isSecureContext && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));

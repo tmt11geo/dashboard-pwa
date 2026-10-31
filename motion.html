@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Motion Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg">
-<link rel="stylesheet" href="./motion.css?v=1"><script type="module" src="./motion.js?v=1"></script>
+<link rel="stylesheet" href="./motion.css?v=2"><script type="module" src="./motion.js?v=2"></script>
 </head><body>
 <header><strong>TACTICAL <span>MOTION LAB</span></strong><nav><a href="./">Map</a><a href="./depth.html?v=18">Depth</a><a href="./depth-experimental.html?v=1">Experimental</a></nav></header>
 <main>
@@ -20,6 +20,20 @@
 <p id="scale">Top-down trail · local X / Z · waiting for movement</p>
 <p class="hint">Move slowly around a textured, well-lit area. Keep your surroundings in view.</p>
 </div></section>
+<section class="panel replay-panel" aria-labelledby="replay-heading">
+<p class="eyebrow">RECORDING REPLAY</p><h2 id="replay-heading">Rotation &amp; velocity</h2>
+<p>Stop AR, then replay the current recording or load a saved Tactical trajectory JSON. Replay works without camera or AR support.</p>
+<div class="controls"><button id="replay-current" disabled>Use current recording</button><button id="replay-load">Load trajectory JSON</button><input id="replay-file" type="file" accept="application/json,.json" hidden></div>
+<p id="replay-status" role="status">No replay loaded. The current recording stays in memory until this page closes; save it before refreshing.</p>
+<canvas id="replay-scene" width="700" height="400" aria-label="Rotating phone-view cube, local world axes, velocity arrow and top-down trajectory"></canvas>
+<div class="replay-metrics"><div><small>SPEED</small><output id="replay-speed-value">—</output></div><div><small>RECORDED POSITION</small><output id="replay-position">—</output></div></div>
+<p id="replay-vector">Velocity components: —</p>
+<label for="replay-time">Replay position <output id="replay-clock">0.0 / 0.0 s</output></label>
+<input id="replay-time" type="range" min="0" max="0" step="10" value="0" disabled>
+<div class="controls"><button id="replay-play" disabled>Play</button><button id="replay-rewind" disabled>Back to start</button><label>Playback <select id="replay-rate"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+<p class="hint">The centred cube follows recorded viewer rotation: right (+X), up (+Y), view (−Z). Thin axes stay fixed in the local world. The amber arrow shows movement direction; its length grows with speed up to 2 m/s, with a minimum visible length for slow motion. The numeric speed is uncapped. The small trail shows position.</p>
+<p class="hint">Speed is an estimate from adjacent positions, not a separate sensor measurement. Pose noise and tracking jumps can produce spikes. Playback speed does not change the displayed physical speed. Gaps over 0.5 seconds or between tracking segments are left blank. Files are checked and processed locally.</p>
+</section>
 <section class="notes"><h2>Try a short loop</h2><ol><li>Open this page in Android Chrome and tap Start AR tracking.</li><li>Allow AR access. Move gently until tracking begins.</li><li>Move sideways about one metre, then return to the starting point. Rotate the phone to compare rotation with translation.</li><li>Tap Stop, then Save trajectory to keep the pose data.</li></ol>
 <p>Coordinates are relative to the first tracked position, with Y pointing up. Axes retain the runtime’s local orientation, not north. The trail keeps the latest 3,000 samples at up to 10 per second. Reset origin clears it. Tracking gaps break the line; a reference-space reset clears it to avoid mixing coordinate systems.</p>
 <p>This is a local motion demo, not GPS, a room mesh, or survey-grade measurement. Drift and relocalization jumps are possible. A missing or emulated position is never recorded as real tracking. The app does not upload camera images or pose data; Save downloads positions and orientations only. Your browser and AR service handle camera access.</p>

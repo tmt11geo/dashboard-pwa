@@ -1,5 +1,26 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Motion replay implemented — 2026-10-31
+
+Based on depth-tfjs-webgl 32e02db4c803c123002d0dcae5d3f4837f81bc37;
+main inspected e956b57b10f31093ca5e868d6422c02f307377dc. No AGENTS.md.
+Added Motion Lab replay for current capture and existing tactical-motion-1 JSON.
+Centred rotating viewer cube, fixed world axes, amber velocity vector, numeric
+speed/components, X/Z path, Play/Pause, scrub, rewind and 0.25–2x playback.
+Velocity derives from adjacent positions/timestamps, not IMU integration; gaps
+are not interpolated. Physical speed is independent of playback rate. Validated,
+bounded local input; no added dependencies or uploads. Replay works without AR.
+Build motion-lab-2; motion.html?v=2. Current capture must be saved before refresh.
+
+20 Node core/lifecycle/replay checks PASS; JS syntax PASS. Browser synthetic
+sequence verified rendering/scrub/play/pause and 390px layout. Production page
+startup without AR verified; no phone sensor/accuracy claim. Reproduction,
+conventions and evidence: docs/motion-replay.md, tools/motion-lab/evidence/replay-tests.log.
+Ordinary Depth, scanner, map, model, Access and service worker remain unchanged.
+Outcome branch depth-tfjs-webgl. Next: commit/publish via existing Pages, verify
+exact deployed SHA, record receipt; user loads saved JSON or uses current capture
+after Stop, then Play/scrub. No unsaved capture survives a page reload.
+
 ## Motion Lab deployed — 2026-10-31
 
 User explicitly approved deployment. Main advanced with an expected-head lease to

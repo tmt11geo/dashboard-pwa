@@ -1,0 +1,42 @@
+// Controlled DOM/animation API tests, not physical tracking or browser rendering evidence.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {readFile} from 'node:fs/promises';
+const sample=(t,x=0)=>({t,x,y:0,z:0,q:[0,0,0,1],segment:0});
+const fileData=samples=>({format:'tactical-motion-1',units:'metres',referenceSpace:'local',samples});
+class Events{handlers={};addEventListener(n,f){(this.handlers[n]??=[]).push(f);}async emit(n){for(const f of this.handlers[n]||[])await f();}}
+async function setup(){
+ const nodes=new Map(),canvas=new Proxy({},{get:()=>()=>{}});let busy=false,samples=[sample(0),sample(100,.1),sample(200,.2)],next=0;
+ const frames=new Map(),document=new Events();document.hidden=false;document.getElementById=id=>{if(!nodes.has(id)){const n=new Events();n.value=id==='replay-rate'?'1':'0';n.getContext=()=>canvas;n.click=()=>{};nodes.set(id,n);}return nodes.get(id);};
+ const context=vm.createContext({document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
+ const core=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});
+ const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});await ui.link(()=>core);await ui.evaluate();
+ const api=ui.namespace.createMotionReplay({getSamples:()=>samples,isBusy:()=>busy});
+ return{nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
+ load:async(text,size=100)=>{nodes.get('replay-file').files=[{name:'capture.json',size,text:async()=>text}];await nodes.get('replay-file').emit('change');}};
+}
+test('current recording, play/pause, scrub, speed, rewind and end',async()=>{
+ const h=await setup();await h.click('replay-current');assert.match(h.nodes.get('replay-status').textContent,/3 samples/);
+ assert.equal(h.nodes.get('replay-speed-value').textContent,'1.00 m/s');
+ await h.click('replay-play');h.tick(0);h.tick(50);assert.equal(h.nodes.get('replay-time').value,'50');
+ await h.click('replay-play');assert.equal(h.frames.size,0);
+ h.nodes.get('replay-time').value='100';await h.nodes.get('replay-time').emit('input');assert.match(h.nodes.get('replay-position').textContent,/X 0.10/);
+ h.nodes.get('replay-rate').value='2';await h.click('replay-play');h.tick(1000);h.tick(1050);assert.equal(h.nodes.get('replay-time').value,'200');assert.equal(h.nodes.get('replay-play').textContent,'Play');assert.equal(h.nodes.get('replay-speed-value').textContent,'1.00 m/s');
+ await h.click('replay-rewind');assert.equal(h.nodes.get('replay-time').value,'0');
+});
+test('JSON loading rejects malformed/oversize files without replacing valid replay',async()=>{
+ const h=await setup();await h.load(JSON.stringify(fileData([sample(2000),sample(2100,.3)])));assert.equal(h.nodes.get('replay-speed-value').textContent,'3.00 m/s');assert.match(h.nodes.get('replay-vector').textContent,/capped/);
+ await h.load('bad JSON');assert.match(h.nodes.get('replay-status').textContent,/Could not load/);assert.equal(h.nodes.get('replay-play').disabled,false);
+ await h.load('{}',6*1024*1024);assert.match(h.nodes.get('replay-status').textContent,/too large/);
+});
+test('camera activity and hidden page stop playback; replay is independent of live samples',async()=>{
+ const h=await setup();await h.click('replay-current');h.samples([]);h.api.update();assert.equal(h.nodes.get('replay-current').disabled,true);
+ await h.click('replay-play');h.busy(true);assert.equal(h.frames.size,0);assert.equal(h.nodes.get('replay-load').disabled,true);h.busy(false);
+ await h.click('replay-play');h.document.hidden=true;await h.document.emit('visibilitychange');assert.equal(h.frames.size,0);
+});
+test('gap shows unavailable pose and velocity; a single frame is inspectable without play',async()=>{
+ const h=await setup();await h.load(JSON.stringify(fileData([sample(0),{...sample(100,5),segment:1}])));
+ h.nodes.get('replay-time').value='50';await h.nodes.get('replay-time').emit('input');assert.equal(h.nodes.get('replay-position').textContent,'Tracking gap');assert.equal(h.nodes.get('replay-speed-value').textContent,'Unavailable');
+ await h.load(JSON.stringify(fileData([sample(500)])));assert.equal(h.nodes.get('replay-play').disabled,true);assert.equal(h.nodes.get('replay-rewind').disabled,false);
+});

@@ -23,7 +23,8 @@ async function setup({supported=true,request,glOK=true}={}){
   const context=vm.createContext({document,window:new Events(),navigator:{userAgent:'controlled-test',xr:{isSessionSupported:async()=>supported,requestSession:request|| (async()=>fakeSession())}},isSecureContext:true,localStorage:{getItem:()=>null},Date,Blob,URL:{createObjectURL:b=>{saved=b;return 'blob:test';},revokeObjectURL(){}},setTimeout:()=>0,XRWebGLLayer:class{framebuffer={};}});
   const core=new vm.SourceTextModule(await readFile(new URL('../motion-core.mjs',import.meta.url),'utf8'),{context});
   const controller=new vm.SourceTextModule(await readFile(new URL('../motion.js',import.meta.url),'utf8'),{context});
-  await controller.link(()=>core);await controller.evaluate();
+  const replay=new vm.SyntheticModule(['createMotionReplay'],function(){this.setExport('createMotionReplay',()=>({update(){},stop(){}}));},{context});
+  await controller.link(spec=>spec.includes('motion-replay.js')?replay:core);await controller.evaluate();
   return {nodes,click:id=>nodes.get(id).emit('click'),saved:()=>saved,context};
 }
 const pose=x=>({transform:{position:{x,y:0,z:0},orientation:{x:0,y:0,z:0,w:1}}});

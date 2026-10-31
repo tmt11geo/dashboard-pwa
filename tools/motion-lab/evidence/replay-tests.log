@@ -1,0 +1,32 @@
+(node:21) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ unsupported device disables start and never requests a session (14.595052ms)
+✔ denied permission allows retry with actionable error (7.045436ms)
+✔ track, gap, reset, export, end and restart with fresh origin (8.301532ms)
+✔ stop while permission pending closes late session without starting frames (6.495495ms)
+✔ failed graphics initialization ends acquired session and restores controls (7.228031ms)
+✔ emulated poses are not saved; visibility interruption breaks the trail (4.254091ms)
+(node:22) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ current recording, play/pause, scrub, speed, rewind and end (15.284954ms)
+✔ JSON loading rejects malformed/oversize files without replacing valid replay (6.059557ms)
+✔ camera activity and hidden page stop playback; replay is independent of live samples (8.322402ms)
+✔ gap shows unavailable pose and velocity; a single frame is inspectable without play (5.202413ms)
+✔ validates, normalizes time/quaternion and copies without altering source (2.611502ms)
+✔ rejects wrong schema, empty/excessive samples, bad times, coordinates, rotations and segments (1.480826ms)
+✔ interpolates pose and computes physical metres/second from milliseconds (0.720157ms)
+✔ opposite quaternion signs interpolate as the same rotation (0.223147ms)
+✔ never interpolates velocity or pose across tracking segments or long gaps (1.306552ms)
+✔ stationary data has zero speed; one sample has unavailable velocity (0.266843ms)
+✔ metre translation relative to first pose; rotation does not imply translation (1.853568ms)
+✔ missing, emulated and nonfinite poses are rejected and break the line (0.21832ms)
+✔ sampling is bounded at 10Hz and retains latest window (0.332202ms)
+✔ reference reset clears prior coordinate frame and re-establishes zero (0.187924ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 177.393589
