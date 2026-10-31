@@ -1,5 +1,20 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Automatic gap correction deployed — 2026-10-31
+
+User approved deployment. Main advanced with expected-head lease to
+9150ee7121edde6327e5f704a73208b642bcf23d.
+GitHub Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41212632920
+completed SUCCESS for this exact SHA.
+Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=14
+Build motion-lab-10, controller v12, replay v10, correction v1.
+Eligible heading and position corrections default on. Save trajectory exports
+automatic corrections; Save replay JSON respects displayed edits/comparison.
+Processed JSON metadata prevents double correction on reload.
+66 automated tests passed before release. Physical Android acceptance pending.
+Next: verify default gap correction and both Save buttons on the phone.
+This checkpoint records deployment only, with no application code changes.
+
 ## Automatic gap correction and corrected JSON saves — 2026-10-31
 
 Based on checkpoint 14683500931c9614d02fd9e6d3411534efe3c071.
