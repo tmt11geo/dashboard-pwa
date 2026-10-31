@@ -1,5 +1,25 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Movable replay viewpoint deployed — 2026-10-31
+
+User explicitly requested implementation and deployment. Main advanced with an
+expected-head lease to dbf820367ec9d2abfad17c0dede26b2e3a54ea0f.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41204554238
+completed SUCCESS for this exact SHA. Live entry:
+https://tmt11.com/dashboard-pwa/motion.html?v=5
+
+Drag orbits; pinch zooms; two-finger drag pans. Reset view restores overview.
+Mouse wheel, Shift/right drag, keyboard and zoom buttons also supported.
+Works during playback or while paused, preserving recorded motion and distances.
+32 tests passed; browser orbit/zoom/pan/reset inspected. All 11 changed files
+verified remotely before promotion. Physical phone multitouch remains a manual check.
+No capture/schema/nav/model/Access changes.
+
+Exact next action: save any current capture before refresh, load JSON/current
+stopped capture, Play or pause, orbit/pinch/pan, then Reset view. Report phone
+gesture issues with diagnostics if any. Checkpoint branch depth-tfjs-webgl;
+main remains the exact successful deployment commit.
+
 ## Movable replay viewpoint implemented and approved — 2026-10-31
 
 User explicitly requested implementation and deployment. Starting checkpoint
