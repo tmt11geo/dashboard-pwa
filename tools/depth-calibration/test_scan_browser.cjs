@@ -32,7 +32,7 @@ const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),htt
     Object.defineProperty(track,'label',{value:g.label});track.getSettings=()=>({deviceId:window.staleId?'renewed-id':g.deviceId,width:640,height:480,facingMode:g.facingMode,focusMode:g.focusMode,focusDistance:g.focusDistance,zoom:window.zoomOverride??g.zoom,resizeMode:g.resizeMode});track.getCapabilities=()=>({focusMode:['manual'],focusDistance:{min:0,max:.57},zoom:{min:1,max:10}});track.applyConstraints=async options=>{window.constraints=options;};window.streams.push(stream);return stream;
    };
   },{g:session.metadata.geometry,real});
-  const url=`http://127.0.0.1:${server.address().port}/dashboard-pwa/depth.html?v=12`;await page.goto(url);
+  const url=`http://127.0.0.1:${server.address().port}/dashboard-pwa/depth-experimental.html?v=1`;await page.goto(url);
   await page.click('#scan-start');check('scan requires calibration without assumed-camera fallback',(await page.locator('#scan-guide').innerText()).includes('Load your calibration'));
   await page.setInputFiles('#scan-calibration-file',sessionPath);await page.waitForFunction(()=>!document.querySelector('#scan-calibration').disabled,{},{timeout:180000});
   const message=await page.locator('#scan-calibration-status').innerText();console.log(message);check('real phone PNGs independently verified by browser',message.includes('Calibration ready'));

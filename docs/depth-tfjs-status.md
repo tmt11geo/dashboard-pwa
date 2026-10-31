@@ -1,5 +1,31 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Restore single-frame Depth; isolate experimental scanning — 2026-10-31
+
+User requested restoring the simple Depth page and preserving current scanning as
+Experimental. This supersedes the earlier replay/stitching next-action pointer.
+Started on depth-tfjs-webgl at 70600eaf9ff081109b8a77c634b85246f5bc9cf9;
+main inspected at 01107843915c49461a9032d0105734f41e10802b. No AGENTS.md.
+Restored pre-scan depth.html/depth.js from e599a76, retaining responsiveness,
+full-screen relief and unrestricted horizontal rotation. TFJS WebGL is default;
+no calibration/scanning imports or requirements on ordinary Depth.
+Preserved former controller byte-for-byte as depth-experimental.js and former
+scan page as depth-experimental.html. Gather uses that experimental controller.
+Navigation and calibration return links updated; camera navigation wraps on phones.
+Model, inference workers, calibration/stitching modules, file formats, Access,
+service worker and map/tracker logic unchanged. Build depth-single-1.
+
+95 Node tests PASS. Actual TFJS WebGL model browser/prefix checks, pause/step,
+full-screen same-canvas return, experimental startup/navigation and narrow-screen
+layout checks recorded in tools/depth-tfjs/evidence/single-frame-*.
+See docs/depth-single-frame.md for reproduction and phone steps.
+No physical camera/OnePlus runtime or new successful scan claim.
+Outcome branch depth-tfjs-webgl; implementation complete, deployment pending.
+Next action: commit verified files, leased main promotion, verify exact Pages
+success and record receipt. Then user tests depth.html?v=18, Start depth camera,
+3D relief, Pause/One depth frame and Full screen/Return to page without calibration.
+
+
 ## Progress-aware timeout fix deployed — 2026-10-25
 
 Live main: 01107843915c49461a9032d0105734f41e10802b, workflow gather-4. Pages run

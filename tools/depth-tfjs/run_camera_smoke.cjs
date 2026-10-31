@@ -37,7 +37,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
   });
   await page.goto(`http://127.0.0.1:${server.address().port}${prefix}/depth.html`);
   const check=(name,pass)=>{report.checks.push({name,pass});if(!pass)throw Error(name);console.log('PASS',name);};
-  await page.selectOption('#resolution','518');await page.selectOption('#backend','tfjs-webgl');
+  await page.selectOption('#backend','auto');await page.selectOption('#resolution','518');await page.selectOption('#backend','tfjs-webgl');
   check('fixed resolution enforced',await page.locator('#resolution').inputValue()==='224'&&await page.locator('#resolution').isDisabled());
   await page.click('#start');
   await page.waitForFunction(()=>document.querySelector('#diagnostic-log').value.includes('worker.tfjs.identity'),{},{timeout:30000});
@@ -52,6 +52,29 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
   report.logs=await page.locator('#diagnostic-log').inputValue();
   check('explicit WebGL without CPU forwarding',report.logs.includes('"backend":"webgl"')&&report.logs.includes('"cpuForward":false'));
   await page.click('#stop');
+  check('original camera tracks ended',await page.evaluate(()=>testStreams.every(s=>s.getTracks().every(t=>t.readyState==='ended'))));
+  if(process.env.DEPTH_SPLIT_CHECKS==='1'){
+   check('ordinary Depth has no calibration or scan controls',await page.locator('#scan-start, #scan-calibration').count()===0);
+   check('ordinary Depth does not load experimental modules',!requests.some(r=>/calibration|depth-scan|scan-session|scan-stitch/.test(r.path)));
+   await page.click('#view-relief');
+   check('single frame relief visible',await page.locator('#relief').isVisible());
+   await page.evaluate(()=>window.savedRelief=document.querySelector('#relief'));
+   await page.click('#relief-fullscreen');
+   check('full screen opens',await page.locator('dialog').isVisible());
+   await page.getByRole('button',{name:'Return to page'}).click();
+   check('full screen returns same canvas',await page.evaluate(()=>window.savedRelief===document.querySelector('#relief')&&!document.querySelector('dialog').open));
+   await page.click('#relief-in');await page.click('#rotate-right');
+   check('frozen relief remains interactive',await page.locator('#relief').isVisible());
+   await page.screenshot({path:output+'.png',fullPage:true});
+   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+   await page.getByRole('link',{name:'Experimental',exact:true}).click();
+   check('experimental scan remains available',await page.locator('#scan-start').isEnabled()&&await page.locator('#scan-calibration').isVisible());
+   await page.getByRole('link',{name:'Gather',exact:true}).click();
+   check('experimental Gather remains available',await page.locator('#scan-start').isEnabled()&&await page.locator('#scan-calibration').isVisible());
+   await page.getByRole('link',{name:'Depth',exact:true}).click();
+   check('Depth returns with TFJS default',await page.locator('#backend').inputValue()==='tfjs-webgl');
+   check('no navigation startup errors',errors.length===0);
+  }
   check('camera tracks ended',await page.evaluate(()=>testStreams.every(s=>s.getTracks().every(t=>t.readyState==='ended'))));
   check('controls restored',await page.locator('#start').isEnabled()&&await page.locator('#pause').isDisabled());
   check('all packaged model files requested',new Set(requests.filter(r=>r.path.startsWith('/models/')&&/\.bin$|model.json$/.test(r.path)).map(r=>r.path)).size===25);
@@ -92,7 +115,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
    await reset();await page.click('#start');await waitLog('worker.tfjs.load.complete');
    await page.goto('about:blank');check('navigation destroys worker',page.workers().length===0);
    report.lifecycle_requests=requests;
-  }else report.logs=await page.locator('#diagnostic-log').inputValue();
+  }else if(process.env.DEPTH_SPLIT_CHECKS!=='1')report.logs=await page.locator('#diagnostic-log').inputValue();
   report.requests=requests;report.status='PASS';
  }catch(e){report.error=e.stack;if(page)report.failure_logs=await page.locator('#diagnostic-log').inputValue().catch(()=>null);}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');}
  if(report.status!=='PASS')throw Error(report.error);console.log('PASS camera smoke');

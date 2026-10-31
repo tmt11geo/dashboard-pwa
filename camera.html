@@ -5,12 +5,12 @@
 <meta name="theme-color" content="#07100b"><title>Camera · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials">
 <link rel="icon" href="./tactical.svg"><link rel="apple-touch-icon" href="./tactical-192.png">
-<link rel="stylesheet" href="./camera.css?v=3">
+<link rel="stylesheet" href="./camera.css?v=4">
 <script type="module" src="./camera.js?v=8"></script><script defer src="./pwa-register.js?v=35"></script>
 </head>
 <body>
 <script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
-<header><strong>TACTICAL <span>CAMERA</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html" aria-current="page">Camera</a><a href="./depth.html?v=1">Depth</a> <a href="./scan.html?v=3">Gather</a></nav></header>
+<header><strong>TACTICAL <span>CAMERA</span></strong><nav aria-label="Main navigation"><a href="./">Map</a><a href="./dashboard.html?v=20">Dashboard</a><a href="./camera.html" aria-current="page">Camera</a><a href="./depth.html?v=18">Depth</a> <a href="./depth-experimental.html?v=1">Experimental</a></nav></header>
 <main>
 <div class="heading"><div><p class="eyebrow">ON-DEVICE OBJECT DETECTION</p><h1>Find. Lock. Centre.</h1></div><span class="badge">YOLOv10n</span></div>
 <div class="controls"><button id="start" type="button">Open camera</button><button id="stop" type="button" disabled>Stop camera</button><label>Camera <select id="camera-facing"><option value="environment">Rear</option><option value="user">Front</option></select></label><button id="select-area" type="button" aria-pressed="false" disabled>Select area</button><button id="unlock" type="button" disabled>Release / scan</button></div>
