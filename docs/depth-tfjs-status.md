@@ -1,5 +1,15 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## View buttons inside replay picture — 2026-10-31
+
+Moved Reset view, + and minus into the lower-right of the replay picture,
+separate from the upper measurement HUD. Buttons retain 44px touch targets,
+accessible zoom labels, existing IDs and handlers. No replay logic changes.
+CSS v6. Browser QA at 390px content width with synthetic 36k capture: zoom in
+1.00 to 1.20, zoom out to 1.00, and reset after zoom all pass; placement inspected.
+Includes the previous pending readout HUD change. Not deployed. Next: deploy
+these layout changes when approved, verify Pages, then check phone usability.
+
 ## Replay measurements inside picture — 2026-10-31
 
 Based on checkpoint 30cd4a4eb8e0f25446d746696a3f01412c60841a.

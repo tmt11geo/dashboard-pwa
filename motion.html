@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Motion Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg">
-<link rel="stylesheet" href="./motion.css?v=5"><script type="module" src="./motion.js?v=5"></script>
+<link rel="stylesheet" href="./motion.css?v=6"><script type="module" src="./motion.js?v=5"></script>
 <link rel="stylesheet" href="./navigation.css?v=1"></head><body>
 <header class="tactical-header"><strong>TACTICAL <span>MOTION LAB</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./?v=20">Map</a><a href="./motion.html?v=3" aria-current="page">Motion Lab</a><a href="./camera.html?v=9">Camera</a><a href="./depth.html?v=19">Depth</a><a href="./depth-experimental.html?v=2">Experimental</a></nav></header>
 <main>
@@ -32,11 +32,11 @@
 <div class="replay-metrics"><div><small>PATH TRAVELLED / TOTAL</small><output id="replay-travelled">—</output></div><div><small>STRAIGHT-LINE DISTANCE FROM START</small><output id="replay-displacement">—</output></div></div>
 <p id="replay-vector">Velocity components: —</p>
 </div>
+<div class="controls replay-view-controls"><button id="replay-view-reset" disabled>Reset view</button><button id="replay-view-in" aria-label="Zoom replay view in" disabled>+</button><button id="replay-view-out" aria-label="Zoom replay view out" disabled>−</button></div>
 </div>
 <label for="replay-time">Replay position <output id="replay-clock">0.0 / 0.0 s</output></label>
 <input id="replay-time" type="range" min="0" max="0" step="10" value="0" disabled>
 <div class="controls"><button id="replay-play" disabled>Play</button><button id="replay-rewind" disabled>Back to start</button><label>Playback <select id="replay-rate"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
-<div class="controls replay-view-controls"><button id="replay-view-reset" disabled>Reset view</button><button id="replay-view-in" aria-label="Zoom replay view in" disabled>Zoom +</button><button id="replay-view-out" aria-label="Zoom replay view out" disabled>Zoom −</button></div>
 <p id="replay-view-status" class="hint">View zoom 1.00× · drag to orbit</p>
 <details class="replay-help"><summary>View controls</summary><p id="replay-view-help" class="hint">Drag to orbit · Pinch to zoom · Two-finger drag to pan. Mouse: wheel to zoom, Shift-drag or right-drag to pan. Keyboard: arrows orbit, Shift+arrows pan, +/− zoom, R resets. Scroll the page outside the view.</p></details>
 <p class="hint">The cube moves along the 3D trajectory and follows recorded viewer rotation: right (+X), up (+Y), view (−Z). The view initially fits the full recording. Orbit, zoom and pan while playing or paused; Reset view restores the overview. Bright green is the travelled path; dim green is the remaining path. Gaps stay disconnected. The corner axes show world directions. The amber arrow shows movement direction; its length grows with speed up to 2 m/s, with a minimum visible length for slow motion. The numeric speed is uncapped. The cube is a fixed-size orientation marker, not a scale model of the phone.</p>
