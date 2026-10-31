@@ -1,9 +1,11 @@
+import {headingGaps,alignHeadings} from './motion-heading.mjs?v=1';
 import {indexPath,indexedDistances,indexedLines,assessRecording,qualitySummary} from './motion-path.mjs?v=2';
 import {OrbitView,bindOrbit} from './motion-replay-orbit.mjs?v=2';
 import {xyz} from './motion-replay-view.mjs?v=3';
 import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=3';
 export function createMotionReplay({getSamples,isBusy}) {
   const $=id=>document.getElementById(id), canvas=$('replay-scene'),ctx=canvas.getContext('2d');
+  let original=null,gaps=[],selectedGaps=new Set(),corrected=false;
   let recording=null,time=0,playing=false,raf=0,last=null,loadToken=0;
   let view=new OrbitView();
   let pathIndex=null,jumpMarkers=[];
@@ -21,6 +23,12 @@ export function createMotionReplay({getSamples,isBusy}) {
     $('replay-rewind').disabled=busy || !recording;
     $('replay-time').disabled=busy || !recording;
     $('replay-play').textContent=playing?'Pause':'Play';
+    const chosen=gaps.find(g=>g.index===Number($('replay-gap').value));
+    $('replay-gap').disabled=busy || !gaps.length;
+    $('replay-align').disabled=busy || !chosen || chosen.angle===null || selectedGaps.has(chosen?.index);
+    $('replay-align-undo').disabled=busy || !chosen || !selectedGaps.has(chosen?.index);
+    $('replay-align-toggle').disabled=busy || !selectedGaps.size;
+    $('replay-align-toggle').textContent=corrected?'Show original':'Show corrected';
     for(const id of ['replay-view-reset','replay-view-in','replay-view-out'])$(id).disabled=busy || !recording;
   }
   function render(){
@@ -83,11 +91,37 @@ export function createMotionReplay({getSamples,isBusy}) {
     const next=validateRecording(data),quality=assessRecording(next.samples);next.samples=quality.samples;
     jumpMarkers=next.samples.filter(p=>p.breakReason==='position-jump').slice(-100);
     $('replay-quality').textContent=qualitySummary(quality.jumps,quality.gaps);
+    original=next;gaps=headingGaps(next.samples);selectedGaps=new Set();corrected=false;
+    const options=gaps.map((g,i)=>{const option=document.createElement('option');option.value=String(g.index);option.textContent=`Gap ${i+1} · ${(g.time/1000).toFixed(1)} s · ${g.angle===null?'heading unavailable':Math.abs(g.angle*180/Math.PI).toFixed(1)+'° difference'}`;return option;});
+    $('replay-gap').replaceChildren(...options);$('replay-gap').value=gaps.length?String(gaps[0].index):'';
+    alignmentStatus();
     pause();orbitControls.cancel();recording=next;pathIndex=indexPath(next.samples);view=new OrbitView(next.samples);time=0;
     $('replay-time').max=String(recording.duration);
     $('replay-status').textContent=`${name} · ${next.samples.length.toLocaleString()} samples · ${(next.duration/1000).toFixed(1)} s`;
     render();update();
   }
+  function alignmentStatus(){
+    $('replay-alignment-status').textContent=!original ? 'Original recording · no heading corrections.' : !gaps.length ? 'Original recording · no tracking gaps to align.' : `${corrected?'Corrected preview':'Original recording'} · ${selectedGaps.size} heading correction(s). ${corrected?'Assumes unchanged phone heading during each selected gap. Position offsets remain.':'Use previous heading only if you did not turn during the gap.'}`;
+  }
+  function rebuildAlignment(){
+    pause();orbitControls.cancel();
+    recording=corrected?{...original,samples:alignHeadings(original.samples,selectedGaps)}:original;
+    pathIndex=indexPath(recording.samples);jumpMarkers=recording.samples.filter(p=>p.breakReason==='position-jump').slice(-100);
+    view=new OrbitView(recording.samples);alignmentStatus();render();update();
+  }
+  $('replay-gap').addEventListener('change',update);
+  $('replay-align').addEventListener('click',()=>{
+    if(isBusy()||!original)return;
+    const gap=gaps.find(g=>g.index===Number($('replay-gap').value));if(!gap||gap.angle===null)return;
+    selectedGaps.add(gap.index);corrected=true;rebuildAlignment();
+  });
+  $('replay-align-undo').addEventListener('click',()=>{
+    if(isBusy()||!original)return;selectedGaps.delete(Number($('replay-gap').value));
+    corrected=selectedGaps.size>0;rebuildAlignment();
+  });
+  $('replay-align-toggle').addEventListener('click',()=>{
+    if(isBusy()||!original||!selectedGaps.size)return;corrected=!corrected;rebuildAlignment();
+  });
   $('replay-current').addEventListener('click',()=>{
     if(isBusy())return;loadToken++;
     try{load({format:'tactical-motion-1',units:'metres',referenceSpace:'local',samples:getSamples()},'Current recording');}
@@ -119,6 +153,6 @@ export function createMotionReplay({getSamples,isBusy}) {
   $('replay-view-reset').addEventListener('click',()=>{if(!recording||isBusy())return;orbitControls.cancel();view.reset();render();});
   $('replay-view-in').addEventListener('click',()=>{if(!recording||isBusy())return;view.zoomAt(1.2);render();});
   $('replay-view-out').addEventListener('click',()=>{if(!recording||isBusy())return;view.zoomAt(1/1.2);render();});
-  render();update();
+  alignmentStatus();render();update();
   return {update,stop(){loadToken++;orbitControls.cancel();pause();}};
 }

@@ -8,13 +8,15 @@ const fileData=samples=>({format:'tactical-motion-1',units:'metres',referenceSpa
 class Events{handlers={};addEventListener(n,f){(this.handlers[n]??=[]).push(f);}async emit(n){for(const f of this.handlers[n]||[])await f();}}
 async function setup(){
  const nodes=new Map(),canvas=new Proxy({},{get:()=>()=>{}});let busy=false,samples=[sample(0),sample(100,.1),sample(200,.2)],next=0;
- const frames=new Map(),document=new Events();document.hidden=false;document.getElementById=id=>{if(!nodes.has(id)){const n=new Events();n.value=id==='replay-rate'?'1':'0';n.getContext=()=>canvas;n.click=()=>{};nodes.set(id,n);}return nodes.get(id);};
+ const frames=new Map(),document=new Events();document.hidden=false;document.getElementById=id=>{if(!nodes.has(id)){const n=new Events();n.value=id==='replay-rate'?'1':'0';n.getContext=()=>canvas;n.click=()=>{};n.replaceChildren=(...options)=>{n.options=options;};nodes.set(id,n);}return nodes.get(id);};
+ document.createElement=()=>({});
  const context=vm.createContext({document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
  const core=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});
  const pathModule=new vm.SourceTextModule(await readFile(new URL('../motion-path.mjs',import.meta.url),'utf8'),{context});await core.link(()=>pathModule);
  const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});const view=new vm.SourceTextModule(await readFile(new URL('../motion-replay-view.mjs',import.meta.url),'utf8'),{context});
  await view.link(()=>core);const orbit=new vm.SourceTextModule(await readFile(new URL('../motion-replay-orbit.mjs',import.meta.url),'utf8'),{context});
- await ui.link(spec=>spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:spec.includes('motion-path')?pathModule:core);await ui.evaluate();
+ const headingModule=new vm.SourceTextModule(await readFile(new URL('../motion-heading.mjs',import.meta.url),'utf8'),{context});await headingModule.link(spec=>spec.includes('motion-path')?pathModule:core);
+ await ui.link(spec=>spec.includes('motion-heading')?headingModule:spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:spec.includes('motion-path')?pathModule:core);await ui.evaluate();
  const api=ui.namespace.createMotionReplay({getSamples:()=>samples,isBusy:()=>busy});
  return{nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
  load:async(text,size=100)=>{nodes.get('replay-file').files=[{name:'capture.json',size,text:async()=>text}];await nodes.get('replay-file').emit('change');}};
@@ -66,4 +68,21 @@ test('legacy JSON shows quality warnings and excludes suspect jump from replay m
  h.nodes.get('replay-time').value='230';await h.nodes.get('replay-time').emit('input');
  assert.equal(h.nodes.get('replay-travelled').textContent,'0.20 / 0.20 m');assert.equal(h.nodes.get('replay-displacement').textContent,'1.70 m');
  await h.load(JSON.stringify(fileData([sample(0),sample(100,.1)])));assert.match(h.nodes.get('replay-quality').textContent,/No abrupt jumps detected/);
+});
+test('heading correction aligns selected gap, toggles original, undoes and resets on new recording',async()=>{
+ const h=await setup();const raw=[sample(0),sample(100,.1),{...sample(500,.2),segment:1,q:[0,Math.SQRT1_2,0,Math.SQRT1_2]},{...sample(600,.1),segment:1,q:[0,Math.SQRT1_2,0,Math.SQRT1_2]}];
+ const before=JSON.stringify(raw);h.samples(raw);await h.click('replay-current');assert.equal(h.nodes.get('replay-gap').options.length,1);assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
+ h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');const position=h.nodes.get('replay-position').textContent,distance=h.nodes.get('replay-travelled').textContent;
+ await h.click('replay-play');await h.click('replay-align');assert.equal(h.nodes.get('replay-play').textContent,'Play');assert.equal(h.frames.size,0);assert.match(h.nodes.get('replay-alignment-status').textContent,/Corrected preview/);
+ h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');assert.match(h.nodes.get('replay-position').textContent,/X 0.20.*Z -0.10/);assert.equal(h.nodes.get('replay-travelled').textContent,distance);assert.equal(JSON.stringify(raw),before);
+ await h.click('replay-align-toggle');assert.equal(h.nodes.get('replay-position').textContent,position);assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
+ await h.click('replay-align-toggle');assert.match(h.nodes.get('replay-alignment-status').textContent,/Corrected/);
+ await h.click('replay-align-undo');assert.equal(h.nodes.get('replay-position').textContent,position);assert.equal(h.nodes.get('replay-align-toggle').disabled,true);
+ await h.click('replay-align');await h.load(JSON.stringify(fileData([sample(0),sample(100,.1)])));assert.equal(h.nodes.get('replay-align').disabled,true);assert.match(h.nodes.get('replay-alignment-status').textContent,/no tracking gaps/);
+});
+test('heading controls disable while camera is active and when heading is vertical',async()=>{
+ const h=await setup();await h.load(JSON.stringify(fileData([sample(0),{...sample(100,.1),segment:1}])));
+ h.busy(true);assert.equal(h.nodes.get('replay-align').disabled,true);await h.click('replay-align');assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
+ h.busy(false);assert.equal(h.nodes.get('replay-align').disabled,false);
+ await h.load(JSON.stringify(fileData([sample(0),{...sample(100,.1),segment:1,q:[Math.SQRT1_2,0,0,Math.SQRT1_2]}])));assert.equal(h.nodes.get('replay-align').disabled,true);assert.match(h.nodes.get('replay-gap').options[0].textContent,/unavailable/);
 });

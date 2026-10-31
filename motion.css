@@ -24,3 +24,5 @@
 .capture-settings{margin-top:12px}.capture-settings select{font:inherit;min-height:44px;padding:8px;color:var(--accent);background:var(--bg);border:1px solid #46644f;border-radius:8px}#capture-rate-status{font-size:13px;font-variant-numeric:tabular-nums}.capture-settings select:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
 .quality-notice{font-size:13px;color:#ffcf70;border-left:3px solid #ffcf70;padding:6px 10px;margin:12px 0;background:#07100b66}
+
+.replay-correction select{max-width:100%;margin:8px 0}.replay-correction .controls{margin-top:8px}

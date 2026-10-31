@@ -1,5 +1,25 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Optional replay heading correction — 2026-10-31
+
+Based on checkpoint c0af14f60770b74e77124e5d8d2bd13a550857c5.
+Production remains 2480004a22fed193790a60332de7b335bad31b18; deployment pending.
+
+Added Heading correction in replay: select a tracking gap and Use previous heading.
+The reference is the last retained pose immediately before that gap. A world-Y
+rotation aligns the first post-gap heading, rotating its trajectory suffix,
+cube and velocity around the first post-gap point. Gap offsets remain.
+Apply is explicit; Undo and original/corrected comparison preserve source data.
+Correction assumes the phone did not turn during the gap. Near-vertical headings
+are unavailable; position-jump boundaries are not offered. Multiple corrections
+compose from originals. Save continues exporting original capture data.
+
+Build motion-lab-8; controller v10, replay v8, heading v1, CSS v9.
+All 56 tests pass; evidence: tools/motion-lab/evidence/heading-tests.log.
+Browser synthetic replay at narrow content width verified apply, compare, timeline,
+readouts and unchanged path length. Physical Android acceptance remains pending.
+See docs/motion-heading-correction.md. Next: deploy when requested, then phone test.
+
 ## Tracking-quality checks and translucent cube deployed — 2026-10-31
 
 User approved deployment. Main advanced with expected-head lease to
