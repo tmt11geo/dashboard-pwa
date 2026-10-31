@@ -1,5 +1,18 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Lower-left playback axes deployed — 2026-10-31
+
+User approved deployment. Main promoted with expected-head lease to
+b37ceb1a0fd283b0f929c3794a0ce49a23fac3c4. Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/41207573022
+completed SUCCESS for this exact SHA. Direct entry:
+https://tmt11.com/dashboard-pwa/motion.html?v=10
+World XYZ indicator now at lower-left canvas anchor (58,348), still following
+orbit orientation. Page controller v7; replay module v5. Source verified before
+promotion. Phone visual acceptance remains pending. Receipt checkpoint-only;
+this supersedes previous deployment-pending note. Next: save capture before
+refreshing and check axis placement during replay/orbit on phone.
+
 ## Playback XYZ indicator moved — 2026-10-31
 
 Moved the world-axis orientation indicator from canvas anchor (58,52) to
