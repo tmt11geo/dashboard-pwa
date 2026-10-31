@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Motion Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg">
-<link rel="stylesheet" href="./motion.css?v=9"><script type="module" src="./motion.js?v=11"></script>
+<link rel="stylesheet" href="./motion.css?v=9"><script type="module" src="./motion.js?v=12"></script>
 <link rel="stylesheet" href="./navigation.css?v=1"></head><body>
 <header class="tactical-header"><strong>TACTICAL <span>MOTION LAB</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./?v=20">Map</a><a href="./motion.html?v=3" aria-current="page">Motion Lab</a><a href="./camera.html?v=9">Camera</a><a href="./depth.html?v=19">Depth</a><a href="./depth-experimental.html?v=2">Experimental</a></nav></header>
 <main>
@@ -27,13 +27,13 @@
 <section class="panel replay-panel" aria-labelledby="replay-heading">
 <p class="eyebrow">RECORDING REPLAY</p><h2 id="replay-heading">Rotation &amp; velocity</h2>
 <p>Stop AR, then replay the current recording or load a saved Tactical trajectory JSON. Replay works without camera or AR support.</p>
-<div class="controls"><button id="replay-current" disabled>Use current recording</button><button id="replay-load">Load trajectory JSON</button><input id="replay-file" type="file" accept="application/json,.json" hidden></div>
+<div class="controls"><button id="replay-current" disabled>Use current recording</button><button id="replay-load">Load trajectory JSON</button><button id="replay-save" disabled>Save replay JSON</button><input id="replay-file" type="file" accept="application/json,.json" hidden></div>
 <p id="replay-status" role="status">No replay loaded. The current recording stays in memory until this page closes; save it before refreshing.</p>
 <p id="replay-quality" class="quality-notice" role="status">Load a recording to check for tracking breaks.</p>
 <details class="replay-help replay-correction"><summary>Gap correction</summary>
 <label for="replay-gap">Tracking gap</label> <select id="replay-gap" disabled></select>
 <div class="controls"><button id="replay-align" disabled>Use previous heading</button><button id="replay-motion" disabled>Continue previous motion</button><button id="replay-align-undo" disabled>Undo selected gap</button><button id="replay-align-toggle" disabled>Show corrected</button></div>
-<p class="hint">Uses the last recorded heading before the selected gap. Rotates the following trajectory, cube and velocity around the first point after the gap. Assumes you did not turn while tracking was lost; pointing nearly straight up or down makes heading unavailable. Later segments follow the same rotation. Changes pause playback and refit the view. Original coordinates, capture and saved JSON remain unchanged; corrections are preview-only and reset when another recording is loaded. Continue previous motion shifts all later positions using the gap duration and average velocity over roughly 0.2 seconds before the gap. Requires at least 0.1 seconds of contiguous history and a gap no longer than 1 second. Assumes unchanged movement velocity; missing movement remains estimated and excluded from path totals. Undo removes both corrections for the selected gap. Gradual drift is not corrected.</p>
+<p class="hint">Eligible heading and position corrections are applied automatically when a recording is loaded and when Save trajectory is used. Uses the last recorded heading before the selected gap. Rotates the following trajectory, cube and velocity around the first point after the gap. Assumes you did not turn while tracking was lost; pointing nearly straight up or down makes heading unavailable. Later segments follow the same rotation. Changes pause playback and refit the view. The live capture buffer stays original. Save trajectory exports automatic corrections. Save replay JSON exports the displayed replay, including Undo or Show original choices. Saved files record applied corrections to prevent applying them twice; baked-in corrections cannot be undone without the original file. Continue previous motion shifts all later positions using the gap duration and average velocity over roughly 0.2 seconds before the gap. Requires at least 0.1 seconds of contiguous history and a gap no longer than 1 second. Assumes unchanged movement velocity; missing movement remains estimated and excluded from path totals. Undo removes both corrections for the selected gap. Gradual drift is not corrected.</p>
 </details>
 <p id="replay-alignment-status" class="hint" role="status">Original recording · no heading corrections.</p>
 <div class="replay-picture">

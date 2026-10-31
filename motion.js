@@ -1,5 +1,6 @@
+import {correctedExport} from './motion-correction.mjs?v=1';
 import {displayEdges,qualitySummary} from './motion-path.mjs?v=2';
-import { createMotionReplay } from './motion-replay.js?v=9';
+import { createMotionReplay } from './motion-replay.js?v=10';
 import { MotionTrail } from './motion-core.mjs?v=4';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();
@@ -145,14 +146,14 @@ $('save').addEventListener('click',()=>{
     axes:'right-handed; +Y up; X/Z runtime-local, not compass; position relative to origin; quaternion in runtime-local axes',
     timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,droppedSamples:trail.dropped,quality:{...trail.quality,heuristic:"walking-jump-v1; >0.3 m and >10 m/s within 250 ms"},sampling:{requestedHz:trail.sampleHz || null,mode:trail.sampleHz ? "target" : "maximum"},
     note:'Latest samples only. Segment changes indicate tracking gaps. Drift/jumps possible; no accuracy guarantee.',samples:trail.samples};
-  const url=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
+  const url=URL.createObjectURL(new Blob([JSON.stringify(correctedExport(data))],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=`tactical-motion-${Date.now()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
 });
 $('overlay').addEventListener('beforexrselect',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>void stop());
 // XR runtimes manage visibility separately; don't terminate AR on document.hidden.
 replay = createMotionReplay({getSamples:()=>trail.samples,isBusy:()=>pending || !!session});
-diagnostic(`motion-lab-9; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
+diagnostic(`motion-lab-10; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
 draw();
 try {
   supported=!!(isSecureContext && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));

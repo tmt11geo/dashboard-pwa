@@ -1,3 +1,4 @@
+import {correctionPlan,correctedExport} from './motion-correction.mjs?v=1';
 import {headingGaps,alignHeadings,gapMotion} from './motion-heading.mjs?v=2';
 import {indexPath,indexedDistances,indexedLines,assessRecording,qualitySummary} from './motion-path.mjs?v=2';
 import {OrbitView,bindOrbit} from './motion-replay-orbit.mjs?v=2';
@@ -5,6 +6,7 @@ import {xyz} from './motion-replay-view.mjs?v=3';
 import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=3';
 export function createMotionReplay({getSamples,isBusy}) {
   const $=id=>document.getElementById(id), canvas=$('replay-scene'),ctx=canvas.getContext('2d');
+  let sourceData=null,plan=null;
   let original=null,gaps=[],selectedGaps=new Set(),positionGaps=new Set(),corrected=false;
   let recording=null,time=0,playing=false,raf=0,last=null,loadToken=0;
   let view=new OrbitView();
@@ -19,14 +21,15 @@ export function createMotionReplay({getSamples,isBusy}) {
     if(busy && playing)pause();
     $('replay-current').disabled=busy || !getSamples().length;
     $('replay-load').disabled=busy;
+    $('replay-save').disabled=busy || !recording;
     $('replay-play').disabled=busy || !recording || !recording.duration;
     $('replay-rewind').disabled=busy || !recording;
     $('replay-time').disabled=busy || !recording;
     $('replay-play').textContent=playing?'Pause':'Play';
     const chosen=gaps.find(g=>g.index===Number($('replay-gap').value));
     $('replay-gap').disabled=busy || !gaps.length;
-    $('replay-align').disabled=busy || !chosen || chosen.angle===null || selectedGaps.has(chosen?.index);
-    $('replay-motion').disabled=busy || !chosen || !gapMotion(original.samples,chosen.index) || positionGaps.has(chosen.index);
+    $('replay-align').disabled=busy || !chosen || chosen.angle===null || plan.lockedHeading.has(chosen.index) || selectedGaps.has(chosen?.index);
+    $('replay-motion').disabled=busy || !chosen || !gapMotion(original.samples,chosen.index) || plan.lockedMotion.has(chosen.index) || positionGaps.has(chosen.index);
     $('replay-align-undo').disabled=busy || !chosen || !(selectedGaps.has(chosen.index)||positionGaps.has(chosen.index));
     $('replay-align-toggle').disabled=busy || !(selectedGaps.size+positionGaps.size);
     $('replay-align-toggle').textContent=corrected?'Show original':'Show corrected';
@@ -92,17 +95,18 @@ export function createMotionReplay({getSamples,isBusy}) {
     const next=validateRecording(data),quality=assessRecording(next.samples);next.samples=quality.samples;
     jumpMarkers=next.samples.filter(p=>p.breakReason==='position-jump').slice(-100);
     $('replay-quality').textContent=qualitySummary(quality.jumps,quality.gaps);
-    original=next;gaps=headingGaps(next.samples);selectedGaps=new Set();positionGaps=new Set();corrected=false;
+    sourceData={...data,samples:data.samples.map(p=>({...p,q:[...p.q]}))};original=next;gaps=headingGaps(next.samples);plan=correctionPlan(data,next.samples);selectedGaps=plan.heading;positionGaps=plan.motion;corrected=!!(selectedGaps.size+positionGaps.size);
     const options=gaps.map((g,i)=>{const option=document.createElement('option');option.value=String(g.index);option.textContent=`Gap ${i+1} · ${(g.time/1000).toFixed(1)} s · ${g.angle===null?'heading unavailable':Math.abs(g.angle*180/Math.PI).toFixed(1)+'° difference'}`;return option;});
     $('replay-gap').replaceChildren(...options);$('replay-gap').value=gaps.length?String(gaps[0].index):'';
     alignmentStatus();
-    pause();orbitControls.cancel();recording=next;pathIndex=indexPath(next.samples);view=new OrbitView(next.samples);time=0;
+    pause();orbitControls.cancel();recording=corrected?{...next,samples:alignHeadings(next.samples,selectedGaps,positionGaps)}:next;pathIndex=indexPath(recording.samples);view=new OrbitView(recording.samples);time=0;
     $('replay-time').max=String(recording.duration);
     $('replay-status').textContent=`${name} · ${next.samples.length.toLocaleString()} samples · ${(next.duration/1000).toFixed(1)} s`;
     render();update();
   }
   function alignmentStatus(){
-    $('replay-alignment-status').textContent=!original ? 'Original recording · no heading corrections.' : !gaps.length ? 'Original recording · no tracking gaps to align.' : `${corrected?'Corrected preview':'Original recording'} · ${selectedGaps.size} heading, ${positionGaps.size} motion correction(s). ${corrected?'Assumes unchanged heading for heading corrections and constant velocity for motion corrections. Gaps remain estimated and excluded from totals.':'Use previous heading only if you did not turn during the gap.'}`;
+    const saved=plan&&(plan.lockedHeading.size||plan.lockedMotion.size)?'File already contains corrections; those are not applied again. ':'';
+    $('replay-alignment-status').textContent=saved+(!original ? 'Original recording · no heading corrections.' : !gaps.length ? 'Original recording · no tracking gaps to align.' : `${corrected?'Corrected preview':'Original recording'} · ${selectedGaps.size} heading, ${positionGaps.size} motion correction(s). ${corrected?'Assumes unchanged heading for heading corrections and constant velocity for motion corrections. Gaps remain estimated and excluded from totals.':'Use previous heading only if you did not turn during the gap.'}`);
   }
   function rebuildAlignment(){
     pause();orbitControls.cancel();
@@ -113,12 +117,12 @@ export function createMotionReplay({getSamples,isBusy}) {
   $('replay-gap').addEventListener('change',update);
   $('replay-align').addEventListener('click',()=>{
     if(isBusy()||!original)return;
-    const gap=gaps.find(g=>g.index===Number($('replay-gap').value));if(!gap||gap.angle===null)return;
+    const gap=gaps.find(g=>g.index===Number($('replay-gap').value));if(!gap||gap.angle===null||plan.lockedHeading.has(gap.index))return;
     selectedGaps.add(gap.index);corrected=true;rebuildAlignment();
   });
   $('replay-motion').addEventListener('click',()=>{
     const i=Number($('replay-gap').value);
-    if(isBusy()||!original||!gapMotion(original.samples,i))return;
+    if(isBusy()||!original||!gapMotion(original.samples,i)||plan.lockedMotion.has(i))return;
     positionGaps.add(i);corrected=true;rebuildAlignment();
   });
   $('replay-align-undo').addEventListener('click',()=>{
@@ -132,6 +136,12 @@ export function createMotionReplay({getSamples,isBusy}) {
     if(isBusy())return;loadToken++;
     try{load({format:'tactical-motion-1',units:'metres',referenceSpace:'local',samples:getSamples()},'Current recording');}
     catch(e){$('replay-status').textContent=e.message;}
+  });
+  $('replay-save').addEventListener('click',()=>{
+    if(isBusy()||!sourceData)return;
+    const data=correctedExport(sourceData,{heading:corrected?selectedGaps:new Set(),motion:corrected?positionGaps:new Set()});
+    const url=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
+    const a=document.createElement('a');a.href=url;a.download=`tactical-motion-replay-${Date.now()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
   });
   $('replay-load').addEventListener('click',()=>{if(!isBusy())$('replay-file').click();});
   $('replay-file').addEventListener('change',async()=>{

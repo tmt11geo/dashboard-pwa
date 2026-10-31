@@ -26,7 +26,10 @@ async function setup({supported=true,request,glOK=true}={}){
   await core.link(()=>pathModule);
   const controller=new vm.SourceTextModule(await readFile(new URL('../motion.js',import.meta.url),'utf8'),{context});
   const replay=new vm.SyntheticModule(['createMotionReplay'],function(){this.setExport('createMotionReplay',()=>({update(){},stop(){}}));},{context});
-  await controller.link(spec=>spec.includes('motion-replay.js')?replay:spec.includes('motion-path')?pathModule:core);await controller.evaluate();
+  const replayCore=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});await replayCore.link(()=>pathModule);
+  const heading=new vm.SourceTextModule(await readFile(new URL('../motion-heading.mjs',import.meta.url),'utf8'),{context});await heading.link(spec=>spec.includes('motion-path')?pathModule:replayCore);
+  const correction=new vm.SourceTextModule(await readFile(new URL('../motion-correction.mjs',import.meta.url),'utf8'),{context});await correction.link(spec=>spec.includes('motion-heading')?heading:spec.includes('motion-path')?pathModule:replayCore);
+  await controller.link(spec=>spec.includes('motion-correction')?correction:spec.includes('motion-replay.js')?replay:spec.includes('motion-path')?pathModule:core);await controller.evaluate();
   return {nodes,click:id=>nodes.get(id).emit('click'),saved:()=>saved,context};
 }
 const pose=x=>({transform:{position:{x,y:0,z:0},orientation:{x:0,y:0,z:0,w:1}}});
@@ -85,4 +88,13 @@ test('live jump warning persists after recovery; stopping adds no spurious gap; 
  assert.match(h.nodes.get('diagnostics').textContent,/Tracking quality/);
  await h.click('stop');await h.click('save');const data=JSON.parse(await h.saved().text());
  assert.equal(data.quality.jumps,1);assert.equal(data.quality.gaps,0);assert.equal(data.samples[1].breakReason,'position-jump');assert.equal(data.samples[1].x,1.5);
+});
+
+test('Save trajectory applies automatic gap correction without changing capture position',async()=>{
+ const s=fakeSession(),h=await setup({request:async()=>s});await h.click('start');
+ for(const [t,x] of [[0,0],[100,.1],[200,.2]])s.frame(t,{session:s,getViewerPose:()=>pose(x)});
+ s.frame(250,{session:s,getViewerPose:()=>null});s.frame(500,{session:s,getViewerPose:()=>pose(2)});s.frame(600,{session:s,getViewerPose:()=>pose(2.1)});
+ const live=h.nodes.get('position').textContent;await h.click('save');const data=JSON.parse(await h.saved().text());
+ assert.ok(Math.abs(data.samples.at(-1).x-.6)<1e-9);assert.deepEqual(data.gapCorrections.motionSamples,[3]);assert.equal(h.nodes.get('position').textContent,live);
+ await h.click('save');assert.deepEqual(JSON.parse(await h.saved().text()).samples,data.samples);
 });

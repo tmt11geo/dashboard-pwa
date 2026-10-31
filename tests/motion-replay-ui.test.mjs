@@ -7,18 +7,19 @@ const sample=(t,x=0)=>({t,x,y:0,z:0,q:[0,0,0,1],segment:0});
 const fileData=samples=>({format:'tactical-motion-1',units:'metres',referenceSpace:'local',samples});
 class Events{handlers={};addEventListener(n,f){(this.handlers[n]??=[]).push(f);}async emit(n){for(const f of this.handlers[n]||[])await f();}}
 async function setup(){
- const nodes=new Map(),canvas=new Proxy({},{get:()=>()=>{}});let busy=false,samples=[sample(0),sample(100,.1),sample(200,.2)],next=0;
+ const nodes=new Map(),canvas=new Proxy({},{get:()=>()=>{}});let saved=null;let busy=false,samples=[sample(0),sample(100,.1),sample(200,.2)],next=0;
  const frames=new Map(),document=new Events();document.hidden=false;document.getElementById=id=>{if(!nodes.has(id)){const n=new Events();n.value=id==='replay-rate'?'1':'0';n.getContext=()=>canvas;n.click=()=>{};n.replaceChildren=(...options)=>{n.options=options;};nodes.set(id,n);}return nodes.get(id);};
- document.createElement=()=>({});
- const context=vm.createContext({document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
+ document.createElement=()=>({click(){}});
+ const context=vm.createContext({Blob,URL:{createObjectURL:b=>{saved=b;return 'blob:test';},revokeObjectURL(){}},setTimeout:()=>0,document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
  const core=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});
  const pathModule=new vm.SourceTextModule(await readFile(new URL('../motion-path.mjs',import.meta.url),'utf8'),{context});await core.link(()=>pathModule);
  const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});const view=new vm.SourceTextModule(await readFile(new URL('../motion-replay-view.mjs',import.meta.url),'utf8'),{context});
  await view.link(()=>core);const orbit=new vm.SourceTextModule(await readFile(new URL('../motion-replay-orbit.mjs',import.meta.url),'utf8'),{context});
  const headingModule=new vm.SourceTextModule(await readFile(new URL('../motion-heading.mjs',import.meta.url),'utf8'),{context});await headingModule.link(spec=>spec.includes('motion-path')?pathModule:core);
- await ui.link(spec=>spec.includes('motion-heading')?headingModule:spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:spec.includes('motion-path')?pathModule:core);await ui.evaluate();
+ const correctionModule=new vm.SourceTextModule(await readFile(new URL('../motion-correction.mjs',import.meta.url),'utf8'),{context});await correctionModule.link(spec=>spec.includes('motion-heading')?headingModule:spec.includes('motion-path')?pathModule:core);
+ await ui.link(spec=>spec.includes('motion-correction')?correctionModule:spec.includes('motion-heading')?headingModule:spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:spec.includes('motion-path')?pathModule:core);await ui.evaluate();
  const api=ui.namespace.createMotionReplay({getSamples:()=>samples,isBusy:()=>busy});
- return{nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
+ return{saved:async()=>JSON.parse(await saved.text()),nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
  load:async(text,size=100)=>{nodes.get('replay-file').files=[{name:'capture.json',size,text:async()=>text}];await nodes.get('replay-file').emit('change');}};
 }
 test('current recording, play/pause, scrub, speed, rewind and end',async()=>{
@@ -71,7 +72,7 @@ test('legacy JSON shows quality warnings and excludes suspect jump from replay m
 });
 test('heading correction aligns selected gap, toggles original, undoes and resets on new recording',async()=>{
  const h=await setup();const raw=[sample(0),sample(100,.1),{...sample(500,.2),segment:1,q:[0,Math.SQRT1_2,0,Math.SQRT1_2]},{...sample(600,.1),segment:1,q:[0,Math.SQRT1_2,0,Math.SQRT1_2]}];
- const before=JSON.stringify(raw);h.samples(raw);await h.click('replay-current');assert.equal(h.nodes.get('replay-gap').options.length,1);assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
+ const before=JSON.stringify(raw);h.samples(raw);await h.click('replay-current');await h.click('replay-align-undo');assert.equal(h.nodes.get('replay-gap').options.length,1);assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
  h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');const position=h.nodes.get('replay-position').textContent,distance=h.nodes.get('replay-travelled').textContent;
  await h.click('replay-play');await h.click('replay-align');assert.equal(h.nodes.get('replay-play').textContent,'Play');assert.equal(h.frames.size,0);assert.match(h.nodes.get('replay-alignment-status').textContent,/Corrected preview/);
  h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');assert.match(h.nodes.get('replay-position').textContent,/X 0.20.*Z -0.10/);assert.equal(h.nodes.get('replay-travelled').textContent,distance);assert.equal(JSON.stringify(raw),before);
@@ -82,20 +83,30 @@ test('heading correction aligns selected gap, toggles original, undoes and reset
 });
 test('heading controls disable while camera is active and when heading is vertical',async()=>{
  const h=await setup();await h.load(JSON.stringify(fileData([sample(0),{...sample(100,.1),segment:1}])));
- h.busy(true);assert.equal(h.nodes.get('replay-align').disabled,true);await h.click('replay-align');assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
+ await h.click('replay-align-undo');h.busy(true);assert.equal(h.nodes.get('replay-align').disabled,true);await h.click('replay-align');assert.match(h.nodes.get('replay-alignment-status').textContent,/Original/);
  h.busy(false);assert.equal(h.nodes.get('replay-align').disabled,false);
  await h.load(JSON.stringify(fileData([sample(0),{...sample(100,.1),segment:1,q:[Math.SQRT1_2,0,0,Math.SQRT1_2]}])));assert.equal(h.nodes.get('replay-align').disabled,true);assert.match(h.nodes.get('replay-gap').options[0].textContent,/unavailable/);
 });
 
 test('motion correction can stand alone, toggle, combine with heading, undo and reset',async()=>{
  const h=await setup();const raw=[sample(0),sample(100,.1),sample(200,.2),{...sample(500,2),segment:1},{...sample(600,2.1),segment:1}];
- h.samples(raw);await h.click('replay-current');h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');
+ h.samples(raw);await h.click('replay-current');await h.click('replay-align-undo');h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');
  h.busy(true);assert.equal(h.nodes.get('replay-motion').disabled,true);await h.click('replay-motion');h.busy(false);
  await h.click('replay-motion');assert.match(h.nodes.get('replay-position').textContent,/X 0.60/);assert.match(h.nodes.get('replay-alignment-status').textContent,/1 motion/);
  assert.equal(h.nodes.get('replay-motion').disabled,true);assert.equal(h.nodes.get('replay-travelled').textContent,'0.30 / 0.30 m');
  await h.click('replay-align-toggle');assert.match(h.nodes.get('replay-position').textContent,/X 2.10/);
  await h.click('replay-align');assert.match(h.nodes.get('replay-position').textContent,/X 0.60/);
  await h.click('replay-align-undo');assert.match(h.nodes.get('replay-position').textContent,/X 2.10/);assert.equal(h.nodes.get('replay-align-toggle').disabled,true);
- await h.click('replay-motion');await h.click('replay-current');assert.match(h.nodes.get('replay-alignment-status').textContent,/0 motion/);
+ await h.click('replay-motion');await h.click('replay-current');assert.match(h.nodes.get('replay-alignment-status').textContent,/1 motion/);
  await h.load(JSON.stringify(fileData([sample(0),{...sample(100,1),segment:1}])));assert.equal(h.nodes.get('replay-motion').disabled,true);
+});
+
+test('automatic replay and saved JSON match; loading corrected export cannot apply twice',async()=>{
+ const h=await setup();h.samples([sample(0),sample(100,.1),sample(200,.2),{...sample(500,2),segment:1},{...sample(600,2.1),segment:1}]);
+ await h.click('replay-current');h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');
+ assert.match(h.nodes.get('replay-position').textContent,/X 0.60/);await h.click('replay-save');const saved=await h.saved();assert.ok(Math.abs(saved.samples.at(-1).x-.6)<1e-9);
+ await h.load(JSON.stringify(saved));assert.equal(h.nodes.get('replay-align').disabled,true);assert.equal(h.nodes.get('replay-motion').disabled,true);assert.match(h.nodes.get('replay-alignment-status').textContent,/already contains/);
+ await h.click('replay-motion');await h.click('replay-align');await h.click('replay-save');assert.deepEqual((await h.saved()).samples,saved.samples);
+ await h.click('replay-current');await h.click('replay-align-toggle');await h.click('replay-save');const original=await h.saved();assert.equal(original.samples.at(-1).x,2.1);
+ await h.load(JSON.stringify(original));h.nodes.get('replay-time').value='600';await h.nodes.get('replay-time').emit('input');assert.match(h.nodes.get('replay-position').textContent,/X 2.10/);
 });

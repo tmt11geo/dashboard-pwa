@@ -1,5 +1,31 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Automatic gap correction and corrected JSON saves — 2026-10-31
+
+Based on checkpoint 14683500931c9614d02fd9e6d3411534efe3c071.
+Main remains 42e669b8ab7e75180457cd4625d1ed75e0944b5c; this change is not deployed.
+No AGENTS.md in the recursive checkpoint tree.
+
+Heading and motion corrections now default on for eligible tracking gaps when
+loading current or imported recordings. Save trajectory uses the same shared
+correction pipeline; live capture samples remain untouched. New Save replay JSON
+exports the displayed replay, respecting Undo and original/corrected comparison.
+Replay source samples are copied to avoid later capture mutations affecting export.
+
+gapCorrections v1 marks processed exports and records heading/motion sample
+indices. Reload preserves exported choices and locks already-applied transforms.
+Legacy supplied heading-only and heading-plus-motion reference markers are
+recognized, so those transforms are never repeated. Baked-in corrections require
+the original file to undo. Skipped gaps retain existing eligibility checks.
+Missing intervals remain blank and excluded from measured totals.
+
+Build motion-lab-10, controller v12, replay v10, correction module v1.
+66 tests pass: tools/motion-lab/evidence/automatic-gap-tests.log.
+Coverage includes live Save, source immutability, export/reload, legacy markers,
+ineligible gaps, manual choices, replay controls and repeated saves.
+No new browser rendering or physical Android acceptance performed this checkpoint.
+Next: deploy on request, then test default correction and both Save buttons on phone.
+
 ## Gap corrections deployed — 2026-10-31
 
 User approved deployment. Main advanced with expected-head lease to
