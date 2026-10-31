@@ -1,5 +1,26 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Motion Lab deployed — 2026-10-31
+
+User explicitly approved deployment. Main advanced with an expected-head lease to
+e956b57b10f31093ca5e868d6422c02f307377dc. PR #2 is closed/merged.
+GitHub Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41201439689
+completed SUCCESS for this exact SHA. Ordinary Depth and Access remain unchanged.
+Live demo: https://tmt11.com/dashboard-pwa/motion.html?v=1
+Navigation: Experimental → Motion Lab.
+
+10 prior Node core/controlled-lifecycle tests and syntax checks passed; unsupported
+browser UI inspected. No code changes during deployment. Unauthenticated custom-domain
+request returned HTTP 302; authenticated phone runtime is not verified here.
+
+Exact next action: open Motion Lab in Android Chrome through normal Access login,
+Start AR tracking, permit camera/AR, translate about one metre, rotate, return,
+Reset origin, Stop and Save trajectory. Try installed PWA after Chrome succeeds.
+If unsupported or startup fails, provide Diagnostics. Hardware camera/IMU tracking,
+accuracy and installed-PWA acceptance remain pending; do not infer them from CI.
+This receipt supersedes earlier deployment-pending text. Checkpoint branch remains
+depth-tfjs-webgl; main remains the exact successful deployment SHA.
+
 ## Motion Lab camera + IMU demo checkpoint — 2026-10-31
 
 Started from depth-tfjs-webgl 5ac55c8e8ef75dc7f8423292a931a7da2d8cf093;
