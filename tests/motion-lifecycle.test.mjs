@@ -17,7 +17,7 @@ function fakeSession(){
 async function setup({supported=true,request,glOK=true}={}){
   const nodes=new Map();const ctx2=new Proxy({}, {get:()=>()=>{}});
   const gl={makeXRCompatible:async()=>{},getExtension:()=>({loseContext(){}}),bindFramebuffer(){},clearColor(){},clear(){}};
-  function node(){const e=new Events();e.textContent='';e.disabled=false;e.getContext=type=>type==='2d'?ctx2:(glOK?gl:null);e.click=()=>{};return e;}
+  function node(){const e=new Events();e.textContent='';e.value='30';e.disabled=false;e.getContext=type=>type==='2d'?ctx2:(glOK?gl:null);e.click=()=>{};return e;}
   const document={body:{dataset:{}},getElementById:id=>{if(!nodes.has(id))nodes.set(id,node());return nodes.get(id);},createElement:node};
   let saved;
   const context=vm.createContext({document,window:new Events(),navigator:{userAgent:'controlled-test',xr:{isSessionSupported:async()=>supported,requestSession:request|| (async()=>fakeSession())}},isSecureContext:true,localStorage:{getItem:()=>null},Date,Blob,URL:{createObjectURL:b=>{saved=b;return 'blob:test';},revokeObjectURL(){}},setTimeout:()=>0,XRWebGLLayer:class{framebuffer={};}});
@@ -65,4 +65,16 @@ test('emulated poses are not saved; visibility interruption breaks the trail',as
   s.frame(100,{session:s,getViewerPose:()=>pose(0)});s.visibilityState='hidden';await s.emit('visibilitychange');
   assert.match(h.nodes.get('position').textContent,/No current/);s.visibilityState='visible';
   s.frame(200,{session:s,getViewerPose:()=>pose(1)});await h.click('save');const data=JSON.parse(await h.saved().text());assert.equal(data.samples[1].segment,1);
+});
+test('selector defaults to 30, locks during tracking, exports requested rate and supports next-session Maximum',async()=>{
+  let s=fakeSession();const h=await setup({request:async()=>s});
+  assert.equal(h.nodes.get('capture-rate').value,'30');await h.click('start');
+  assert.equal(h.nodes.get('capture-rate').disabled,true);
+  for(let i=0;i<=120;i++)s.frame(i*1000/60,{session:s,getViewerPose:()=>pose(i)});
+  assert.match(h.nodes.get('capture-rate-status').textContent,/30.0 Hz/);
+  await h.click('save');let data=JSON.parse(await h.saved().text());assert.equal(data.samples.length,61);assert.equal(data.sampling.requestedHz,30);
+  await h.click('stop');assert.equal(h.nodes.get('capture-rate').disabled,false);
+  h.nodes.get('capture-rate').value='0';await h.nodes.get('capture-rate').emit('change');assert.match(h.nodes.get('capture-rate-help').textContent,/every available/);
+  s=fakeSession();await h.click('start');for(let i=0;i<120;i++)s.frame(i*1000/60,{session:s,getViewerPose:()=>pose(i)});
+  await h.click('save');data=JSON.parse(await h.saved().text());assert.equal(data.samples.length,120);assert.equal(data.sampling.mode,'maximum');
 });

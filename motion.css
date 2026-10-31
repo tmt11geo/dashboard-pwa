@@ -20,3 +20,5 @@
 /* View buttons live inside the picture, separate from the gesture canvas. */
 .replay-picture .replay-view-controls{position:absolute;right:10px;bottom:10px;margin:0;gap:6px;flex-wrap:nowrap;padding:4px;border-radius:10px;background:#07100b99}
 .replay-picture .replay-view-controls button{min-width:44px;min-height:44px;padding:8px 12px;font-size:14px}
+
+.capture-settings{margin-top:12px}.capture-settings select{font:inherit;min-height:44px;padding:8px;color:var(--accent);background:var(--bg);border:1px solid #46644f;border-radius:8px}#capture-rate-status{font-size:13px;font-variant-numeric:tabular-nums}.capture-settings select:focus-visible{outline:3px solid #fff;outline-offset:3px}

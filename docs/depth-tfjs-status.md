@@ -1,5 +1,24 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Selectable recording rate, default 30 Hz — 2026-10-31
+
+Based on checkpoint 2e0562a8abde356ad604657036f30048b50952ba; main inspected
+045b210b560729d0adfa83512156db41945f1101. No AGENTS.md.
+Added 10/20/30 Hz and Maximum selector, default 30 each page load. Selected
+rate applies at Start and selector is disabled while requesting/tracking.
+Capture scheduler keeps phase across frame jitter and skips missed deadlines;
+Maximum records each available valid distinct pose frame. Never fabricates poses.
+Display remains throttled to 10Hz. Recent recorded-rate indicator uses up to two
+seconds of saved timestamps, resets on tracking gaps; it is not camera frequency.
+36k capacity unchanged: about 60/30/20 minutes at 10/20/30 Hz, 10 minutes at
+60 Hz Maximum. JSON adds optional sampling metadata; legacy replay unaffected.
+Build motion-lab-6; HTML script v6, core v3, CSS v7.
+43 tests PASS plus JS syntax check. New tests cover target rates/frame jitter,
+Maximum, duplicate frames, slow devices, gaps/reset, selector lock and JSON export.
+Evidence: tools/motion-lab/evidence/rate-tests.log. Physical phone rate/performance
+not yet measured. Not deployed. Next: deploy after approval and verify Pages;
+then compare actual recorded rates on phone and confirm shorter retention window.
+
 ## Replay picture HUD and buttons deployed — 2026-10-31
 
 User explicitly approved deployment. Main advanced with expected-head lease to

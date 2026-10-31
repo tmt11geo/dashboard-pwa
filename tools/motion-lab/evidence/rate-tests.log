@@ -1,0 +1,55 @@
+(node:14) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ unsupported device disables start and never requests a session (33.767528ms)
+✔ denied permission allows retry with actionable error (5.549284ms)
+✔ track, gap, reset, export, end and restart with fresh origin (10.984061ms)
+✔ stop while permission pending closes late session without starting frames (7.222379ms)
+✔ failed graphics initialization ends acquired session and restores controls (3.559132ms)
+✔ emulated poses are not saved; visibility interruption breaks the trail (3.93713ms)
+✔ selector defaults to 30, locks during tracking, exports requested rate and supports next-session Maximum (12.569831ms)
+✔ 36k recording round-trips all samples within raised file limit; excess rejected (107.49846ms)
+✔ ring buffer retains every sample through capacity, then evicts only oldest in order (30.231716ms)
+✔ bounded display path preserves all original data; exact playback uses full samples (45.186378ms)
+✔ display decimation never bridges a segment boundary or long time gap (0.570317ms)
+✔ display-only simplification never changes curved path length (0.360622ms)
+✔ 36k camera fitting is finite without spread-argument limits (21.110212ms)
+✔ default orbit basis matches previous overview; depth basis is perpendicular (1.313255ms)
+✔ orbit changes projection, pan/zoom are bounded, reset restores overview exactly (1.301968ms)
+✔ zoom preserves anchor point and camera changes cannot mutate distance samples (0.440482ms)
+✔ pointer orbit, pinch zoom, two-finger pan, pointer cancellation and disabled state (1.026724ms)
+✔ mouse pan, wheel zoom, keyboard and reset controls (0.51912ms)
+(node:22) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ current recording, play/pause, scrub, speed, rewind and end (35.375652ms)
+✔ JSON loading rejects malformed/oversize files without replacing valid replay (13.95969ms)
+✔ camera activity and hidden page stop playback; replay is independent of live samples (8.608795ms)
+✔ gap shows unavailable pose and velocity; a single frame is inspectable without play (7.839988ms)
+✔ camera zoom/reset during playback keeps time, physical speed and distances intact (17.60431ms)
+✔ imports full 36k JSON and preserves final timestamp and exact travelled distance (320.751214ms)
+✔ fits complete three-dimensional recording with room for cube and arrows (2.293739ms)
+✔ stationary and one-point captures have finite projection (0.258058ms)
+✔ played and remaining path meet exactly at the interpolated cube position (1.075087ms)
+✔ path never connects separate segments or long missing intervals (0.334183ms)
+✔ travelled distance follows bends and includes interpolated partial interval (0.314172ms)
+✔ distance excludes tracking jumps and is unavailable for displacement during gap (0.262184ms)
+✔ validates, normalizes time/quaternion and copies without altering source (2.409012ms)
+✔ rejects wrong schema, empty/excessive samples, bad times, coordinates, rotations and segments (9.672254ms)
+✔ interpolates pose and computes physical metres/second from milliseconds (1.65622ms)
+✔ opposite quaternion signs interpolate as the same rotation (0.247602ms)
+✔ never interpolates velocity or pose across tracking segments or long gaps (0.364247ms)
+✔ stationary data has zero speed; one sample has unavailable velocity (0.261974ms)
+✔ metre translation relative to first pose; rotation does not imply translation (3.274032ms)
+✔ missing, emulated and nonfinite poses are rejected and break the line (0.445249ms)
+✔ sampling is bounded at 10Hz and retains latest window (0.396446ms)
+✔ reference reset clears prior coordinate frame and re-establishes zero (0.439501ms)
+✔ default 30Hz and selected targets keep their average rate across frame jitter (8.567353ms)
+✔ Maximum saves each distinct frame and limited devices never get fabricated samples (0.758781ms)
+✔ rate scheduling and measurement recover after gaps and reset; invalid rates rejected (0.747203ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 565.523606

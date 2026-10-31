@@ -1,6 +1,6 @@
 import {displayEdges} from './motion-path.mjs?v=1';
 import { createMotionReplay } from './motion-replay.js?v=4';
-import { MotionTrail } from './motion-core.mjs?v=2';
+import { MotionTrail } from './motion-core.mjs?v=3';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();
 let session = null, space = null, gl = null, pending = false, generation = 0, supported = false;
@@ -16,6 +16,7 @@ function diagnostic(message) {
 function status(message) { if ($('status').textContent !== message) $('status').textContent = message; }
 function controls() {
   $('start').disabled = !supported || pending || !!session;
+  $('capture-rate').disabled = pending || !!session;
   $('stop').disabled = !session && !pending;
   $('zero').disabled = !session;
   $('save').disabled = !trail.samples.length;
@@ -41,6 +42,8 @@ function draw() {
   $('scale').textContent = `Top-down X / Z · centre to top guide ≈ ${extent.toFixed(1)} m · ${points.length.toLocaleString()} / ${trail.limit.toLocaleString()} samples${trail.dropped ? ` · ${trail.dropped.toLocaleString()} oldest samples discarded` : ''}`;
   $('position').textContent = p ? `X ${p.x.toFixed(2)} · Y ${p.y.toFixed(2)} · Z ${p.z.toFixed(2)}` : 'No current tracked position';
   $('distance').textContent = p ? `${Math.hypot(p.x,p.y,p.z).toFixed(2)} m` : '—';
+  const hz=trail.actualHz;
+  $('capture-rate-status').textContent = `Recorded rate: ${hz===null ? '—' : hz.toFixed(1)+' Hz'} · ${trail.sampleHz ? 'target '+trail.sampleHz+' Hz' : 'Maximum: every available pose frame'}`;
   $('orientation').textContent = p ? `Orientation quaternion (x, y, z, w): ${p.q.map(v=>v.toFixed(3)).join(', ')}` : 'Orientation quaternion: —';
   controls();
 }
@@ -58,6 +61,7 @@ async function stop() {
 }
 async function start() {
   if(pending || session) return;
+  trail.setSampleRate(Number($('capture-rate').value));
   replay?.stop();
   const token=++generation; pending=true; controls(); status('Requesting AR access…');
   let requested=null;
@@ -121,6 +125,11 @@ function frame(time, xrFrame) {
     if(time-lastUI>=100) { lastUI=time; draw(); }
   } catch(e) { diagnostic(`Frame error: ${e.message}`); void stop(); }
 }
+$('capture-rate').addEventListener('change',()=>{
+  if(pending || session) return;
+  const hz=Number($('capture-rate').value);
+  $('capture-rate-help').textContent=hz ? `36,000 samples retain about ${Math.round(600/hz)} minutes at ${hz} Hz. Applies to the next recording.` : 'Maximum records every available pose frame; duration depends on device rate (about 10 minutes at 60 Hz).';
+});
 $('start').addEventListener('click',start);
 $('stop').addEventListener('click',stop);
 $('zero').addEventListener('click',()=>{trail.reset();draw();status('Origin cleared. The next tracked pose becomes zero.');diagnostic('User reset origin');});
@@ -128,7 +137,7 @@ $('save').addEventListener('click',()=>{
   if(!trail.samples.length) return;
   const data={format:'tactical-motion-1',created:new Date().toISOString(),units:'metres',referenceSpace:'local',
     axes:'right-handed; +Y up; X/Z runtime-local, not compass; position relative to origin; quaternion in runtime-local axes',
-    timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,droppedSamples:trail.dropped,
+    timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,droppedSamples:trail.dropped,sampling:{requestedHz:trail.sampleHz || null,mode:trail.sampleHz ? "target" : "maximum"},
     note:'Latest samples only. Segment changes indicate tracking gaps. Drift/jumps possible; no accuracy guarantee.',samples:trail.samples};
   const url=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=`tactical-motion-${Date.now()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
@@ -137,7 +146,7 @@ $('overlay').addEventListener('beforexrselect',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>void stop());
 // XR runtimes manage visibility separately; don't terminate AR on document.hidden.
 replay = createMotionReplay({getSamples:()=>trail.samples,isBusy:()=>pending || !!session});
-diagnostic(`motion-lab-5; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
+diagnostic(`motion-lab-6; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
 draw();
 try {
   supported=!!(isSecureContext && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));
