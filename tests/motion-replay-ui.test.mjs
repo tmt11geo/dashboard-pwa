@@ -11,7 +11,8 @@ async function setup(){
  const frames=new Map(),document=new Events();document.hidden=false;document.getElementById=id=>{if(!nodes.has(id)){const n=new Events();n.value=id==='replay-rate'?'1':'0';n.getContext=()=>canvas;n.click=()=>{};nodes.set(id,n);}return nodes.get(id);};
  const context=vm.createContext({document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
  const core=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});
- const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});await ui.link(()=>core);await ui.evaluate();
+ const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});const view=new vm.SourceTextModule(await readFile(new URL('../motion-replay-view.mjs',import.meta.url),'utf8'),{context});
+ await view.link(()=>core);await ui.link(spec=>spec.includes('motion-replay-view')?view:core);await ui.evaluate();
  const api=ui.namespace.createMotionReplay({getSamples:()=>samples,isBusy:()=>busy});
  return{nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
  load:async(text,size=100)=>{nodes.get('replay-file').files=[{name:'capture.json',size,text:async()=>text}];await nodes.get('replay-file').emit('change');}};

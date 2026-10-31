@@ -1,5 +1,23 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Combined 3D trajectory replay — 2026-10-31
+
+Started from depth-tfjs-webgl 9a35e70aeef4c430b351325c1cd776b6ba640512;
+main verified 42ae89705aca10149dfc3e8af6711173846ffbda. No AGENTS.md.
+User reported cube/playback good and requested trajectory in the same view.
+Added full XYZ path, moving/rotating cube and attached velocity in one fixed
+projection. Bright travelled/dim remaining segments split at current pose;
+Start/End markers and corner world axes. View fits full capture once, with
+padding for the constant-size orientation glyph. Tracking gaps stay disconnected.
+Removed the separate X/Z inset. Capture, JSON format and velocity math unchanged.
+
+26 motion tests PASS. Browser rising-loop fixture inspected at mid-replay.
+Evidence: tools/motion-lab/evidence/trajectory-tests.log and docs/motion-replay.md.
+Build motion-lab-3; motion.html?v=4. No physical phone accuracy claim.
+Outcome branch depth-tfjs-webgl. Next: publish combined trajectory visualization
+via existing Pages flow and verify exact success; user saves any current recording
+before refresh, opens existing JSON or Use current recording, then Play/scrub.
+
 ## Replay and navigation deployed — 2026-10-31
 
 User explicitly approved live publication. Main advanced with an expected-head
@@ -1739,3 +1757,9 @@ Exact next action: user tests 3–5 views on OnePlus, pauses/finishes, rotates, 
 reloads and opens the scene; supply diagnostics and alignment/responsiveness/heat
 observations. Resume from this branch checkpoint and inspect main before fixes.
 This supersedes all earlier R1-only and deployment-pending pointers.
+
+Distance addition: replay displays path travelled / total (3D connected-sample
+length) and straight-line distance from the first retained sample. Readouts follow
+playback and scrubbing. Gaps excluded; noisy tracking can inflate length. Two
+additional distance tests pass, including curved partial intervals and gap exclusion.
+Browser rising-loop midpoint: 6.27 / 12.54 m path; 4.03 m displacement.

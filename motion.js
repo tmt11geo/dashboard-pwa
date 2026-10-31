@@ -1,4 +1,4 @@
-import { createMotionReplay } from './motion-replay.js?v=1';
+import { createMotionReplay } from './motion-replay.js?v=2';
 import { MotionTrail } from './motion-core.mjs?v=1';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();
@@ -139,7 +139,7 @@ $('overlay').addEventListener('beforexrselect',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>void stop());
 // XR runtimes manage visibility separately; don't terminate AR on document.hidden.
 replay = createMotionReplay({getSamples:()=>trail.samples,isBusy:()=>pending || !!session});
-diagnostic(`motion-lab-2; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
+diagnostic(`motion-lab-3; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
 draw();
 try {
   supported=!!(isSecureContext && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));

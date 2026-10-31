@@ -1,9 +1,11 @@
+import {fitTrajectory,trajectoryLines,plane,xyz,pathDistances} from './motion-replay-view.mjs?v=1';
 import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=1';
 export function createMotionReplay({getSamples,isBusy}) {
   const $=id=>document.getElementById(id), canvas=$('replay-scene'),ctx=canvas.getContext('2d');
   let recording=null,time=0,playing=false,raf=0,last=null,loadToken=0;
+  let view=fitTrajectory([]);
   const colours=['#ff9b8c','#a5ffbf','#84c9ff'];
-  const project=([x,y,z])=>[350+(x-z)*65,205-y*80+(x+z)*26];
+
   function line(a,b,colour,width=2){ctx.strokeStyle=colour;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();}
   function arrow(a,b,colour,width=3){line(a,b,colour,width);const angle=Math.atan2(b[1]-a[1],b[0]-a[0]),head=Math.min(10,Math.hypot(b[0]-a[0],b[1]-a[1])*.35);for(const d of [-.5,.5])line(b,[b[0]-head*Math.cos(angle+d),b[1]-head*Math.sin(angle+d)],colour,width);}
   function label(text,p,colour='#dfede3'){ctx.fillStyle=colour;ctx.font='15px system-ui';ctx.fillText(text,p[0],p[1]);}
@@ -19,10 +21,20 @@ export function createMotionReplay({getSamples,isBusy}) {
   }
   function render(){
     ctx.clearRect(0,0,700,400);
-    const o=project([0,0,0]);
-    [[2.7,0,0],[0,2.1,0],[0,0,2.7]].forEach((v,i)=>{const end=project(v);arrow(o,end,colours[i],1);label(['+X','+Y (up)','+Z'][i],[end[0]+5,end[1]],colours[i]);});
+    const legend=[58,52];
+    [[1,0,0],[0,1,0],[0,0,1]].forEach((v,i)=>{const d=plane(v),end=[legend[0]+d[0]*25,legend[1]+d[1]*25];arrow(legend,end,colours[i],1);label(['+X','+Y','+Z'][i],[end[0]+3,end[1]],colours[i]);});
     if(!recording){label('Load a recording or use your current capture.',[125,365]);return;}
     const state=poseAt(recording,time),p=state.pose;
+    const distances=pathDistances(recording.samples,time,p);
+    $('replay-travelled').textContent=`${distances.travelled.toFixed(2)} / ${distances.total.toFixed(2)} m`;
+    $('replay-displacement').textContent=distances.displacement===null?'Unavailable':`${distances.displacement.toFixed(2)} m`;
+    for(const edge of trajectoryLines(recording.samples,time,p))line(view.project(xyz(edge.a)),view.project(xyz(edge.b)),edge.played?'#a5ffbf':'#42654e',edge.played?3:2);
+    const first=view.project(xyz(recording.samples[0])),end=view.project(xyz(recording.samples.at(-1)));
+    ctx.fillStyle='#a5ffbf';ctx.beginPath();ctx.arc(...first,4,0,Math.PI*2);ctx.fill();label('Start',[first[0]+7,first[1]+17]);
+    ctx.strokeStyle='#a5ffbf';ctx.lineWidth=2;ctx.beginPath();ctx.arc(...end,5,0,Math.PI*2);ctx.stroke();label('End',[end[0]+7,end[1]-9]);
+    // Cube is a constant-sized orientation glyph at the metric path position.
+    const o=p?view.project(xyz(p)):[350,200];
+    const project=v=>{const d=plane(v);return [o[0]+d[0]*35,o[1]+d[1]*35];};
     if(p){
       const corners=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]].map(v=>rotate(p.q,v.map(n=>n*.65)));
       const faces=[{v:[0,1,2,3],c:'#476f9b',name:'VIEW −Z'},{v:[4,7,6,5],c:'#253747'},{v:[3,2,6,7],c:'#4a8964',name:'UP +Y'},{v:[0,4,5,1],c:'#213b2a'},{v:[1,5,6,2],c:'#8d4e43',name:'RIGHT +X'},{v:[0,3,7,4],c:'#402b28'}];
@@ -43,13 +55,7 @@ export function createMotionReplay({getSamples,isBusy}) {
       label('Tracking gap · no pose or speed interpolated',[140,200],'#ffcf70');
       $('replay-speed-value').textContent='Unavailable';$('replay-vector').textContent='Tracking gap';$('replay-position').textContent='Tracking gap';
     }
-    // Small path overview; fixed bounds for the entire recording.
-    const samples=recording.samples,extent=Math.max(1,...samples.map(p=>Math.max(Math.abs(p.x),Math.abs(p.z))));
-    const point=p=>[78+p.x*48/extent,305+p.z*48/extent];
-    ctx.fillStyle='#07100be6';ctx.fillRect(12,235,135,132);label('X / Z trail',[22,253]);
-    for(let i=1;i<samples.length;i++)if(connected(samples[i-1],samples[i]))line(point(samples[i-1]),point(samples[i]),'#5f9c72',1);
-    if(p){ctx.beginPath();ctx.arc(...point(p),4,0,Math.PI*2);ctx.fillStyle='#ffcf70';ctx.fill();}
-    label('Cube centred for rotation · arrow = world velocity',[175,385]);
+    label('Bright: travelled · Dim: remaining · Amber: velocity',[155,377]);
     $('replay-time').value=String(time);
     $('replay-clock').textContent=`${(time/1000).toFixed(1)} / ${(recording.duration/1000).toFixed(1)} s`;
   }
@@ -63,7 +69,7 @@ export function createMotionReplay({getSamples,isBusy}) {
   }
   function load(data,name){
     // Validate before replacing a usable previous replay.
-    const next=validateRecording(data);pause();recording=next;time=0;
+    const next=validateRecording(data);pause();recording=next;view=fitTrajectory(next.samples);time=0;
     $('replay-time').max=String(recording.duration);
     $('replay-status').textContent=`${name} · ${next.samples.length} samples · ${(next.duration/1000).toFixed(1)} s`;
     render();update();

@@ -1,6 +1,6 @@
-# Motion Lab replay (motion-lab-2)
+# Motion Lab replay (motion-lab-3)
 
-Open motion.html?v=2. Stop AR, then choose **Use current recording**, or
+Open motion.html?v=4. Stop AR, then choose **Use current recording**, or
 **Load trajectory JSON** from Motion Lab v1/v2. Press Play; pause/scrub with the
 slider, rewind, or choose 0.25/0.5/1/2x playback. No AR support or camera permission
 is required for replay. Export the current capture before refreshing the page.
@@ -8,11 +8,11 @@ A page reload cannot recover an unsaved prior in-memory capture.
 
 ## Display and conventions
 
-The cube stays centred and follows the recorded WebXR viewer quaternion, in runtime
+The cube moves along the recorded XYZ trajectory and follows the recorded WebXR viewer quaternion, in runtime
 local coordinates (not compass north). Local axes show right +X, up +Y, view -Z.
 This represents the XR viewer frame, not a calibrated phone-chassis coordinate frame.
 A fixed isometric view and coloured faces/axes make rotation visible. Position is
-shown numerically and in the X/Z trail inset. World axes stay fixed.
+shown numerically and as the complete 3D trajectory in the same view. A corner axis legend stays fixed.
 
 The amber vector is velocity in that same local world frame. Numeric speed is
 sqrt(Vx²+Vy²+Vz²), in metres/second; components are shown separately. Its visible
@@ -62,3 +62,27 @@ Phone next action: load an existing saved Motion Lab JSON, Play and scrub; compa
 rotation and speed to remembered motion. Then record a short new sequence, Stop,
 Use current recording. Report any rendering/runtime issue with diagnostics and,
 optionally, the trajectory JSON. Phone hardware accuracy remains unverified.
+
+## Combined trajectory view — 2026-10-31
+
+The full XYZ path and cube share the same oblique world projection. The camera fit
+is computed once for the complete recording, so playback and scrubbing never move
+the viewport or change zoom. The cube is a constant-sized orientation glyph placed
+at the interpolated metric trajectory position; its visual dimensions are not phone
+size. The velocity arrow originates at the cube. Bright green marks travelled path,
+dim green the remaining path, with a split precisely at the current pose. Start/end
+markers identify recording bounds. Tracking gaps remain disconnected. Single-frame
+and stationary data remain finite. The previous separate X/Z inset is replaced.
+
+26 Node tests pass, including four projection/path tests for bounds, vertical motion,
+stationary inputs, current-pose path split and gap exclusion. Browser rising-loop
+fixture inspected at mid-replay: moving/rotating cube, bright/dim path and attached
+velocity render correctly. No physical phone accuracy claim. Evidence:
+tools/motion-lab/evidence/trajectory-tests.log. Reproduce with the existing motion
+suite command. JSON schema, capture, speed calculation and navigation are unchanged.
+
+Distance addition: replay displays path travelled / total (3D connected-sample
+length) and straight-line distance from the first retained sample. Readouts follow
+playback and scrubbing. Gaps excluded; noisy tracking can inflate length. Two
+additional distance tests pass, including curved partial intervals and gap exclusion.
+Browser rising-loop midpoint: 6.27 / 12.54 m path; 4.03 m displacement.
