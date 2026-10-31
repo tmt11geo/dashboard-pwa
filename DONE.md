@@ -1,5 +1,19 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Trajectory/distance update: deployment approval blocked — 2026-10-31
+
+Implementation: d4e51bc1341b74d76cc14ad41a28d9a0d4f0585c on depth-tfjs-webgl.
+26 tests PASS; browser synthetic rising-loop replay and distance scrubbing checked.
+All ten changed remote files match tested content. Automatic approval review
+rejected advancing main for these new trajectory/distance additions: the user
+requests were treated as implementation approval, not live-deployment approval.
+No retry/workaround. Main rechecked unchanged at 42ae89705aca10149dfc3e8af6711173846ffbda.
+Exact next action: obtain explicit approval to deploy trajectory and distance
+changes; recheck heads, leased main promotion, verify exact Pages success, receipt.
+Then load existing JSON in motion.html?v=4; Play/scrub to see moving cube on 3D path,
+path travelled/total and straight-line distance from first retained sample.
+This supersedes any immediate-publication pointer below.
+
 ## Combined 3D trajectory replay — 2026-10-31
 
 Started from depth-tfjs-webgl 9a35e70aeef4c430b351325c1cd776b6ba640512;
