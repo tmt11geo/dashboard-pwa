@@ -1,0 +1,20 @@
+(node:20) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ unsupported device disables start and never requests a session (8.012864ms)
+✔ denied permission allows retry with actionable error (5.070961ms)
+✔ track, gap, reset, export, end and restart with fresh origin (6.219171ms)
+✔ stop while permission pending closes late session without starting frames (3.211979ms)
+✔ failed graphics initialization ends acquired session and restores controls (4.374652ms)
+✔ emulated poses are not saved; visibility interruption breaks the trail (3.921233ms)
+✔ metre translation relative to first pose; rotation does not imply translation (1.275502ms)
+✔ missing, emulated and nonfinite poses are rejected and break the line (0.210317ms)
+✔ sampling is bounded at 10Hz and retains latest window (0.254714ms)
+✔ reference reset clears prior coordinate frame and re-establishes zero (0.129425ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.677436

@@ -1,5 +1,35 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Motion Lab camera + IMU demo checkpoint — 2026-10-31
+
+Started from depth-tfjs-webgl 5ac55c8e8ef75dc7f8423292a931a7da2d8cf093;
+remote main verified d40d914a9ae94e1a432e56d4df040505b1638e01. Recursive
+repository tree contains no AGENTS.md. This new feature supersedes the previous
+single-frame phone-test pointer for the current development task.
+
+Added isolated motion.html (motion-lab-1), WebXR/ARCore local 6DoF pose demo:
+XYZ metres, quaternion, displacement, bounded top-down trail, reset, stop, JSON
+export, capability diagnostics. Linked from Experimental. No model download,
+raw-frame upload, accelerometer dead reckoning, Depth fusion or mapping claim.
+Ordinary Depth, scanner controllers, map logic, PWA service worker and Access unchanged.
+Evaluated Depth Anything V2/3, ORB-SLAM3 and WebXR; decision and sources in
+docs/motion-lab.md. WebXR is the first browser feasibility path, not a bundled
+open-source VIO engine; Android Chrome uses platform ARCore.
+
+10 Node core/controlled-lifecycle tests PASS; JS syntax PASS. Unsupported-device
+UI rendered and inspected in cloud browser. Evidence: tools/motion-lab/evidence/
+node-tests.log; reproducible commands and limitations in docs/motion-lab.md.
+No physical camera/ARCore, metric accuracy, phone layout or installed-PWA success
+claim. No deployment: main remains at the previous single-frame Depth release.
+
+Outcome/checkpoint branch: depth-tfjs-webgl. Next action: review Motion Lab, then
+promote approved code via existing main/Pages flow and verify exact deployment.
+After deployment, test motion.html?v=1 in Android Chrome: start, translate about
+one metre, rotate, return, reset, stop/save, restart. Then try installed PWA.
+Provide Diagnostics if AR capability/permission fails. Do not integrate Depth
+with AR camera or claim successful phone VIO until the real device test passes.
+
+
 ## Single-frame Depth deployed — 2026-10-31
 
 User explicitly approved deployment to the live app. Main advanced with an
