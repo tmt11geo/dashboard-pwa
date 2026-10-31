@@ -1,5 +1,21 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Recording-rate selector and collapsible help deployed — 2026-10-31
+
+User explicitly approved deployment. Main advanced by expected-head lease to
+d6ae4fdc6b5d6716a258cd18d3214fdfcb51289c. GitHub Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/41206965862
+completed SUCCESS for that exact SHA. Main HTML/controller/core match verified
+implementation. Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=9
+Build motion-lab-6; script v6, core v3, CSS v7. Recording options 10/20/30/Maximum,
+default 30Hz, measured recent saved-pose rate. Guide and Explanation collapsed;
+requested introductory sentences removed. 43 tests PASS; HTML source checks PASS.
+Physical phone sampling-rate/performance acceptance remains pending.
+This supersedes previous deployment-pending notes; receipt on checkpoint only.
+Next: save any existing recording before refresh, open direct link, select rate
+before Start, inspect actual recorded Hz, then stop/save/replay. At 30Hz the
+36k rolling window retains about 20 minutes. Verify disclosures on phone.
+
 ## Collapsible Motion Lab help — 2026-10-31
 
 Removed the two requested introductory sentences. Wrapped both long replay
