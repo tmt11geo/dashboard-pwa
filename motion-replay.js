@@ -51,7 +51,7 @@ export function createMotionReplay({getSamples,isBusy}) {
       const faces=[{v:[0,1,2,3],c:'#476f9b',name:'VIEW −Z'},{v:[4,7,6,5],c:'#253747'},{v:[3,2,6,7],c:'#4a8964',name:'UP +Y'},{v:[0,4,5,1],c:'#213b2a'},{v:[1,5,6,2],c:'#8d4e43',name:'RIGHT +X'},{v:[0,3,7,4],c:'#402b28'}];
       // Face order uses the current camera direction, including views from below.
       faces.sort((a,b)=>a.v.reduce((n,i)=>n+view.depth(corners[i]),0)-b.v.reduce((n,i)=>n+view.depth(corners[i]),0));
-      for(const f of faces){ctx.beginPath();f.v.forEach((i,j)=>{const v=project(corners[i]);j?ctx.lineTo(...v):ctx.moveTo(...v);});ctx.closePath();ctx.fillStyle=f.c;ctx.fill();ctx.strokeStyle='#c9e3d4';ctx.lineWidth=1;ctx.stroke();}
+      for(const f of faces){ctx.beginPath();f.v.forEach((i,j)=>{const v=project(corners[i]);j?ctx.lineTo(...v):ctx.moveTo(...v);});ctx.closePath();ctx.fillStyle=f.c+'66';ctx.fill();ctx.strokeStyle='#c9e3d4';ctx.lineWidth=1;ctx.stroke();}
       // Local viewer axes clarify rotations even when cube faces look similar.
       [[1.2,0,0],[0,1.2,0],[0,0,-1.2]].forEach((v,i)=>{const end=project(rotate(p.q,v));arrow(o,end,colours[i]);label(['right','up','view'][i],[end[0]+5,end[1]+5],colours[i]);});
       if(state.velocity){

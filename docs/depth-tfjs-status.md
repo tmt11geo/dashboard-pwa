@@ -1,5 +1,15 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Translucent replay cube — 2026-10-31
+
+Set each cube face fill to 40% opacity (hex alpha 66). Overlapping front/back
+faces blend; outlines, axis labels and velocity arrow remain opaque. Allows the
+trajectory to show through the cube. No coordinates or playback logic changed.
+Replay module v7, page controller v9 for cache refresh. Source checked; no new
+tests for this visual-only color change. Pending deployment together with the
+tracking-quality warnings. Based on c56de13c09bb4c75c4d2c29524b599237284c24a.
+Next: deploy after approval, verify Pages, then inspect cube contrast on phone.
+
 ## Tracking-quality warnings and breaks implemented — 2026-10-31
 
 Based on checkpoint dd8f5c216b0f656aa856dad85c94a71d7f662db5; main inspected
