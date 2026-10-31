@@ -1,5 +1,27 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Movable replay viewpoint implemented and approved — 2026-10-31
+
+User explicitly requested implementation and deployment. Starting checkpoint
+d7f387add4741fc7a1ce76ec94fd785010ea7108; main inspected at
+37d4944434c91db3b3eb6c84ec28e7459e4a789d. No AGENTS.md.
+Added one-pointer drag orbit, pinch zoom, two-pointer pan, mouse wheel zoom,
+Shift/right drag pan, keyboard arrows/Shift arrows/+/-/R, zoom buttons and
+Reset view. These change the viewing camera only; playback, recorded poses,
+velocity and distances remain unchanged. Current camera basis drives trajectory,
+cube, axes, velocity and face depth ordering. Camera persists during playback
+and scrubbing; loading a new recording resets overview. Input cancellation,
+capture transitions, zoom/pitch/pan bounds and canvas-only touch-action included.
+
+32 motion tests PASS; JS syntax PASS. Controlled pointer tests cover pinch/pan,
+pointer cancellation and disabled state; real browser drag orbit, wheel/button
+zoom, keyboard pan and reset checked with synthetic rising-loop data. No physical
+phone multi-touch validation claim. Evidence: tools/motion-lab/evidence/orbit-tests.log.
+Build motion-lab-4; motion.html?v=5. No capture/schema/model/Access/nav changes.
+Next: publish approved tree, verify exact Pages success and record receipt. User
+saves current capture before refresh, loads JSON, drags/pinches/two-finger pans
+while paused or playing; Reset view restores overview. Phone gesture check pending.
+
 ## 3D trajectory and distance replay deployed — 2026-10-31
 
 User explicitly approved deployment. Main advanced with an expected-head lease

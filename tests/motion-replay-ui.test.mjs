@@ -12,7 +12,8 @@ async function setup(){
  const context=vm.createContext({document,window:new Events(),requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id)});
  const core=new vm.SourceTextModule(await readFile(new URL('../motion-replay-core.mjs',import.meta.url),'utf8'),{context});
  const ui=new vm.SourceTextModule(await readFile(new URL('../motion-replay.js',import.meta.url),'utf8'),{context});const view=new vm.SourceTextModule(await readFile(new URL('../motion-replay-view.mjs',import.meta.url),'utf8'),{context});
- await view.link(()=>core);await ui.link(spec=>spec.includes('motion-replay-view')?view:core);await ui.evaluate();
+ await view.link(()=>core);const orbit=new vm.SourceTextModule(await readFile(new URL('../motion-replay-orbit.mjs',import.meta.url),'utf8'),{context});
+ await ui.link(spec=>spec.includes('motion-replay-view')?view:spec.includes('motion-replay-orbit')?orbit:core);await ui.evaluate();
  const api=ui.namespace.createMotionReplay({getSamples:()=>samples,isBusy:()=>busy});
  return{nodes,api,document,busy:value=>{busy=value;api.update();},samples:value=>samples=value,click:id=>nodes.get(id).emit('click'),tick:time=>{const callbacks=[...frames.values()];frames.clear();for(const fn of callbacks)fn(time);},frames,
  load:async(text,size=100)=>{nodes.get('replay-file').files=[{name:'capture.json',size,text:async()=>text}];await nodes.get('replay-file').emit('change');}};
@@ -40,4 +41,11 @@ test('gap shows unavailable pose and velocity; a single frame is inspectable wit
  const h=await setup();await h.load(JSON.stringify(fileData([sample(0),{...sample(100,5),segment:1}])));
  h.nodes.get('replay-time').value='50';await h.nodes.get('replay-time').emit('input');assert.equal(h.nodes.get('replay-position').textContent,'Tracking gap');assert.equal(h.nodes.get('replay-speed-value').textContent,'Unavailable');
  await h.load(JSON.stringify(fileData([sample(500)])));assert.equal(h.nodes.get('replay-play').disabled,true);assert.equal(h.nodes.get('replay-rewind').disabled,false);
+});
+test('camera zoom/reset during playback keeps time, physical speed and distances intact',async()=>{
+ const h=await setup();await h.click('replay-current');await h.click('replay-play');h.tick(0);h.tick(50);
+ const speed=h.nodes.get('replay-speed-value').textContent,distance=h.nodes.get('replay-travelled').textContent;
+ await h.click('replay-view-in');assert.match(h.nodes.get('replay-view-status').textContent,/1.20/);assert.equal(h.nodes.get('replay-play').textContent,'Pause');assert.equal(h.nodes.get('replay-time').value,'50');
+ assert.equal(h.nodes.get('replay-speed-value').textContent,speed);assert.equal(h.nodes.get('replay-travelled').textContent,distance);
+ await h.click('replay-view-reset');assert.match(h.nodes.get('replay-view-status').textContent,/1.00/);h.tick(100);assert.equal(h.nodes.get('replay-time').value,'100');
 });

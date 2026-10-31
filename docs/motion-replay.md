@@ -1,3 +1,22 @@
+# Movable viewpoint update (motion-lab-4)
+
+Open motion.html?v=5. One-finger drag orbits, pinch zooms, two-finger drag pans.
+Mouse wheel zooms; Shift-drag/right-drag pans. Focus the canvas for arrow orbit,
+Shift+arrow pan, +/- zoom, R/0 reset. Buttons provide zoom and Reset view.
+
+All geometry uses the same orbit basis, including cube face sorting. View changes
+preserve source samples, playback time/rate and physical speed/distance. Zoom is
+bounded 0.2–8x, pitch avoids pole singularities, pan is bounded; reset is always
+available. Gestures are scoped to the canvas. Scroll outside it to move the page.
+New recordings reset the camera; scrub/play do not. Pointer cancellation, lost
+capture, hidden page and starting AR clear active gestures. Physical phone
+multi-touch remains a manual check; controlled pinch/pan tests pass.
+
+32 Node tests PASS; real browser drag/wheel/zoom-button/keyboard/reset verified
+with a synthetic rising loop. Prior capture/replay/trajectory tests still pass.
+Evidence: tools/motion-lab/evidence/orbit-tests.log. Historical fixed-view
+statements below describe the previous version and are superseded here.
+
 # Motion Lab replay (motion-lab-3)
 
 Open motion.html?v=4. Stop AR, then choose **Use current recording**, or

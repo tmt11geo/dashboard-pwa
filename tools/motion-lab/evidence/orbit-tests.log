@@ -1,0 +1,44 @@
+(node:36) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ unsupported device disables start and never requests a session (20.018396ms)
+✔ denied permission allows retry with actionable error (13.254916ms)
+✔ track, gap, reset, export, end and restart with fresh origin (17.070132ms)
+✔ stop while permission pending closes late session without starting frames (12.192919ms)
+✔ failed graphics initialization ends acquired session and restores controls (18.641374ms)
+✔ emulated poses are not saved; visibility interruption breaks the trail (8.937199ms)
+✔ default orbit basis matches previous overview; depth basis is perpendicular (1.959224ms)
+✔ orbit changes projection, pan/zoom are bounded, reset restores overview exactly (2.039916ms)
+✔ zoom preserves anchor point and camera changes cannot mutate distance samples (0.55556ms)
+✔ pointer orbit, pinch zoom, two-finger pan, pointer cancellation and disabled state (1.419948ms)
+✔ mouse pan, wheel zoom, keyboard and reset controls (1.417695ms)
+(node:38) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ current recording, play/pause, scrub, speed, rewind and end (51.628319ms)
+✔ JSON loading rejects malformed/oversize files without replacing valid replay (59.82082ms)
+✔ camera activity and hidden page stop playback; replay is independent of live samples (12.887626ms)
+✔ gap shows unavailable pose and velocity; a single frame is inspectable without play (8.503233ms)
+✔ camera zoom/reset during playback keeps time, physical speed and distances intact (13.01672ms)
+✔ fits complete three-dimensional recording with room for cube and arrows (3.167141ms)
+✔ stationary and one-point captures have finite projection (0.978811ms)
+✔ played and remaining path meet exactly at the interpolated cube position (0.437422ms)
+✔ path never connects separate segments or long missing intervals (0.307425ms)
+✔ travelled distance follows bends and includes interpolated partial interval (0.308477ms)
+✔ distance excludes tracking jumps and is unavailable for displacement during gap (0.280995ms)
+✔ validates, normalizes time/quaternion and copies without altering source (4.149537ms)
+✔ rejects wrong schema, empty/excessive samples, bad times, coordinates, rotations and segments (3.982885ms)
+✔ interpolates pose and computes physical metres/second from milliseconds (0.70772ms)
+✔ opposite quaternion signs interpolate as the same rotation (3.799998ms)
+✔ never interpolates velocity or pose across tracking segments or long gaps (0.437912ms)
+✔ stationary data has zero speed; one sample has unavailable velocity (0.422789ms)
+✔ metre translation relative to first pose; rotation does not imply translation (4.157779ms)
+✔ missing, emulated and nonfinite poses are rejected and break the line (0.790386ms)
+✔ sampling is bounded at 10Hz and retains latest window (0.629292ms)
+✔ reference reset clears prior coordinate frame and re-establishes zero (0.246352ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 294.311525

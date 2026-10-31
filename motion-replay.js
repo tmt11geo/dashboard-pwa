@@ -1,9 +1,10 @@
-import {fitTrajectory,trajectoryLines,plane,xyz,pathDistances} from './motion-replay-view.mjs?v=1';
+import {OrbitView,bindOrbit} from './motion-replay-orbit.mjs?v=1';
+import {trajectoryLines,xyz,pathDistances} from './motion-replay-view.mjs?v=1';
 import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=1';
 export function createMotionReplay({getSamples,isBusy}) {
   const $=id=>document.getElementById(id), canvas=$('replay-scene'),ctx=canvas.getContext('2d');
   let recording=null,time=0,playing=false,raf=0,last=null,loadToken=0;
-  let view=fitTrajectory([]);
+  let view=new OrbitView();
   const colours=['#ff9b8c','#a5ffbf','#84c9ff'];
 
   function line(a,b,colour,width=2){ctx.strokeStyle=colour;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();}
@@ -18,11 +19,13 @@ export function createMotionReplay({getSamples,isBusy}) {
     $('replay-rewind').disabled=busy || !recording;
     $('replay-time').disabled=busy || !recording;
     $('replay-play').textContent=playing?'Pause':'Play';
+    for(const id of ['replay-view-reset','replay-view-in','replay-view-out'])$(id).disabled=busy || !recording;
   }
   function render(){
     ctx.clearRect(0,0,700,400);
+    $('replay-view-status').textContent=`View zoom ${view.zoom.toFixed(2)}× · drag to orbit`;
     const legend=[58,52];
-    [[1,0,0],[0,1,0],[0,0,1]].forEach((v,i)=>{const d=plane(v),end=[legend[0]+d[0]*25,legend[1]+d[1]*25];arrow(legend,end,colours[i],1);label(['+X','+Y','+Z'][i],[end[0]+3,end[1]],colours[i]);});
+    [[1,0,0],[0,1,0],[0,0,1]].forEach((v,i)=>{const d=view.vector(v),end=[legend[0]+d[0]*25,legend[1]+d[1]*25];arrow(legend,end,colours[i],1);label(['+X','+Y','+Z'][i],[end[0]+3,end[1]],colours[i]);});
     if(!recording){label('Load a recording or use your current capture.',[125,365]);return;}
     const state=poseAt(recording,time),p=state.pose;
     const distances=pathDistances(recording.samples,time,p);
@@ -34,12 +37,12 @@ export function createMotionReplay({getSamples,isBusy}) {
     ctx.strokeStyle='#a5ffbf';ctx.lineWidth=2;ctx.beginPath();ctx.arc(...end,5,0,Math.PI*2);ctx.stroke();label('End',[end[0]+7,end[1]-9]);
     // Cube is a constant-sized orientation glyph at the metric path position.
     const o=p?view.project(xyz(p)):[350,200];
-    const project=v=>{const d=plane(v);return [o[0]+d[0]*35,o[1]+d[1]*35];};
+    const project=v=>{const d=view.vector(v);return [o[0]+d[0]*35*view.zoom,o[1]+d[1]*35*view.zoom];};
     if(p){
       const corners=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]].map(v=>rotate(p.q,v.map(n=>n*.65)));
       const faces=[{v:[0,1,2,3],c:'#476f9b',name:'VIEW −Z'},{v:[4,7,6,5],c:'#253747'},{v:[3,2,6,7],c:'#4a8964',name:'UP +Y'},{v:[0,4,5,1],c:'#213b2a'},{v:[1,5,6,2],c:'#8d4e43',name:'RIGHT +X'},{v:[0,3,7,4],c:'#402b28'}];
-      // Painter's order for the fixed isometric camera (view direction (1, .65, 1)).
-      faces.sort((a,b)=>a.v.reduce((n,i)=>n+(corners[i][0]+.65*corners[i][1]+corners[i][2]),0)-b.v.reduce((n,i)=>n+(corners[i][0]+.65*corners[i][1]+corners[i][2]),0));
+      // Face order uses the current camera direction, including views from below.
+      faces.sort((a,b)=>a.v.reduce((n,i)=>n+view.depth(corners[i]),0)-b.v.reduce((n,i)=>n+view.depth(corners[i]),0));
       for(const f of faces){ctx.beginPath();f.v.forEach((i,j)=>{const v=project(corners[i]);j?ctx.lineTo(...v):ctx.moveTo(...v);});ctx.closePath();ctx.fillStyle=f.c;ctx.fill();ctx.strokeStyle='#c9e3d4';ctx.lineWidth=1;ctx.stroke();}
       // Local viewer axes clarify rotations even when cube faces look similar.
       [[1.2,0,0],[0,1.2,0],[0,0,-1.2]].forEach((v,i)=>{const end=project(rotate(p.q,v));arrow(o,end,colours[i]);label(['right','up','view'][i],[end[0]+5,end[1]+5],colours[i]);});
@@ -69,7 +72,7 @@ export function createMotionReplay({getSamples,isBusy}) {
   }
   function load(data,name){
     // Validate before replacing a usable previous replay.
-    const next=validateRecording(data);pause();recording=next;view=fitTrajectory(next.samples);time=0;
+    const next=validateRecording(data);pause();orbitControls.cancel();recording=next;view=new OrbitView(next.samples);time=0;
     $('replay-time').max=String(recording.duration);
     $('replay-status').textContent=`${name} · ${next.samples.length} samples · ${(next.duration/1000).toFixed(1)} s`;
     render();update();
@@ -101,6 +104,10 @@ export function createMotionReplay({getSamples,isBusy}) {
   $('replay-rate').addEventListener('change',()=>{last=null;});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
   window.addEventListener('pagehide',pause);
+  const orbitControls=bindOrbit(canvas,{getView:()=>view,enabled:()=>!!recording&&!isBusy(),changed:render});
+  $('replay-view-reset').addEventListener('click',()=>{if(!recording||isBusy())return;orbitControls.cancel();view.reset();render();});
+  $('replay-view-in').addEventListener('click',()=>{if(!recording||isBusy())return;view.zoomAt(1.2);render();});
+  $('replay-view-out').addEventListener('click',()=>{if(!recording||isBusy())return;view.zoomAt(1/1.2);render();});
   render();update();
-  return {update,stop(){loadToken++;pause();}};
+  return {update,stop(){loadToken++;orbitControls.cancel();pause();}};
 }
