@@ -1,5 +1,25 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## 3D trajectory and distance replay deployed — 2026-10-31
+
+User explicitly approved deployment. Main advanced with an expected-head lease
+to 37d4944434c91db3b3eb6c84ec28e7459e4a789d; PR #4 is merged.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41203316020
+completed SUCCESS for this exact SHA. Previous approval blocker is resolved.
+
+Live: https://tmt11.com/dashboard-pwa/motion.html?v=4
+Cube now moves and rotates on the full XYZ path in the same view, with attached
+velocity. Bright/dim segments show travelled/remaining path. Readouts show path
+travelled/total and straight-line distance from the first retained sample.
+Tracking gaps remain disconnected and excluded from path length.
+
+26 prior tests passed; browser rising-loop checks verified trajectory and distance
+scrubbing. No code changes during deployment; no physical sensor accuracy claim.
+Next: save any current capture before refreshing, open Motion Lab, Load trajectory
+JSON or Stop then Use current recording, Play/scrub. Existing v1 JSON is compatible.
+Check distance and path interpretation on phone; provide capture/diagnostics if needed.
+Checkpoint remains depth-tfjs-webgl; main stays at the exact deployed SHA.
+
 ## Trajectory/distance update: deployment approval blocked — 2026-10-31
 
 Implementation: d4e51bc1341b74d76cc14ad41a28d9a0d4f0585c on depth-tfjs-webgl.
