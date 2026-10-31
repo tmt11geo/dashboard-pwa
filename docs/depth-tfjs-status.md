@@ -1,5 +1,18 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## 36k samples and transparent AR overlay deployed — 2026-10-31
+
+User explicitly approved deployment of both changes. Main is
+7ba1217bb2d1c7121f6d8882c76c2d33b4f93f60, promoted with expected-head lease.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41205493241
+completed SUCCESS for this exact SHA. Main HTML/CSS/shared limits verified.
+Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=7
+Build motion-lab-5; CSS v4. 39 tests passed for the 36k work; scoped overlay
+CSS source checked. Phone AR readability/endurance acceptance remains pending.
+This supersedes earlier deployment-blocked notes. Receipt is checkpoint-only.
+Next: save any current recording before refresh, open the direct link, Start AR
+tracking and check overlay visibility; test a larger capture/replay on the phone.
+
 ## More transparent AR overlay — 2026-10-31
 
 Based on checkpoint cac9b16c8e4c384cbf4b25c3a87686145c77801d.
