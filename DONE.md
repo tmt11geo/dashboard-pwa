@@ -1,5 +1,28 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Single-frame split checkpoint: deployment awaits approval — 2026-10-31
+
+Implementation: b53786318083c99aa5c1c69c3d486efe3c4efd30 on depth-tfjs-webgl.
+All 21 changed remote blobs match tested local files. 95 Node tests, 19 actual-model
+browser checks and four mobile layout checks PASS. Experimental controller matches
+the previous controller byte-for-byte. No phone performance or new stitch claim.
+Draft review: https://github.com/tmt11geo/dashboard-pwa/pull/1
+
+Automatic approval review rejected the leased main update: updating the default
+branch deploys the live app, and the user's code-change authorization was not
+accepted as explicit production deployment approval. Do not retry deployment
+until the user explicitly approves merging/deploying this change.
+Remote heads rechecked: feature b53786318083c99aa5c1c69c3d486efe3c4efd30;
+main still 01107843915c49461a9032d0105734f41e10802b. No deployment occurred.
+This documentation receipt follows the implementation on the feature branch.
+
+Exact next action: obtain explicit approval to merge PR #1 / advance main and
+deploy, recheck both branch heads, deploy with an expected-head lease, verify
+the exact Pages run succeeds, then record the deployment receipt. User then
+tests depth.html?v=18 without calibration. Earlier deployment-pending text
+below is superseded by this approval blocker.
+
+
 ## Restore single-frame Depth; isolate experimental scanning — 2026-10-31
 
 User requested restoring the simple Depth page and preserving current scanning as
