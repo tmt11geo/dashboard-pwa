@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07100b"><title>Motion Lab · Tactical</title>
 <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg">
-<link rel="stylesheet" href="./motion.css?v=7"><script type="module" src="./motion.js?v=7"></script>
+<link rel="stylesheet" href="./motion.css?v=8"><script type="module" src="./motion.js?v=8"></script>
 <link rel="stylesheet" href="./navigation.css?v=1"></head><body>
 <header class="tactical-header"><strong>TACTICAL <span>MOTION LAB</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./?v=20">Map</a><a href="./motion.html?v=3" aria-current="page">Motion Lab</a><a href="./camera.html?v=9">Camera</a><a href="./depth.html?v=19">Depth</a><a href="./depth-experimental.html?v=2">Experimental</a></nav></header>
 <main>
@@ -16,6 +16,7 @@
 <div class="capture-settings"><label for="capture-rate">Recording rate</label> <select id="capture-rate" aria-describedby="capture-rate-help"><option value="10">10 Hz</option><option value="20">20 Hz</option><option value="30" selected>30 Hz</option><option value="0">Maximum</option></select></div>
 <p id="capture-rate-help" class="hint">36,000 samples retain about 20 minutes at 30 Hz. Choose before starting; the phone may provide fewer updates.</p>
 <p id="capture-rate-status">Recorded rate: — · target 30 Hz</p>
+<p id="capture-quality" class="quality-notice" role="status">Tracking accuracy is unverified.</p>
 <p id="status" role="status">Ready to check this device.</p>
 <div class="metrics"><div><small>POSITION · METRES</small><output id="position">No tracked position</output></div><div><small>DISPLACEMENT FROM ORIGIN</small><output id="distance">—</output></div></div>
 <p id="orientation">Orientation quaternion: —</p>
@@ -28,6 +29,7 @@
 <p>Stop AR, then replay the current recording or load a saved Tactical trajectory JSON. Replay works without camera or AR support.</p>
 <div class="controls"><button id="replay-current" disabled>Use current recording</button><button id="replay-load">Load trajectory JSON</button><input id="replay-file" type="file" accept="application/json,.json" hidden></div>
 <p id="replay-status" role="status">No replay loaded. The current recording stays in memory until this page closes; save it before refreshing.</p>
+<p id="replay-quality" class="quality-notice" role="status">Load a recording to check for tracking breaks.</p>
 <div class="replay-picture">
 <canvas id="replay-scene" tabindex="0" aria-describedby="replay-view-help" width="700" height="400" aria-label="Moving phone-view cube on a three-dimensional trajectory, with rotation and velocity arrow"></canvas>
 <div class="replay-hud" aria-label="Playback measurements">
@@ -43,6 +45,7 @@
 <p id="replay-view-status" class="hint">View zoom 1.00× · drag to orbit</p>
 <details class="replay-help"><summary>View controls</summary><p id="replay-view-help" class="hint">Drag to orbit · Pinch to zoom · Two-finger drag to pan. Mouse: wheel to zoom, Shift-drag or right-drag to pan. Keyboard: arrows orbit, Shift+arrows pan, +/− zoom, R resets. Scroll the page outside the view.</p></details>
 <details class="replay-help"><summary>Guide</summary>
+<p class="hint">Tracking checks flag sudden movements over 0.3 m and 10 m/s within 250 ms as suspected jumps. This walking-demo rule can flag genuine fast motion and cannot detect all gradual drift. Amber rings mark up to the latest 100 suspected jumps. Tracking breaks are excluded from path length and velocity, so totals can undercount actual travel. Original position coordinates are retained; no route or endpoint correction is applied. Older JSON recordings are checked on load too.</p>
 <p class="hint">The cube moves along the 3D trajectory and follows recorded viewer rotation: right (+X), up (+Y), view (−Z). The view initially fits the full recording. Orbit, zoom and pan while playing or paused; Reset view restores the overview. Bright green is the travelled path; dim green is the remaining path. Gaps stay disconnected. The corner axes show world directions. The amber arrow shows movement direction; its length grows with speed up to 2 m/s, with a minimum visible length for slow motion. The numeric speed is uncapped. The cube is a fixed-size orientation marker, not a scale model of the phone.</p>
 <p class="hint">Path length adds the recorded 3D movement between connected samples; straight-line distance is from the first retained sample. Gaps are excluded from path length. Tracking noise can inflate these estimates. Speed is an estimate from adjacent positions, not a separate sensor measurement. Pose noise and tracking jumps can produce spikes. Playback speed does not change the displayed physical speed. Gaps over 0.5 seconds or between tracking segments are left blank. The displayed path is simplified to about 2,000 segments for responsiveness; playback, speed, distance and exported files use all retained samples. JSON imports are limited to 20 MiB. Files are checked and processed locally.</p>
 </details>

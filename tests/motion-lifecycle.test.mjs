@@ -70,11 +70,19 @@ test('selector defaults to 30, locks during tracking, exports requested rate and
   let s=fakeSession();const h=await setup({request:async()=>s});
   assert.equal(h.nodes.get('capture-rate').value,'30');await h.click('start');
   assert.equal(h.nodes.get('capture-rate').disabled,true);
-  for(let i=0;i<=120;i++)s.frame(i*1000/60,{session:s,getViewerPose:()=>pose(i)});
+  for(let i=0;i<=120;i++)s.frame(i*1000/60,{session:s,getViewerPose:()=>pose(i*.01)});
   assert.match(h.nodes.get('capture-rate-status').textContent,/30.0 Hz/);
   await h.click('save');let data=JSON.parse(await h.saved().text());assert.equal(data.samples.length,61);assert.equal(data.sampling.requestedHz,30);
   await h.click('stop');assert.equal(h.nodes.get('capture-rate').disabled,false);
   h.nodes.get('capture-rate').value='0';await h.nodes.get('capture-rate').emit('change');assert.match(h.nodes.get('capture-rate-help').textContent,/every available/);
-  s=fakeSession();await h.click('start');for(let i=0;i<120;i++)s.frame(i*1000/60,{session:s,getViewerPose:()=>pose(i)});
+  s=fakeSession();await h.click('start');for(let i=0;i<120;i++)s.frame(i*1000/60,{session:s,getViewerPose:()=>pose(i*.01)});
   await h.click('save');data=JSON.parse(await h.saved().text());assert.equal(data.samples.length,120);assert.equal(data.sampling.mode,'maximum');
+});
+test('live jump warning persists after recovery; stopping adds no spurious gap; export retains annotation',async()=>{
+ const s=fakeSession();const h=await setup({request:async()=>s});await h.click('start');
+ s.frame(0,{session:s,getViewerPose:()=>pose(0)});s.frame(30,{session:s,getViewerPose:()=>pose(1.5)});s.frame(130,{session:s,getViewerPose:()=>pose(1.6)});
+ assert.match(h.nodes.get('capture-quality').textContent,/1 suspected position jump/);
+ assert.match(h.nodes.get('diagnostics').textContent,/Tracking quality/);
+ await h.click('stop');await h.click('save');const data=JSON.parse(await h.saved().text());
+ assert.equal(data.quality.jumps,1);assert.equal(data.quality.gaps,0);assert.equal(data.samples[1].breakReason,'position-jump');assert.equal(data.samples[1].x,1.5);
 });

@@ -1,4 +1,4 @@
-import {connected} from './motion-replay-core.mjs?v=2';
+import {connected} from './motion-replay-core.mjs?v=3';
 // Fixed oblique projection: the same world basis for trajectory, pose and arrows.
 export const plane = ([x,y,z]) => [x-z, -80/65*y+.4*(x+z)];
 export const xyz = p => [p.x,p.y,p.z];

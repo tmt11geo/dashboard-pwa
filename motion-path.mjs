@@ -44,3 +44,28 @@ export function indexedLines(index,time,pose){
   }
   return lines;
 }
+
+// Walking-demo heuristic, not an ARCore confidence score. Never alters coordinates.
+export function jumpInfo(a,b){
+  if(!a||!b)return null;
+  const dt=b.t-a.t,distance=Math.hypot(b.x-a.x,b.y-a.y,b.z-a.z);
+  const speed=distance*1000/dt;
+  return dt>0&&dt<=250&&distance>.3&&speed>10 ? {distance,speed,dt} : null;
+}
+export function assessRecording(samples){
+  let segment=0,jumps=0,gaps=0;
+  const marked=samples.map((p,i)=>{
+    const a=samples[i-1];
+    const jump=!!a&&(p.breakReason==='position-jump'||(a.segment===p.segment&&!!jumpInfo(a,p)));
+    const gap=!!a&&!jump&&(a.segment!==p.segment||p.t-a.t>500);
+    if(jump||gap)segment++;
+    if(jump)jumps++;if(gap)gaps++;
+    const out={...p,segment};
+    if(jump)out.breakReason='position-jump';else if(gap)out.breakReason='tracking-gap';
+    return out;
+  });
+  return {samples:marked,jumps,gaps};
+}
+export function qualitySummary(jumps,gaps){
+  return jumps||gaps ? `Caution: ${jumps} suspected position jump(s), ${gaps} tracking gap(s). Broken intervals excluded from path length and speed. Coordinates may have drifted.` : 'No abrupt jumps detected. Gradual drift is still possible; accuracy is unverified.';
+}

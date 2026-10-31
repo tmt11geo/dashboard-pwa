@@ -1,10 +1,11 @@
-import {displayEdges} from './motion-path.mjs?v=1';
-import { createMotionReplay } from './motion-replay.js?v=5';
-import { MotionTrail } from './motion-core.mjs?v=3';
+import {displayEdges,qualitySummary} from './motion-path.mjs?v=2';
+import { createMotionReplay } from './motion-replay.js?v=6';
+import { MotionTrail } from './motion-core.mjs?v=4';
 const $ = id => document.getElementById(id);
 const trail = new MotionTrail();
 let session = null, space = null, gl = null, pending = false, generation = 0, supported = false;
 let lastUI = -Infinity;
+let qualityLogged=0;
 let replay = null;
 const log = [];
 try { document.body.dataset.theme = localStorage.getItem('tactical-theme') === 'red' ? 'red' : 'green'; } catch {}
@@ -45,13 +46,18 @@ function draw() {
   const hz=trail.actualHz;
   $('capture-rate-status').textContent = `Recorded rate: ${hz===null ? '—' : hz.toFixed(1)+' Hz'} · ${trail.sampleHz ? 'target '+trail.sampleHz+' Hz' : 'Maximum: every available pose frame'}`;
   $('orientation').textContent = p ? `Orientation quaternion (x, y, z, w): ${p.q.map(v=>v.toFixed(3)).join(', ')}` : 'Orientation quaternion: —';
+  const message=(session && trail.lost ? 'Tracking unavailable. Move slowly toward a textured area. ' : '')+qualitySummary(trail.quality.jumps,trail.quality.gaps);
+  if($('capture-quality').textContent!==message)$('capture-quality').textContent=message;
+  const events=trail.quality.jumps+trail.quality.gaps;
+  if(events>qualityLogged)diagnostic(`Tracking quality: ${trail.quality.jumps} suspected jumps; ${trail.quality.gaps} gaps`);
+  qualityLogged=events;
   controls();
 }
 function releaseGraphics() { gl?.getExtension('WEBGL_lose_context')?.loseContext(); gl=null; }
 function finished(s) {
   if(session !== s) return;
   session=null; space=null; pending=false; generation++;
-  releaseGraphics(); trail.gap(); status('Stopped. Trajectory retained; Save downloads it.'); draw(); diagnostic('Session ended');
+  releaseGraphics(); status('Stopped. Trajectory retained; Save downloads it.'); draw(); diagnostic('Session ended');
 }
 async function stop() {
   generation++; pending=false;
@@ -137,7 +143,7 @@ $('save').addEventListener('click',()=>{
   if(!trail.samples.length) return;
   const data={format:'tactical-motion-1',created:new Date().toISOString(),units:'metres',referenceSpace:'local',
     axes:'right-handed; +Y up; X/Z runtime-local, not compass; position relative to origin; quaternion in runtime-local axes',
-    timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,droppedSamples:trail.dropped,sampling:{requestedHz:trail.sampleHz || null,mode:trail.sampleHz ? "target" : "maximum"},
+    timestamps:'WebXR animation timestamp in milliseconds',origin:trail.origin,limit:trail.limit,droppedSamples:trail.dropped,quality:{...trail.quality,heuristic:"walking-jump-v1; >0.3 m and >10 m/s within 250 ms"},sampling:{requestedHz:trail.sampleHz || null,mode:trail.sampleHz ? "target" : "maximum"},
     note:'Latest samples only. Segment changes indicate tracking gaps. Drift/jumps possible; no accuracy guarantee.',samples:trail.samples};
   const url=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=`tactical-motion-${Date.now()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
@@ -146,7 +152,7 @@ $('overlay').addEventListener('beforexrselect',e=>e.preventDefault());
 window.addEventListener('pagehide',()=>void stop());
 // XR runtimes manage visibility separately; don't terminate AR on document.hidden.
 replay = createMotionReplay({getSamples:()=>trail.samples,isBusy:()=>pending || !!session});
-diagnostic(`motion-lab-6; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
+diagnostic(`motion-lab-7; secure=${isSecureContext}; WebXR=${!!navigator.xr}; UA=${navigator.userAgent}`);
 draw();
 try {
   supported=!!(isSecureContext && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));

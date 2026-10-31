@@ -1,5 +1,25 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Tracking-quality warnings and breaks implemented — 2026-10-31
+
+Based on checkpoint dd8f5c216b0f656aa856dad85c94a71d7f662db5; main inspected
+at e1860f268f838d3c39f2730435e80fd6bb0cfb8b. No AGENTS.md.
+Walking-specific jump heuristic (>0.3m and >10m/s within 250ms), live persistent
+warnings/diagnostics, gap counts, optional JSON annotations, legacy-file replay
+checks and amber jump markers. Breaks excluded from line/speed/path distance;
+coordinates/endpoints retained. Normal session end no longer counts as a gap.
+Build motion-lab-7, script v8, replay v6, capture core v4, replay core/view v3,
+shared path v2, CSS v8. Default 30Hz and Maximum retained.
+49 tests PASS; JS syntax PASS; browser narrow-layout synthetic replay warning,
+marker and jump-interval inspection PASS. User-provided recording checked locally; geometry unchanged. Raw recording and
+its derived analysis are not committed.
+Evidence: tools/motion-lab/evidence/quality-tests.log.
+Details and starting-anchor investigation: docs/motion-tracking-quality.md.
+No drift correction or anchor tracking claim. A starting-anchor experiment needs
+actual device support/loop comparisons and consistent historical coordinates.
+Not deployed; next: deploy after approval, verify exact Pages run, then user
+checks live warnings and reloads old recording. Physical phone acceptance pending.
+
 ## Short-loop text removal deployed — 2026-10-31
 
 Approved removal deployed on main e1860f268f838d3c39f2730435e80fd6bb0cfb8b.

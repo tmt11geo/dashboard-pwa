@@ -1,12 +1,12 @@
-import {indexPath,indexedDistances,indexedLines} from './motion-path.mjs?v=1';
+import {indexPath,indexedDistances,indexedLines,assessRecording,qualitySummary} from './motion-path.mjs?v=2';
 import {OrbitView,bindOrbit} from './motion-replay-orbit.mjs?v=2';
-import {xyz} from './motion-replay-view.mjs?v=2';
-import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=2';
+import {xyz} from './motion-replay-view.mjs?v=3';
+import {MAX_BYTES,validateRecording,poseAt,rotate,connected} from './motion-replay-core.mjs?v=3';
 export function createMotionReplay({getSamples,isBusy}) {
   const $=id=>document.getElementById(id), canvas=$('replay-scene'),ctx=canvas.getContext('2d');
   let recording=null,time=0,playing=false,raf=0,last=null,loadToken=0;
   let view=new OrbitView();
-  let pathIndex=null;
+  let pathIndex=null,jumpMarkers=[];
   const colours=['#ff9b8c','#a5ffbf','#84c9ff'];
 
   function line(a,b,colour,width=2){ctx.strokeStyle=colour;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();}
@@ -39,6 +39,7 @@ export function createMotionReplay({getSamples,isBusy}) {
       for(const edge of edges)if(edge.played===played){ctx.moveTo(...view.project(xyz(edge.a)));ctx.lineTo(...view.project(xyz(edge.b)));}
       ctx.stroke();
     }
+    for(const marker of jumpMarkers){const at=view.project(xyz(marker));ctx.strokeStyle='#ffcf70';ctx.lineWidth=2;ctx.beginPath();ctx.arc(...at,7,0,Math.PI*2);ctx.stroke();}
     const first=view.project(xyz(recording.samples[0])),end=view.project(xyz(recording.samples.at(-1)));
     ctx.fillStyle='#a5ffbf';ctx.beginPath();ctx.arc(...first,4,0,Math.PI*2);ctx.fill();label('Start',[first[0]+7,first[1]+17]);
     ctx.strokeStyle='#a5ffbf';ctx.lineWidth=2;ctx.beginPath();ctx.arc(...end,5,0,Math.PI*2);ctx.stroke();label('End',[end[0]+7,end[1]-9]);
@@ -62,8 +63,8 @@ export function createMotionReplay({getSamples,isBusy}) {
       }else{$('replay-speed-value').textContent='Unavailable';$('replay-vector').textContent='No connected sample pair for velocity.';}
       $('replay-position').textContent=`X ${p.x.toFixed(2)} · Y ${p.y.toFixed(2)} · Z ${p.z.toFixed(2)} m`;
     } else {
-      label('Tracking gap · no pose or speed interpolated',[140,200],'#ffcf70');
-      $('replay-speed-value').textContent='Unavailable';$('replay-vector').textContent='Tracking gap';$('replay-position').textContent='Tracking gap';
+      label('Tracking break · no pose or speed interpolated',[140,200],'#ffcf70');
+      $('replay-speed-value').textContent='Unavailable';$('replay-vector').textContent='Tracking break';$('replay-position').textContent='Tracking gap';
     }
     label('Bright: travelled · Dim: remaining · Amber: velocity',[155,377]);
     $('replay-time').value=String(time);
@@ -79,7 +80,10 @@ export function createMotionReplay({getSamples,isBusy}) {
   }
   function load(data,name){
     // Validate before replacing a usable previous replay.
-    const next=validateRecording(data);pause();orbitControls.cancel();recording=next;pathIndex=indexPath(next.samples);view=new OrbitView(next.samples);time=0;
+    const next=validateRecording(data),quality=assessRecording(next.samples);next.samples=quality.samples;
+    jumpMarkers=next.samples.filter(p=>p.breakReason==='position-jump').slice(-100);
+    $('replay-quality').textContent=qualitySummary(quality.jumps,quality.gaps);
+    pause();orbitControls.cancel();recording=next;pathIndex=indexPath(next.samples);view=new OrbitView(next.samples);time=0;
     $('replay-time').max=String(recording.duration);
     $('replay-status').textContent=`${name} · ${next.samples.length.toLocaleString()} samples · ${(next.duration/1000).toFixed(1)} s`;
     render();update();

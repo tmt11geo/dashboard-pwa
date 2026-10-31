@@ -59,3 +59,11 @@ test('imports full 36k JSON and preserves final timestamp and exact travelled di
  assert.equal(h.nodes.get('replay-travelled').textContent,'359.99 / 359.99 m');
  assert.equal(h.nodes.get('replay-position').textContent,'X 359.99 · Y 0.00 · Z 0.00 m');
 });
+test('legacy JSON shows quality warnings and excludes suspect jump from replay metrics',async()=>{
+ const h=await setup();await h.load(JSON.stringify(fileData([sample(0),sample(100,.1),sample(130,1.6),sample(230,1.7)])));
+ assert.match(h.nodes.get('replay-quality').textContent,/1 suspected position jump/);
+ h.nodes.get('replay-time').value='115';await h.nodes.get('replay-time').emit('input');assert.equal(h.nodes.get('replay-speed-value').textContent,'Unavailable');
+ h.nodes.get('replay-time').value='230';await h.nodes.get('replay-time').emit('input');
+ assert.equal(h.nodes.get('replay-travelled').textContent,'0.20 / 0.20 m');assert.equal(h.nodes.get('replay-displacement').textContent,'1.70 m');
+ await h.load(JSON.stringify(fileData([sample(0),sample(100,.1)])));assert.match(h.nodes.get('replay-quality').textContent,/No abrupt jumps detected/);
+});

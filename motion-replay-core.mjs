@@ -1,4 +1,4 @@
-import {MAX_BYTES,MAX_SAMPLES,connected} from './motion-path.mjs?v=1';
+import {MAX_BYTES,MAX_SAMPLES,connected} from './motion-path.mjs?v=2';
 export {MAX_BYTES,connected};
 const finite = n => typeof n === 'number' && Number.isFinite(n);
 export function validateRecording(data) {
@@ -10,7 +10,7 @@ export function validateRecording(data) {
     const norm=Math.hypot(...p.q);
     if(norm<0.5 || norm>1.5) throw Error(`Invalid rotation at sample ${i+1}.`);
     previous=p.t;segment=p.segment;
-    return {t:p.t,x:p.x,y:p.y,z:p.z,q:p.q.map(n=>n/norm),segment:p.segment};
+    return {t:p.t,x:p.x,y:p.y,z:p.z,q:p.q.map(n=>n/norm),segment:p.segment,...(["position-jump","tracking-gap"].includes(p.breakReason)?{breakReason:p.breakReason}:{})};
   });
   const first=samples[0].t;
   return {samples:samples.map(p=>({...p,t:p.t-first})), duration:samples.at(-1).t-first};
