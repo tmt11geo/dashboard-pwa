@@ -1,5 +1,19 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Replay picture HUD and buttons deployed — 2026-10-31
+
+User explicitly approved deployment. Main advanced with expected-head lease to
+045b210b560729d0adfa83512156db41945f1101. GitHub Pages run
+https://github.com/tmt11geo/dashboard-pwa/actions/runs/41206191764
+completed SUCCESS for that exact SHA. Source files verified against prepared bytes.
+Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=8
+CSS v6; readouts at top of replay picture, Reset view/+/- at bottom-right,
+timeline and playback controls directly below. Browser narrow-layout and button
+checks recorded above remain applicable. Physical phone layout/gesture check
+pending. This supersedes prior not-deployed notes. Receipt checkpoint-only.
+Next: save current capture before refreshing, open direct link and load replay;
+check readouts, embedded zoom/reset and orbit gestures on phone.
+
 ## View buttons inside replay picture — 2026-10-31
 
 Moved Reset view, + and minus into the lower-right of the replay picture,
