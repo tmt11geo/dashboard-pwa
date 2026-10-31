@@ -1,5 +1,20 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Gap corrections deployed — 2026-10-31
+
+User approved deployment. Main advanced with expected-head lease to
+42e669b8ab7e75180457cd4625d1ed75e0944b5c.
+GitHub Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41211562980
+completed successfully for this exact SHA.
+Direct entry: https://tmt11.com/dashboard-pwa/motion.html?v=13
+Build motion-lab-9, controller v11, replay v9, heading v2.
+Includes previous-heading alignment and Continue previous motion, with Undo
+and original/corrected comparison. All 60 automated tests passed before release.
+Next: physical Android acceptance of both controls with an original recording.
+Already-corrected reference files should be loaded without applying correction again.
+Missing movement remains estimated and excluded from path totals.
+This checkpoint records deployment only; no application code changes.
+
 ## Motion-based gap translation — 2026-10-31
 
 Based on checkpoint f0077394727b1922e2868159f275dd86f51aa3f9.
