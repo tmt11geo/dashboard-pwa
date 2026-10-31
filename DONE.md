@@ -1,5 +1,29 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Single-frame Depth deployed — 2026-10-31
+
+User explicitly approved deployment to the live app. Main advanced with an
+expected-head lease to d40d914a9ae94e1a432e56d4df040505b1638e01.
+Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41200346308
+completed SUCCESS for this exact SHA (build, deploy and report jobs succeeded).
+PR #1 is closed/merged. The earlier deployment approval blocker is resolved.
+
+Live ordinary Depth: https://tmt11.com/dashboard-pwa/depth.html?v=18
+Preserved scanning: https://tmt11.com/dashboard-pwa/depth-experimental.html?v=1
+Gather remains reachable from Experimental. TFJS WebGL is the default on Depth;
+calibration is not required there. Full-screen relief and return remain available.
+95 Node tests, 19 browser checks and four mobile layout checks passed before
+deployment; evidence and reproduction are in docs/depth-single-frame.md.
+Unauthenticated live Depth request returns HTTP 302; Access is unchanged.
+Authenticated phone runtime remains a manual check, not a deployment claim.
+
+Checkpoint branch depth-tfjs-webgl; this receipt follows the deployed code.
+Exact next action: user opens Depth, Start depth camera, then 3D relief;
+test Pause/One depth frame and Full screen/Return without importing calibration.
+If startup fails, copy the depth-single-1 diagnostic log. No further scan changes
+are required for this completed split. This supersedes pending deployment text.
+
+
 ## Single-frame split checkpoint: deployment awaits approval — 2026-10-31
 
 Implementation: b53786318083c99aa5c1c69c3d486efe3c4efd30 on depth-tfjs-webgl.
