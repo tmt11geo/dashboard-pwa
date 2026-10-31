@@ -1,5 +1,13 @@
 # Technical handoff — Depth Anything V2 Small via TFJS WebGL
 
+## Remove short-loop instructions — 2026-10-31
+
+User requested removal and deployment. Removed only the Try a short loop heading
+and its four numbered steps from motion.html. Explanation, Diagnostics and source
+links remain. HTML source verified; no runtime code changed or new tests needed.
+Based on checkpoint 4efd9e4c9fd9cb99f5b16ea1f9919d15d680af75.
+Next: promote approved change and verify exact Pages deployment; record receipt.
+
 ## Lower-left playback axes deployed — 2026-10-31
 
 User approved deployment. Main promoted with expected-head lease to
