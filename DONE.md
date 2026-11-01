@@ -1,5 +1,24 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Ripple Lab implemented and verified — 2026-11-01
+
+Working branch: image-ripple-lab. Base: main 9150ee7121edde6327e5f704a73208b642bcf23d.
+Added Experimental → Ripple Lab with local image load, a displaced 3D image plane,
+overlapping touch/drag/multi-pointer ripples, tilt/rotation/strength, rain, pause,
+calm water, full screen and demo image. Images remain local; no new dependencies
+or network requests. Existing depth/motion behavior, Access and service worker preserved.
+
+164 Node tests PASS; syntax/diff checks PASS. Browser rendering and interaction
+smoke PASS in Chromium/SwiftShader at mobile/desktop dimensions, including image
+load/error handling and full-screen return. Screenshots visually inspected.
+Evidence and reproducible smoke script: tools/ripple-lab/. Details: docs/ripple-lab.md.
+No physical Android GPU/performance acceptance claimed.
+
+Next: publish verified commit through existing main/root Pages setup, verify exact
+run, then test local image and multi-touch on OnePlus. Deployment receipt should
+identify the actual commit/run; this entry alone is not proof of deployment.
+
+
 ## Automatic gap correction and corrected JSON saves — 2026-10-31
 
 Based on checkpoint 14683500931c9614d02fd9e6d3411534efe3c071.

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07100b"><title>Ripple Lab · Tactical</title>
+<link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"><link rel="icon" href="./tactical.svg">
+<link rel="stylesheet" href="./camera.css?v=4"><link rel="stylesheet" href="./navigation.css?v=1"><link rel="stylesheet" href="./ripple.css?v=1">
+<script type="module" src="./ripple.js?v=1"></script><script defer src="./pwa-register.js?v=35"></script>
+</head><body>
+<script>try{document.body.dataset.theme=localStorage.getItem('tactical-theme')==='red'?'red':'green';}catch{}</script>
+<header class="tactical-header"><strong>TACTICAL <span>RIPPLE LAB</span></strong><nav class="tactical-nav" aria-label="Main navigation"><a href="./">Map</a><a href="./depth-experimental.html?v=3">Experimental</a><a href="./ripple.html?v=1" aria-current="page">Ripple Lab</a></nav></header>
+<main>
+<div class="heading"><div><p class="eyebrow">TOUCH THE WATER</p><h1>Ripple Lab.</h1></div><span class="badge">EXPERIMENTAL</span></div>
+<p class="intro">Load a photograph, then tap or drag across its surface to make live ripples.</p>
+<div class="controls"><button id="load" type="button">Load image</button><input id="image-file" type="file" accept="image/*" hidden><button id="demo" type="button">Demo image</button><button id="clear" type="button">Calm water</button></div>
+<p id="status" role="status">Starting water renderer…</p>
+<section id="water-stage" aria-label="Interactive water surface">
+<canvas id="water" tabindex="0" aria-label="Tap or drag to create water ripples. Press Space for a ripple at the centre."></canvas>
+<div class="stage-tools"><button id="pause" type="button" aria-pressed="false">Pause</button><button id="fullscreen" type="button">Full screen</button></div>
+<span class="stage-hint">Tap · drag · multi-touch</span>
+</section>
+<section class="panel settings" aria-label="Water and view controls">
+<label for="tilt">Viewing angle <output id="tilt-value">45°</output><input id="tilt" type="range" min="0" max="70" value="45"></label>
+<label for="yaw">Rotate image <output id="yaw-value">0°</output><input id="yaw" type="range" min="-180" max="180" value="0"></label>
+<label for="strength">Ripple strength <output id="strength-value">60%</output><input id="strength" type="range" min="5" max="100" value="60"></label>
+<label class="rain-toggle"><input id="rain" type="checkbox"> Gentle rain</label><button id="reset" type="button">Reset view</button>
+</section>
+<p class="footnote">Images stay on this device and are not uploaded. This is an image on a rippling 3D surface, not a reconstruction of the objects in the photograph. Reloading clears the image.</p>
+<noscript>Enable JavaScript to use Ripple Lab.</noscript>
+</main></body></html>

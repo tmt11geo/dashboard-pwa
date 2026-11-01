@@ -87,3 +87,10 @@ with synthetic transforms and a small real-image sequence; OnePlus guided-scan
 acceptance is still pending. Use textured stationary objects, maintain overlap,
 and keep the phone's orientation fixed. Detailed limits, test evidence and commands:
 [tools/depth-scan/README.md](tools/depth-scan/README.md).
+
+## Ripple Lab (experimental)
+
+Open **Experimental → Ripple Lab · image water** to load a local photograph and
+make live water ripples by touch or mouse. Includes an oblique 3D view, rotation,
+strength, rain, pause, calm water and full screen. Images stay on-device and are
+cleared on reload. See [Ripple Lab](docs/ripple-lab.md) for controls and limits.
