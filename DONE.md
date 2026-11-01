@@ -1,5 +1,18 @@
 # Depth Anything TFJS WebGL — checkpoint
 
+## Ripple Lab deployed — 2026-11-01
+
+User explicitly approved deployment. Main is 841bc810bfe912e8a9236793658fc9830b0639a1.
+GitHub Pages run https://github.com/tmt11geo/dashboard-pwa/actions/runs/41299683623
+completed SUCCESS for this exact SHA. All 12 changed files verified against
+remote before promotion. Entry: https://tmt11.com/dashboard-pwa/ripple.html?v=1
+Experimental tools menu includes Ripple Lab · image water.
+Custom domain returns normal Cloudflare sign-in; authenticated live page and
+physical Android performance remain unverified. Details: docs/ripple-deployment.json.
+Receipt only on image-ripple-lab; main remains the successfully deployed commit.
+Next: load a photo and test touch/drag/multi-touch/full screen on OnePlus.
+
+
 ## Ripple Lab implemented and verified — 2026-11-01
 
 Working branch: image-ripple-lab. Base: main 9150ee7121edde6327e5f704a73208b642bcf23d.
