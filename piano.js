@@ -1,8 +1,10 @@
 import {frequency,noteName,keyboardLayout} from './piano-core.mjs';
+import {Metronome} from './piano-metronome.mjs';
 try { document.body.dataset.theme = localStorage.getItem('tactical-theme') || 'green'; } catch {}
 const $ = id => document.getElementById(id);
 const keyboard = $('keyboard'), held = new Map(), voices = new Set();
 const shortcuts = ['KeyA','KeyW','KeyS','KeyE','KeyD','KeyF','KeyT','KeyG','KeyY','KeyH','KeyU','KeyJ','KeyK'];
+let metronome;
 let start = 48, context, master, sustain = false, space = false, sustainSeconds = 3;
 function audio() {
   if (!context) {
@@ -77,11 +79,17 @@ function pedal() {
     voices.forEach(v=>{if(!active.has(v)) release(v);});
   }
 }
-function silence() {
+function updateMetronomeButton() {
+  const running=Boolean(metronome?.running);
+  $('metronome').textContent=running ? 'Metronome on' : 'Metronome off';
+  $('metronome').setAttribute('aria-pressed',String(running));
+}
+function silence(stopMetronome=true) {
+  if(stopMetronome){metronome?.stop();updateMetronomeButton();}
   held.clear(); voices.forEach(v=>release(v,true)); sustain=false;space=false;pedal();paint();
 }
 function render() {
-  silence(); keyboard.replaceChildren();
+  silence(false); keyboard.replaceChildren();
   for(const item of keyboardLayout(start)) {
     const key=document.createElement('button');key.type='button';key.className='key '+(item.black?'black':'white');
     key.dataset.midi=item.midi;key.style.left=item.left+'%';key.style.width=item.width+'%';
@@ -121,7 +129,21 @@ $('sustain-length').oninput=()=>{
   $('sustain-value').textContent=sustainSeconds.toFixed(1)+' s';
 };
 $('sustain').onclick=()=>{sustain=!sustain;pedal();};
-$('silence').onclick=silence;
+$('silence').onclick=()=>silence();
+$('metronome').onclick=()=>{
+  if(metronome?.running){metronome.stop();updateMetronomeButton();return;}
+  if(!$('tempo').checkValidity()){$('tempo').reportValidity();return;}
+  try {
+    const ctx=audio();
+    metronome ??= new Metronome(ctx,master);
+    metronome.setTempo(Number($('tempo').value));
+    metronome.start();updateMetronomeButton();
+  } catch(error){$('status').textContent=error.message;}
+};
+$('tempo').onchange=()=>{
+  if(!$('tempo').checkValidity()){$('tempo').reportValidity();return;}
+  metronome?.setTempo(Number($('tempo').value));
+};
 $('fullscreen').onclick=async()=>{
   try {
     if(document.fullscreenElement){await document.exitFullscreen();return;}

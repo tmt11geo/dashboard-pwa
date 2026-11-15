@@ -107,3 +107,8 @@ length slider sets the fade after key release from 0.5 to 10 seconds (default 3)
 when Sustain or the Space pedal is on. Changes apply to subsequently released
 notes. Turning sustain off damps existing tails; Stop sound silences them. B uses
 international naming (Finnish H). Hiding/leaving the page silences playback.
+
+Piano also includes an on/off metronome and numeric tempo input (30–240 BPM,
+default 120). Clicks use audio-clock scheduling and follow the volume control.
+Tempo changes restart the beat at the new speed. Changing octaves preserves the
+metronome; Stop sound, hiding the page or leaving it stops all clicks.

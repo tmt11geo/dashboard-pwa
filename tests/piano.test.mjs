@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {Metronome} from '../piano-metronome.mjs';
 import {frequency,noteName,isBlack,keyboardLayout} from '../piano-core.mjs';
 
 test('concert pitch, middle C and octave ratios',()=>{
@@ -33,8 +34,8 @@ function harness(){
     createPeriodicWave(){return {};}
     createOscillator(){const n={...node(),setPeriodicWave(){},start(){},stop(t){this.stopTime=t;}};oscillators.push(n);return n;}
   }
-  const scope=vm.createContext({document,window:{AudioContext,addEventListener(){}},localStorage:{getItem(){}},frequency,noteName,keyboardLayout,setTimeout});
-  vm.runInContext(readFileSync(new URL('../piano.js',import.meta.url),'utf8').replace(/^import .*\n/,''),scope);
+  const scope=vm.createContext({document,window:{AudioContext,addEventListener(){}},localStorage:{getItem(){}},frequency,noteName,keyboardLayout,Metronome,setTimeout});
+  vm.runInContext(readFileSync(new URL('../piano.js',import.meta.url),'utf8').replace(/^import .*\n/gm,''),scope);
   return {run:code=>vm.runInContext(code,scope),oscillators};
 }
 test('independent fingers, chords, glissando and sustain release without stuck notes',()=>{
@@ -71,4 +72,13 @@ test('stop sound shortens sustained tails and normal notes ignore sustain length
   h.run('sustain=true;down(2,64);up(2);silence()');
   assert.equal(h.oscillators[0].stopTime,.05);
   assert.equal(h.oscillators[1].stopTime,.05);
+});
+
+test('octave redraw keeps the metronome running; Stop sound stops it',()=>{
+  const h=harness();
+  h.run('metronome={running:true,stop(){this.running=false;}};render()');
+  assert.equal(h.run('metronome.running'),true);
+  h.run("$('silence').onclick()");
+  assert.equal(h.run('metronome.running'),false);
+  assert.equal(h.run("$('metronome').textContent"),'Metronome off');
 });
