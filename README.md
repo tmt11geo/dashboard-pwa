@@ -94,3 +94,13 @@ Open **Experimental → Ripple Lab · image water** to load a local photograph a
 make live water ripples by touch or mouse. Includes an oblique 3D view, rotation,
 strength, rain, pause, calm water and full screen. Images stay on-device and are
 cleared on reload. See [Ripple Lab](docs/ripple-lab.md) for controls and limits.
+
+## Piano (experimental)
+
+Open **Experimental → Piano** for a landscape-friendly two-octave touch keyboard.
+Multiple fingers play chords; sliding plays adjacent keys. Octave controls cover
+C1–C7 across windows, with C3–C5 initially. Full screen requests landscape where
+supported; otherwise rotate the phone manually. A4 is 440 Hz in twelve-tone equal
+temperament. Tone is synthesized locally with Web Audio, without sample downloads.
+Volume, sustain, stop sound and computer-key shortcuts are included. B uses
+international naming (Finnish H). Hiding/leaving the page silences playback.
