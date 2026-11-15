@@ -44,7 +44,7 @@ test('independent fingers, chords, glissando and sustain release without stuck n
   assert.deepEqual(h.oscillators.map(o=>o.frequency.value),[60,64,67].map(frequency));
   h.run('up(2)');assert.equal(h.oscillators[1].stopTime,.5);assert.equal(h.run('held.size'),2);
   h.run('down(1,62)');assert.equal(h.oscillators[0].stopTime,.5);assert.equal(h.run('held.get(1).midi'),62);
-  h.run('sustain=true;up(3)');assert.equal(h.oscillators[2].stopTime,13);
+  h.run('sustain=true;up(3)');assert.equal(h.oscillators[2].stopTime,3);
   h.run('sustain=false;pedal()');assert.equal(h.oscillators[2].stopTime,.5);
   h.run('silence()');assert.equal(h.run('held.size'),0);assert.equal(h.run('[...voices].every(v=>v.released)'),true);
 });
@@ -52,4 +52,23 @@ test('two fingers on one key release independently, octave changes silence voice
   const h=harness();h.run('down(1,69);down(2,69);up(1)');
   assert.equal(h.run('held.size'),1);assert.equal(h.oscillators[1].stopTime,13);
   h.run('start+=12;render()');assert.equal(h.run('held.size'),0);assert.equal(h.oscillators[1].stopTime,.05);
+});
+
+test('sustain slider sets release duration for button and space pedal',()=>{
+  for (const seconds of [.5,3,10]) {
+    const h=harness();
+    h.run(`$('sustain-length').value='${seconds}';$('sustain-length').oninput();sustain=true;down(1,60);up(1)`);
+    assert.equal(h.oscillators[0].stopTime,seconds);
+    assert.equal(h.run("$('sustain-value').textContent"),seconds.toFixed(1)+' s');
+    h.run('sustain=false;space=true;down(2,64);up(2)');
+    assert.equal(h.oscillators[1].stopTime,seconds);
+    h.run('space=false;pedal()');assert.equal(h.oscillators[1].stopTime,.5);
+  }
+});
+test('stop sound shortens sustained tails and normal notes ignore sustain length',()=>{
+  const h=harness();h.run('sustainSeconds=10;down(1,60);up(1)');
+  assert.equal(h.oscillators[0].stopTime,.5);
+  h.run('sustain=true;down(2,64);up(2);silence()');
+  assert.equal(h.oscillators[0].stopTime,.05);
+  assert.equal(h.oscillators[1].stopTime,.05);
 });

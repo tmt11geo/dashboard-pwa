@@ -102,5 +102,8 @@ Multiple fingers play chords; sliding plays adjacent keys. Octave controls cover
 C1–C7 across windows, with C3–C5 initially. Full screen requests landscape where
 supported; otherwise rotate the phone manually. A4 is 440 Hz in twelve-tone equal
 temperament. Tone is synthesized locally with Web Audio, without sample downloads.
-Volume, sustain, stop sound and computer-key shortcuts are included. B uses
+Volume, sustain, stop sound and computer-key shortcuts are included. The sustain
+length slider sets the fade after key release from 0.5 to 10 seconds (default 3),
+when Sustain or the Space pedal is on. Changes apply to subsequently released
+notes. Turning sustain off damps existing tails; Stop sound silences them. B uses
 international naming (Finnish H). Hiding/leaving the page silences playback.

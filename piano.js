@@ -3,7 +3,7 @@ try { document.body.dataset.theme = localStorage.getItem('tactical-theme') || 'g
 const $ = id => document.getElementById(id);
 const keyboard = $('keyboard'), held = new Map(), voices = new Set();
 const shortcuts = ['KeyA','KeyW','KeyS','KeyE','KeyD','KeyF','KeyT','KeyG','KeyY','KeyH','KeyU','KeyJ','KeyK'];
-let start = 48, context, master, sustain = false, space = false;
+let start = 48, context, master, sustain = false, space = false, sustainSeconds = 3;
 function audio() {
   if (!context) {
     const Audio = window.AudioContext || window.webkitAudioContext;
@@ -20,13 +20,16 @@ function audio() {
   }).catch(()=>{ $('status').textContent='Sound blocked. Tap a key to retry.'; });
   return context;
 }
-function release(voice, immediate=false) {
-  if (voice.released) return;
+function release(voice, immediate=false, seconds=.5) {
+  if (voice.ended) return;
+  const now=context.currentTime, duration=immediate ? .05 : seconds;
+  // Pedal-up and Stop sound may shorten an existing tail, never extend it.
+  if (voice.released && voice.stopAt <= now+duration) return;
   voice.released=true;
-  const now=context.currentTime;
+  voice.stopAt=now+duration;
   voice.gain.gain.cancelAndHoldAtTime(now);
-  voice.gain.gain.setTargetAtTime(0,now,immediate ? .008 : .07);
-  voice.osc.stop(now+(immediate ? .05 : .5));
+  voice.gain.gain.setTargetAtTime(0,now,immediate ? .008 : duration / 7);
+  voice.osc.stop(voice.stopAt);
 }
 function play(midi) {
   const ctx=audio(), now=ctx.currentTime;
@@ -46,7 +49,7 @@ function play(midi) {
   gain.gain.exponentialRampToValueAtTime(.0001,now+12);
   osc.connect(filter); filter.connect(gain); gain.connect(master);
   const voice={midi,osc,gain,released:false}; voices.add(voice);
-  osc.onended=()=>{voices.delete(voice);osc.disconnect();filter.disconnect();gain.disconnect();};
+  osc.onended=()=>{voice.ended=true;voices.delete(voice);osc.disconnect();filter.disconnect();gain.disconnect();};
   osc.start(now); osc.stop(now+13);
   $('status').textContent='A4 = 440 Hz · equal temperament';
   return voice;
@@ -64,7 +67,7 @@ function down(id,midi) {
 }
 function up(id) {
   const voice=held.get(id); if(!voice) return;
-  held.delete(id); if(!sustain && !space) release(voice); paint();
+  held.delete(id); release(voice,false,(sustain || space) ? sustainSeconds : .5); paint();
 }
 function pedal() {
   $('sustain').setAttribute('aria-pressed',String(sustain || space));
@@ -113,6 +116,10 @@ window.addEventListener('keyup',event=>{up(event.code);if(event.code==='Space'){
 $('lower').onclick=()=>{start=Math.max(24,start-12);render();};
 $('higher').onclick=()=>{start=Math.min(72,start+12);render();};
 $('volume').oninput=()=>{if(master)master.gain.setTargetAtTime(Number($('volume').value)/100*.28,context.currentTime,.015);};
+$('sustain-length').oninput=()=>{
+  sustainSeconds=Number($('sustain-length').value);
+  $('sustain-value').textContent=sustainSeconds.toFixed(1)+' s';
+};
 $('sustain').onclick=()=>{sustain=!sustain;pedal();};
 $('silence').onclick=silence;
 $('fullscreen').onclick=async()=>{
