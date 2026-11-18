@@ -1,0 +1,14 @@
+:root { color-scheme: dark; font: 16px system-ui,sans-serif; background: #0a1410; color: #eff7f2; }
+* { box-sizing: border-box; }
+body { margin: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+header, section { padding: .7rem clamp(.8rem,3vw,2rem); }
+header, .point { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+h1 { font-size: 1.18rem; margin: 0; }
+header a { color: #a8e7c0; }
+select, button { font: inherit; padding: .45rem .65rem; border: 1px solid #52685b; border-radius: .4rem; background: #18271e; color: inherit; }
+select, button { margin-left: auto; }
+main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+#map { flex: 1; min-height: 9rem; background: #374b51; }
+section { padding-bottom: max(.8rem,env(safe-area-inset-bottom)); }
+p { margin: .4rem 0; }
+small { color: #b0c3b7; }
