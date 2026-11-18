@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a1410">
+  <title>Satellite · Tactical Experimental</title>
+  <link rel="icon" href="./tactical.svg">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="./satellite.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script defer src="./satellite.js"></script>
+</head>
+<body>
+  <header><a href="./depth-experimental.html">‹ Experimental</a><h1>Satellite</h1>
+    <select aria-label="Imagery view" id="mode"><option value="weather">Weather</option><option value="terrain">Terrain</option></select>
+  </header>
+  <main>
+    <div id="map" aria-label="Satellite map"></div>
+    <section>
+      <div class="point"><strong id="position"></strong><button id="refresh">Refresh</button></div>
+      <p id="status" role="status">Loading map…</p>
+      <small>Tap the map to inspect a location.</small>
+    </section>
+  </main>
+</body>
+</html>
