@@ -9,11 +9,11 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="./satellite.css">
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script defer src="./satellite.js?v=2"></script>
+  <script defer src="./satellite.js?v=3"></script>
 </head>
 <body>
-  <header><a href="./depth-experimental.html">‹ Experimental</a><h1>Satellite</h1>
-    <select aria-label="Imagery view" id="mode"><option value="weather">Weather</option><option value="terrain">Terrain</option></select>
+  <header><a href="./depth-experimental.html">‹ Experimental</a><a href="./">Tactical map</a><h1>Satellite</h1>
+    <select aria-label="Map view" id="mode"><option value="weather">Weather</option><option value="terrain">Terrain</option><option value="map">Street map</option></select>
   </header>
   <main>
     <div id="map" aria-label="Satellite map"></div>

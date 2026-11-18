@@ -142,12 +142,19 @@ function isSelectedTile(coords) {
 
 async function inspect() {
   request?.abort();
-  const controller = new AbortController();
-  request = controller;
-  const timer = setTimeout(() => controller.abort(), 60000);
+  request = null;
   if (imagery) { imagery.remove(); imagery = null; }
   result = null;
   byId('position').textContent = point.lat.toFixed(4) + '°, ' + point.lng.toFixed(4) + '°';
+  const streetMap = byId('mode').value === 'map';
+  byId('refresh').hidden = streetMap;
+  if (streetMap) {
+    statusText.textContent = 'Street map · OpenStreetMap';
+    return;
+  }
+  const controller = new AbortController();
+  request = controller;
+  const timer = setTimeout(() => controller.abort(), 60000);
   statusText.textContent = 'Looking up imagery at this point…';
   try {
     const data = await (byId('mode').value === 'terrain' ? terrain : weather)(point, controller.signal);
@@ -178,7 +185,11 @@ if (map) {
     marker.setLatLng(point);
     inspect();
   });
-  byId('mode').onchange = () => { map.setView(point, byId('mode').value === 'terrain' ? 11 : 6); inspect(); };
+  byId('mode').onchange = () => {
+    const mode = byId('mode').value;
+    if (mode !== 'map') map.setView(point, mode === 'terrain' ? 11 : 6);
+    inspect();
+  };
   byId('refresh').onclick = inspect;
   setInterval(updateStatus, 30000);
   inspect();
