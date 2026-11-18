@@ -19,6 +19,10 @@ function ageText(ms) {
 function updateStatus() {
   if (!result) return;
   const {label, time, daily, note} = result;
+  if (!time) {
+    statusText.textContent = label + ' · acquisition date unavailable';
+    return;
+  }
   const elapsed = Date.now() - Date.parse(time);
   const timing = daily
     ? time + ' UTC mosaic · age ' + ageText(elapsed - day) + ' to ' + ageText(elapsed) + ' (exact pass time unavailable)'
@@ -51,18 +55,23 @@ async function hasPixel(url, zoom, location, signal) {
 }
 
 async function terrain(location, signal) {
-  const query = new URLSearchParams({collections: 'sentinel-2-l2a', limit: 5, sortby: '-properties.datetime',
+  const query = new URLSearchParams({collections: 'sentinel-2-l2a', limit: 5, query: JSON.stringify({'eo:cloud_cover': {lte: 20}}), sortby: '-properties.datetime',
     intersects: JSON.stringify({type: 'Point', coordinates: [location.lng, location.lat]})});
   const data = await read(catalog + '?' + query, signal);
   for (const scene of data.features) {
-    const meta = await read(scene.assets.tilejson.href, signal);
-    const url = meta.tiles[0];
-    if (!await hasPixel(url, 12, location, signal)) continue;
-    const [w, s, e, n] = meta.bounds;
-    const cloud = scene.properties['eo:cloud_cover'];
-    return {url, label: scene.properties.platform + ' · true colour', time: scene.properties.datetime,
-      note: Number.isFinite(cloud) ? Math.round(cloud) + '% cloud across scene' : '',
-      options: {bounds: [[s,w],[n,e]], maxNativeZoom: 14, attribution: 'Copernicus Sentinel-2 | Microsoft Planetary Computer'}};
+    try {
+      const meta = await read(scene.assets.tilejson.href, signal);
+      const url = meta.tiles[0];
+      if (!await hasPixel(url, Math.min(map.getZoom(), 14), location, signal)) continue;
+      const [w, s, e, n] = meta.bounds;
+      const cloud = scene.properties['eo:cloud_cover'];
+      return {url, label: scene.properties.platform + ' · true colour', time: scene.properties.datetime,
+        note: Number.isFinite(cloud) ? Math.round(cloud) + '% cloud across scene' : '',
+        options: {bounds: [[s,w],[n,e]], maxNativeZoom: 14, attribution: 'Copernicus Sentinel-2 | Microsoft Planetary Computer'}};
+    } catch (error) {
+      if (signal.aborted) throw error;
+      // A provider may list a scene before its tiles are available.
+    }
   }
   throw Error('No terrain imagery at this point in the five most recent matching scenes.');
 }
@@ -108,6 +117,29 @@ async function weather(location, signal) {
   throw Error('No weather pixels found in the latest regional scan or three recent polar mosaic dates.');
 }
 
+function terrainFallback(controller) {
+  if (request !== controller) return;
+  imagery?.remove();
+  result = {label: 'Esri World Imagery · terrain fallback'};
+  const layer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 18, noWrap: true, attribution: 'Esri, Maxar, Earthstar Geographics and the GIS User Community'
+  });
+  imagery = layer;
+  layer.on('tileerror', event => {
+    if (imagery === layer && isSelectedTile(event.coords)) {
+      result = null;
+      statusText.textContent = 'Terrain imagery could not load here. Tap Refresh to retry.';
+    }
+  });
+  layer.addTo(map);
+  updateStatus();
+}
+
+function isSelectedTile(coords) {
+  const pixel = map.project(point, coords.z);
+  return Math.floor(pixel.x / 256) === coords.x && Math.floor(pixel.y / 256) === coords.y;
+}
+
 async function inspect() {
   request?.abort();
   const controller = new AbortController();
@@ -120,11 +152,20 @@ async function inspect() {
   try {
     const data = await (byId('mode').value === 'terrain' ? terrain : weather)(point, controller.signal);
     if (request !== controller) return;
-    imagery = L.tileLayer(data.url, {...data.options, maxZoom: 18, noWrap: true}).addTo(map);
+    const layer = L.tileLayer(data.url, {...data.options, maxZoom: 18, noWrap: true});
+    imagery = layer;
+    if (byId('mode').value === 'terrain') {
+      layer.on('tileerror', event => {
+        if (imagery === layer && isSelectedTile(event.coords)) terrainFallback(controller);
+      });
+    }
+    layer.addTo(map);
     result = data;
     updateStatus();
   } catch (error) {
-    if (request === controller) statusText.textContent = controller.signal.aborted ? 'Request timed out. Tap Refresh to retry.' : error.message;
+    if (request !== controller) return;
+    if (byId('mode').value === 'terrain') terrainFallback(controller);
+    else statusText.textContent = controller.signal.aborted ? 'Request timed out. Tap Refresh to retry.' : error.message;
   } finally { clearTimeout(timer); }
 }
 
